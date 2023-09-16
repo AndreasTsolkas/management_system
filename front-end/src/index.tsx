@@ -14,7 +14,6 @@ import BonusTable from "./pages/bonus/BonusTable";
 import VacationRequestForm from "./pages/vacation_request/VacationRequestForm";
 import VacationRequestTable from "./pages/vacation_request/VacationRequestTable";
 import VacationRequestForm2 from "./pages/vacation.requestForm";
-import BonusCalculationForm from "./pages/bonus.calculationForm";
 import VacationRequestByCompanyForm from "./pages/vacation.bycompanyForm";
 import VacationRequestAcceptForm from "./pages/vacation.request.acceptForm";
 import CalculateExpensesForm from "./pages/expenses.calculateForm";
@@ -89,10 +88,6 @@ export const Router = createBrowserRouter([
       {
         path: "/vacationrequest",
         element: <VacationRequestForm2 />,
-      },
-      {
-        path: "/bonuscalculation",
-        element: <BonusCalculationForm />,
       },
       {
         path: "/vacationbycompany",

@@ -33,11 +33,6 @@ export class BonusController {
     return this.bonusService.remove(id);
   }
 
-  //
-
-  @Get('/bonus/calc')
-  async calculateBonus(@Query('season') season: string, @Query('salary') salary: number) {
-    return this.bonusService.calculateBonus(salary, season);
-  }
+  
 
 }

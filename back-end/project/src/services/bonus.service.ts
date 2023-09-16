@@ -75,15 +75,5 @@ export class BonusService {
     }
   }
 
-  // 
-
-  async calculateBonus(salary: number, season: string) {
-    let result = 0;
-    if(salary === undefined || season === undefined || !((season.toUpperCase()) in SeasonBonus))
-      throw new BadRequestException();
-    let seasonName = season.toUpperCase(); 
-    let enumValue = SeasonBonus[seasonName];
-    result += salary * enumValue;
-    return result;
-  }
+  
 }

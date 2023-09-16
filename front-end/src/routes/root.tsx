@@ -30,9 +30,6 @@ export default function Root() {
               <Link to={`/vacationrequest`}>Νέα αίτηση άδειας</Link>
             </li>
             <li>
-              <Link to={`/bonuscalculation`}>Υπολογισμός bonus</Link>
-            </li>
-            <li>
               <Link to={`/vacationbycompany`}>Αιτήσεις αδειων ανά εταιρεία</Link>
             </li>
             <li>
