@@ -77,7 +77,7 @@ export class BonusService {
 
   // 
 
-  async calculateBonus(salary: number, season: string) {
+  /*async calculateBonus(salary: number, season: string) {
     if(Object.values(SeasonBonus).includes(season as SeasonBonus))
-  }
+  }*/
 }
