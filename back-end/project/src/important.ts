@@ -1,0 +1,1 @@
+export const databaseSchemaName = 'management_system';
