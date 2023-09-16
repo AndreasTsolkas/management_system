@@ -10,6 +10,7 @@ export class VacationRequestController {
   }
   @Get('/all')
   async findAllWithRelationships() {
+    let x;
     return await this.vacationRequestService.findAllWithRelationships();
   }
 
