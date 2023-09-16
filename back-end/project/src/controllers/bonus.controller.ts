@@ -25,6 +25,7 @@ export class BonusController {
 
   @Put()
   async create(@Body() bonusData: Partial<Bonus>, @Req() request: Request) {
+    let y;
     return this.bonusService.create(bonusData);
   }
 
