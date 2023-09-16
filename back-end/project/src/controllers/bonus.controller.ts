@@ -10,6 +10,7 @@ export class BonusController {
   }
   @Get('/all')
   async findAllWithRelationships() {
+    let x=1;
     return await this.bonusService.findAllWithRelationships();
   }
 
