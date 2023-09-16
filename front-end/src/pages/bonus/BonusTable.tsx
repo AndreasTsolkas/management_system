@@ -128,7 +128,7 @@ const BonusTable = () => {
           width: 900,
         }}
       >
-        <h2>Λίστα bonus</h2>
+        <h2>Λίστα bonuss</h2>
         <IconButton color="primary" onClick={() => navigate(`/bonus/new`)}>
           <AddIcon />
         </IconButton>
