@@ -35,7 +35,15 @@ export class VacationRequestService {
       console.log(error);
       throw new InternalServerErrorException(Messages.updateVacationRequestTableError);
     }
-    
+  }
+
+  async findByFieldWithRelationships(fieldName: string, fieldValue: string): Promise<VacationRequest[]> {
+    const queryBuilder = this.vacationRequestRepository
+      .createQueryBuilder('vacation_request')
+      .leftJoinAndSelect('vacation_request.employee', 'employee') 
+      .where(`vacation_request.${fieldName} = :fieldValue`, { fieldValue });
+
+    return await queryBuilder.getMany();
   }
 
   async create(vacationRequestData: Partial<VacationRequest>): Promise<VacationRequest> {
@@ -72,6 +80,11 @@ export class VacationRequestService {
       console.log(error);
       throw new InternalServerErrorException(Messages.updateVacationRequestTableError);
     }
-    
+  }
+
+  // 
+
+  async findByStatus(status: string) {
+    return await this.findByFieldWithRelationships('status', status);
   }
 }

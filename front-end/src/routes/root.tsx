@@ -21,7 +21,10 @@ export default function Root() {
 
 </li>
 <li>
-              <Link to={`/vacation_request`}>Αιτήσεις αδειών</Link>
+              <Link to={`/vacation_request`}>Άδειες</Link>
+            </li>
+            <li>
+              <Link to={`/pvacation_request`}>Εκρεμμείς άδειες</Link>
             </li>
 
           </ul>

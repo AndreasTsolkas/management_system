@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Patch, Put, Req } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Put, Query, Req } from '@nestjs/common';
 import { VacationRequest } from 'src/entities/vacation_request.entity';
 import { VacationRequestService } from 'src/services/vacation_request.service';
 
@@ -20,12 +20,14 @@ export class VacationRequestController {
   }
 
   @Patch('/:id')
-  async update(@Param('id') id: number, @Body() vacationRequestData: Partial<VacationRequest>, @Req() request: Request) {
+  async update(@Param('id') id: number, @Body() vacationRequestData: Partial<VacationRequest>, 
+  @Req() request: Request) {
     return this.vacationRequestService.update(id, vacationRequestData);
   }
 
   @Put()
-  async create(@Body() vacationRequestData: Partial<VacationRequest>, @Req() request: Request) {
+  async create(@Body() vacationRequestData: Partial<VacationRequest>, 
+  @Req() request: Request) {
     return this.vacationRequestService.create(vacationRequestData);
   }
 
@@ -33,4 +35,11 @@ export class VacationRequestController {
   async remove(@Param('id') id: number) {
     return this.vacationRequestService.remove(id);
   }
+
+  // 
+  @Get('/by/status')
+  async findBystatus(@Query('status') status: string) {
+    return await this.vacationRequestService.findByStatus(status);
+  }
+
 }
