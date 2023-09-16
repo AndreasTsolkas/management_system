@@ -73,7 +73,7 @@ const VacationRequestTable = () => {
     {
       field: "actions",
       headerName: "actions",
-      flex: 0.5,
+      flex: 1,
       renderCell: (cellValues) => {
         return (
           <>

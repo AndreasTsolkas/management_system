@@ -26,12 +26,12 @@ const EmployeeTable = () => {
         const data = response.data;
         setRows(
           data.map(
-            (employee: { id: any; employeeUid: number, name: any; surName: any; email: any; startDate: any; vacationDays: any; salary: any; employmentType: any;  department: any;     }) => {
+            (employee: { id: any; employeeUid: number, name: any; surname: any; email: any; startDate: any; vacationDays: any; salary: any; employmentType: any;  department: any;     }) => {
               return {
                 id: employee.id,
                 employeeUid: employee.employeeUid,
                 name: employee.name,
-                surName: employee.surName,
+                surName: employee.surname,
                 email: employee.email,
                 startDate: employee.startDate,
                 vacationDays: employee.vacationDays,
@@ -83,7 +83,7 @@ const EmployeeTable = () => {
     {
       field: "actions",
       headerName: "actions",
-      flex: 0.5,
+      flex: 1,
       renderCell: (cellValues) => {
         return (
           <>

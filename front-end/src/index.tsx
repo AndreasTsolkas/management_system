@@ -15,7 +15,6 @@ import VacationRequestForm from "./pages/vacation_request/VacationRequestForm";
 import VacationRequestTable from "./pages/vacation_request/VacationRequestTable";
 import PendingVacationRequestTable from "./pages/vacation_request/PendingVacationRequestTable";
 import VacationRequestForm2 from "./pages/vacation.requestForm";
-import VacationRequestAcceptForm from "./pages/vacation.request.acceptForm";
 import CreateBonusForm from "./pages/createBonusForm";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -90,10 +89,6 @@ export const Router = createBrowserRouter([
       {
         path: "/vacationrequest",
         element: <VacationRequestForm2 />,
-      },
-      {
-        path: "/acceptvacation",
-        element: <VacationRequestAcceptForm />,
       },
       {
         path: "/createbonuses",

@@ -1,5 +1,5 @@
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { Box, IconButton } from "@mui/material";
+import { Box, IconButton, Switch } from "@mui/material";
 import ReadMoreIcon from "@mui/icons-material/ReadMore";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -34,7 +34,6 @@ const PendingVacationRequestTable = () => {
                 employee: vacationRequest.employee.name,
                 startDate: vacationRequest.startDate,
                 endDate: vacationRequest.endDate,
-                status: vacationRequest.status,
                 days: vacationRequest.days,
               };
             }
@@ -63,11 +62,6 @@ const PendingVacationRequestTable = () => {
       headerName: "endDate",
       flex: 1,
     },
-    {
-        field: "status",
-        headerName: "status",
-        flex: 1,
-      },
       {
         field: "days",
         headerName: "days",
@@ -75,62 +69,13 @@ const PendingVacationRequestTable = () => {
       },
     {
       field: "actions",
-      headerName: "actions",
-      flex: 0.5,
+      headerName: "Αποδοχή ",
+      flex: 1,
       renderCell: (cellValues) => {
         return (
           <>
-            <IconButton
-              color="primary"
-              onClick={() => navigate(`/vacation_request/${cellValues?.row?.id}`)}
-            >
-              <ReadMoreIcon />
-            </IconButton>
-            <IconButton
-              style={{
-                color: "red",
-              }}
-              onClick={() => {
-                axios
-                  .delete(
-                    `${vacationRequestTable}/${cellValues?.row?.id}`
-                  )
-                  .then(() => {
-                    toast.error("deleted!");
-                    axios
-                      .get(getVacationRequestByStatus)
-                      .then((response) => {
-                        const data = response.data;
-                        setRows(
-                          data.map(
-                            (vacationRequest: {
-                                id: any; 
-                                employee: any; 
-                                startDate: any; 
-                                endDate: any, 
-                                status: any, 
-                                days: any
-                            }) => {
-                              return {
-                                id: vacationRequest.id,
-                                employee: vacationRequest.employee.name,
-                                startDate: vacationRequest.startDate,
-                                endDate: vacationRequest.endDate, 
-                                status: vacationRequest.status, 
-                                days: vacationRequest.days
-                              };
-                            }
-                          )
-                        );
-                      })
-                      .catch((error) => {
-                        console.error(error);
-                      });
-                  });
-              }}
-            >
-              <DeleteIcon />
-            </IconButton>
+            <Switch  size="small" />
+        
           </>
         );
       },
@@ -148,9 +93,6 @@ const PendingVacationRequestTable = () => {
         }}
       >
         <h2>Εκρεμμείς άδειες</h2>
-        <IconButton color="primary" onClick={() => navigate(`/vacation_request/new`)}>
-          <AddIcon />
-        </IconButton>
       </div>
       <Box sx={{ height: 500, width: 900 }}>
         {Display.displayDataGrid(rows ?? [], columns)} 
