@@ -14,11 +14,8 @@ import BonusTable from "./pages/bonus/BonusTable";
 import VacationRequestForm from "./pages/vacation_request/VacationRequestForm";
 import VacationRequestTable from "./pages/vacation_request/VacationRequestTable";
 import VacationRequestForm2 from "./pages/vacation.requestForm";
-import VacationRequestByCompanyForm from "./pages/vacation.bycompanyForm";
 import VacationRequestAcceptForm from "./pages/vacation.request.acceptForm";
-import CalculateExpensesForm from "./pages/expenses.calculateForm";
 import CreateBonusForm from "./pages/createBonusForm";
-import ClearRequestsForm from "./pages/clearRequests";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -90,24 +87,12 @@ export const Router = createBrowserRouter([
         element: <VacationRequestForm2 />,
       },
       {
-        path: "/vacationbycompany",
-        element: <VacationRequestByCompanyForm />,
-      },
-      {
         path: "/acceptvacation",
         element: <VacationRequestAcceptForm />,
       },
       {
-        path: "/calculateexpenses",
-        element: <CalculateExpensesForm />,
-      },
-      {
         path: "/createbonuses",
         element: <CreateBonusForm />,
-      },
-      {
-        path: "/clearrequests",
-        element: <ClearRequestsForm />,
       },
       
     ],
