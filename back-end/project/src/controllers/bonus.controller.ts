@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Patch, Put, Req } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Put, Query, Req } from '@nestjs/common';
 import { Bonus } from 'src/entities/bonus.entity';
 import { BonusService } from 'src/services/bonus.service';
 
@@ -32,4 +32,12 @@ export class BonusController {
   async remove(@Param('id') id: number) {
     return this.bonusService.remove(id);
   }
+
+  //
+
+  @Get('/bonus/calc')
+  async calculateBonus(@Query('season') season: string, @Query('salary') salary: number) {
+    return this.bonusService.calculateBonus(salary, season);
+  }
+
 }
