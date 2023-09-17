@@ -1,38 +1,8 @@
-﻿-- DROP SCHEMA management_system;
+
 
 CREATE SCHEMA management_system AUTHORIZATION postgres;
 
--- DROP SEQUENCE management_system.department_id_seq;
 
-
--- DROP SEQUENCE management_system.employee_id_seq;
-
-
--- DROP SEQUENCE management_system.employee_product_seq;
-
-
--- DROP SEQUENCE management_system.product_seq;
-
-
--- DROP SEQUENCE management_system.seq_bonus;
-
-
--- DROP SEQUENCE management_system.seq_company;
-
-
--- DROP SEQUENCE management_system.seq_employee;
-
-
--- DROP SEQUENCE management_system.seq_employee_product;
-
-
--- DROP SEQUENCE management_system.vacation_request_seq;
-
-n
-
--- Drop table
-
--- DROP TABLE management_system.department;
 
 CREATE TABLE management_system.department (
 	id serial4 NOT NULL,
@@ -41,11 +11,6 @@ CREATE TABLE management_system.department (
 );
 
 
--- management_system.employee definition
-
--- Drop table
-
--- DROP TABLE management_system.employee;
 
 CREATE TABLE management_system.employee (
 	id serial4 NOT NULL,
@@ -63,11 +28,6 @@ CREATE TABLE management_system.employee (
 );
 
 
--- management_system.project definition
-
--- Drop table
-
--- DROP TABLE management_system.project;
 
 CREATE TABLE management_system.project (
 	id serial4 NOT NULL,
@@ -83,15 +43,11 @@ CREATE TABLE management_system.project (
 );
 
 
--- management_system."user" definition
-
--- Drop table
-
--- DROP TABLE management_system."user";
 
 CREATE TABLE management_system."user" (
 	id serial4 NOT NULL,
 	userid int4 NULL,
+	password varchar(20) NOT NULL,
 	is_admin bool NULL,
 	is_accepted bool NULL,
 	CONSTRAINT user_pk PRIMARY KEY (id),
@@ -99,11 +55,6 @@ CREATE TABLE management_system."user" (
 );
 
 
--- management_system.vacation_request definition
-
--- Drop table
-
--- DROP TABLE management_system.vacation_request;
 
 CREATE TABLE management_system.vacation_request (
 	id serial4 NOT NULL,
@@ -117,11 +68,6 @@ CREATE TABLE management_system.vacation_request (
 );
 
 
--- management_system.bonus definition
-
--- Drop table
-
--- DROP TABLE management_system.bonus;
 
 CREATE TABLE management_system.bonus (
 	id serial4 NOT NULL,
