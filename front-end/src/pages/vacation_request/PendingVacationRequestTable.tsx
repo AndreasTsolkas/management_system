@@ -94,6 +94,7 @@ const PendingVacationRequestTable = () => {
       >
         <h2>Εκρεμμείς άδειες</h2>
         <Button
+            disabled={true}
             type="submit"
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
