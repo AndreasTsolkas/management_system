@@ -8,10 +8,6 @@ import { Department } from './department.entity';
 export class Bonus {
   @PrimaryGeneratedColumn({name: 'id'})
   id: number;
-  
-  @ManyToOne(() => Department, (department) => department.id)
-  @JoinColumn({ name: 'department_id' }) 
-  department: Department;
 
   @ManyToOne(() => Employee, (employee) => employee.id)
   @JoinColumn({ name: 'employee_id' }) 

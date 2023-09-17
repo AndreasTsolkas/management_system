@@ -28,7 +28,7 @@ const BonusTable = () => {
                 id: bonus.id,
                 amount: bonus.amount,
                 employee: bonus.employee.name,
-                department: bonus.department.name,
+                department: bonus.employee.department.name,
               };
             }
           )
@@ -98,7 +98,7 @@ const BonusTable = () => {
                                 id: bonus.id,
                                 amount: bonus.amount,
                                 employee: bonus.employee.name,
-                                department: bonus.department.name
+                                department: bonus.employee.department.name
                               };
                             }
                           )

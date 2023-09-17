@@ -15,7 +15,7 @@ export class BonusService {
 
   async findAllWithRelationships() {
     try {
-      return await this.bonusRepository.find({ relations: ['department', 'employee'] });
+      return await this.bonusRepository.find({ relations: ['employee', 'employee.department'] });
     }
     catch(error) {
       console.log(error);
@@ -27,8 +27,8 @@ export class BonusService {
     try {
       return this.bonusRepository
       .createQueryBuilder('bonus')
-      .leftJoinAndSelect('bonus.department', 'department')
       .leftJoinAndSelect('bonus.employee', 'employee') 
+      .leftJoinAndSelect('employee.department', 'department')
       .where('bonus.id = :id', { id })
       .getOne();
     }
