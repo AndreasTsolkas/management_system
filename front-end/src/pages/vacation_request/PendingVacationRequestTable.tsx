@@ -1,5 +1,5 @@
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { Box, IconButton, Switch } from "@mui/material";
+import { Box, Button, IconButton, Switch } from "@mui/material";
 import ReadMoreIcon from "@mui/icons-material/ReadMore";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -93,6 +93,11 @@ const PendingVacationRequestTable = () => {
         }}
       >
         <h2>Εκρεμμείς άδειες</h2>
+        <Button
+            type="submit"
+            variant="contained"
+            sx={{ mt: 3, mb: 2 }}
+          > Υποβολή αλλαγών</Button>
       </div>
       <Box sx={{ height: 500, width: 900 }}>
         {Display.displayDataGrid(rows ?? [], columns)} 

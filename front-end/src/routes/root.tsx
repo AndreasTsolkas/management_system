@@ -2,6 +2,7 @@ import { Link, Outlet } from "react-router-dom";
 
 
 export default function Root() {
+
   return (
     <>
       <div id="sidebar">
@@ -29,6 +30,9 @@ export default function Root() {
           <ul style={{marginTop: "30px"}}>
             <li>
               <Link to={`/pvacation_request`}>Εκρεμμείς άδειες</Link>
+            </li>
+            <li>
+              <Link to={`/pvacation_request`}>Χρήστες για αποδοχή</Link>
             </li>
             <li>
               <Link to={`/vacationrequest`}>Νέα αίτηση άδειας</Link>
