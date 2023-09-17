@@ -1,6 +1,7 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
 import { databaseSchemaName } from 'src/important';
 import { Department } from './department.entity';
+import { Project } from './project.entity';
 
 
 @Entity({ schema: databaseSchemaName, name: 'employee'})
@@ -32,6 +33,10 @@ export class Employee {
   @ManyToOne(() => Department, (department) => department.id)
   @JoinColumn({ name: 'department_id' }) 
   department: Department;
+
+  @ManyToOne(() => Project, (project) => project.id)
+  @JoinColumn({ name: 'project_id' }) 
+  project: Project;
 
   @Column({name: 'employee_uid' })
   employeeUid: number;

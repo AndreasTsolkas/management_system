@@ -13,6 +13,7 @@ import { Employee } from 'src/entities/employee.entity';
 import { Department } from 'src/entities/department.entity';
 import { Bonus } from 'src/entities/bonus.entity';
 import { VacationRequest } from 'src/entities/vacation_request.entity';
+import { Project } from 'src/entities/project.entity';
 
 import { EmployeeService } from 'src/services/employee.service';
 import { DepartmentService } from 'src/services/department.service';
@@ -44,7 +45,7 @@ dotenv.config();
       username: process.env.POSTGRES_USER,
       password: process.env.POSTGRES_PASSWORD,
       database: process.env.POSTGRES_DATABASE,
-      entities: [Employee, Department, Bonus, VacationRequest],
+      entities: [Employee, Department, Bonus, VacationRequest, Project],
       synchronize: false,
     }),
     
