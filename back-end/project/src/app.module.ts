@@ -20,6 +20,8 @@ import { EmployeeService } from 'src/services/employee.service';
 import { DepartmentService } from 'src/services/department.service';
 import { BonusService } from 'src/services/bonus.service';
 import { VacationRequestService } from 'src/services/vacation_request.service';
+import { ProjectService } from 'src/services/project.service';
+import { UserService } from 'src/services/user.service';
 
 import { EmployeeModule } from 'src/modules/employee.module';
 import { DepartmentModule } from 'src/modules/department.module';
@@ -32,6 +34,8 @@ import { EmployeeController } from 'src/controllers/employee.controller';
 import { DepartmentController } from 'src/controllers/department.controller';
 import { BonusController } from 'src/controllers/bonus.controller';
 import { VacationRequestController } from 'src/controllers/vacation_request.controller';
+import { ProjectController } from 'src/controllers/project.controller';
+import { UserController } from 'src/controllers/user.controller';
 
 
 dotenv.config();
@@ -54,8 +58,9 @@ dotenv.config();
     
     EmployeeModule, DepartmentModule, BonusModule, VacationRequestModule, ProjectModule, UserModule],
   controllers: [AppController, EmployeeController, DepartmentController, BonusController, 
-    VacationRequestController],
-  providers: [AppService, EmployeeService, DepartmentService, BonusService, VacationRequestService],
+    VacationRequestController, ProjectController, UserController],
+  providers: [AppService, EmployeeService, DepartmentService, BonusService, VacationRequestService,
+  ProjectService, UserService],
 })
 export class AppModule {
   constructor(private dataSource: DataSource) {}

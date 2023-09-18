@@ -8,13 +8,13 @@ export class User {
   @PrimaryGeneratedColumn({name: 'id'})
   id: number;
 
-  @PrimaryGeneratedColumn({name: 'is_admin'})
+  @Column({name: 'is_admin'})
   isAdmin: boolean;
 
-  @PrimaryGeneratedColumn({name: 'is_accepted'})
+  @Column({name: 'is_accepted'})
   isAccepted: boolean;
 
-  @PrimaryGeneratedColumn({name: 'password'})
+  @Column({name: 'password'})
   password: string;
   
   @ManyToOne(() => Employee, (employee) => employee.id)
