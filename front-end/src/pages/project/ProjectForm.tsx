@@ -9,7 +9,7 @@ import { Box, Button } from "@mui/material";
 import MuiTextField from "../../components/MuiTextField";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { IPost } from "./user.model";
+import { IPost } from "./project.model";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import * as Important from "src/important";
 import * as Display from "src/display";
@@ -28,7 +28,7 @@ export const UserSchema = yup.object({
 
   
 })
-const UserForm = () => {
+const ProjectForm = () => {
   const params = useParams();
   const navigate = useNavigate();
   const bonusUrl = Important.backEndBonusUrl;
@@ -139,4 +139,4 @@ const UserForm = () => {
   );
 };
 
-export default UserForm;
+export default ProjectForm;
