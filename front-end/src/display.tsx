@@ -7,6 +7,7 @@ import { useNavigate, useParams } from "react-router-dom";
 export function displayDataGrid(rows: any, columns: any) {
 
     return(
+
         <DataGrid 
         rows={rows ?? []} 
         columns={columns}
@@ -14,7 +15,8 @@ export function displayDataGrid(rows: any, columns: any) {
           sorting: {
             sortModel: [{ field: 'id', sort: 'asc' }],
           },
-        }} sx={{alignItems:'flex'}} />
+        }} />
+
     );
 }
 
