@@ -32,9 +32,6 @@ export default function Root() {
               <Link to={`/pvacation_request`}>Εκρεμμείς άδειες</Link>
             </li>
             <li>
-              <Link to={`/pvacation_request`}>Χρήστες για αποδοχή</Link>
-            </li>
-            <li>
               <Link to={`/vacationrequest`}>Νέα αίτηση άδειας</Link>
             </li>
             <li>

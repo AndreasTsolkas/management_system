@@ -1,8 +1,9 @@
 export interface IPost {
     id: string;
-    employeeId: number;
-    departmentId: number;
-    amount: number;
+    employee: number;
+    password: number;
+    isAdmin: boolean;
+    isAccepted: boolean;
 
 }
   
