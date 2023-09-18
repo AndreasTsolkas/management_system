@@ -44,23 +44,23 @@ const BonusTable = () => {
     
     {
       field: "amount",
-      headerName: "amount",
+      headerName: "Ποσό",
       /*type: "number",*/
       flex: 1,
     },
     {
       field: "employee",
-      headerName: "employee",
+      headerName: "Όνομα εργαζομένου",
       flex: 1,
     },
     {
         field: "department",
-        headerName: "department",
+        headerName: "Τμήμα",
         flex: 1,
       },
     {
       field: "actions",
-      headerName: "actions",
+      headerName: "Ενέργειες",
       flex: 1,
       renderCell: (cellValues) => {
         return (

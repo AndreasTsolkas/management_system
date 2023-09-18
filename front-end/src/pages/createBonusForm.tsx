@@ -52,7 +52,7 @@ const CreateBonusForm = () => {
 
   return (
     <div>
-      <h1>Complete </h1>
+      <h2>Δημιουργία bonus: </h2>
       <Box
         sx={{
           width: "200px",

@@ -45,22 +45,22 @@ const UserTable = () => {
     { field: "id", headerName: "id", flex: 1 },
     {
       field: "employee",
-      headerName: "employee",
+      headerName: "Όνομα εργαζομένου",
       flex: 1,
     },
     {
       field: "isAdmin",
-      headerName: "isAdmin",
+      headerName: "Διαχειριστής",
       flex: 1,
     },
     {
       field: "isAccepted",
-      headerName: "isAccepted",
+      headerName: "Είναι αποδεκτός",
       flex: 1,
     },
     {
       field: "actions",
-      headerName: "actions",
+      headerName: "Ενέργειες",
       flex: 0.5,
       renderCell: (cellValues) => {
         return (

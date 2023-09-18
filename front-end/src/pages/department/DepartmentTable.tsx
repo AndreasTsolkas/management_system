@@ -43,12 +43,12 @@ const DepartmentTable = () => {
     { field: "id", headerName: "id", flex: 1 },
     {
       field: "name",
-      headerName: "name",
+      headerName: "Όνομα",
       flex: 1,
     },
     {
       field: "actions",
-      headerName: "actions",
+      headerName: "Ενέργειες",
       flex: 0.5,
       renderCell: (cellValues) => {
         return (

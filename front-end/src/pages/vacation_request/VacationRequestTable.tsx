@@ -10,6 +10,7 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import * as Important from "src/important";
 import * as Display from "src/display";
+import moment from "moment";
 
 const VacationRequestTable = () => {
   const [rows, setRows] = useState<IPost[]>([]);
@@ -29,8 +30,8 @@ const VacationRequestTable = () => {
                 id: vacationRequest.id,
 
                 employee: vacationRequest.employee.name,
-                startDate: vacationRequest.startDate,
-                endDate: vacationRequest.endDate,
+                startDate: moment(vacationRequest.startDate).format('MM / DD / YYYY'),
+                endDate: moment(vacationRequest.endDate).format('MM / DD / YYYY'),
                 status: vacationRequest.status,
                 days: vacationRequest.days,
               };
@@ -47,32 +48,32 @@ const VacationRequestTable = () => {
     { field: "id", headerName: "id", flex: 1 },
     {
       field: "employee",
-      headerName: "employee",
+      headerName: "Όνομα εργαζομένου",
       flex: 1,
     },
     {
       field: "startDate",
-      headerName: "startDate",
+      headerName: "Ημερομηνία έναρξης",
       flex: 1,
     },
     {
       field: "endDate",
-      headerName: "endDate",
+      headerName: "Ημερομηνία λήξης",
       flex: 1,
     },
     {
         field: "status",
-        headerName: "status",
+        headerName: "Κατάσταση αποδοχής",
         flex: 1,
       },
       {
         field: "days",
-        headerName: "days",
+        headerName: "Ημέρες",
         flex: 1,
       },
     {
       field: "actions",
-      headerName: "actions",
+      headerName: "Ενέργειες",
       flex: 1,
       renderCell: (cellValues) => {
         return (

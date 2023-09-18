@@ -74,7 +74,7 @@ const VacationRequestForm2 = () => {
 
   return (
     <div>
-      <h1>Request a vacation</h1>
+      <h2>Νέα αίτηση άδειας:</h2>
       <Box
         sx={{
           width: "200px",

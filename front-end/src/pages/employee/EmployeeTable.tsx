@@ -52,37 +52,37 @@ const EmployeeTable = () => {
     { field: "id", headerName: "id", flex: 1 },
     {
       field: "name",
-      headerName: "name",
+      headerName: "Όνομα",
       flex: 1,
     },
     {
       field: "surName",
-      headerName: "surname",
+      headerName: "Επώνυμο",
       flex: 1,
     },
     {
       field: "employeeUid",
-      headerName: "employeeuid",
+      headerName: "Κωδικός εργαζομένου",
       flex: 1,
     },
       {
         field: "salary",
-        headerName: "salary",
+        headerName: "Μισθός",
         flex: 1,
       },
       {
         field: "employmentType",
-        headerName: "type",
+        headerName: "Τύπος απασχόλησης",
         flex: 1,
       },
       {
         field: "employeeDepartment",
-        headerName: "department",
+        headerName: "Τμήμα",
         flex: 1,
       },
     {
       field: "actions",
-      headerName: "actions",
+      headerName: "Ενέργειες",
       flex: 1,
       renderCell: (cellValues) => {
         return (

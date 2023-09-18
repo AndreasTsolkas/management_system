@@ -11,6 +11,7 @@ import axios from "axios";
 import * as Important from "src/important";
 import * as Display from "src/display";
 import * as Layout from "src/basic_css.css";
+import moment from "moment";
 
 const DepartmentTable = () => {
   const [rows, setRows] = useState<IPost[]>([]);
@@ -30,8 +31,8 @@ const DepartmentTable = () => {
                 id: project.id,
                 name: project.name,
                 description: project.description,
-                dateStarted: project.date_started,
-                dateToFinish: project.date_to_finish,
+                dateStarted: moment(project.date_started).format('MM / DD / YYYY'),
+                dateToFinish: moment(project.date_to_finish).format('MM / DD / YYYY'),
               };
             }
           )
@@ -46,22 +47,22 @@ const DepartmentTable = () => {
     { field: "id", headerName: "id", flex: 1 },
     {
       field: "name",
-      headerName: "name",
+      headerName: "Όνομα",
       flex: 1,
     },
     {
        field: "description",
-       headerName: "description",
+       headerName: "Περιγραφή",
        flex: 1,
     },
     {
         field: "dateStarted",
-        headerName: "dateStarted",
+        headerName: "Ημερομηνία έναρξης",
         flex: 1,
       },
       {
         field: "dateToFinish",
-        headerName: "dateToFinish",
+        headerName: "Ημερομηνία λήξης",
         flex: 1,
       },
     {
