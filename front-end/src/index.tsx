@@ -11,6 +11,8 @@ import EmployeeForm from "./pages/employee/EmployeeForm";
 import EmployeeTable from "./pages/employee/EmployeeTable";
 import BonusForm from "./pages/bonus/BonusForm";
 import BonusTable from "./pages/bonus/BonusTable";
+import ProjectTable from "./pages/project/Project.table";
+import UserTable from "./pages/user/User.table";
 import VacationRequestForm from "./pages/vacation_request/VacationRequestForm";
 import VacationRequestTable from "./pages/vacation_request/VacationRequestTable";
 import PendingVacationRequestTable from "./pages/vacation_request/PendingVacationRequestTable";
@@ -85,6 +87,14 @@ export const Router = createBrowserRouter([
       {
         path: "/bonus/new",
         element: <BonusForm />,
+      },
+      {
+        path: "/project",
+        element: <ProjectTable />,
+      },
+      {
+        path: "/user",
+        element: <UserTable />,
       },
       {
         path: "/vacationrequest",

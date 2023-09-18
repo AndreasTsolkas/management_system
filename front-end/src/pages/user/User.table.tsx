@@ -49,11 +49,6 @@ const UserTable = () => {
       flex: 1,
     },
     {
-      field: "name",
-      headerName: "name",
-      flex: 1,
-    },
-    {
       field: "isAdmin",
       headerName: "isAdmin",
       flex: 1,
