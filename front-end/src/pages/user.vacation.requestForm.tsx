@@ -9,7 +9,6 @@ import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import moment from 'moment';
 
-// create schema validation
 const schema = yup.object({
   startDate: yup
     .string()
@@ -31,7 +30,7 @@ const schema = yup.object({
   holiday: yup.number().required("holiday is required")
 });
 
-const VacationRequestForm2 = () => {
+const UserVacationRequestForm = () => {
   const params = useParams();
   const navigate = useNavigate();
 
@@ -121,4 +120,4 @@ const VacationRequestForm2 = () => {
   );
 };
 
-export default VacationRequestForm2;
+export default UserVacationRequestForm;

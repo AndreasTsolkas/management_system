@@ -3,13 +3,14 @@ import { Link, Outlet } from "react-router-dom";
 
 export default function Root() {
 
+  const isAdmin = true;
   return (
     <>
       <div id="sidebar">
         <nav>
           <ul>
-            <li>
-              <Link to={`/`}>Home</Link>
+            <li style={{marginBottom: "15px"}}>
+              <Link to={`/`}>Προφίλ</Link>
             </li>
             <li>
               <Link to={`/department`}>Τμήματα</Link>
@@ -33,17 +34,18 @@ export default function Root() {
 
             
           </ul>
+          {isAdmin && (
           <ul style={{marginTop: "30px"}}>
             <li>
               <Link to={`/pvacation_request`}>Εκρεμμείς άδειες</Link>
             </li>
             <li>
-              <Link to={`/vacationrequest`}>Νέα αίτηση άδειας</Link>
+              <Link to={`/uservacationrequest`}>Νέα αίτηση άδειας</Link>
             </li>
             <li>
               <Link to={`/createbonuses`}>Δημιουργία bonus</Link>
             </li>
-          </ul>
+          </ul>)}
          
         </nav>
       </div>
