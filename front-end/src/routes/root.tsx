@@ -9,7 +9,7 @@ export default function Root() {
       <div id="sidebar">
         <nav>
           <ul>
-            <li style={{marginBottom: "15px"}}>
+            <li style={{marginBottom: "30px"}}>
               <Link to={`/`}>Προφίλ</Link>
             </li>
             <li>
@@ -32,18 +32,29 @@ export default function Root() {
             </li>
           </ul>
           
-          {isAdmin && (
-          <ul style={{marginTop: "30px"}}>
-            <li>
-              <Link to={`/pvacation_request`}>Εκρεμμείς άδειες</Link>
-            </li>
-            <li>
-              <Link to={`/uservacationrequest`}>Νέα αίτηση άδειας</Link>
-            </li>
-            <li>
-              <Link to={`/createbonuses`}>Δημιουργία bonus</Link>
-            </li>
-          </ul>)}
+          {isAdmin ? (
+  <ul style={{ marginTop: "30px" }}>
+    <li>
+      <Link to={`/pvacation_request`}>Εκρεμμείς άδειες</Link>
+    </li>
+    <li>
+      <Link to={`/createbonuses`}>Δημιουργία bonus</Link>
+    </li>
+  </ul>
+) : (
+  <ul style={{ marginTop: "30px" }}>
+  <li>
+    <Link to={`/uservacationrequest`}>Νέα αίτηση άδειας</Link>
+  </li>
+  </ul>
+)}
+
+
+
+
+
+
+
          
         </nav>
       </div>
