@@ -8,16 +8,19 @@ import MuiTextField from "../components/MuiTextField";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import moment from 'moment';
+import * as Important from "src/important";
+import * as Display from "src/display";
 
 // create schema validation
 const schema = yup.object({
-  companyId: yup.number().required("company id is required"),
-  season: yup.string().required("season is required")
+  employeeId: yup.number().required("Η συμππλήρωση του user id είναι απαραίτητη."),
+  season: yup.string().required("Η συμπλήρωση της εποχής που ο εργαζόμενος θα πάρει το bonus είναι απαραίτητη.")
 });
 
 const CreateBonusForm = () => {
   const params = useParams();
   const navigate = useNavigate();
+  const bonusUrl = Important.backEndBonusUrl;
 
 
   const {
@@ -27,7 +30,7 @@ const CreateBonusForm = () => {
     control,
   } = useForm({
     defaultValues: {
-      companyId: "",
+      employeeId: "",
       season: ""
     },
     resolver: yupResolver(schema),
@@ -37,8 +40,13 @@ const CreateBonusForm = () => {
 
   const onSubmit = (data: any) => {
     const resultDiv = document.getElementById("result");
+    const requestUrl = bonusUrl+`/create/bonus`;
+    const putData = {
+      employeeId: data.employeeId,
+      season: data.season,
+    };
     if (resultDiv) {
-      axios.put(`http://localhost:8081/api/bonus/createbonuses?companyId=${data.companyId}&season=${data.season}`)
+      axios.put(requestUrl, putData)
         .then((response) => {
           resultDiv.textContent = `Data: ${JSON.stringify(response.data)}`;
           toast.success("Bonuses created.");
@@ -63,8 +71,8 @@ const CreateBonusForm = () => {
         <MuiTextField
             errors={errors}
             control={control}
-            name="companyId"
-            label="companyId"
+            name="employeeId"
+            label="employeeId"
           />
           <MuiTextField
             errors={errors}
@@ -76,10 +84,10 @@ const CreateBonusForm = () => {
           <Button
             type="submit"
             fullWidth
-            variant="outlined"
+            variant="contained"
             sx={{ mt: 3, mb: 2 }}
           >
-            Submit
+            Υποβολή
           </Button>
         </form>
       </Box>
