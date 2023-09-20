@@ -2,6 +2,9 @@ import { BadRequestException, Injectable, InternalServerErrorException } from '@
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Bonus } from 'src/entities/bonus.entity';
+import { Employee } from 'src/entities/employee.entity';
+import { EmployeeService } from 'src/services/employee.service';
+import { CreateBonus } from 'src/dto/createBonus.dto';
 import { SeasonBonus} from 'src/enums/season.bonus.enum';
 
 import * as Messages from 'src/messages';
@@ -11,6 +14,7 @@ export class BonusService {
   constructor(
     @InjectRepository(Bonus)
     private bonusRepository: Repository<Bonus>,
+    private employeeService: EmployeeService
   ) {}
 
   async findAllWithRelationships() {
@@ -19,7 +23,7 @@ export class BonusService {
     }
     catch(error) {
       console.log(error);
-      throw new InternalServerErrorException(Messages.updateBonusTableError);
+      throw new InternalServerErrorException();
     }
   }
 
@@ -34,7 +38,7 @@ export class BonusService {
     }
     catch(error) {
       console.log(error);
-      throw new InternalServerErrorException(Messages.updateBonusTableError);
+      throw new InternalServerErrorException();
     }
   }
 
@@ -49,7 +53,7 @@ export class BonusService {
     }
     catch(error) {
       console.log(error);
-      throw new InternalServerErrorException(Messages.updateBonusTableError);
+      throw new InternalServerErrorException();
     }
   }
 
@@ -60,7 +64,7 @@ export class BonusService {
     }
     catch(error) {
       console.log(error);
-      throw new InternalServerErrorException(Messages.updateBonusTableError);
+      throw new InternalServerErrorException();
     }
   }
 
@@ -71,8 +75,31 @@ export class BonusService {
     }
     catch(error) {
       console.log(error);
-      throw new InternalServerErrorException(Messages.updateBonusTableError);
+      throw new InternalServerErrorException();
     }
+  }
+
+  // 
+
+  async createNewBonus(createBonusData: CreateBonus) {
+    let employee = await this.employeeService.findOneWithRelationships(createBonusData.employeeId);
+    let salary = employee.salary;
+    let season = createBonusData.season;
+    if(salary === undefined || season === undefined || !((season.toUpperCase()) in SeasonBonus))
+      throw new BadRequestException();
+    try {
+      let enumValue = SeasonBonus[season.toUpperCase()];
+      let bonusAmount = salary * enumValue;
+      let newSalary = salary + bonusAmount;
+      await this.create({employee: employee, amount: bonusAmount});
+      await this.employeeService.update(createBonusData.employeeId, {salary: newSalary});
+    }
+    catch(error) {
+      console.log(error);
+      throw new InternalServerErrorException();
+    }
+    
+
   }
 
   

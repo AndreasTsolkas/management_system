@@ -18,7 +18,7 @@ export class VacationRequestService {
     }
     catch(error) {
       console.log(error);
-      throw new InternalServerErrorException(Messages.updateVacationRequestTableError);
+      throw new InternalServerErrorException();
     }
     
   }
@@ -33,7 +33,7 @@ export class VacationRequestService {
     }
     catch(error) {
       console.log(error);
-      throw new InternalServerErrorException(Messages.updateVacationRequestTableError);
+      throw new InternalServerErrorException();
     }
   }
 
@@ -53,7 +53,7 @@ export class VacationRequestService {
     }
     catch(error) {
       console.log(error);
-      throw new InternalServerErrorException(Messages.updateVacationRequestTableError);
+      throw new InternalServerErrorException();
     }
   }
 
@@ -68,7 +68,7 @@ export class VacationRequestService {
     }
     catch(error) {
       console.log(error);
-      throw new InternalServerErrorException(Messages.updateVacationRequestTableError);
+      throw new InternalServerErrorException();
     }
   }
 
@@ -78,7 +78,7 @@ export class VacationRequestService {
     }
     catch(error) {
       console.log(error);
-      throw new InternalServerErrorException(Messages.updateVacationRequestTableError);
+      throw new InternalServerErrorException();
     }
   }
 

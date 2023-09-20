@@ -29,7 +29,7 @@ export class DepartmentService {
     }
     catch(error) {
       console.log(error);
-      throw new InternalServerErrorException(Messages.updateDepartmentTableError);
+      throw new InternalServerErrorException();
     }
   }
 
@@ -44,7 +44,7 @@ export class DepartmentService {
     }
     catch(error) {
       console.log(error);
-      throw new InternalServerErrorException(Messages.updateDepartmentTableError);
+      throw new InternalServerErrorException();
     }
   }
 
@@ -55,7 +55,7 @@ export class DepartmentService {
     }
     catch(error) {
       console.log(error);
-      throw new InternalServerErrorException(Messages.updateDepartmentTableError);
+      throw new InternalServerErrorException();
     }
   }
 
@@ -66,7 +66,7 @@ export class DepartmentService {
     }
     catch(error) {
       console.log(error);
-      throw new InternalServerErrorException(Messages.updateDepartmentTableError);
+      throw new InternalServerErrorException();
     }
   }
 }

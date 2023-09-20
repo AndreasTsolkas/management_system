@@ -18,7 +18,7 @@ export class EmployeeService {
     }
     catch(error) {
       console.log(error);
-      throw new InternalServerErrorException(Messages.updateEmployeeTableError);
+      throw new InternalServerErrorException();
     }
   }
 
@@ -32,14 +32,14 @@ export class EmployeeService {
     }
     catch(error) {
       console.log(error);
-      throw new InternalServerErrorException(Messages.updateEmployeeTableError);
+      throw new InternalServerErrorException();
     }
     
   }
 
-  async update(id: any, employeeData: Partial<Employee>): Promise<Employee | null> {
+  async update(id: number, employeeData: Partial<Employee>): Promise<Employee | null> {
     try {
-      const employee = await this.employeesRepository.findOne(id);
+      const employee = await this.employeesRepository.findOneBy({id});
       if (!employee) {
         return null; 
       }
@@ -48,7 +48,7 @@ export class EmployeeService {
     }
     catch(error) {
       console.log(error);
-      throw new InternalServerErrorException(Messages.updateEmployeeTableError);
+      throw new InternalServerErrorException();
     }
     
   }
@@ -60,7 +60,7 @@ export class EmployeeService {
     }
     catch(error) {
       console.log(error);
-      throw new InternalServerErrorException(Messages.updateEmployeeTableError);
+      throw new InternalServerErrorException();
     }
   }
 
@@ -70,7 +70,7 @@ export class EmployeeService {
     }
     catch(error) {
       console.log(error);
-      throw new InternalServerErrorException(Messages.updateEmployeeTableError);
+      throw new InternalServerErrorException();
     }
     
   }
