@@ -9,6 +9,7 @@ import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import moment from 'moment';
 
+import * as Important from "src/important";
 import * as Display from "src/display";
 
 const schema = yup.object({
@@ -35,6 +36,7 @@ const schema = yup.object({
 const UserVacationRequestForm = () => {
   const params = useParams();
   const navigate = useNavigate();
+  const vacationRequestUrl = Important.backEndVacationRequestUrl;
 
 
   const {
@@ -59,6 +61,8 @@ const UserVacationRequestForm = () => {
 
   const onSubmit = (data: any) => {
     const resultDiv: any = document.getElementById("result");
+    const requestUrl = vacationRequestUrl+`/create/bonus`;
+
       axios.post("http://localhost:8081/api/vacation/request", data, {
         headers: { "Content-Type": "application/json" }
       })
@@ -88,13 +92,13 @@ const UserVacationRequestForm = () => {
             errors={errors}
             control={control}
             name="startDate"
-            label="startDate"
+            label="Ημερομηνία έναρξης"
           />
           <MuiTextField
             errors={errors}
             control={control}
             name="endDate"
-            label="endDate"
+            label="Ημερομηνία λήξης"
           />
           <MuiTextField
             errors={errors}
@@ -106,15 +110,15 @@ const UserVacationRequestForm = () => {
             errors={errors}
             control={control}
             name="holiday"
-            label="holiday"
+            label="Ημέρες διακοπών / Μη εργάσιμες"
           />
           <Button
             type="submit"
             fullWidth
-            variant="outlined"
+            variant="contained"
             sx={{ mt: 3, mb: 2 }}
           >
-            Submit
+            Υποβολή
           </Button>
         </form>
       </Box>

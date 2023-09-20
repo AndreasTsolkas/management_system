@@ -79,7 +79,7 @@ const CreateBonusForm = () => {
             errors={errors}
             control={control}
             name="season"
-            label="season"
+            label="Εποχή"
           />
           
           <Button
