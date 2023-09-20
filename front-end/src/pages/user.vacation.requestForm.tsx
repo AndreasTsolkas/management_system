@@ -9,6 +9,8 @@ import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import moment from 'moment';
 
+import * as Display from "src/display";
+
 const schema = yup.object({
   startDate: yup
     .string()
@@ -73,6 +75,7 @@ const UserVacationRequestForm = () => {
 
   return (
     <div>
+      {Display.displayIconButton()}
       <h2>Νέα αίτηση άδειας:</h2>
       <Box
         sx={{

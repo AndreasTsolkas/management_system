@@ -25,15 +25,13 @@ export default function Root() {
               <Link to={`/project`}>Έργα</Link>
             </li>
             <li>
-  <Link to={`/bonus`}>Bonus</Link>
-
-</li>
-<li>
+              <Link to={`/bonus`}>Bonus</Link>
+           </li>
+            <li>
               <Link to={`/vacation_request`}>Άδειες</Link>
             </li>
-
-            
           </ul>
+          
           {isAdmin && (
           <ul style={{marginTop: "30px"}}>
             <li>

@@ -60,6 +60,7 @@ const CreateBonusForm = () => {
 
   return (
     <div>
+      {Display.displayIconButton()}
       <h2>Δημιουργία bonus: </h2>
       <Box
         sx={{
