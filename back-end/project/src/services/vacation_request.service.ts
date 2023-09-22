@@ -2,14 +2,18 @@ import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { VacationRequest } from 'src/entities/vacation_request.entity';
+import { EmployeeService } from 'src/services/employee.service';
 
 import * as Messages from 'src/messages';
+import { userCreateVacationRequest } from 'src/dto/userCreateVacationRequest.dto';
+import { VacationRequestStatus} from 'src/enums/vacation.request.status';
 
 @Injectable()
 export class VacationRequestService {
   constructor(
     @InjectRepository(VacationRequest)
     private vacationRequestRepository: Repository<VacationRequest>,
+    private employeeService: EmployeeService
   ) {}
 
   async findAllWithRelationships() {
@@ -86,5 +90,36 @@ export class VacationRequestService {
 
   async findByStatus(status: string) {
     return await this.findByFieldWithRelationships('status', status);
+  }
+
+  private calculateVacationDays(startDate: Date, endDate: Date, nonWorkingDays: number) {
+
+    let result = 0;
+    const differenceInMs = endDate.getTime() - startDate.getTime();
+    const differnceInDays =  differenceInMs /  (1000 * 60 * 60 * 24);
+    result = (differnceInDays - nonWorkingDays)+1;
+    return result;
+
+  }
+   
+  async userCreateVacation(userCreateVacationRequestData: userCreateVacationRequest) {
+    try {
+      let startDate = new Date(userCreateVacationRequestData.startDate);
+      let endDate = new Date(userCreateVacationRequestData.endDate);
+      const vacationDays = this.calculateVacationDays(startDate, 
+        endDate, userCreateVacationRequestData.nonWorkingDays);
+      const employee = await this.employeeService.findOneWithRelationships
+      (userCreateVacationRequestData.employeeId);
+      await this.create({employee: employee, startDate: userCreateVacationRequestData.startDate, 
+        endDate: userCreateVacationRequestData.endDate, status: VacationRequestStatus['PENDING'], 
+        days: vacationDays});
+      employee.vacationDays-=vacationDays;
+      await this.employeeService.update(userCreateVacationRequestData.employeeId, employee)
+    }
+    catch(error) {
+      console.log(error);
+      throw new InternalServerErrorException();
+    }
+
   }
 }

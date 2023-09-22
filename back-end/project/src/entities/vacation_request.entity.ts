@@ -22,7 +22,7 @@ export class VacationRequest {
   status: string;
 
   @Column({name: 'days'})
-  days: string;
+  days: number;
 
 
 }

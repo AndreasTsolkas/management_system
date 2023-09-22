@@ -110,7 +110,7 @@ const UserVacationRequestForm = () => {
             errors={errors}
             control={control}
             name="holiday"
-            label="Ημέρες διακοπών / Μη εργάσιμες"
+            label="Μη εργάσιμες ημέρες"
           />
           <Button
             type="submit"
