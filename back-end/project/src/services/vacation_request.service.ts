@@ -101,13 +101,29 @@ export class VacationRequestService {
     return result;
 
   }
+
+  private calculateNonWorkingDays(startDate: Date, endDate: Date) {
+    const nonWorkingDays: number[] = [0, 6]; 
+    let nonWorkingDaysCount = 0;
+    const currentDate = new Date(startDate);
+
+    while (currentDate <= endDate) {
+      if (nonWorkingDays.includes(currentDate.getDay())) 
+        nonWorkingDaysCount++;
+      currentDate.setDate(currentDate.getDate() + 1);
+    }
+    
+    console.log(nonWorkingDaysCount);
+    return nonWorkingDaysCount;
+  }
    
   async userCreateVacation(userCreateVacationRequestData: userCreateVacationRequest) {
     try {
       let startDate = new Date(userCreateVacationRequestData.startDate);
       let endDate = new Date(userCreateVacationRequestData.endDate);
+      const nonWorkingDays = this.calculateNonWorkingDays(startDate, endDate);
       const vacationDays = this.calculateVacationDays(startDate, 
-        endDate, userCreateVacationRequestData.nonWorkingDays);
+        endDate, nonWorkingDays);
       const employee = await this.employeeService.findOneWithRelationships
       (userCreateVacationRequestData.employeeId);
       await this.create({employee: employee, startDate: userCreateVacationRequestData.startDate, 
