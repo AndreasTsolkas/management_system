@@ -9,8 +9,10 @@ import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import moment from 'moment';
 
+
 import * as Important from "src/important";
 import * as Display from "src/display";
+
 
 const schema = yup.object({
   startDate: yup
@@ -29,16 +31,14 @@ const schema = yup.object({
       (value) => moment.utc(value, true).isValid()
     )
     .required("end date is required"),
-  employeeId: yup.number().required("employee id is required"),
-  holiday: yup.number().required("holiday is required")
+  employeeId: yup.number().required("employee id is required")
 });
 
 const UserVacationRequestForm = () => {
   const params = useParams();
   const navigate = useNavigate();
   const vacationRequestUrl = Important.backEndVacationRequestUrl;
-
-
+  
   const {
     handleSubmit,
     reset,
@@ -46,11 +46,9 @@ const UserVacationRequestForm = () => {
     control,
   } = useForm({
     defaultValues: {
-      /*id: "",*/
       startDate: "",
       endDate: "",
       employeeId: "",
-      holiday: ""
     },
     resolver: yupResolver(schema),
   });
@@ -61,9 +59,9 @@ const UserVacationRequestForm = () => {
 
   const onSubmit = (data: any) => {
     const resultDiv: any = document.getElementById("result");
-    const requestUrl = vacationRequestUrl+`/create/bonus`;
-
-      axios.post("http://localhost:8081/api/vacation/request", data, {
+    const requestUrl = vacationRequestUrl+`/usercreate/vrequest`;
+    console.log(requestUrl);
+      axios.put(requestUrl, data, {
         headers: { "Content-Type": "application/json" }
       })
         .then((response) => {
@@ -87,8 +85,7 @@ const UserVacationRequestForm = () => {
         }}
       >
         <form noValidate onSubmit={handleSubmit(onSubmit)}>
-          
-          <MuiTextField
+        <MuiTextField
             errors={errors}
             control={control}
             name="startDate"
@@ -105,12 +102,6 @@ const UserVacationRequestForm = () => {
             control={control}
             name="employeeId"
             label="employeeId"
-          />
-          <MuiTextField
-            errors={errors}
-            control={control}
-            name="holiday"
-            label="Μη εργάσιμες ημέρες"
           />
           <Button
             type="submit"
