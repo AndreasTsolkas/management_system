@@ -15,6 +15,7 @@ import { toast } from "react-toastify";
 import * as Important from "src/important";
 import * as Display from "src/display";
 import { Season } from "src/enums/season";
+import { useEffect } from "react";
 
 const schema = yup.object({
   employeeId: yup
@@ -60,18 +61,21 @@ const CreateBonusForm = () => {
         });
   };
 
-  const getAllEmployees =  async (data: any) => {
+  const getAllEmployees =  async () => {
     const requestUrl = employeeGetAll;
-      axios
-        .get(requestUrl)
-        .then((response) => {
-          toast.success("");
-        })
-        .catch((error) => {
-          console.error(error);
-          toast.error(error.response.data.message);
-        });
+    try {
+      const response = axios.get(requestUrl);
+    }
+    catch(error: any) {
+      console.error(error);
+      toast.error(error?.response.data.message);
+    }
   }
+
+  useEffect(() => {
+    getAllEmployees();
+  }, []);
+
 
   return (
     <div>
@@ -97,6 +101,31 @@ const CreateBonusForm = () => {
             )}
             
           />
+
+          <Controller
+            name="employeeId"
+            control={control}
+            render={({ field }) => (
+              <div>
+                <InputLabel htmlFor="season-label">Εργαζόμενος</InputLabel>
+                <Select
+                  {...field}
+                  labelId="season-label"
+                  id="season-label"
+                  fullWidth
+                  variant="outlined"
+                >
+                  {Object.entries(Season).map(([name, value]) => (
+                    <MenuItem key={name} value={name}>
+                      {value}
+                    </MenuItem>
+                  ))}
+                </Select>
+                <span style={{ color: "red" }}>{errors.season?.message}</span>
+              </div>
+            )}
+          />
+
           <Controller
             name="season"
             control={control}

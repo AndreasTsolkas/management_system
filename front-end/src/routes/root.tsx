@@ -48,14 +48,6 @@ export default function Root() {
   </li>
   </ul>
 )}
-
-
-
-
-
-
-
-         
         </nav>
       </div>
       <div id="detail">

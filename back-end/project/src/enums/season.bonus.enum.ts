@@ -3,4 +3,4 @@ export enum SeasonBonus {
     SPRING = 1.2,
     SUMMER = 0.7,
     AUTUMN = 1.4
-  }
+}
