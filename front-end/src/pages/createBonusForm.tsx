@@ -15,7 +15,9 @@ import { toast } from "react-toastify";
 import * as Important from "src/important";
 import * as Display from "src/display";
 import { Season } from "src/enums/season";
-import { useEffect } from "react";
+import { useState, useEffect } from 'react';
+
+
 
 const schema = yup.object({
   employeeId: yup
@@ -29,6 +31,7 @@ const schema = yup.object({
 });
 
 const CreateBonusForm = () => {
+  const [employees, setEmployees] = useState<any[]>([]);
   const bonusUrl = Important.backEndBonusUrl;
   const employeeGetAll = Important.getAllEmployee;
   const {
@@ -64,7 +67,9 @@ const CreateBonusForm = () => {
   const getAllEmployees =  async () => {
     const requestUrl = employeeGetAll;
     try {
-      const response = axios.get(requestUrl);
+      const response = await axios.get(requestUrl);
+      setEmployees([response.data]);
+
     }
     catch(error: any) {
       console.error(error);
@@ -75,6 +80,8 @@ const CreateBonusForm = () => {
   useEffect(() => {
     getAllEmployees();
   }, []);
+
+  console.log(employees);
 
 
   return (
@@ -88,36 +95,17 @@ const CreateBonusForm = () => {
             control={control}
             render={({ field }) => (
               <div>
-              <TextField
-                required
-                {...field}
-                label="employeeId"
-                fullWidth
-                variant="outlined"
-                error={!!errors.employeeId}
-                helperText={errors.employeeId?.message}
-              />
-              </div>
-            )}
-            
-          />
-
-          <Controller
-            name="employeeId"
-            control={control}
-            render={({ field }) => (
-              <div>
-                <InputLabel htmlFor="season-label">Εργαζόμενος</InputLabel>
+                <InputLabel htmlFor="employee-label">Εργαζόμενος</InputLabel>
                 <Select
                   {...field}
-                  labelId="season-label"
-                  id="season-label"
+                  labelId="employee-label"
+                  id="employee-label"
                   fullWidth
                   variant="outlined"
                 >
-                  {Object.entries(Season).map(([name, value]) => (
-                    <MenuItem key={name} value={name}>
-                      {value}
+                  {employees.map((item: any) => (
+                    <MenuItem key={item.id} value={item.id}>
+                      {item.name}
                     </MenuItem>
                   ))}
                 </Select>
