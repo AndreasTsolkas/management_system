@@ -14,7 +14,7 @@ export class EmployeeService {
 
   async findAllWithRelationships() {
     try {
-      return await this.employeesRepository.find({ relations: ['department', 'project'] });
+      return await this.employeesRepository.find({ relations: ['department'] });
     }
     catch(error) {
       console.log(error);

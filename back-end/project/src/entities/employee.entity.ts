@@ -34,11 +34,16 @@ export class Employee {
   @JoinColumn({ name: 'department_id' }) 
   department: Department;
 
-  @ManyToOne(() => Project, (project) => project.id)
-  @JoinColumn({ name: 'project_id' }) 
-  project: Project;
-
   @Column({name: 'employee_uid' })
   employeeUid: number;
+
+  @Column({name: 'password', type: 'varchar', length: 20})
+  password: string;
+
+  @Column({name: 'is_accepted'})
+  isAccepted: boolean;
+
+  @Column({name: 'is_admin'})
+  isAdmin: boolean;
 
 }
