@@ -19,6 +19,8 @@ import { useState, useEffect } from 'react';
 
 
 
+
+
 const schema = yup.object({
   employeeId: yup
     .number()
@@ -68,7 +70,7 @@ const CreateBonusForm = () => {
     const requestUrl = employeeGetAll;
     try {
       const response = await axios.get(requestUrl);
-      setEmployees([response.data]);
+      setEmployees(response.data);
 
     }
     catch(error: any) {
@@ -81,7 +83,6 @@ const CreateBonusForm = () => {
     getAllEmployees();
   }, []);
 
-  console.log(employees);
 
 
   return (
@@ -103,11 +104,14 @@ const CreateBonusForm = () => {
                   fullWidth
                   variant="outlined"
                 >
-                  {employees.map((item: any) => (
+                  {employees.map((item: any) => {
+    
+                    return (
                     <MenuItem key={item.id} value={item.id}>
-                      {item.name}
+                       {item.name} {item.surname}, {item.department.name}, {item.salary}$ μισθός, 
                     </MenuItem>
-                  ))}
+                    );
+                  })} 
                 </Select>
                 <span style={{ color: "red" }}>{errors.season?.message}</span>
               </div>
@@ -118,7 +122,7 @@ const CreateBonusForm = () => {
             name="season"
             control={control}
             render={({ field }) => (
-              <div>
+              <div style={{marginTop:"10px"}}>
                 <InputLabel htmlFor="season-label">Εποχή</InputLabel>
                 <Select
                   {...field}
