@@ -19,9 +19,6 @@ export default function Root() {
               <Link to={`/employee`}>Εργαζόμενοι</Link>
             </li>
             <li>
-              <Link to={`/user`}>Χρήστες</Link>
-            </li>
-            <li>
               <Link to={`/project`}>Έργα</Link>
             </li>
             <li>
