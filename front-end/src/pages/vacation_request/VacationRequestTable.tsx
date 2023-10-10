@@ -30,8 +30,8 @@ const VacationRequestTable = () => {
                 id: vacationRequest.id,
 
                 employee: vacationRequest.employee.name,
-                startDate: moment(vacationRequest.startDate).format('MM / DD / YYYY'),
-                endDate: moment(vacationRequest.endDate).format('MM / DD / YYYY'),
+                startDate: moment(vacationRequest.startDate).format('DD / MM / YYYY'),
+                endDate: moment(vacationRequest.endDate).format('DD / MM / YYYY'),
                 status: vacationRequest.status,
                 days: vacationRequest.days,
               };

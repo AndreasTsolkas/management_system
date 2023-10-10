@@ -9,8 +9,10 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { toast } from "react-toastify";
 import axios from "axios";
 import * as Important from "src/important";
+import moment from "moment";
 
 const BonusTable = () => {
+  const isAdmin = true;
   const [rows, setRows] = useState<IPost[]>([]);
   const navigate = useNavigate();
   const bonusTableUrl = Important.backEndBonusUrl;
@@ -23,10 +25,11 @@ const BonusTable = () => {
         const data = response.data;
         setRows(
           data.map(
-            (bonus: { id: any; amount: any; employee: any; department: any }) => {
+            (bonus: { id: any; amount: any; dateGiven: any; employee: any; department: any }) => {
               return {
                 id: bonus.id,
                 amount: bonus.amount,
+                date_given: moment(bonus.dateGiven).format('DD / MM / YYYY'),
                 employee: bonus.employee.name,
                 department: bonus.employee.department.name,
               };
@@ -45,9 +48,15 @@ const BonusTable = () => {
     {
       field: "amount",
       headerName: "Ποσό",
-      /*type: "number",*/
       flex: 1,
     },
+
+    {
+      field: "date_given",
+      headerName: "Ημερομηνία",
+      flex: 1,
+    },
+
     {
       field: "employee",
       headerName: "Όνομα εργαζομένου",
@@ -129,7 +138,7 @@ const BonusTable = () => {
         }}
       >
         <h2>Λίστα bonus</h2>
-        <IconButton color="primary" onClick={() => navigate(`/bonus/new`)}>
+        <IconButton disabled={isAdmin} color="primary" onClick={() => navigate(`/createbonuses`)}>
           <AddIcon />
         </IconButton>
       </div>

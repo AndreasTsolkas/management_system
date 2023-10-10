@@ -16,5 +16,8 @@ export class Bonus {
   @Column({name: 'amount' })
   amount: number;
 
+  @Column({name: 'date_given' })
+  dateGiven: Date;
+
 
 }

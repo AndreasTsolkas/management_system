@@ -11,9 +11,9 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import * as Important from "src/important";
 import * as Display from "src/display";
 
-// create schema validation
+
 export const DepartmentSchema = yup.object({
-  name: yup.string().required("Name is required"),
+  name: yup.string().required("Ειναι απαραίτητο να προσθέσετε το όνομα του τμήματος."),
 });
 
 const DepartmentForm = () => {
@@ -51,23 +51,23 @@ const DepartmentForm = () => {
       
   
       try {
-        await axios.post(departmentUrl, data);
-        toast.success('Product created successfully');
+        await axios.put(departmentUrl, data);
+        toast.success('Το τμήμα δημιουργήθηκε με επιτυχία.');
         success=true;
-      } catch (error) {
-        toast.error('Failed to create product');
+      } catch (error: any) {
+        toast.error(error?.response.data.message);
       }
     }
     else {
       try {
-        await axios.put(`${departmentUrl}/${params?.id}`, data, {
+        await axios.patch(`${departmentUrl}/${params?.id}`, data, {
           headers: { "Content-Type": "application/json" }
         });
-        toast.success("Product updated successfully");
+        toast.success('Οι αλλαγές έγιναν με επιτυχία.');
         success=true;
         
-      } catch (error) {
-        toast.error('Failed to update product');
+      } catch (error: any) {
+        toast.error(error?.response.data.message);
       }
     }
     if(success) navigate("/department");

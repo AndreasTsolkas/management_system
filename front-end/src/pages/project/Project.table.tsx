@@ -31,8 +31,8 @@ const DepartmentTable = () => {
                 id: project.id,
                 name: project.name,
                 description: project.description,
-                dateStarted: moment(project.date_started).format('MM / DD / YYYY'),
-                dateToFinish: moment(project.date_to_finish).format('MM / DD / YYYY'),
+                dateStarted: moment(project.date_started).format('DD / MM / YYYY'),
+                dateToFinish: moment(project.date_to_finish).format('DD / MM / YYYY'),
               };
             }
           )
