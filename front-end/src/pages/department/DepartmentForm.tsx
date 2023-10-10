@@ -20,9 +20,12 @@ const DepartmentForm = () => {
   const params = useParams();
   const navigate = useNavigate();
   const departmentUrl = Important.backEndDepartmentUrl;
+  const [formTitle, setFormTitle] = useState<string>('');
 
   useEffect(() => {
+    let text = 'Προσθέστε νέο τμήμα:';
     if (params && params?.id) {
+      text='Πληροφορίες τμήματος:';
       axios
         .get(`${departmentUrl}/${params?.id}`)
         .then((response) => {
@@ -30,6 +33,7 @@ const DepartmentForm = () => {
         })
         .catch((error) => console.log(error));
     }
+    setFormTitle(text);
   }, []);
 
   const {
@@ -78,7 +82,7 @@ const DepartmentForm = () => {
       
       {Display.displayIconButton()}
 
-      <h2>Προσθέστε νέο τμήμα:</h2>
+      <h2>{formTitle}</h2>
       <Box
         sx={{
           width: "200px",

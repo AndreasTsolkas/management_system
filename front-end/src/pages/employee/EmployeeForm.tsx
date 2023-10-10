@@ -35,10 +35,13 @@ const EmployeeForm = () => {
   const params = useParams();
   const navigate = useNavigate();
   const employeeUrl = Important.backEndEmployeeUrl;
+  const [formTitle, setFormTitle] = useState<string>('');
 
 
   useEffect(() => {
+    let text = 'Προσθέστε νέο εργαζόμενο:';
     if (params && params?.id) {
+      text='Πληροφορίες εργαζόμενου:';
       axios
         .get(`${employeeUrl}/${params?.id}`)
         .then((response) => {
@@ -49,6 +52,7 @@ const EmployeeForm = () => {
           toast.error(error.response.data.message);
         });
     }
+    setFormTitle(text);
   }, []);
 
   const {
@@ -106,7 +110,7 @@ const EmployeeForm = () => {
       
       {Display.displayIconButton()}
       
-      <h2>Προσθέστε νέο εργαζόμενο:</h2>
+      <h2>{formTitle}</h2>
       <Box
         sx={{
           width: "200px",

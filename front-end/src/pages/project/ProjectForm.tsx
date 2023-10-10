@@ -32,10 +32,13 @@ const ProjectForm = () => {
   const params = useParams();
   const navigate = useNavigate();
   const bonusUrl = Important.backEndBonusUrl;
+  const [formTitle, setFormTitle] = useState<string>('');
 
 
   useEffect(() => {
+    let text = 'Προσθέστε νέο έργο:';
     if (params && params?.id) {
+      text='Πληροφορίες έργου:';
       axios
         .get(`${bonusUrl}/${params?.id}`)
         .then((response) => {
@@ -46,6 +49,7 @@ const ProjectForm = () => {
           toast.error(error.response.data.message);
         });
     }
+    setFormTitle(text);
   }, []);
 
   const {
@@ -86,7 +90,7 @@ const ProjectForm = () => {
       
       {Display.displayIconButton()}
 
-      <h2>Προσθέστε νέο bonus:</h2>
+      <h2>{formTitle}</h2>
       <Box
         sx={{
           width: "200px",
