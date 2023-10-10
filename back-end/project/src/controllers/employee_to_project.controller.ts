@@ -2,7 +2,7 @@ import { Body, Controller, Delete, Get, Param, Patch, Put, Req } from '@nestjs/c
 import { EmployeeToProject } from 'src/entities/employee_to_project.entity';
 import { EmployeeToProjectService } from 'src/services/employee_to_project.service';
 
-@Controller('employee_to_project')
+@Controller('eproject')
 export class EmployeeToProjectController {
   
   constructor(private employeeToProjectService: EmployeeToProjectService) {

@@ -9,7 +9,7 @@ import { EmployeeToProject } from 'src/entities/employee_to_project.entity';
 @Injectable()
 export class EmployeeToProjectService {
   constructor(
-    @InjectRepository(Employee)
+    @InjectRepository(EmployeeToProject)
     private employeeToProjectRepository: Repository<EmployeeToProject>,
   ) {}
 
