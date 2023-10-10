@@ -91,7 +91,8 @@ export class BonusService {
       let enumValue = SeasonBonus[season.toUpperCase()];
       let bonusAmount = salary * enumValue;
       let newSalary = salary + bonusAmount;
-      await this.create({employee: employee, amount: bonusAmount});
+      const currentTimestamp = new Date(new Date().getTime());
+      await this.create({employee: employee, amount: bonusAmount, dateGiven: currentTimestamp});
       await this.employeeService.update(createBonusData.employeeId, {salary: newSalary});
     }
     catch(error) {
