@@ -7,8 +7,10 @@ import Home from "./pages/home/Home";
 import Error from "./pages/error/Error";
 import DepartmentForm from "./pages/department/DepartmentForm";
 import DepartmentTable from "./pages/department/DepartmentTable";
+import DepartmentView from "./pages/department/Department.view";
 import EmployeeForm from "./pages/employee/EmployeeForm";
 import EmployeeTable from "./pages/employee/EmployeeTable";
+import EmployeeView from "./pages/employee/Employee.view";
 import BonusTable from "./pages/bonus/BonusTable";
 import ProjectTable from "./pages/project/Project.table";
 import VacationRequestForm from "./pages/vacation_request/VacationRequestForm";
@@ -48,6 +50,10 @@ export const Router = createBrowserRouter([
         element: <DepartmentForm />,
       },
       {
+        path: "/department/view/:id",
+        element: <DepartmentView />,
+      },
+      {
         path: "/employee",
         element: <EmployeeTable />,
       },
@@ -58,6 +64,10 @@ export const Router = createBrowserRouter([
       {
         path: "/employee/new",
         element: <EmployeeForm />,
+      },
+      {
+        path: "/employee/view/:id",
+        element: <EmployeeView />,
       },
       {
         path: "/vacation_request",

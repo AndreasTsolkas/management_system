@@ -65,7 +65,7 @@ const EmployeeForm = () => {
     defaultValues: {
        id: "",
        name: "",
-       surName: "",
+       surname: "",
        email: "",
        startDate: "",
        vacationDays: "",
@@ -128,7 +128,7 @@ const EmployeeForm = () => {
             
             errors={errors}
             control={control}
-            name="surName"
+            name="surname"
             label="SURNAME"
           />
           <MuiTextField

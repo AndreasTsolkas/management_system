@@ -10,13 +10,33 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import * as Important from "src/important";
 import * as Display from "src/display";
-import * as Layout from "src/basic_css.css";
 
 const DepartmentTable = () => {
+  const isAdmin = false;
   const [rows, setRows] = useState<IPost[]>([]);
   const navigate = useNavigate();
   const departmentTableUrl = Important.backEndDepartmentUrl;
   const departmentGetAll = Important.getAllDepartment;
+  const [moreInformationLinkBase, setMoreInformationLinkBase] = useState<string>('');
+  const [createNewDepartmentButtonDisabled, setCreateNewDepartmentButtonDisabled] = useState<boolean>(false);
+
+  function setInformationLinkBase() {
+    let link = `/department/view`;
+    if(isAdmin) link = `/department`;
+    setMoreInformationLinkBase(link);
+  }
+
+  function setCreateNewDepartmentButton() {
+    if(!isAdmin) setCreateNewDepartmentButtonDisabled(true);
+  }
+
+  useEffect(() => {
+    setInformationLinkBase();
+  }, []);
+
+  useEffect(() => {
+    setCreateNewDepartmentButton();
+  }, []);
 
   useEffect(() => {
     axios
@@ -55,7 +75,7 @@ const DepartmentTable = () => {
           <>
             <IconButton 
               color="primary"
-              onClick={() => navigate(`/department/${cellValues?.row?.id}`)}
+              onClick={() => navigate(`${moreInformationLinkBase}/${cellValues?.row?.id}`)}
             >
               <ReadMoreIcon />
             </IconButton>
@@ -113,7 +133,7 @@ const DepartmentTable = () => {
         }}
       >
         <h2>Λίστα τμημάτων</h2>
-        <IconButton color="primary" onClick={() => navigate(`/department/new`)}>
+        <IconButton disabled={createNewDepartmentButtonDisabled} color="primary" onClick={() => navigate(`/department/new`)}>
           <AddIcon />
         </IconButton>
       </div>

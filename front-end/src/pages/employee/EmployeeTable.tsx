@@ -13,11 +13,31 @@ import * as Display from "src/display";
 
 
 const EmployeeTable = () => {
+  const isAdmin = false;
   const [rows, setRows] = useState<IPost[]>([]);
   const navigate = useNavigate();
   const employeeTableUrl = Important.backEndEmployeeUrl;
   const employeeGetAll = Important.getAllEmployee;
+  const [moreInformationLinkBase, setMoreInformationLinkBase] = useState<string>('');
+  const [createNewEmployeeButtonDisabled, setCreateNewEmployeeButtonDisabled] = useState<boolean>(false);
 
+  function setInformationLinkBase() {
+    let link = `/employee/view`;
+    if(isAdmin) link = `/employee`;
+    setMoreInformationLinkBase(link);
+  }
+
+  function setCreateNewEmployeeButton() {
+    if(!isAdmin) setCreateNewEmployeeButtonDisabled(true);
+  }
+
+  useEffect(() => {
+    setInformationLinkBase();
+  }, []);
+
+  useEffect(() => {
+    setCreateNewEmployeeButton();
+  }, []);
 
   useEffect(() => {
     axios
@@ -87,9 +107,9 @@ const EmployeeTable = () => {
       renderCell: (cellValues) => {
         return (
           <>
-            <IconButton
+            <IconButton 
               color="primary"
-              onClick={() => navigate(`/employee/${cellValues?.row?.id}`)}
+              onClick={() => navigate(`${moreInformationLinkBase}/${cellValues?.row?.id}`)}
             >
               <ReadMoreIcon />
             </IconButton>
@@ -114,7 +134,7 @@ const EmployeeTable = () => {
                               id: any;
                               name: any;
                               employeeUid: any;
-                              surName: any;
+                              surname: any;
                               email: any;
                               startDate: any;
                               salary: any;
@@ -126,7 +146,7 @@ const EmployeeTable = () => {
                                 id: employee.id,
                                 name: employee.name,
                                 employeeUid: employee.employeeUid,
-                                surName: employee.surName,
+                                surName: employee.surname,
                                 email: employee.email,
                                 startDate: employee.startDate,
                                 vacationDays: employee.vacationDays,
@@ -163,7 +183,7 @@ const EmployeeTable = () => {
         }}
       >
         <h2>Λίστα εργαζομένων</h2>
-        <IconButton color="primary" onClick={() => navigate(`/employee/new`)}>
+        <IconButton disabled={createNewEmployeeButtonDisabled} color="primary" onClick={() => navigate(`/employee/new`)}>
           <AddIcon />
         </IconButton>
       </div>

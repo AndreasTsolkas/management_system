@@ -1,6 +1,7 @@
 import { DataGrid } from "@mui/x-data-grid";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useNavigate, useParams } from "react-router-dom";
+import { Typography } from "@mui/material";
 
 
 
@@ -39,4 +40,26 @@ export function displayIconButton() {
       </div>
 
   );
+}
+
+export const displayTitleWithTypography = (name: any) => {
+  return (
+    <Typography  variant="h2" gutterBottom>
+        {name}
+    </Typography>
+  );
+  
+}
+
+export const displayFieldWithTypography = (name: any, data: any, index: number) => {
+  return (
+    <Typography  variant="h6" key={index} >
+       <strong>{name}</strong> : {data}
+    </Typography>
+  );
+  
+}
+
+export function DisplayErrorMessage({ message }: { message: string }) {
+  return <h4>{message}</h4>;
 }
