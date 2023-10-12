@@ -18,7 +18,7 @@ export class VacationRequestService {
 
   async findAllWithRelationships() {
     try {
-      return await this.vacationRequestRepository.find({ relations: ['employee'] });
+      return await this.vacationRequestRepository.find({ relations: ['employee','employee.department'] });
     }
     catch(error) {
       console.log(error);
@@ -32,6 +32,7 @@ export class VacationRequestService {
       return this.vacationRequestRepository
       .createQueryBuilder('vacation_request')
       .leftJoinAndSelect('vacation_request.employee', 'employee') 
+      .leftJoinAndSelect('employee.department', 'department')
       .where('vacation_request.id = :id', { id })
       .getOne();
     }

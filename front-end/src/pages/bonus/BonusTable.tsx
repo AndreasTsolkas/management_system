@@ -17,8 +17,19 @@ const BonusTable = () => {
   const navigate = useNavigate();
   const bonusTableUrl = Important.backEndBonusUrl;
   const bonusGetAll = Important.getAllBonus;
+  const [moreInformationLinkBase, setMoreInformationLinkBase] = useState<string>('');
+  const [createNewBonusButtonDisabled, setCreateNewBonusButtonDisabled] = useState<boolean>(false);
+
+  function setCreateNewBonusButton() {
+    if(!isAdmin) setCreateNewBonusButtonDisabled(true);
+  }
 
   useEffect(() => {
+    setCreateNewBonusButton();
+  }, []);
+
+  useEffect(() => {
+    setMoreInformationLinkBase('/bonus/view');
     axios
       .get(bonusGetAll)
       .then((response) => {
@@ -44,7 +55,16 @@ const BonusTable = () => {
 
   const columns: GridColDef[] = [
     { field: "id", headerName: "id", flex: 1 },
-    
+    {
+      field: "employee",
+      headerName: "Όνομα εργαζομένου",
+      flex: 1,
+    },
+    {
+        field: "department",
+        headerName: "Τμήμα εργαζομένου",
+        flex: 1,
+      },
     {
       field: "amount",
       headerName: "Ποσό",
@@ -57,16 +77,7 @@ const BonusTable = () => {
       flex: 1,
     },
 
-    {
-      field: "employee",
-      headerName: "Όνομα εργαζομένου",
-      flex: 1,
-    },
-    {
-        field: "department",
-        headerName: "Τμήμα",
-        flex: 1,
-      },
+    
     {
       field: "actions",
       headerName: "Ενέργειες",
@@ -76,7 +87,7 @@ const BonusTable = () => {
           <>
             <IconButton
               color="primary"
-              onClick={() => navigate(`/bonus/${cellValues?.row?.id}`)}
+              onClick={() => navigate(`${moreInformationLinkBase}/${cellValues?.row?.id}`)}
             >
               <ReadMoreIcon />
             </IconButton>

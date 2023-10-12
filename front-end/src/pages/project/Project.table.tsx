@@ -67,8 +67,8 @@ const DepartmentTable = () => {
       },
     {
       field: "actions",
-      headerName: "actions",
-      flex: 0.5,
+      headerName: "Ενέργειες",
+      flex: 1,
       renderCell: (cellValues) => {
         return (
           <>

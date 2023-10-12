@@ -9,8 +9,6 @@ import { Box, Button, Card, CardActions, CardContent, CardMedia, Typography } fr
 import MuiTextField from "../../components/MuiTextField";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { DepartmentSchema } from "../department/DepartmentForm";
-import { IPost } from "./employee.model";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import * as Important from "src/important";
 import * as Display from "src/display";
@@ -18,41 +16,31 @@ import {DisplayErrorMessage} from 'src/display';
 import moment from "moment";
 
 
-const EmployeeView = () => {
-  const isAdmin = false;
+const BonusView = () => {
   const params: any | never = useParams();
   const navigate = useNavigate();
-  const employeeUrl = Important.backEndEmployeeUrl;
-  const userId = params?.id;
+  const bonusUrl = Important.backEndBonusUrl;
+  const bonusId = params?.id;
   const [result, setResult] = useState<any>();
   const [displayData, setDisplayData] = useState<any[]>([]);
 
 
   function populateDisplayDataArray() {
-    
     if (result) {
-      const departmentInfoUrl = '/department/view/'+result.department.id;
-      let isAdminText = 'Ναι';
-      if(!isAdmin) isAdminText = 'Όχι';
+      const departmentInfoUrl = '/department/view/'+result.employee.department.id;
       setDisplayData([
       { key: 'id: ', value: result.id },
-      { key: 'Όνομα: ', value: result.name },
-      { key: 'Επώνυμο: ', value: result.surname },
-      { key: 'Email: ', value: result.email },
-      { key: 'Κωδικός εγγραφής: ', value: result.employeeUid },
-      { key: 'Επάγγελμα: ', value: result.employmentType },
-      { key: 'Τμήμα: ', value: <a href={departmentInfoUrl}>{result.department.name}</a> },
-      { key: 'Μισθός: ', value: result.salary },
-      { key: 'Ημέρα πρόσληψης: ', value: moment(result.startDate).format('DD / MM / YYYY') },
-      { key: 'Ημέρες διακοπών (όριο): ', value: result.vacationDays },
-      { key: 'Συμμετέχει στη διαχείριση: ', value: isAdminText }
+      { key: 'Όνομα εργαζομένου: ', value: result.employee.name },
+      { key: 'Τμήμα εργαζομένου: ', value: <a href={departmentInfoUrl}>{result.employee.department.name}</a>  },
+      { key: 'Ποσό: ', value: result.amount },
+      { key: 'Ημέρομηνία: ', value: moment(result.date_given).format('DD / MM / YYYY') },
     ]);
     }
   }
 
   async function getCurrentUser() {
     try {
-        const response: any = await axios.get(`${employeeUrl}/${userId}`);
+        const response: any = await axios.get(`${bonusUrl}/${bonusId}`);
         setResult(response.data);
     }
     catch(error: any) {
@@ -62,7 +50,7 @@ const EmployeeView = () => {
   }
 
   useEffect(() => {
-    if (userId===undefined) {
+    if (bonusId===undefined) {
       navigate(-1);
     }
 
@@ -70,7 +58,7 @@ const EmployeeView = () => {
 
   useEffect(() => {
     getCurrentUser();
-  }, [userId]);
+  }, [bonusId]);
 
   useEffect(() => {
     populateDisplayDataArray();
@@ -83,7 +71,7 @@ const EmployeeView = () => {
       
       {Display.displayIconButton()}
       
-      <h2>Πληροφορίες εργαζόμενου:</h2>
+      <h2>Πληροφορίες bonus:</h2>
       <Box
         sx={{
           width: "600px",
@@ -97,7 +85,7 @@ const EmployeeView = () => {
                   })}
             </div>
             ) : (
-                <DisplayErrorMessage  message = "Πρόβλημα στην αναζήτηση του στοιχείων του εργαζόμενου."  />
+                <DisplayErrorMessage  message = "Πρόβλημα στην αναζήτηση του στοιχείων του bonus."  />
             )}
         </div>
         
@@ -106,4 +94,4 @@ const EmployeeView = () => {
   );
 };
 
-export default EmployeeView;
+export default BonusView;

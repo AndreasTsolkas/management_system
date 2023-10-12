@@ -12,9 +12,11 @@ import EmployeeForm from "./pages/employee/EmployeeForm";
 import EmployeeTable from "./pages/employee/EmployeeTable";
 import EmployeeView from "./pages/employee/Employee.view";
 import BonusTable from "./pages/bonus/BonusTable";
+import BonusView from "./pages/bonus/Bonus.view";
 import ProjectTable from "./pages/project/Project.table";
 import VacationRequestForm from "./pages/vacation_request/VacationRequestForm";
 import VacationRequestTable from "./pages/vacation_request/VacationRequestTable";
+import VacationRequestView from "./pages/vacation_request/VacationRequest.view";
 import PendingVacationRequestTable from "./pages/vacation_request/PendingVacationRequestTable";
 import UserVacationRequestForm from "./pages/user.vacation.requestForm";
 import CreateBonusForm from "./pages/createBonusForm";
@@ -78,16 +80,20 @@ export const Router = createBrowserRouter([
         element: <PendingVacationRequestTable />,
       },
       {
-        path: "/vacation_request/:id",
-        element: <VacationRequestForm />,
-      },
-      {
         path: "/vacation_request/new",
         element: <VacationRequestForm />,
       },
       {
+        path: "/vacation_request/view/:id",
+        element: <VacationRequestView />,
+      },
+      {
         path: "/bonus",
         element: <BonusTable />,
+      },
+      {
+        path: "/bonus/view/:id",
+        element: <BonusView />,
       },
       {
         path: "/project",

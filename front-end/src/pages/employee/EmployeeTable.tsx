@@ -43,19 +43,15 @@ const EmployeeTable = () => {
     axios
       .get(employeeGetAll)
       .then((response) => {
-        const data = response.data;
+        const data: any  = response.data;
         setRows(
           data.map(
             (employee: { id: any; employeeUid: number, name: any; surname: any; email: any; startDate: any; vacationDays: any; salary: any; employmentType: any;  department: any;     }) => {
               return {
                 id: employee.id,
-                employeeUid: employee.employeeUid,
                 name: employee.name,
                 surName: employee.surname,
                 email: employee.email,
-                startDate: employee.startDate,
-                vacationDays: employee.vacationDays,
-                salary: employee.salary,
                 employmentType: employee.employmentType,
                 employeeDepartment: employee.department.name
               };
@@ -80,19 +76,9 @@ const EmployeeTable = () => {
       headerName: "Επώνυμο",
       flex: 1,
     },
-    {
-      field: "employeeUid",
-      headerName: "Κωδικός εργαζομένου",
-      flex: 1,
-    },
-      {
-        field: "salary",
-        headerName: "Μισθός",
-        flex: 1,
-      },
       {
         field: "employmentType",
-        headerName: "Τύπος απασχόλησης",
+        headerName: "Επάγγελμα",
         flex: 1,
       },
       {

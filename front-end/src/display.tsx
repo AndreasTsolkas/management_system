@@ -54,7 +54,7 @@ export const displayTitleWithTypography = (name: any) => {
 export const displayFieldWithTypography = (name: any, data: any, index: number) => {
   return (
     <Typography  variant="h6" key={index} >
-       <strong>{name}</strong> : {data}
+       <strong>{name}</strong>    {data}
     </Typography>
   );
   

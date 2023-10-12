@@ -13,12 +13,24 @@ import * as Display from "src/display";
 import moment from "moment";
 
 const VacationRequestTable = () => {
+  const isAdmin = true;
   const [rows, setRows] = useState<IPost[]>([]);
   const navigate = useNavigate();
   const vacationRequestTable = Important.backEndVacationRequestUrl;
   const vacationRequestUrl = Important.getAllVacationRequest;
+  const [moreInformationLinkBase, setMoreInformationLinkBase] = useState<string>('');
+  const [createNewVacationRequestButtonDisabled, setCreateNewVacationRequestButtonDisabled] = useState<boolean>(false);
+
+  function setCreateNewVacationRequestButton() {
+    if(!isAdmin) setCreateNewVacationRequestButtonDisabled(true);
+  }
 
   useEffect(() => {
+    setCreateNewVacationRequestButton();
+  }, []);
+
+  useEffect(() => {
+    setMoreInformationLinkBase('/vacation_request/view');
     axios
       .get(vacationRequestUrl)
       .then((response) => {
@@ -80,7 +92,7 @@ const VacationRequestTable = () => {
           <>
             <IconButton
               color="primary"
-              onClick={() => navigate(`/vacation_request/${cellValues?.row?.id}`)}
+              onClick={() => navigate(`${moreInformationLinkBase}/${cellValues?.row?.id}`)}
             >
               <ReadMoreIcon />
             </IconButton>
@@ -147,7 +159,7 @@ const VacationRequestTable = () => {
         }}
       >
         <h2>Λίστα αδειών</h2>
-        <IconButton color="primary" onClick={() => navigate(`/vacation_request/new`)}>
+        <IconButton disabled={isAdmin} color="primary" onClick={() => navigate(`/vacation_request/new`)}>
           <AddIcon />
         </IconButton>
       </div>
