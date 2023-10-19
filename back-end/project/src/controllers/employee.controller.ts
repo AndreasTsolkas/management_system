@@ -32,4 +32,9 @@ export class EmployeeController {
   async remove(@Param('id') id: number) {
     return this.employeeService.remove(id);
   }
+
+  @Get('/dexist/:id')
+  async checkIfDepartmentIdExist(@Param('id') id: number) {
+    return this.employeeService.checkDepartmentExistenceInEmployee(id);
+  }
 }

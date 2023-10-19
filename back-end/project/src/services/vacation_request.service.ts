@@ -5,7 +5,7 @@ import { VacationRequest } from 'src/entities/vacation_request.entity';
 import { EmployeeService } from 'src/services/employee.service';
 
 import * as Messages from 'src/messages';
-import { userCreateVacationRequest } from 'src/dto/userCreateVacationRequest.dto';
+import { UserCreateVacationRequest } from 'src/dto/userCreateVacationRequest.dto';
 import { VacationRequestStatus} from 'src/enums/vacation.request.status';
 
 @Injectable()
@@ -118,7 +118,7 @@ export class VacationRequestService {
     return nonWorkingDaysCount;
   }
    
-  async userCreateVacation(userCreateVacationRequestData: userCreateVacationRequest) {
+  async userCreateVacation(userCreateVacationRequestData: UserCreateVacationRequest) {
     try {
       let startDate = new Date(userCreateVacationRequestData.startDate);
       let endDate = new Date(userCreateVacationRequestData.endDate);

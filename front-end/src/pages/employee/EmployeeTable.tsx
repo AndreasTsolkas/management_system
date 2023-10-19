@@ -100,9 +100,7 @@ const EmployeeTable = () => {
               <ReadMoreIcon />
             </IconButton>
             <IconButton
-              style={{
-                color: "red",
-              }}
+              color="warning"
               onClick={() => {
                 axios
                   .delete(

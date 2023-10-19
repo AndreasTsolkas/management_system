@@ -1,11 +1,15 @@
 import { Body, Controller, Delete, Get, Param, Patch, Put, Req } from '@nestjs/common';
 import { Department } from 'src/entities/department.entity';
 import { DepartmentService } from 'src/services/department.service';
+import { EmployeeService } from 'src/services/employee.service';
+import { GetAllDepartmentsSpecial } from 'src/dto/getAllDepartmentsSpecial.dto';
+
 
 @Controller('department')
 export class  DepartmentController {
   
-  constructor(private departmentService: DepartmentService) {
+  constructor(private departmentService: DepartmentService,
+    private employeeService: EmployeeService) {
 
   }
   @Get('/all')
@@ -32,4 +36,22 @@ export class  DepartmentController {
   async remove(@Param('id') id: number) {
     return this.departmentService.remove(id);
   }
+
+
+  @Get('/all/usersexist')
+  async findAllAndCheckIfUsersExistForEachOne() {
+    let result: GetAllDepartmentsSpecial[] = [];
+    const allDepartmentsData = await this.departmentService.findAll();
+    
+    for (const item of allDepartmentsData) {
+      let hasEmployees = await this.employeeService.checkDepartmentExistenceInEmployee(item.id);
+      let departmentItem = new GetAllDepartmentsSpecial();
+      departmentItem.departmentEntityData = item;
+      departmentItem.hasEmployees = hasEmployees;
+      result.push(departmentItem);
+    }
+    
+    return result;
+  } 
+  
 }

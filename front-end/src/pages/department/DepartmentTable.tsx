@@ -16,9 +16,12 @@ const DepartmentTable = () => {
   const [rows, setRows] = useState<IPost[]>([]);
   const navigate = useNavigate();
   const departmentTableUrl = Important.backEndDepartmentUrl;
-  const departmentGetAll = Important.getAllDepartment;
+  const employeeUrl = Important.backEndEmployeeUrl;
   const [moreInformationLinkBase, setMoreInformationLinkBase] = useState<string>('');
   const [createNewDepartmentButtonDisabled, setCreateNewDepartmentButtonDisabled] = useState<boolean>(false);
+
+
+  const getAllWithCheckIfEachOneHasUsers = departmentTableUrl+'/all/usersexist';
 
   function setInformationLinkBase() {
     let link = `/department/view`;
@@ -30,6 +33,39 @@ const DepartmentTable = () => {
     if(!isAdmin) setCreateNewDepartmentButtonDisabled(true);
   }
 
+  async function checkIfDepartmentIdExistOnEmployeeTable(id: number) {
+    let result = true;
+    const response = await axios.get(employeeUrl+'/dexist/'+id);
+    if(!response) result = false;
+    return result;
+  }
+
+  async function getDepartments() {
+    axios
+      .get(getAllWithCheckIfEachOneHasUsers)
+      .then((response) => {
+        const data = response.data;
+        
+        setRows(
+          data.map(
+            (department: any) => {
+              return {
+                id: department.departmentEntityData.id,
+                name: department.departmentEntityData.name,
+                hasEmployees: department.hasEmployees,
+              };
+            }
+          )
+        );
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+
+
+  /////////////////////
+
   useEffect(() => {
     setInformationLinkBase();
   }, []);
@@ -39,25 +75,12 @@ const DepartmentTable = () => {
   }, []);
 
   useEffect(() => {
-    axios
-      .get(departmentGetAll)
-      .then((response) => {
-        const data = response.data;
-        setRows(
-          data.map(
-            (department: { id: any; name: any;  }) => {
-              return {
-                id: department.id,
-                name: department.name,
-              };
-            }
-          )
-        );
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    getDepartments();
   }, []);
+
+
+
+
 
   const columns: GridColDef[] = [
     { field: "id", headerName: "id", flex: 1 },
@@ -70,7 +93,13 @@ const DepartmentTable = () => {
       field: "actions",
       headerName: "Ενέργειες",
       flex: 0.5,
-      renderCell: (cellValues) => {
+      renderCell: (cellValues: any) => {
+        let deleteIconDisabled = false;
+        if(cellValues?.row?.hasEmployees===false) {
+          console.log(cellValues?.row?.id, cellValues?.row?.hasEmployees);
+          deleteIconDisabled = true;
+        }
+          
         return (
           <>
             <IconButton 
@@ -80,18 +109,17 @@ const DepartmentTable = () => {
               <ReadMoreIcon />
             </IconButton>
             <IconButton
-              style={{
-                color: "red",
-              }}
+              disabled ={deleteIconDisabled}
+              color="warning"
               onClick={() => {
                 axios
                   .delete(
                     `${departmentTableUrl}/${cellValues?.row?.id}`
                   )
                   .then(() => {
-                    toast.error("deleted!");
+                    toast.error("Το τμήμα διαγράφτηκε επιτυχώς.");
                     axios
-                      .get(departmentGetAll)
+                      .get(getAllWithCheckIfEachOneHasUsers)
                       .then((response) => {
                         const data = response.data;
                         setRows(

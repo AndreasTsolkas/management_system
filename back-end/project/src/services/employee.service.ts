@@ -72,6 +72,18 @@ export class EmployeeService {
       console.log(error);
       throw new InternalServerErrorException();
     }
-    
   }
+
+  async checkDepartmentExistenceInEmployee(departmentId: number): Promise<boolean> {
+    const employeesWithDepartment = await this.employeesRepository.find({
+      where: {
+        department: {
+          id: departmentId
+        }
+      }
+    });
+    return employeesWithDepartment.length > 0;
+  }
+
+
 }
