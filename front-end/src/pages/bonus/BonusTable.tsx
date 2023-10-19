@@ -80,7 +80,7 @@ const BonusTable = () => {
     
     {
       field: "actions",
-      headerName: "Ενέργειες",
+      headerName: "Ενέργειεςς",
       flex: 1,
       renderCell: (cellValues) => {
         return (
