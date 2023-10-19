@@ -27,10 +27,11 @@ const BonusView = () => {
 
   function populateDisplayDataArray() {
     if (result) {
+      const employeeInfoUrl = '/employee/view/'+result.employee.id;
       const departmentInfoUrl = '/department/view/'+result.employee.department.id;
       setDisplayData([
       { key: 'id: ', value: result.id },
-      { key: 'Όνομα εργαζομένου: ', value: result.employee.name },
+      { key: 'Όνοματεπώνυμο: ', value: <a href={employeeInfoUrl}>{result.employee.name} {result.employee.surname}</a>},
       { key: 'Τμήμα εργαζομένου: ', value: <a href={departmentInfoUrl}>{result.employee.department.name}</a>  },
       { key: 'Ποσό: ', value: result.amount },
       { key: 'Ημέρομηνία: ', value: moment(result.date_given).format('DD / MM / YYYY') },

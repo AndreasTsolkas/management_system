@@ -26,11 +26,13 @@ const VacationRequestView = () => {
 
 
   function populateDisplayDataArray() {
+
     if (result) {
+      const employeeInfoUrl = '/employee/view/'+result.employee.id;
       const departmentInfoUrl = '/department/view/'+result.employee.department.id;
       setDisplayData([
       { key: 'id: ', value: result.id },
-      { key: 'Όνομα εργαζομένου: ', value: result.employee.name },
+      { key: 'Όνοματεπώνυμο: ', value: <a href={employeeInfoUrl}>{result.employee.name} {result.employee.surname}</a>},
       { key: 'Τμήμα εργαζομένου: ', value: <a href={departmentInfoUrl}>{result.employee.department.name}</a> },
       { key: 'Ημερομηνία έναρξης: ', value: moment(result.startDate).format('DD / MM / YYYY') },
       { key: 'Ημερομηνία λήξης: ', value: moment(result.endDate).format('DD / MM / YYYY') },

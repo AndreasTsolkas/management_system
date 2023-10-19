@@ -41,7 +41,7 @@ const BonusTable = () => {
                 id: bonus.id,
                 amount: bonus.amount,
                 date_given: moment(bonus.dateGiven).format('DD / MM / YYYY'),
-                employee: bonus.employee.name,
+                employee: bonus.employee.name+" "+bonus.employee.surname,
                 department: bonus.employee.department.name,
               };
             }
@@ -57,7 +57,7 @@ const BonusTable = () => {
     { field: "id", headerName: "id", flex: 1 },
     {
       field: "employee",
-      headerName: "Όνομα εργαζομένου",
+      headerName: "Όνοματεπώνυμο",
       flex: 1,
     },
     {

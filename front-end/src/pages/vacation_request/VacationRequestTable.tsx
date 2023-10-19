@@ -41,7 +41,7 @@ const VacationRequestTable = () => {
               return {
                 id: vacationRequest.id,
 
-                employee: vacationRequest.employee.name,
+                employee: vacationRequest.employee.name+ " "+vacationRequest.employee.surname,
                 startDate: moment(vacationRequest.startDate).format('DD / MM / YYYY'),
                 endDate: moment(vacationRequest.endDate).format('DD / MM / YYYY'),
                 status: vacationRequest.status,
@@ -60,7 +60,7 @@ const VacationRequestTable = () => {
     { field: "id", headerName: "id", flex: 1 },
     {
       field: "employee",
-      headerName: "Όνομα εργαζομένου",
+      headerName: "Όνοματεπώνυμο",
       flex: 1,
     },
     {
