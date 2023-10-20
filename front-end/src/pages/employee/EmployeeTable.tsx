@@ -20,6 +20,7 @@ const EmployeeTable = () => {
   const employeeGetAll = Important.getAllEmployee;
   const [moreInformationLinkBase, setMoreInformationLinkBase] = useState<string>('');
   const [createNewEmployeeButtonDisabled, setCreateNewEmployeeButtonDisabled] = useState<boolean>(false);
+  const [deleteDepartmentButtonDisabled, setDeleteDepartmentButtonDisabled] = useState<boolean>(false);
 
   function setInformationLinkBase() {
     let link = `/employee/view`;
@@ -28,7 +29,10 @@ const EmployeeTable = () => {
   }
 
   function setCreateNewEmployeeButton() {
-    if(!isAdmin) setCreateNewEmployeeButtonDisabled(true);
+    if(!isAdmin) {
+      setCreateNewEmployeeButtonDisabled(true);
+      setDeleteDepartmentButtonDisabled(true);
+    }
   }
 
   useEffect(() => {
@@ -91,6 +95,10 @@ const EmployeeTable = () => {
       headerName: "Ενέργειες",
       flex: 1,
       renderCell: (cellValues) => {
+        let deleteIconDisabled = false;
+        if(deleteDepartmentButtonDisabled===true) {
+          deleteIconDisabled = true;
+        }
         return (
           <>
             <IconButton 
@@ -100,6 +108,7 @@ const EmployeeTable = () => {
               <ReadMoreIcon />
             </IconButton>
             <IconButton
+              disabled = {deleteIconDisabled}
               color="warning"
               onClick={() => {
                 axios

@@ -118,7 +118,7 @@ export class VacationRequestService {
     return nonWorkingDaysCount;
   }
    
-  async userCreateVacation(userCreateVacationRequestData: UserCreateVacationRequest) {
+  async userCreateVacationRequest(userCreateVacationRequestData: UserCreateVacationRequest) {
     try {
       let startDate = new Date(userCreateVacationRequestData.startDate);
       let endDate = new Date(userCreateVacationRequestData.endDate);
@@ -130,13 +130,30 @@ export class VacationRequestService {
       await this.create({employee: employee, startDate: userCreateVacationRequestData.startDate, 
         endDate: userCreateVacationRequestData.endDate, status: VacationRequestStatus['PENDING'], 
         days: vacationDays});
-      employee.vacationDays-=vacationDays;
-      await this.employeeService.update(userCreateVacationRequestData.employeeId, employee)
     }
     catch(error) {
       console.log(error);
       throw new InternalServerErrorException();
     }
 
+  }
+
+  async evaluateVacationRequest(id: number, approved: boolean) {
+    try {
+      let vacationRequestStatus = 'REJECTED';
+      if(approved)
+        vacationRequestStatus = 'APPROVED';
+      const vacationRequest = await this.findOneWithRelationships(id);
+      const employee = await this.employeeService.findOneWithRelationships(vacationRequest.employee.id);
+      vacationRequest.status = VacationRequestStatus[vacationRequestStatus];
+      employee.vacationDays-=vacationRequest.days;
+      await this.update(id, vacationRequest);
+      await this.employeeService.update(employee.id, employee);
+    }
+    catch(error) {
+      console.log(error);
+      throw new InternalServerErrorException();
+    }
+    
   }
 }

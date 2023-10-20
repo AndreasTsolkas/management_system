@@ -12,16 +12,20 @@ import * as Important from "src/important";
 import moment from "moment";
 
 const BonusTable = () => {
-  const isAdmin = true;
+  const isAdmin = false;
   const [rows, setRows] = useState<IPost[]>([]);
   const navigate = useNavigate();
   const bonusTableUrl = Important.backEndBonusUrl;
   const bonusGetAll = Important.getAllBonus;
   const [moreInformationLinkBase, setMoreInformationLinkBase] = useState<string>('');
   const [createNewBonusButtonDisabled, setCreateNewBonusButtonDisabled] = useState<boolean>(false);
+  const [deleteDepartmentButtonDisabled, setDeleteDepartmentButtonDisabled] = useState<boolean>(false);
 
   function setCreateNewBonusButton() {
-    if(!isAdmin) setCreateNewBonusButtonDisabled(true);
+    if(!isAdmin) {
+      setCreateNewBonusButtonDisabled(true);
+      setDeleteDepartmentButtonDisabled(true);
+    }
   }
 
   useEffect(() => {
@@ -83,6 +87,9 @@ const BonusTable = () => {
       headerName: "Ενέργειες",
       flex: 1,
       renderCell: (cellValues) => {
+        let deleteIconDisabled = false;
+        if(deleteDepartmentButtonDisabled===true) 
+          deleteIconDisabled = true;
         return (
           <>
             <IconButton
@@ -92,6 +99,7 @@ const BonusTable = () => {
               <ReadMoreIcon />
             </IconButton>
             <IconButton
+              disabled ={deleteIconDisabled}
               color="warning"
               onClick={() => {
                 axios
@@ -147,7 +155,7 @@ const BonusTable = () => {
         }}
       >
         <h2>Λίστα bonus</h2>
-        <IconButton disabled={isAdmin} color="primary" onClick={() => navigate(`/createbonuses`)}>
+        <IconButton disabled={createNewBonusButtonDisabled} color="primary" onClick={() => navigate(`/createbonuses`)}>
           <AddIcon />
         </IconButton>
       </div>

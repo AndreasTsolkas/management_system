@@ -3,6 +3,7 @@ import { VacationRequest } from 'src/entities/vacation_request.entity';
 import { VacationRequestService } from 'src/services/vacation_request.service';
 
 import { UserCreateVacationRequest } from 'src/dto/userCreateVacationRequest.dto';
+import { EvaluateVacationRequest } from 'src/dto/evaluateVacationRequest.dto';
 
 @Controller('vrequest')
 export class VacationRequestController {
@@ -47,7 +48,14 @@ export class VacationRequestController {
   @Put('/usercreate/vrequest')
   async userCreateVacation(@Body() userCreateVacationRequestData: UserCreateVacationRequest, 
   @Req() request: Request) {
-    return this.vacationRequestService.userCreateVacation(userCreateVacationRequestData);
+    return this.vacationRequestService.userCreateVacationRequest(userCreateVacationRequestData);
+  }
+
+  @Put('/evaluate/vrequest')
+  async evaluateVacationRequest(@Body() evaluateVacationRequest: EvaluateVacationRequest, 
+  @Req() request: Request) {
+    return this.vacationRequestService.evaluateVacationRequest
+    (evaluateVacationRequest.vacationRequestId, evaluateVacationRequest.approved);
   }
   
 

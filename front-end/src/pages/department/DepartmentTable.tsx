@@ -19,6 +19,7 @@ const DepartmentTable = () => {
   const employeeUrl = Important.backEndEmployeeUrl;
   const [moreInformationLinkBase, setMoreInformationLinkBase] = useState<string>('');
   const [createNewDepartmentButtonDisabled, setCreateNewDepartmentButtonDisabled] = useState<boolean>(false);
+  const [deleteDepartmentButtonDisabled, setDeleteDepartmentButtonDisabled] = useState<boolean>(false);
 
 
   const getAllAndCountOnUser = departmentTableUrl+'/all/countonuser';
@@ -30,7 +31,10 @@ const DepartmentTable = () => {
   }
 
   function setCreateNewDepartmentButton() {
-    if(!isAdmin) setCreateNewDepartmentButtonDisabled(true);
+    if(!isAdmin) {
+      setCreateNewDepartmentButtonDisabled(true);
+      setDeleteDepartmentButtonDisabled(true);
+    }
   }
 
 
@@ -89,11 +93,8 @@ const DepartmentTable = () => {
       flex: 0.5,
       renderCell: (cellValues: any) => {
         let deleteIconDisabled = false;
-        if(cellValues?.row?.employeesNum > 0) {
-          console.log(cellValues?.row?.id, cellValues?.row?.employeesNum);
+        if(cellValues?.row?.employeesNum > 0 || deleteDepartmentButtonDisabled===true) 
           deleteIconDisabled = true;
-        }
-          
         return (
           <>
             <IconButton 

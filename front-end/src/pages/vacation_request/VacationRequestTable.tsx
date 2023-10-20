@@ -13,16 +13,20 @@ import * as Display from "src/display";
 import moment from "moment";
 
 const VacationRequestTable = () => {
-  const isAdmin = true;
+  const isAdmin = false;
   const [rows, setRows] = useState<IPost[]>([]);
   const navigate = useNavigate();
   const vacationRequestTable = Important.backEndVacationRequestUrl;
   const vacationRequestUrl = Important.getAllVacationRequest;
   const [moreInformationLinkBase, setMoreInformationLinkBase] = useState<string>('');
   const [createNewVacationRequestButtonDisabled, setCreateNewVacationRequestButtonDisabled] = useState<boolean>(false);
+  const [deleteDepartmentButtonDisabled, setDeleteDepartmentButtonDisabled] = useState<boolean>(false);
 
   function setCreateNewVacationRequestButton() {
-    if(!isAdmin) setCreateNewVacationRequestButtonDisabled(true);
+    if(!isAdmin) {
+      setCreateNewVacationRequestButtonDisabled(true);
+      setDeleteDepartmentButtonDisabled(true);
+    }
   }
 
   useEffect(() => {
@@ -89,7 +93,7 @@ const VacationRequestTable = () => {
       flex: 1,
       renderCell: (cellValues) => {
         let deleteIconDisabled = false;
-        if(cellValues?.row?.status==='pending') {
+        if(cellValues?.row?.status==='pending' || deleteDepartmentButtonDisabled===true) {
           deleteIconDisabled = true;
         }
         return (
@@ -162,7 +166,7 @@ const VacationRequestTable = () => {
         }}
       >
         <h2>Λίστα αδειών</h2>
-        <IconButton disabled={isAdmin} color="primary" onClick={() => navigate(`/vacation_request/new`)}>
+        <IconButton disabled={createNewVacationRequestButtonDisabled} color="primary" onClick={() => navigate(`/vacation_request/new`)}>
           <AddIcon />
         </IconButton>
       </div>
