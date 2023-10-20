@@ -62,9 +62,9 @@ export class VacationRequestService {
     }
   }
 
-  async update(id: any, vrequestData: Partial<VacationRequest>): Promise<VacationRequest | null> {
+  async update(id: number, vrequestData: Partial<VacationRequest>): Promise<VacationRequest | null> {
     try {
-      const vacationRequest = await this.vacationRequestRepository.findOne(id);
+      const vacationRequest = await this.vacationRequestRepository.findOne({ where: { id } });
       if (!vacationRequest) {
         return null; 
       }
@@ -140,13 +140,14 @@ export class VacationRequestService {
 
   async evaluateVacationRequest(id: number, approved: boolean) {
     try {
-      let vacationRequestStatus = 'REJECTED';
-      if(approved)
-        vacationRequestStatus = 'APPROVED';
       const vacationRequest = await this.findOneWithRelationships(id);
-      const employee = await this.employeeService.findOneWithRelationships(vacationRequest.employee.id);
+      const employee = vacationRequest.employee;
+      let vacationRequestStatus = 'REJECTED';
+      if(approved) {
+        vacationRequestStatus = 'APPROVED';
+        employee.vacationDays-=vacationRequest.days;
+      }
       vacationRequest.status = VacationRequestStatus[vacationRequestStatus];
-      employee.vacationDays-=vacationRequest.days;
       await this.update(id, vacationRequest);
       await this.employeeService.update(employee.id, employee);
     }
