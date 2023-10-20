@@ -24,19 +24,22 @@ const DepartmentView = () => {
   const [result, setResult] = useState<any>();
   const [displayData, setDisplayData] = useState<any[]>([]);
 
+  const getAndCountOnUserBaseUrl = departmentUrl+'/countonuser';
+
 
   function populateDisplayDataArray() {
     if (result) {
       setDisplayData([
-      { key: 'id: ', value: result.id },
-      { key: 'Όνομα: ', value: result.name },
+      { key: 'id: ', value: result.departmentEntityData.id },
+      { key: 'Όνομα: ', value: result.departmentEntityData.name },
+      { key: 'Εργαζόμενοι: ', value: result.employeesNum },
     ]);
     }
   }
 
-  async function getCurrentUser() {
+  async function getCurrentDepartment() {
     try {
-        const response: any = await axios.get(`${departmentUrl}/${departmentId}`);
+        const response: any = await axios.get(`${getAndCountOnUserBaseUrl}/${departmentId}`);
         setResult(response.data);
     }
     catch(error: any) {
@@ -53,7 +56,7 @@ const DepartmentView = () => {
   }, []);
 
   useEffect(() => {
-    getCurrentUser();
+    getCurrentDepartment();
   }, [departmentId]);
 
   useEffect(() => {

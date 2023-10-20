@@ -38,20 +38,28 @@ export class  DepartmentController {
   }
 
 
-  @Get('/all/usersexist')
-  async findAllAndCheckIfUsersExistForEachOne() {
+  @Get('/all/countonuser')
+  async findAllAndCountDepartmentIdToEmployee() {
     let result: GetAllDepartmentsSpecial[] = [];
     const allDepartmentsData = await this.departmentService.findAll();
     
     for (const item of allDepartmentsData) {
-      let hasEmployees = await this.employeeService.checkDepartmentExistenceInEmployee(item.id);
+      let employeesNum = await this.employeeService.countDepartmentExistenceInEmployee(item.id);
       let departmentItem = new GetAllDepartmentsSpecial();
       departmentItem.departmentEntityData = item;
-      departmentItem.hasEmployees = hasEmployees;
+      departmentItem.employeesNum = employeesNum;
       result.push(departmentItem);
     }
     
     return result;
   } 
+
+  @Get('/countonuser/:id')
+  async findOneAndCountDepartmentIdToEmployee(@Param('id') id: any) {
+    let result = new GetAllDepartmentsSpecial();
+    result.departmentEntityData = await this.departmentService.findOne(id);
+    result.employeesNum = await this.employeeService.countDepartmentExistenceInEmployee(id);
+    return result;
+  }
   
 }

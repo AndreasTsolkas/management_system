@@ -74,7 +74,7 @@ export class EmployeeService {
     }
   }
 
-  async checkDepartmentExistenceInEmployee(departmentId: number): Promise<boolean> {
+  async countDepartmentExistenceInEmployee(departmentId: number) {
     const employeesWithDepartment = await this.employeesRepository.find({
       where: {
         department: {
@@ -82,7 +82,7 @@ export class EmployeeService {
         }
       }
     });
-    return employeesWithDepartment.length > 0;
+    return employeesWithDepartment.length;
   }
 
 

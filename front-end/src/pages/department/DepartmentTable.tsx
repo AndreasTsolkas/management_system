@@ -21,7 +21,7 @@ const DepartmentTable = () => {
   const [createNewDepartmentButtonDisabled, setCreateNewDepartmentButtonDisabled] = useState<boolean>(false);
 
 
-  const getAllWithCheckIfEachOneHasUsers = departmentTableUrl+'/all/usersexist';
+  const getAllAndCountOnUser = departmentTableUrl+'/all/countonuser';
 
   function setInformationLinkBase() {
     let link = `/department/view`;
@@ -33,16 +33,10 @@ const DepartmentTable = () => {
     if(!isAdmin) setCreateNewDepartmentButtonDisabled(true);
   }
 
-  async function checkIfDepartmentIdExistOnEmployeeTable(id: number) {
-    let result = true;
-    const response = await axios.get(employeeUrl+'/dexist/'+id);
-    if(!response) result = false;
-    return result;
-  }
 
   async function getDepartments() {
     axios
-      .get(getAllWithCheckIfEachOneHasUsers)
+      .get(getAllAndCountOnUser)
       .then((response) => {
         const data = response.data;
         
@@ -52,7 +46,7 @@ const DepartmentTable = () => {
               return {
                 id: department.departmentEntityData.id,
                 name: department.departmentEntityData.name,
-                hasEmployees: department.hasEmployees,
+                employeesNum: department.employeesNum,
               };
             }
           )
@@ -95,8 +89,8 @@ const DepartmentTable = () => {
       flex: 0.5,
       renderCell: (cellValues: any) => {
         let deleteIconDisabled = false;
-        if(cellValues?.row?.hasEmployees===false) {
-          console.log(cellValues?.row?.id, cellValues?.row?.hasEmployees);
+        if(cellValues?.row?.employeesNum > 0) {
+          console.log(cellValues?.row?.id, cellValues?.row?.employeesNum);
           deleteIconDisabled = true;
         }
           
@@ -119,7 +113,7 @@ const DepartmentTable = () => {
                   .then(() => {
                     toast.error("Το τμήμα διαγράφτηκε επιτυχώς.");
                     axios
-                      .get(getAllWithCheckIfEachOneHasUsers)
+                      .get(getAllAndCountOnUser)
                       .then((response) => {
                         const data = response.data;
                         setRows(

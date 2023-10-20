@@ -60,7 +60,7 @@ const VacationRequestTable = () => {
     { field: "id", headerName: "id", flex: 1 },
     {
       field: "employee",
-      headerName: "Όνοματεπώνυμο",
+      headerName: "Εργαζόμενος",
       flex: 1,
     },
     {
@@ -88,6 +88,10 @@ const VacationRequestTable = () => {
       headerName: "Ενέργειες",
       flex: 1,
       renderCell: (cellValues) => {
+        let deleteIconDisabled = false;
+        if(cellValues?.row?.status==='pending') {
+          deleteIconDisabled = true;
+        }
         return (
           <>
             <IconButton
@@ -97,6 +101,7 @@ const VacationRequestTable = () => {
               <ReadMoreIcon />
             </IconButton>
             <IconButton
+              disabled={deleteIconDisabled}
               color="warning"
               onClick={() => {
                 axios

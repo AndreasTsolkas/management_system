@@ -17,5 +17,8 @@ export const getAllVacationRequest = backEndVacationRequestUrl + standartGetAllE
 export const getAllUserRequest = backEndUserRequestUrl + standartGetAllExtension;
 export const getAllProject = backEndProjectUrl + standartGetAllExtension;
 
+export const employeeInfoUrl = '/employee/view/';
+export const departmentInfoUrl = '/department/view/';
+
 
 

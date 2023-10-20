@@ -57,7 +57,7 @@ const BonusTable = () => {
     { field: "id", headerName: "id", flex: 1 },
     {
       field: "employee",
-      headerName: "Όνοματεπώνυμο",
+      headerName: "Εργαζόμενος",
       flex: 1,
     },
     {

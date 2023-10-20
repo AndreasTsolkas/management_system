@@ -1,4 +1,4 @@
 export class GetAllDepartmentsSpecial {
     departmentEntityData: any;
-    hasEmployees: boolean;
+    employeesNum: number;
 }

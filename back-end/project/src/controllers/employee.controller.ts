@@ -34,7 +34,7 @@ export class EmployeeController {
   }
 
   @Get('/dexist/:id')
-  async checkIfDepartmentIdExist(@Param('id') id: number) {
-    return this.employeeService.checkDepartmentExistenceInEmployee(id);
+  async countIfDepartmentIdExistence(@Param('id') id: number) {
+    return await this.employeeService.countDepartmentExistenceInEmployee(id);
   }
 }
