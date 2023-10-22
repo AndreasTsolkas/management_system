@@ -44,10 +44,10 @@ export class  DepartmentController {
     const allDepartmentsData = await this.departmentService.findAll();
     
     for (const item of allDepartmentsData) {
-      let employeesNum = await this.employeeService.countDepartmentExistenceInEmployee(item.id);
+      let {count} = await this.employeeService.countDepartmentExistenceInEmployee(item.id);
       let departmentItem = new GetAllDepartmentsSpecial();
       departmentItem.departmentEntityData = item;
-      departmentItem.employeesNum = employeesNum;
+      departmentItem.employeesNum = count;
       result.push(departmentItem);
     }
     
@@ -58,7 +58,9 @@ export class  DepartmentController {
   async findOneAndCountDepartmentIdToEmployee(@Param('id') id: any) {
     let result = new GetAllDepartmentsSpecial();
     result.departmentEntityData = await this.departmentService.findOne(id);
-    result.employeesNum = await this.employeeService.countDepartmentExistenceInEmployee(id);
+    const {count, employees} = await this.employeeService.countDepartmentExistenceInEmployee(id)
+    result.employeesNum = count;
+    result.employees = employees;
     return result;
   }
   

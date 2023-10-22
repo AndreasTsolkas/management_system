@@ -82,7 +82,10 @@ export class EmployeeService {
         }
       }
     });
-    return employeesWithDepartment.length;
+    return {
+      count: employeesWithDepartment.length,
+      employees: employeesWithDepartment
+    };
   }
 
 

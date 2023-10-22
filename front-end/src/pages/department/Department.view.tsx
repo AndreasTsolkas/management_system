@@ -29,13 +29,19 @@ const DepartmentView = () => {
 
   function populateDisplayDataArray() {
     if (result) {
-      setDisplayData([
-      { key: 'id: ', value: result.departmentEntityData.id },
-      { key: 'Όνομα: ', value: result.departmentEntityData.name },
-      { key: 'Εργαζόμενοι: ', value: result.employeesNum },
-    ]);
+        
+        setDisplayData([
+            { key: 'id: ', value: result.departmentEntityData.id },
+            { key: 'Όνομα: ', value: result.departmentEntityData.name },
+            { key: 'Αριθμός εργαζομένων: ', value: result.employeesNum },
+            { key: 'Εργαζόμενοι: ', value: result.employees.map((item: any) => {
+                  const thisEmployeeInfoUrl = Important.employeeInfoUrl+item.id;
+                  return <a href={thisEmployeeInfoUrl}>{item.name} {item.surname}, </a>;
+              })
+            },
+        ]);
     }
-  }
+}
 
   async function getCurrentDepartment() {
     try {
@@ -47,6 +53,9 @@ const DepartmentView = () => {
         toast.error(error.response.data.message);
     }
   }
+    
+
+  
 
   useEffect(() => {
     if (departmentId===undefined) {
