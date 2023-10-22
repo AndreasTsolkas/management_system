@@ -29,17 +29,21 @@ const DepartmentView = () => {
 
   function populateDisplayDataArray() {
     if (result) {
-        
-        setDisplayData([
+        let displayData = [
             { key: 'id: ', value: result.departmentEntityData.id },
             { key: 'Όνομα: ', value: result.departmentEntityData.name },
-            { key: 'Αριθμός εργαζομένων: ', value: result.employeesNum },
-            { key: 'Εργαζόμενοι: ', value: result.employees.map((item: any) => {
-                  const thisEmployeeInfoUrl = Important.employeeInfoUrl+item.id;
-                  return <a href={thisEmployeeInfoUrl}>{item.name} {item.surname}, </a>;
-              })
-            },
-        ]);
+            { key: 'Αριθμός εργαζομένων: ', value: result.employeesNum }
+        ];
+
+        if (result.employees.length > 0) {
+            const employeeData = result.employees.map((item: any) => {
+                const thisEmployeeInfoUrl = `${Important.employeeInfoUrl}${item.id}`;
+                return <a href={thisEmployeeInfoUrl}>{item.name} {item.surname}, </a>;
+            });
+            displayData.push({ key: 'Εργαζόμενοι: ', value: employeeData });
+        }
+
+        setDisplayData(displayData);
     }
 }
 
