@@ -14,10 +14,37 @@ import * as Layout from "src/basic_css.css";
 import moment from "moment";
 
 const DepartmentTable = () => {
+  const isAdmin = false;
   const [rows, setRows] = useState<IPost[]>([]);
   const navigate = useNavigate();
   const projectTableUrl = Important.backEndProjectUrl;
   const projectGetAll = Important.getAllProject;
+  const [moreInformationLinkBase, setMoreInformationLinkBase] = useState<string>('');
+  const [createNewDepartmentButtonDisabled, setCreateNewDepartmentButtonDisabled] = useState<boolean>(false);
+  const [deleteDepartmentButtonDisabled, setDeleteDepartmentButtonDisabled] = useState<boolean>(false);
+
+
+  function setInformationLinkBase() {
+    let link = `/project/view`;
+    if(isAdmin) link = `/project`;
+    setMoreInformationLinkBase(link);
+  }
+
+  function setCreateNewDepartmentButton() {
+    if(!isAdmin) {
+      setCreateNewDepartmentButtonDisabled(true);
+      setDeleteDepartmentButtonDisabled(true);
+    }
+  }
+
+
+  useEffect(() => {
+    setInformationLinkBase();
+  }, []);
+
+  useEffect(() => {
+    setCreateNewDepartmentButton();
+  }, []);
 
   useEffect(() => {
     axios
@@ -70,15 +97,19 @@ const DepartmentTable = () => {
       headerName: "Ενέργειες",
       flex: 1,
       renderCell: (cellValues) => {
+        let deleteIconDisabled = false;
+        if(cellValues?.row?.employeesNum > 0 || deleteDepartmentButtonDisabled===true) 
+          deleteIconDisabled = true;
         return (
           <>
             <IconButton 
               color="primary"
-              onClick={() => navigate(`/project/${cellValues?.row?.id}`)}
+              onClick={() => navigate(`${moreInformationLinkBase}/${cellValues?.row?.id}`)}
             >
               <ReadMoreIcon />
             </IconButton>
             <IconButton
+              disabled = {deleteIconDisabled}
               color="warning"
               onClick={() => {
                 axios

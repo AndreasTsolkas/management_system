@@ -38,7 +38,7 @@ const DepartmentView = () => {
         if (result.employees.length > 0) {
             const employeeData = result.employees.map((item: any) => {
                 const thisEmployeeInfoUrl = `${Important.employeeInfoUrl}${item.id}`;
-                return <a href={thisEmployeeInfoUrl}>{item.name} {item.surname}, </a>;
+                return <a href={thisEmployeeInfoUrl}>{item.name} {item.surname},         </a>;
             });
             displayData.push({ key: 'Εργαζόμενοι: ', value: employeeData });
         }
