@@ -13,7 +13,6 @@ import EmployeeTable from "./pages/employee/EmployeeTable";
 import EmployeeView from "./pages/employee/Employee.view";
 import BonusTable from "./pages/bonus/BonusTable";
 import BonusView from "./pages/bonus/Bonus.view";
-import ProjectTable from "./pages/project/Project.table";
 import VacationRequestForm from "./pages/vacation_request/VacationRequestForm";
 import VacationRequestTable from "./pages/vacation_request/VacationRequestTable";
 import VacationRequestView from "./pages/vacation_request/VacationRequest.view";
@@ -22,7 +21,6 @@ import UserVacationRequestForm from "./pages/user.vacation.requestForm";
 import CreateBonusForm from "./pages/createBonusForm";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import ProjectForm from "./pages/project/ProjectForm";
 
 export const Router = createBrowserRouter([
   {
@@ -94,18 +92,6 @@ export const Router = createBrowserRouter([
       {
         path: "/bonus/view/:id",
         element: <BonusView />,
-      },
-      {
-        path: "/project",
-        element: <ProjectTable />,
-      },
-      {
-        path: "/project/new",
-        element: <ProjectForm />,
-      },
-      {
-        path: "/project/:id",
-        element: <ProjectForm />,
       },
       {
         path: "/uservacationrequest",
