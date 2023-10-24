@@ -1,7 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
 import { databaseSchemaName } from 'src/important';
 import { Department } from './department.entity';
-import { Project } from './project.entity';
 
 
 @Entity({ schema: databaseSchemaName, name: 'employee'})
