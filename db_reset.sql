@@ -47,35 +47,11 @@ CREATE SEQUENCE management_system.employee_id_seq
 ALTER SEQUENCE management_system.employee_id_seq OWNER TO postgres;
 GRANT ALL ON SEQUENCE management_system.employee_id_seq TO postgres;
 
--- DROP SEQUENCE management_system.employee_to_project_id_seq;
 
-CREATE SEQUENCE management_system.employee_to_project_id_seq
-	INCREMENT BY 1
-	MINVALUE 1
-	MAXVALUE 9223372036854775807
-	START 1
-	CACHE 1
-	NO CYCLE;
 
--- Permissions
 
-ALTER SEQUENCE management_system.employee_to_project_id_seq OWNER TO postgres;
-GRANT ALL ON SEQUENCE management_system.employee_to_project_id_seq TO postgres;
 
--- DROP SEQUENCE management_system.project_id_seq;
 
-CREATE SEQUENCE management_system.project_id_seq
-	INCREMENT BY 1
-	MINVALUE 1
-	MAXVALUE 2147483647
-	START 1
-	CACHE 1
-	NO CYCLE;
-
--- Permissions
-
-ALTER SEQUENCE management_system.project_id_seq OWNER TO postgres;
-GRANT ALL ON SEQUENCE management_system.project_id_seq TO postgres;
 
 -- DROP SEQUENCE management_system.vacation_request_id_seq;
 
@@ -111,23 +87,7 @@ GRANT ALL ON TABLE management_system.department TO postgres;
 
 -- management_system.project definition
 
--- Drop table
 
--- DROP TABLE management_system.project;
-
-CREATE TABLE management_system.project (
-	id serial4 NOT NULL,
-	"name" varchar NULL,
-	description varchar NULL,
-	date_started date NULL,
-	date_to_finish date NULL,
-	CONSTRAINT project_pk PRIMARY KEY (id)
-);
-
--- Permissions
-
-ALTER TABLE management_system.project OWNER TO postgres;
-GRANT ALL ON TABLE management_system.project TO postgres;
 
 
 -- management_system.employee definition
@@ -160,27 +120,8 @@ ALTER TABLE management_system.employee OWNER TO postgres;
 GRANT ALL ON TABLE management_system.employee TO postgres;
 
 
--- management_system.employee_to_project definition
 
--- Drop table
 
--- DROP TABLE management_system.employee_to_project;
-
-CREATE TABLE management_system.employee_to_project (
-	employee_id int8 NOT NULL,
-	project_id int8 NOT NULL,
-	date_started timestamp NULL,
-	date_to_end timestamp NULL,
-	id bigserial NOT NULL,
-	CONSTRAINT employee_to_project_pk PRIMARY KEY (id),
-	CONSTRAINT employee_to_project_fk FOREIGN KEY (employee_id) REFERENCES management_system.employee(id),
-	CONSTRAINT employee_to_project_fk_1 FOREIGN KEY (project_id) REFERENCES management_system.project(id)
-);
-
--- Permissions
-
-ALTER TABLE management_system.employee_to_project OWNER TO postgres;
-GRANT ALL ON TABLE management_system.employee_to_project TO postgres;
 
 
 -- management_system.vacation_request definition
@@ -244,13 +185,6 @@ INSERT INTO management_system.department ("name") VALUES
 	 ('Management'),
 	 ('Product Development');
 
---- Insert into Project table
-
-INSERT INTO management_system.project ("name",description,date_started,date_to_finish) VALUES
-	 ('3D Modeling software','.......','2020-01-22','2023-01-22'),
-	 ('Goverment taxes software','.......','2021-01-22','2022-01-22'),
-	 ('National healthcare software','.......','2021-01-22','2024-01-22'),
-	 ('Military management system','.......','2022-01-22','2025-01-22');
 
 
 --- Insert into Employee table
@@ -261,13 +195,6 @@ INSERT INTO management_system.employee (employee_uid,vacation_days,department_id
 	 (14198,17,2,'2022-06-07 13:13:20',1300.0,'Deppy','Jackson','djackson@gmail.com','market researcher',true,false,'thispassword'),
 	 (13425,20,1,'2021-06-23 19:10:25',1400.0,'Jane','Larce','jlarce@gmail.com','software developer',true,false,'thispassword');
 
---- Insert into Employee to project table
-
-INSERT INTO management_system.employee_to_project (employee_id,project_id,date_started,date_to_end) VALUES
-	 (1,1,NULL,NULL),
-	 (2,2,NULL,NULL),
-	 (3,4,NULL,NULL),
-	 (3,1,NULL,NULL);
 
 --- Insert into Bonus table
 
