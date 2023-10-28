@@ -100,6 +100,7 @@ export class BonusService {
   }
 
   async createNewBonus(createBonusData: CreateBonus) {
+    let result: any=null;
     let employee = await this.employeeService.findOneWithRelationships(createBonusData.employeeId);
     let salary = employee.salary;
     let season = createBonusData.season;
@@ -108,8 +109,9 @@ export class BonusService {
     try {
       let {newSalary, bonusAmount} = await this.calculateSalaryAfterBonus(salary, season);
       const currentTimestamp = new Date(new Date().getTime());
-      await this.create({employee: employee, amount: bonusAmount, dateGiven: currentTimestamp});
+      result = await this.create({employee: employee, amount: bonusAmount, dateGiven: currentTimestamp});
       await this.employeeService.update(createBonusData.employeeId, {salary: newSalary});
+      return result;
     }
     catch(error) {
       console.log(error);

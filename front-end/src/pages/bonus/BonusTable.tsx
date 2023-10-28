@@ -8,11 +8,12 @@ import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { toast } from "react-toastify";
 import axios from "axios";
-import * as Important from "src/important";
 import moment from "moment";
+import * as Important from "src/important";
+import * as Display from "src/display";
 
 const BonusTable = () => {
-  const isAdmin = false;
+  const isAdmin = true;
   const [rows, setRows] = useState<IPost[]>([]);
   const navigate = useNavigate();
   const bonusTableUrl = Important.backEndBonusUrl;
@@ -162,7 +163,7 @@ const BonusTable = () => {
         </IconButton>
       </div>
       <Box sx={{ height: 500, width: 900 }}>
-        <DataGrid rows={rows ?? []} columns={columns} />
+        {Display.displayDataGrid(rows ?? [], columns)}
       </Box>
     </div>
   );

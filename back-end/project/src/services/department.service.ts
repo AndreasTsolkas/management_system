@@ -33,9 +33,9 @@ export class DepartmentService {
     }
   }
 
-  async update(id: any, departmentData: Partial<Department>): Promise<Department | null> {
+  async update(id: number, departmentData: Partial<Department>): Promise<Department | null> {
     try {
-      const department = await this.departmentRepository.findOne(id);
+      const department = await this.departmentRepository.findOne({ where: { id } });
       if (!department) {
         return null; 
       }

@@ -17,6 +17,7 @@ import * as Important from "src/important";
 import * as Display from "src/display";
 import { Season } from "src/enums/season";
 import { useState, useEffect } from 'react';
+import { Navigate, useNavigate } from "react-router";
 
 
 
@@ -50,6 +51,8 @@ const CreateBonusForm = () => {
     resolver: yupResolver(schema),
   });
 
+  const navigate = useNavigate();
+
   const onSubmit = (data: any) => {
     const requestUrl = bonusUrl + `/create/bonus`;
     const putData = {
@@ -59,7 +62,8 @@ const CreateBonusForm = () => {
       axios
         .put(requestUrl, putData)
         .then((response) => {
-          toast.success("Bonuses created.");
+          toast.success("Το bonus δημιουργήθηκε με επιτυχία.");
+          navigate('/bonus/view/'+response.data.id);
         })
         .catch((error) => {
           console.error(error);

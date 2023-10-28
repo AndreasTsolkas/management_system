@@ -147,7 +147,8 @@ const PendingVacationRequestTable = () => {
 
       }
       const response: any = await axios.put(requestUrl, putData);
-      
+      toast.success("Η αίτηση διακοπών αξιολογήθηκε με επιτυχία.");
+      navigate('/vacation_request/view/'+response.data.id);
     }
     catch (error: any) {
       console.error(error);

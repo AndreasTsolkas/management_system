@@ -140,6 +140,7 @@ export class VacationRequestService {
 
   async evaluateVacationRequest(id: number, approved: boolean) {
     try {
+      let result:any = null;
       const vacationRequest: VacationRequest = await this.findOneWithRelationships(id);
       const employee = vacationRequest.employee;
       let vacationRequestStatus = 'REJECTED';
@@ -148,8 +149,9 @@ export class VacationRequestService {
         employee.vacationDays-=vacationRequest.days;
       }
       vacationRequest.status = VacationRequestStatus[vacationRequestStatus];
-      await this.update(id, vacationRequest);
+      result = await this.update(id, vacationRequest);
       await this.employeeService.update(employee.id, employee);
+      return result;
     }
     catch(error) {
       console.log(error);

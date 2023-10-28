@@ -67,6 +67,7 @@ const UserVacationRequestForm = () => {
         .then((response) => {
           resultDiv.textContent = `Data: ${JSON.stringify(response.data)}`;
           toast.success("Vacation request submitted.");
+          
         })
         .catch((error) => {
           console.error(error);

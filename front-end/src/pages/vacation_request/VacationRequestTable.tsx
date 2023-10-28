@@ -13,7 +13,7 @@ import * as Display from "src/display";
 import moment from "moment";
 
 const VacationRequestTable = () => {
-  const isAdmin = false;
+  const isAdmin = true;
   const [rows, setRows] = useState<IPost[]>([]);
   const navigate = useNavigate();
   const vacationRequestTable = Important.backEndVacationRequestUrl;

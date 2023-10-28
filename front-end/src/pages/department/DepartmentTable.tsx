@@ -12,17 +12,18 @@ import * as Important from "src/important";
 import * as Display from "src/display";
 
 const DepartmentTable = () => {
-  const isAdmin = false;
+  const isAdmin = true;
   const [rows, setRows] = useState<IPost[]>([]);
   const navigate = useNavigate();
   const departmentTableUrl = Important.backEndDepartmentUrl;
+  const departmentGetAll = Important.getAllDepartment;
   const employeeUrl = Important.backEndEmployeeUrl;
   const [moreInformationLinkBase, setMoreInformationLinkBase] = useState<string>('');
   const [createNewDepartmentButtonDisabled, setCreateNewDepartmentButtonDisabled] = useState<boolean>(false);
   const [deleteDepartmentButtonDisabled, setDeleteDepartmentButtonDisabled] = useState<boolean>(false);
 
 
-  const getAllAndCountOnUser = departmentTableUrl+'/all/countonuser';
+
 
   const columns: GridColDef[] = [
     { field: "id", headerName: "id", flex: 1 },
@@ -58,7 +59,7 @@ const DepartmentTable = () => {
                   .then(() => {
                     toast.error("Το τμήμα διαγράφτηκε επιτυχώς.");
                     axios
-                      .get(getAllAndCountOnUser)
+                      .get(departmentGetAll)
                       .then((response) => {
                         const data = response.data;
                         setRows(
@@ -105,17 +106,16 @@ const DepartmentTable = () => {
 
   async function getDepartments() {
     axios
-      .get(getAllAndCountOnUser)
+      .get(departmentGetAll)
       .then((response) => {
         const data = response.data;
         
         setRows(
           data.map(
-            (department: any) => {
+            (department: { id: any; name: any;  }) => {
               return {
-                id: department.departmentEntityData.id,
-                name: department.departmentEntityData.name,
-                employeesNum: department.employeesNum,
+                id: department.id,
+                name: department.name,
               };
             }
           )
