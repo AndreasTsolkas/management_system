@@ -79,7 +79,25 @@ export class BonusService {
     }
   }
 
+  
+
   // 
+
+  async calculateSalaryAfterBonus(salary: number, season: string) {
+    try {
+      let enumValue = SeasonBonus[season.toUpperCase()];
+      let bonusAmount = salary * enumValue;
+      let newSalary = salary +++ bonusAmount;
+      return {
+        newSalary: newSalary,
+        bonusAmount: bonusAmount
+      };
+    }
+    catch(error) {
+      console.log(error);
+      throw new InternalServerErrorException();
+    }
+  }
 
   async createNewBonus(createBonusData: CreateBonus) {
     let employee = await this.employeeService.findOneWithRelationships(createBonusData.employeeId);
@@ -88,9 +106,7 @@ export class BonusService {
     if(salary === undefined || season === undefined || !((season.toUpperCase()) in SeasonBonus))
       throw new BadRequestException();
     try {
-      let enumValue = SeasonBonus[season.toUpperCase()];
-      let bonusAmount = salary * enumValue;
-      let newSalary = salary + bonusAmount;
+      let {newSalary, bonusAmount} = await this.calculateSalaryAfterBonus(salary, season);
       const currentTimestamp = new Date(new Date().getTime());
       await this.create({employee: employee, amount: bonusAmount, dateGiven: currentTimestamp});
       await this.employeeService.update(createBonusData.employeeId, {salary: newSalary});
@@ -99,9 +115,9 @@ export class BonusService {
       console.log(error);
       throw new InternalServerErrorException();
     }
-    
-
   }
+
+  
 
   
 }

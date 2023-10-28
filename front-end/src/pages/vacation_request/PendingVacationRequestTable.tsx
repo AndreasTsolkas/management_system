@@ -1,5 +1,5 @@
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { Box, Button, IconButton, Switch } from "@mui/material";
+import { Box, Button, IconButton, Modal, Switch, Typography } from "@mui/material";
 import ReadMoreIcon from "@mui/icons-material/ReadMore";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -19,7 +19,55 @@ const PendingVacationRequestTable = () => {
   const vacationRequestUrl = Important.getAllVacationRequest;
   const vacationRequestStatus = 'pending';
   const getVacationRequestByStatus = vacationRequestTable+'/by/status?status='+vacationRequestStatus;
-  console.log(getVacationRequestByStatus);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(true);
+  const [isSwitchChecked, setIsSwitchChecked] = useState<boolean>(false);
+  const [modalSelectedValue, setModalSelectedValue] = useState<boolean>(true);
+  const [currentCheckedRecordId, setcurrentCheckedRecordId] = useState<number | null>(null);
+
+
+  const body = (
+    <Box sx={{ width: 300, bgcolor: 'background.paper', p: 2 }}>
+      <Typography variant="h6" component="div" gutterBottom>
+        Εγκρίνετε αυτή την αίτηση άδειας;
+      </Typography>
+      <div style={{marginTop:"20px"}}>
+      <Button  variant="contained" color="primary" onClick={() => handleButtonClick(1)}>
+        NΑΙ
+      </Button>
+      <Button style={{marginLeft:"10px"}} variant="contained" color="error" onClick={() => handleButtonClick(2)}>
+        ΟΧΙ
+      </Button>
+      <Button style={{marginLeft:"10px"}} variant="contained" color="info" onClick={() => handleButtonClick(3)}>
+        ΑΚΥΡΟ
+      </Button>
+      </div>
+    </Box>
+  );
+
+  const handleOpen = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleClose = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleButtonClick = (value: any) => {
+    if(value!==3) {
+      let selectedValue = true;
+      if(value==2) selectedValue = false;
+      setModalSelectedValue(selectedValue);
+    }
+    
+    handleClose();
+    setIsSwitchChecked(false);
+  };
+
+  function switchButtonOnClick(recordId: number) {
+    setIsModalOpen(true);
+    setIsSwitchChecked(true);
+    setcurrentCheckedRecordId(recordId);
+  }
 
   useEffect(() => {
     axios
@@ -70,12 +118,14 @@ const PendingVacationRequestTable = () => {
       },
     {
       field: "actions",
-      headerName: "Αποδοχή ",
+      headerName: "Εξέταση ",
       flex: 1,
-      renderCell: (cellValues) => {
+      renderCell:  (cellValues) => {
+        console.log(isSwitchChecked);
+        let switchChecked=isSwitchChecked;
         return (
           <>
-            <Switch  size="small" />
+            <Switch  defaultChecked = {switchChecked} onClick={() => switchButtonOnClick(cellValues?.row.id)} size="small" />
         
           </>
         );
@@ -85,6 +135,26 @@ const PendingVacationRequestTable = () => {
 
   return (
     <div>
+      <Modal
+        open={isModalOpen}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={{
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                bgcolor: 'background.paper',
+                boxShadow: 24,
+                p: 4,
+                width: 300,
+                textAlign: 'center',
+              }}>
+        {body}
+        </Box>
+      </Modal>
       <div
         style={{
           display: "flex",
@@ -94,12 +164,6 @@ const PendingVacationRequestTable = () => {
         }}
       >
         <h2>Εκρεμμείς άδειες</h2>
-        <Button
-            disabled={true}
-            type="submit"
-            variant="contained"
-            sx={{ mt: 3, mb: 2 }}
-          > Υποβολή αλλαγών</Button>
       </div>
       <Box sx={{ height: 500, width: 900 }}>
         {Display.displayDataGrid(rows ?? [], columns)} 

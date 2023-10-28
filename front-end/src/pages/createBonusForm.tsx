@@ -8,6 +8,7 @@ import {
   MenuItem,
   Select,
   TextField,
+  Typography,
 } from "@mui/material";
 import * as yup from "yup";
 import axios from "axios";
@@ -89,8 +90,10 @@ const CreateBonusForm = () => {
     <div>
       {Display.displayIconButton()}
       <h2>Δημιουργία bonus: </h2>
-      <Box sx={{ width: "200px" }}>
-        <form noValidate onSubmit={handleSubmit(onSubmit)}>
+      <div>
+      <Box display="flex">
+      <Box sx={{ width: "250px" }}>
+        <form  noValidate onSubmit={handleSubmit(onSubmit)}>
           <Controller
             name="employeeId"
             control={control}
@@ -130,6 +133,7 @@ const CreateBonusForm = () => {
                   id="season-label"
                   fullWidth
                   variant="outlined"
+                  
                 >
                   {Object.entries(Season).map(([name, value]) => (
                     <MenuItem key={name} value={name}>
@@ -151,6 +155,8 @@ const CreateBonusForm = () => {
           </Button>
         </form>
       </Box>
+      </Box>
+      </div>
       <div id="result"></div>
     </div>
   );

@@ -81,7 +81,7 @@ const UserVacationRequestForm = () => {
       <h2>Νέα αίτηση άδειας:</h2>
       <Box
         sx={{
-          width: "200px",
+          width: "250px",
         }}
       >
         <form noValidate onSubmit={handleSubmit(onSubmit)}>
