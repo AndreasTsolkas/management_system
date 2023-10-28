@@ -140,7 +140,7 @@ export class VacationRequestService {
 
   async evaluateVacationRequest(id: number, approved: boolean) {
     try {
-      const vacationRequest = await this.findOneWithRelationships(id);
+      const vacationRequest: VacationRequest = await this.findOneWithRelationships(id);
       const employee = vacationRequest.employee;
       let vacationRequestStatus = 'REJECTED';
       if(approved) {

@@ -22,43 +22,6 @@ const VacationRequestTable = () => {
   const [createNewVacationRequestButtonDisabled, setCreateNewVacationRequestButtonDisabled] = useState<boolean>(false);
   const [deleteDepartmentButtonDisabled, setDeleteDepartmentButtonDisabled] = useState<boolean>(false);
 
-  function setCreateNewVacationRequestButton() {
-    if(!isAdmin) {
-      setCreateNewVacationRequestButtonDisabled(true);
-      setDeleteDepartmentButtonDisabled(true);
-    }
-  }
-
-  useEffect(() => {
-    setCreateNewVacationRequestButton();
-  }, []);
-
-  useEffect(() => {
-    setMoreInformationLinkBase('/vacation_request/view');
-    axios
-      .get(vacationRequestUrl)
-      .then((response) => {
-        const data = response.data;
-        setRows(
-          data.map(
-            (vacationRequest: { id: any; employee: any; startDate: any; endDate: any, status: any, days: any }) => {
-              return {
-                id: vacationRequest.id,
-
-                employee: vacationRequest.employee.name+ " "+vacationRequest.employee.surname,
-                startDate: moment(vacationRequest.startDate).format('DD / MM / YYYY'),
-                endDate: moment(vacationRequest.endDate).format('DD / MM / YYYY'),
-                status: vacationRequest.status,
-                days: vacationRequest.days,
-              };
-            }
-          )
-        );
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }, []);
 
   const columns: GridColDef[] = [
     { field: "id", headerName: "id", flex: 1 },
@@ -153,6 +116,46 @@ const VacationRequestTable = () => {
       },
     },
   ];
+  
+  function setCreateNewVacationRequestButton() {
+    if(!isAdmin) {
+      setCreateNewVacationRequestButtonDisabled(true);
+      setDeleteDepartmentButtonDisabled(true);
+    }
+  }
+
+  useEffect(() => {
+    setCreateNewVacationRequestButton();
+  }, []);
+
+  useEffect(() => {
+    setMoreInformationLinkBase('/vacation_request/view');
+    axios
+      .get(vacationRequestUrl)
+      .then((response) => {
+        const data = response.data;
+        setRows(
+          data.map(
+            (vacationRequest: { id: any; employee: any; startDate: any; endDate: any, status: any, days: any }) => {
+              return {
+                id: vacationRequest.id,
+
+                employee: vacationRequest.employee.name+ " "+vacationRequest.employee.surname,
+                startDate: moment(vacationRequest.startDate).format('DD / MM / YYYY'),
+                endDate: moment(vacationRequest.endDate).format('DD / MM / YYYY'),
+                status: vacationRequest.status,
+                days: vacationRequest.days,
+              };
+            }
+          )
+        );
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
+
+  
 
   return (
     <div>

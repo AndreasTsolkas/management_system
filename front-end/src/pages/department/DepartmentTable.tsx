@@ -24,62 +24,6 @@ const DepartmentTable = () => {
 
   const getAllAndCountOnUser = departmentTableUrl+'/all/countonuser';
 
-  function setInformationLinkBase() {
-    let link = `/department/view`;
-    if(isAdmin) link = `/department`;
-    setMoreInformationLinkBase(link);
-  }
-
-  function setCreateNewDepartmentButton() {
-    if(!isAdmin) {
-      setCreateNewDepartmentButtonDisabled(true);
-      setDeleteDepartmentButtonDisabled(true);
-    }
-  }
-
-
-  async function getDepartments() {
-    axios
-      .get(getAllAndCountOnUser)
-      .then((response) => {
-        const data = response.data;
-        
-        setRows(
-          data.map(
-            (department: any) => {
-              return {
-                id: department.departmentEntityData.id,
-                name: department.departmentEntityData.name,
-                employeesNum: department.employeesNum,
-              };
-            }
-          )
-        );
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }
-
-
-  /////////////////////
-
-  useEffect(() => {
-    setInformationLinkBase();
-  }, []);
-
-  useEffect(() => {
-    setCreateNewDepartmentButton();
-  }, []);
-
-  useEffect(() => {
-    getDepartments();
-  }, []);
-
-
-
-
-
   const columns: GridColDef[] = [
     { field: "id", headerName: "id", flex: 1 },
     {
@@ -144,6 +88,63 @@ const DepartmentTable = () => {
       },
     },
   ];
+
+  function setInformationLinkBase() {
+    let link = `/department/view`;
+    if(isAdmin) link = `/department`;
+    setMoreInformationLinkBase(link);
+  }
+
+  function setCreateNewDepartmentButton() {
+    if(!isAdmin) {
+      setCreateNewDepartmentButtonDisabled(true);
+      setDeleteDepartmentButtonDisabled(true);
+    }
+  }
+
+
+  async function getDepartments() {
+    axios
+      .get(getAllAndCountOnUser)
+      .then((response) => {
+        const data = response.data;
+        
+        setRows(
+          data.map(
+            (department: any) => {
+              return {
+                id: department.departmentEntityData.id,
+                name: department.departmentEntityData.name,
+                employeesNum: department.employeesNum,
+              };
+            }
+          )
+        );
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+
+
+
+  useEffect(() => {
+    setInformationLinkBase();
+  }, []);
+
+  useEffect(() => {
+    setCreateNewDepartmentButton();
+  }, []);
+
+  useEffect(() => {
+    getDepartments();
+  }, []);
+
+
+
+
+
+  
 
   return (
     <div>

@@ -22,51 +22,6 @@ const EmployeeTable = () => {
   const [createNewEmployeeButtonDisabled, setCreateNewEmployeeButtonDisabled] = useState<boolean>(false);
   const [deleteDepartmentButtonDisabled, setDeleteDepartmentButtonDisabled] = useState<boolean>(false);
 
-  function setInformationLinkBase() {
-    let link = `/employee/view`;
-    if(isAdmin) link = `/employee`;
-    setMoreInformationLinkBase(link);
-  }
-
-  function setCreateNewEmployeeButton() {
-    if(!isAdmin) {
-      setCreateNewEmployeeButtonDisabled(true);
-      setDeleteDepartmentButtonDisabled(true);
-    }
-  }
-
-  useEffect(() => {
-    setInformationLinkBase();
-  }, []);
-
-  useEffect(() => {
-    setCreateNewEmployeeButton();
-  }, []);
-
-  useEffect(() => {
-    axios
-      .get(employeeGetAll)
-      .then((response) => {
-        const data: any  = response.data;
-        setRows(
-          data.map(
-            (employee: { id: any; employeeUid: number, name: any; surname: any; email: any; startDate: any; vacationDays: any; salary: any; employmentType: any;  department: any;     }) => {
-              return {
-                id: employee.id,
-                name: employee.name,
-                surName: employee.surname,
-                email: employee.email,
-                employmentType: employee.employmentType,
-                employeeDepartment: employee.department.name
-              };
-            }
-          )
-        );
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }, []);
 
   const columns: GridColDef[] = [
     { field: "id", headerName: "id", flex: 1 },
@@ -164,6 +119,54 @@ const EmployeeTable = () => {
       },
     },
   ];
+  
+  function setInformationLinkBase() {
+    let link = `/employee/view`;
+    if(isAdmin) link = `/employee`;
+    setMoreInformationLinkBase(link);
+  }
+
+  function setCreateNewEmployeeButton() {
+    if(!isAdmin) {
+      setCreateNewEmployeeButtonDisabled(true);
+      setDeleteDepartmentButtonDisabled(true);
+    }
+  }
+
+  useEffect(() => {
+    setInformationLinkBase();
+  }, []);
+
+  useEffect(() => {
+    setCreateNewEmployeeButton();
+  }, []);
+
+  useEffect(() => {
+    axios
+      .get(employeeGetAll)
+      .then((response) => {
+        const data: any  = response.data;
+        setRows(
+          data.map(
+            (employee: { id: any; employeeUid: number, name: any; surname: any; email: any; startDate: any; vacationDays: any; salary: any; employmentType: any;  department: any;     }) => {
+              return {
+                id: employee.id,
+                name: employee.name,
+                surName: employee.surname,
+                email: employee.email,
+                employmentType: employee.employmentType,
+                employeeDepartment: employee.department.name
+              };
+            }
+          )
+        );
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
+
+  
 
   return (
     <div>

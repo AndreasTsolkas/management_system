@@ -1,11 +1,8 @@
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { Box, Button, IconButton, Modal, Switch, Typography } from "@mui/material";
-import ReadMoreIcon from "@mui/icons-material/ReadMore";
+import { GridColDef } from "@mui/x-data-grid";
+import { Box, Button, Checkbox, Modal, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { IPost } from "./vacationRequest.model";
-import AddIcon from "@mui/icons-material/Add";
-import DeleteIcon from "@mui/icons-material/Delete";
 import { toast } from "react-toastify";
 import axios from "axios";
 import * as Important from "src/important";
@@ -19,10 +16,12 @@ const PendingVacationRequestTable = () => {
   const vacationRequestUrl = Important.getAllVacationRequest;
   const vacationRequestStatus = 'pending';
   const getVacationRequestByStatus = vacationRequestTable+'/by/status?status='+vacationRequestStatus;
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(true);
-  const [isSwitchChecked, setIsSwitchChecked] = useState<boolean>(false);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [isCheckBoxChecked, setIsCheckboxChecked] = useState<boolean>(false);
   const [modalSelectedValue, setModalSelectedValue] = useState<boolean>(true);
   const [currentCheckedRecordId, setcurrentCheckedRecordId] = useState<number | null>(null);
+  const [isRecordReadyToEvaluate, setIsRecordReadyToEvaluate] = useState<boolean>(false);
+  const [readyToGetPendingVacationRequests, setReadyToGetPendingVacationRequests] = useState<boolean>(true);
 
 
   const body = (
@@ -43,56 +42,6 @@ const PendingVacationRequestTable = () => {
       </div>
     </Box>
   );
-
-  const handleOpen = () => {
-    setIsModalOpen(true);
-  };
-
-  const handleClose = () => {
-    setIsModalOpen(false);
-  };
-
-  const handleButtonClick = (value: any) => {
-    if(value!==3) {
-      let selectedValue = true;
-      if(value==2) selectedValue = false;
-      setModalSelectedValue(selectedValue);
-    }
-    
-    handleClose();
-    setIsSwitchChecked(false);
-  };
-
-  function switchButtonOnClick(recordId: number) {
-    setIsModalOpen(true);
-    setIsSwitchChecked(true);
-    setcurrentCheckedRecordId(recordId);
-  }
-
-  useEffect(() => {
-    axios
-      .get(getVacationRequestByStatus)
-      .then((response) => {
-        const data = response.data;
-        setRows(
-          data.map(
-            (vacationRequest: { id: any; employee: any; startDate: any; endDate: any, status: any, days: any }) => {
-              return {
-                id: vacationRequest.id,
-
-                employee: vacationRequest.employee.name,
-                startDate: moment(vacationRequest.startDate).format('MM / DD / YYYY'),
-                endDate: moment(vacationRequest.endDate).format('MM / DD / YYYY'),
-                days: vacationRequest.days,
-              };
-            }
-          )
-        );
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }, []);
 
   const columns: GridColDef[] = [
     { field: "id", headerName: "id", flex: 1 },
@@ -121,17 +70,107 @@ const PendingVacationRequestTable = () => {
       headerName: "Εξέταση ",
       flex: 1,
       renderCell:  (cellValues) => {
-        console.log(isSwitchChecked);
-        let switchChecked=isSwitchChecked;
+        let checkboxChecked=isCheckBoxChecked;
         return (
           <>
-            <Switch  defaultChecked = {switchChecked} onClick={() => switchButtonOnClick(cellValues?.row.id)} size="small" />
+            <Checkbox 
+             checked={checkboxChecked && currentCheckedRecordId === cellValues?.row.id}
+             onClick={() => switchButtonOnClick(cellValues?.row.id)} /> 
         
           </>
         );
       },
     },
   ];
+
+  const handleOpen = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleClose = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleButtonClick = (value: any) => {
+    if(value!==3) {
+      let selectedValue = true;
+      if(value==2) selectedValue = false;
+      setModalSelectedValue(selectedValue);
+      setIsRecordReadyToEvaluate(true);
+      setReadyToGetPendingVacationRequests(true);
+    }
+
+    handleClose();
+    setIsCheckboxChecked(false);
+
+    
+  };
+
+  function switchButtonOnClick(recordId: number) {
+    setIsModalOpen(true);
+    setIsCheckboxChecked(true);
+    setcurrentCheckedRecordId(recordId);
+  }
+
+  async function getPendingVacationRequests() {
+    console.log("here");
+    await axios
+      .get(getVacationRequestByStatus)
+      .then((response) => {
+        const data = response.data;
+        setRows(
+          data.map(
+            (vacationRequest: { id: any; employee: any; startDate: any; endDate: any, status: any, days: any }) => {
+              return {
+                id: vacationRequest.id,
+
+                employee: vacationRequest.employee.name,
+                startDate: moment(vacationRequest.startDate).format('MM / DD / YYYY'),
+                endDate: moment(vacationRequest.endDate).format('MM / DD / YYYY'),
+                days: vacationRequest.days,
+              };
+            }
+          )
+        );
+        setReadyToGetPendingVacationRequests(false);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+  async function evaluatePendingVacarionRequest() {
+    try {
+      let requestUrl = vacationRequestTable+'/evaluate/vrequest';
+      const putData = {
+        vacationRequestId: currentCheckedRecordId,
+        approved: modalSelectedValue
+
+      }
+      const response: any = await axios.put(requestUrl, putData);
+      
+    }
+    catch (error: any) {
+      console.error(error);
+      toast.error(error.response.data.message);
+    }
+  }
+
+
+
+  useEffect(() => {
+    if (isRecordReadyToEvaluate) {
+      evaluatePendingVacarionRequest();
+    }
+  }, [isRecordReadyToEvaluate]);
+
+  useEffect(() => {
+    if (readyToGetPendingVacationRequests) {
+      getPendingVacationRequests();
+    }
+  }, [readyToGetPendingVacationRequests]);
+
+
+  
 
   return (
     <div>

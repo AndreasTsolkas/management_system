@@ -21,42 +21,6 @@ const BonusTable = () => {
   const [createNewBonusButtonDisabled, setCreateNewBonusButtonDisabled] = useState<boolean>(false);
   const [deleteDepartmentButtonDisabled, setDeleteDepartmentButtonDisabled] = useState<boolean>(false);
 
-  function setCreateNewBonusButton() {
-    if(!isAdmin) {
-      setCreateNewBonusButtonDisabled(true);
-      setDeleteDepartmentButtonDisabled(true);
-    }
-  }
-
-  useEffect(() => {
-    setCreateNewBonusButton();
-  }, []);
-
-  useEffect(() => {
-    setMoreInformationLinkBase('/bonus/view');
-    axios
-      .get(bonusGetAll)
-      .then((response) => {
-        const data = response.data;
-        setRows(
-          data.map(
-            (bonus: { id: any; amount: any; dateGiven: any; employee: any; department: any }) => {
-              return {
-                id: bonus.id,
-                amount: bonus.amount,
-                date_given: moment(bonus.dateGiven).format('DD / MM / YYYY'),
-                employee: bonus.employee.name+" "+bonus.employee.surname,
-                department: bonus.employee.department.name,
-              };
-            }
-          )
-        );
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }, []);
-
   const columns: GridColDef[] = [
     { field: "id", headerName: "id", flex: 1 },
     {
@@ -143,6 +107,44 @@ const BonusTable = () => {
       },
     },
   ];
+  
+  function setCreateNewBonusButton() {
+    if(!isAdmin) {
+      setCreateNewBonusButtonDisabled(true);
+      setDeleteDepartmentButtonDisabled(true);
+    }
+  }
+
+  useEffect(() => {
+    setCreateNewBonusButton();
+  }, []);
+
+  useEffect(() => {
+    setMoreInformationLinkBase('/bonus/view');
+    axios
+      .get(bonusGetAll)
+      .then((response) => {
+        const data = response.data;
+        setRows(
+          data.map(
+            (bonus: { id: any; amount: any; dateGiven: any; employee: any; department: any }) => {
+              return {
+                id: bonus.id,
+                amount: bonus.amount,
+                date_given: moment(bonus.dateGiven).format('DD / MM / YYYY'),
+                employee: bonus.employee.name+" "+bonus.employee.surname,
+                department: bonus.employee.department.name,
+              };
+            }
+          )
+        );
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
+
+  
 
   return (
     <div>
