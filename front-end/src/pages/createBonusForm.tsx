@@ -112,15 +112,16 @@ const CreateBonusForm = () => {
                   variant="outlined"
                 >
                   {employees.map((item: any) => {
-    
+                    let departmentNameValue: any = '-----';
+                    if(item.department !==null) departmentNameValue = item.department.name;
                     return (
                     <MenuItem key={item.id} value={item.id}>
-                       {item.name} {item.surname}, {item.department.name}, {item.salary}$ μισθός, 
+                       {item.name} {item.surname}, {departmentNameValue}, {item.salary}$ μισθός, 
                     </MenuItem>
                     );
                   })} 
                 </Select>
-                <span style={{ color: "red" }}>{errors.season?.message}</span>
+                <span style={{ color: "red" }}>{errors.employeeId?.message}</span>
               </div>
             )}
           />
@@ -140,6 +141,7 @@ const CreateBonusForm = () => {
                   
                 >
                   {Object.entries(Season).map(([name, value]) => (
+                    
                     <MenuItem key={name} value={name}>
                       {value}
                     </MenuItem>

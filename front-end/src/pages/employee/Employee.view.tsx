@@ -31,9 +31,14 @@ const EmployeeView = () => {
   function populateDisplayDataArray() {
     
     if (result) {
-      const departmentInfoUrl = '/department/view/'+result.department.id;
+      
       let isAdminText = 'Ναι';
       if(!isAdmin) isAdminText = 'Όχι';
+      let resultDepartmentValue: any = '-----';
+      if (result.department !== null ) {
+        const departmentInfoUrl = '/department/view/'+result.department.id;
+        resultDepartmentValue = <a href={departmentInfoUrl}>{result.department.name}</a>;
+      }
       setDisplayData([
       { key: 'id: ', value: result.id },
       { key: 'Όνομα: ', value: result.name },
@@ -41,7 +46,7 @@ const EmployeeView = () => {
       { key: 'Email: ', value: result.email },
       { key: 'Κωδικός εγγραφής: ', value: result.employeeUid },
       { key: 'Επάγγελμα: ', value: result.employmentType },
-      { key: 'Τμήμα: ', value: <a href={departmentInfoUrl}>{result.department.name}</a> },
+      { key: 'Τμήμα: ', value: resultDepartmentValue },
       { key: 'Μισθός: ', value: result.salary },
       { key: 'Ημέρα πρόσληψης: ', value: moment(result.startDate).format('DD / MM / YYYY') },
       { key: 'Ημέρες διακοπών (όριο): ', value: result.vacationDays },

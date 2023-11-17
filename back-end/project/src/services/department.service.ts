@@ -23,6 +23,7 @@ export class DepartmentService {
     }
   }
 
+
   async findOne(id: any): Promise<Department | null> {
     try {
       return await this.departmentRepository.findOneBy({ id });

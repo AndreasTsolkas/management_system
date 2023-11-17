@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Patch, Put, Req } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Put, Query, Req } from '@nestjs/common';
 import { Employee } from 'src/entities/employee.entity';
 import { EmployeeService } from 'src/services/employee.service';
 
@@ -11,6 +11,12 @@ export class EmployeeController {
   @Get('/all')
   async findAllWithRelationships() {
     return await this.employeeService.findAllWithRelationships();
+  }
+
+  @Get('/all/condition')
+  async findAllWithRelationshipsAndCondition(@Query('field') field: string,
+  @Query('value') value: string) {
+    return await this.employeeService.findAllWithRelationshipsWithNullCondition(field, value);
   }
 
   @Get('/:id')

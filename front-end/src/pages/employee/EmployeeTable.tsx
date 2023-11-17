@@ -90,6 +90,7 @@ const EmployeeTable = () => {
                               employmentType: any;
                               department: any;
                             }) => {
+                              let employeeDepartmentValue = setEmployeeDepartmentValue(employee);
                               return {
                                 id: employee.id,
                                 name: employee.name,
@@ -100,7 +101,7 @@ const EmployeeTable = () => {
                                 vacationDays: employee.vacationDays,
                                 salary: employee.salary,
                                 employmentType: employee.employmentType,
-                                employeeDepartment: employee.department.name
+                                employeeDepartment: employeeDepartmentValue
                               };
                             }
                           )
@@ -119,6 +120,12 @@ const EmployeeTable = () => {
       },
     },
   ];
+
+  function setEmployeeDepartmentValue(employee: any) {
+    let employeeDepartmentValue = '-----';
+    if (employee.department !== null) employeeDepartmentValue = employee.department.name;
+    return employeeDepartmentValue;
+  }
   
   function setInformationLinkBase() {
     let link = `/employee/view`;
@@ -149,13 +156,14 @@ const EmployeeTable = () => {
         setRows(
           data.map(
             (employee: { id: any; employeeUid: number, name: any; surname: any; email: any; startDate: any; vacationDays: any; salary: any; employmentType: any;  department: any;     }) => {
+              let employeeDepartmentValue = setEmployeeDepartmentValue(employee);
               return {
                 id: employee.id,
                 name: employee.name,
                 surName: employee.surname,
                 email: employee.email,
                 employmentType: employee.employmentType,
-                employeeDepartment: employee.department.name
+                employeeDepartment: employeeDepartmentValue
               };
             }
           )

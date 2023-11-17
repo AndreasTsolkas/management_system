@@ -19,12 +19,11 @@ import moment from "moment";
 const DepartmentView = () => {
   const params: any | never = useParams();
   const navigate = useNavigate();
-  const departmentUrl = Important.backEndDepartmentUrl;
   const departmentId = params?.id;
   const [result, setResult] = useState<any>();
   const [displayData, setDisplayData] = useState<any[]>([]);
 
-  const getAndCountOnUserBaseUrl = departmentUrl+'/countonuser';
+  const getAndCountOnUserBaseUrl = Important.getAndCountOnUserBaseUrl;
 
 
   function populateDisplayDataArray() {

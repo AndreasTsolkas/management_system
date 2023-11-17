@@ -1,9 +1,9 @@
 import * as yup from "yup";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { Box, Button } from "@mui/material";
+import { Box, Button, InputLabel, MenuItem, Select } from "@mui/material";
 import MuiTextField from "../../components/MuiTextField";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
@@ -16,18 +16,34 @@ export const DepartmentSchema = yup.object({
   name: yup.string().required("Ειναι απαραίτητο να προσθέσετε το όνομα του τμήματος."),
 });
 
+const schema = yup.object({
+  employeeId: yup
+    .number()
+    .typeError("Η συμπλήρωση του user id είναι απαραίτητη.")
+    .required("Η συμπλήρωση του user id είναι απαραίτητη."),
+  season: yup
+    .string()
+    .typeError("Η συμπλήρωση της εποχής που ο εργαζόμενος θα πάρει το bonus είναι απαραίτητη.")
+    .required("Η συμπλήρωση της εποχής που ο εργαζόμενος θα πάρει το bonus είναι απαραίτητη."),
+});
+
 const DepartmentForm = () => {
   const params = useParams();
   const navigate = useNavigate();
   const departmentUrl = Important.backEndDepartmentUrl;
+  const departmentId = params?.id;
+  const employeeGetAll = Important.getAllEmployee;
   const [formTitle, setFormTitle] = useState<string>('');
+  const [employees, setEmployees] = useState<any[]>([]);
+
+  const getAndCountOnUserBaseUrl = Important.getAndCountOnUserBaseUrl;
 
   useEffect(() => {
     let text = 'Προσθέστε νέο τμήμα:';
     if (params && params?.id) {
       text='Πληροφορίες τμήματος:';
       axios
-        .get(`${departmentUrl}/${params?.id}`)
+        .get(`${getAndCountOnUserBaseUrl}/${departmentId}`)
         .then((response) => {
           reset(response.data);
         })
@@ -43,7 +59,8 @@ const DepartmentForm = () => {
     control,
   } = useForm({
     defaultValues: {
-      name: "",
+      departmentEntityData: { name: ""},
+      employeeId: "",
     },
     resolver: yupResolver(DepartmentSchema),
   });
@@ -52,8 +69,6 @@ const DepartmentForm = () => {
     let success=false;
     if (!params?.id) {
       
-      
-  
       try {
         await axios.put(departmentUrl, data);
         toast.success('Το τμήμα δημιουργήθηκε με επιτυχία.');
@@ -77,6 +92,28 @@ const DepartmentForm = () => {
     if(success) navigate("/department");
    };
 
+   const getAllEmployeesWithoutDepartment =  async () => {
+    const requestUrl = employeeGetAll+'/condition';
+    try {
+      const response = await axios.get(requestUrl, {
+        params: {
+          field: 'department.id',
+          value: 'null',
+        },
+      });
+      setEmployees(response.data);
+
+    }
+    catch(error: any) {
+      console.error(error);
+      toast.error(error?.response.data.message);
+    }
+  }
+
+  useEffect(() => {
+    getAllEmployeesWithoutDepartment();
+  }, []);
+
   return (
     <div>
       
@@ -93,8 +130,35 @@ const DepartmentForm = () => {
           <MuiTextField
             errors={errors}
             control={control}
-            name="name"
-            label="name"
+            name="departmentEntityData.name"
+            label="Όνομα"
+          />
+
+          <Controller
+            name="employeeId"
+            control={control}
+            render={({ field }) => (
+              <div>
+                <InputLabel htmlFor="employee-label">Προσθήκη νέου εργαζόμενου</InputLabel>
+                <Select
+                  {...field}
+                  labelId="employee-label"
+                  id="employee-label"
+                  fullWidth
+                  variant="outlined"
+                >
+                  {employees.map((item: any) => {
+    
+                    return (
+                    <MenuItem key={item.id} value={item.id}>
+                       {item.name} {item.surname}, {item.salary}$ μισθός, 
+                    </MenuItem>
+                    );
+                  })} 
+                </Select>
+                <span style={{ color: "red" }}>{errors.employeeId?.message}</span>
+              </div>
+            )}
           />
 
           <div style={{ marginTop: "10px" }}>

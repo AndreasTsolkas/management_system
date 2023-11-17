@@ -30,11 +30,6 @@ const BonusTable = () => {
       flex: 1,
     },
     {
-        field: "department",
-        headerName: "Τμήμα εργαζομένου",
-        flex: 1,
-      },
-    {
       field: "amount",
       headerName: "Ποσό",
       flex: 1,
@@ -83,13 +78,11 @@ const BonusTable = () => {
                               id: any;
                               amount: any;
                               employee: any;
-                              department: any;
                             }) => {
                               return {
                                 id: bonus.id,
                                 amount: bonus.amount,
-                                employee: bonus.employee.name,
-                                department: bonus.employee.department.name
+                                employee: bonus.employee.name
                               };
                             }
                           )
@@ -128,13 +121,12 @@ const BonusTable = () => {
         const data = response.data;
         setRows(
           data.map(
-            (bonus: { id: any; amount: any; dateGiven: any; employee: any; department: any }) => {
+            (bonus: { id: any; amount: any; dateGiven: any; employee: any }) => {
               return {
                 id: bonus.id,
                 amount: bonus.amount,
                 date_given: moment(bonus.dateGiven).format('DD / MM / YYYY'),
-                employee: bonus.employee.name+" "+bonus.employee.surname,
-                department: bonus.employee.department.name,
+                employee: bonus.employee.name+" "+bonus.employee.surname
               };
             }
           )
