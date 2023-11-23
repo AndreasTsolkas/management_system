@@ -6,6 +6,7 @@ import Root from "./routes/root";
 import Home from "./pages/home/Home";
 import Error from "./pages/error/Error";
 import DepartmentForm from "./pages/department/DepartmentForm";
+import DepartmentNewForm from "./pages/department/Department.new.Form";
 import DepartmentTable from "./pages/department/DepartmentTable";
 import DepartmentView from "./pages/department/Department.view";
 import EmployeeForm from "./pages/employee/EmployeeForm";
@@ -47,7 +48,7 @@ export const Router = createBrowserRouter([
       },
       {
         path: "/department/new",
-        element: <DepartmentForm />,
+        element: <DepartmentNewForm />,
       },
       {
         path: "/department/view/:id",

@@ -22,6 +22,8 @@ const DepartmentTable = () => {
   const [createNewDepartmentButtonDisabled, setCreateNewDepartmentButtonDisabled] = useState<boolean>(false);
   const [deleteDepartmentButtonDisabled, setDeleteDepartmentButtonDisabled] = useState<boolean>(false);
 
+  const getAllAndCountOnUserBaseUrl = Important.getAllAndCountOnUserBaseUrl;
+
 
 
 
@@ -37,6 +39,7 @@ const DepartmentTable = () => {
       headerName: "Ενέργειες",
       flex: 0.5,
       renderCell: (cellValues: any) => {
+        console.log(cellValues?.row?.employeesNum);
         let deleteIconDisabled = false;
         if(cellValues?.row?.employeesNum > 0 || deleteDepartmentButtonDisabled===true) 
           deleteIconDisabled = true;
@@ -106,16 +109,17 @@ const DepartmentTable = () => {
 
   async function getDepartments() {
     axios
-      .get(departmentGetAll)
+      .get(getAllAndCountOnUserBaseUrl)
       .then((response) => {
         const data = response.data;
         
         setRows(
           data.map(
-            (department: { id: any; name: any;  }) => {
+            (item: any) => {
               return {
-                id: department.id,
-                name: department.name,
+                id: item.departmentEntityData.id,
+                name: item.departmentEntityData.name,
+                employeesNum: item.employeesNum
               };
             }
           )

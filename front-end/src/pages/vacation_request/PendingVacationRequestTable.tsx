@@ -113,7 +113,6 @@ const PendingVacationRequestTable = () => {
   }
 
   async function getPendingVacationRequests() {
-    console.log("here");
     await axios
       .get(getVacationRequestByStatus)
       .then((response) => {

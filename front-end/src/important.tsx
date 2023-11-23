@@ -20,6 +20,7 @@ export const getAllProject = backEndProjectUrl + standartGetAllExtension;
 export const employeeInfoUrl = '/employee/view/';
 export const departmentInfoUrl = '/department/view/';
 
+export const getAllAndCountOnUserBaseUrl = backEndDepartmentUrl+'/all/countonuser';
 export const getAndCountOnUserBaseUrl = backEndDepartmentUrl+'/countonuser';
 
 

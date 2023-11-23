@@ -3,6 +3,7 @@ import { Department } from 'src/entities/department.entity';
 import { DepartmentService } from 'src/services/department.service';
 import { EmployeeService } from 'src/services/employee.service';
 import { GetAllDepartmentsSpecial } from 'src/dto/getAllDepartmentsSpecial.dto';
+import { GetDepartmentsSpecial } from 'src/dto/getDepartmentSpecial.dto';
 
 
 @Controller('department')
@@ -56,7 +57,7 @@ export class  DepartmentController {
 
   @Get('/countonuser/:id')
   async findOneAndCountDepartmentIdToEmployee(@Param('id') id: any) {
-    let result = new GetAllDepartmentsSpecial();
+    let result = new GetDepartmentsSpecial();
     result.departmentEntityData = await this.departmentService.findOne(id);
     const {count, employees} = await this.employeeService.countDepartmentExistenceInEmployee(id)
     result.employeesNum = count;

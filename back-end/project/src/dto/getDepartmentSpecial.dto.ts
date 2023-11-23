@@ -1,4 +1,5 @@
-export class GetAllDepartmentsSpecial {
+export class GetDepartmentsSpecial {
     departmentEntityData: any;
     employeesNum: number;
+    employees: any;
 }
