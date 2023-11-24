@@ -13,7 +13,7 @@ import * as Display from "src/display";
 
 
 const EmployeeTable = () => {
-  const isAdmin = false;
+  const isAdmin = true;
   const [rows, setRows] = useState<IPost[]>([]);
   const navigate = useNavigate();
   const employeeTableUrl = Important.backEndEmployeeUrl;

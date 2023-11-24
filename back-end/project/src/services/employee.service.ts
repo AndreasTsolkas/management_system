@@ -69,9 +69,9 @@ export class EmployeeService {
   async update(id: number, employeeData: Partial<Employee>): Promise<Employee | null> {
     try {
       const employee = await this.employeesRepository.findOneBy({id});
-      if (!employee) {
+      if (!employee) 
         return null; 
-      }
+
       Object.assign(employee, employeeData);
       return this.employeesRepository.save(employee);
     }

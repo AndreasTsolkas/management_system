@@ -39,7 +39,6 @@ const DepartmentTable = () => {
       headerName: "Ενέργειες",
       flex: 0.5,
       renderCell: (cellValues: any) => {
-        console.log(cellValues?.row?.employeesNum);
         let deleteIconDisabled = false;
         if(cellValues?.row?.employeesNum > 0 || deleteDepartmentButtonDisabled===true) 
           deleteIconDisabled = true;

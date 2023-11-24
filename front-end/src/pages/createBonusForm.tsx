@@ -96,7 +96,7 @@ const CreateBonusForm = () => {
       <h2>Δημιουργία bonus: </h2>
       <div>
       <Box display="flex">
-      <Box sx={{ width: "250px" }}>
+      <Box sx={{ width: "200px" }}>
         <form  noValidate onSubmit={handleSubmit(onSubmit)}>
           <Controller
             name="employeeId"

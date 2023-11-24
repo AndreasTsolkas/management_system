@@ -3,11 +3,13 @@ import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { Box, Button, InputLabel, MenuItem, Select } from "@mui/material";
+import { Box, Button, IconButton, InputLabel, MenuItem, Select } from "@mui/material";
 import MuiTextField from "../../components/MuiTextField";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import CheckIcon from '@mui/icons-material/Check';
+import DeleteIcon from "@mui/icons-material/Delete";
 import * as Important from "src/important";
 import * as Display from "src/display";
 
@@ -21,9 +23,11 @@ const DepartmentForm = () => {
   const params = useParams();
   const navigate = useNavigate();
   const departmentUrl = Important.backEndDepartmentUrl;
+  const employeeUrl = Important.backEndEmployeeUrl;
   const departmentId = params?.id;
   const employeeGetAll = Important.getAllEmployee;
-  const [formTitle, setFormTitle] = useState<string>('');
+  const [formTitle, setFormTitle] = useState<string>('Ρυθμίσεις τμήματος: ');
+  const [employeesNum, setEmployeesNum] = useState<number>(0); 
   const [registredEmployees, setRegisteredEmployees] = useState<any[]>([]);
   const [unregistredEmployees, setUnregisteredEmployees] = useState<any[]>([]);
 
@@ -44,28 +48,22 @@ const DepartmentForm = () => {
     resolver: yupResolver(DepartmentSchema),
   });
 
-  useEffect(() => {
-    let text = 'Προσθέστε νέο τμήμα:';
-    if (params && params?.id) {
-      text='Πληροφορίες τμήματος:';
-      axios
-        .get(`${getAndCountOnUserBaseUrl}/${departmentId}`)
-        .then((response) => {
-          setRegisteredEmployees(response.data?.employees);
-          reset({
-            name: response.data?.departmentEntityData?.name,
-          });
-          
-        })
-        .catch((error) => console.log(error));
-    }
-    
-    setFormTitle(text);
-  }, []);
+  const changeEmployeeToDepartmentValue = async (employeeId: number, departmentValue: any) => {
+    const requestUrl = employeeUrl+'/'+employeeId;
+      try {
+        const body = {
+          department: departmentValue
+        };
+        const response = await axios.patch(requestUrl, body);
+        await getDepartmentWithEmployees();
+        await getAllEmployeesWithoutDepartment();
+        
+      } catch (error: any) {
+        toast.error(error?.response.data.message);
+      }
+  };
 
-  
-
-  const onSubmit = async (data:any) => {
+  const submitNameChange = async (data:any) => {
     let success=false;
 
       try {
@@ -79,7 +77,35 @@ const DepartmentForm = () => {
         toast.error(error?.response.data.message);
       }
     if(success) navigate("/department");
-   };
+  };
+
+  const submitAddNewEmployee = async (data:any) => {
+    let employeeId = data.employeeId;
+    let departmentValue = departmentId;
+    try {
+      await changeEmployeeToDepartmentValue(employeeId, departmentValue);
+        
+    } catch (error: any) {
+      toast.error(error?.response.data.message);
+    }
+  };
+
+   const getDepartmentWithEmployees =  async () => {
+    const requestUrl = getAndCountOnUserBaseUrl;
+    try {
+      const response: any = await axios.get(`${requestUrl}/${departmentId}`);
+      setRegisteredEmployees(response.data?.employees);
+      setEmployeesNum(response.data?.employeesNum);
+      reset({
+        name: response.data?.departmentEntityData?.name,
+      });
+    }
+
+    catch(error: any) {
+      console.error(error);
+      toast.error(error?.response?.data?.message);
+    }
+  }
 
    const getAllEmployeesWithoutDepartment =  async () => {
     const requestUrl = employeeGetAll+'/condition';
@@ -98,6 +124,22 @@ const DepartmentForm = () => {
       toast.error(error?.response?.data?.message);
     }
   }
+
+  const deleteEmployeeFromDepartment = async (employeeId: number) => {
+    let departmentValue = null;
+    try {
+      await changeEmployeeToDepartmentValue(employeeId, departmentValue);
+    }
+
+    catch(error: any) {
+      console.error(error);
+      toast.error(error?.response?.data?.message);
+    }
+  }
+
+  useEffect(() => {
+    getDepartmentWithEmployees();
+  }, []);
 
   useEffect(() => {
     getAllEmployeesWithoutDepartment();
@@ -118,7 +160,7 @@ const DepartmentForm = () => {
         }}
       >
         <h3>Όνομα: </h3>
-        <form noValidate onSubmit={handleSubmit(onSubmit)}>
+        <form noValidate onSubmit={handleSubmit(submitNameChange)}>
           
           <MuiTextField
             errors={errors}
@@ -133,65 +175,79 @@ const DepartmentForm = () => {
             variant="contained"
             sx={{ marginRight: '10px' }}
           >
-            Υποβολή
+            <CheckIcon fontSize="small"></CheckIcon>
           </Button>
           </div>
         </form>
 
         <div style={{marginTop:"60px"}}>
-        <h3>Προσθήκη εργαζόμενου: </h3>
-        <form noValidate onSubmit={handleSubmit(onSubmit)}>
-        
-        <Controller
-            name="employeeId"
-            control={control}
-            render={({ field }) => (
-              <div>
-                <Select
-                  {...field}
-                  labelId="employee-label"
-                  id="employee-label"
-                  fullWidth
-                  variant="outlined"
-                >
-                  {unregistredEmployees.map((item: any) => {
-    
-                    return (
-                    <MenuItem key={item.id} value={item.id}>
-                       {item.name} {item.surname}, {item.salary}$ μισθός, 
-                    </MenuItem>
-                    );
-                  })} 
-                </Select>
-                <span style={{ color: "red" }}>{errors.employeeId?.message}</span>
-              </div>
-            )}
-          /> 
-
-          <div style={{ marginTop: "10px" }}>
-          <Button
-            type="submit"
-            variant="contained"
-            sx={{ marginRight: '10px' }}
-          >
-            Υποβολή
-          </Button>
-          </div>
-        </form>
-        </div>
+        {unregistredEmployees.length > 0 ? (
+        <>
+          <h3>Προσθήκη εργαζόμενου: </h3>
+          <form noValidate onSubmit={handleSubmit(submitAddNewEmployee)}>
+            <Controller
+              name="employeeId"
+              control={control}
+              render={({ field }) => (
+                <div>
+                  <Select
+                    {...field}
+                    labelId="employee-label"
+                    id="employee-label"
+                    fullWidth
+                    variant="outlined"
+                  >
+                    {unregistredEmployees.map((item: any) => (
+                      <MenuItem key={item.id} value={item.id}>
+                        {item.name} {item.surname}, {item.salary}$ μισθός,
+                      </MenuItem>
+                    ))}
+                  </Select>
+                  <span style={{ color: 'red' }}>{errors.employeeId?.message}</span>
+                </div>
+              )}
+            />
+            <div style={{ marginTop: '10px' }}>
+              <Button type="submit" variant="contained" sx={{ marginRight: '10px' }}>
+                <CheckIcon fontSize="small"></CheckIcon>
+              </Button>
+            </div>
+          </form>
+        </>
+      ) : (
+        <h3>Δεν υπάρχει κανένας διαθέσιμος εργαζόμενος για προσθήκη.</h3>
+      )}
+      </div>
       </Box>
       <Box
         sx={{
           marginLeft:"250px",
-          width: "200px",
+          width: "300px",
         }}
       >
-        <h3>Εργαζόμενοι: </h3>
-        <ul>
-          {registredEmployees.map((item: any) => (
-            <li key={item.id} style={{ fontSize: '20px' }}>{item.name} {item.surname}, {item.salary}$ μισθός </li>
-          ))}
-        </ul>
+        {employeesNum > 0 && (
+        <>
+          <h3>Εργαζόμενοι: {employeesNum}</h3>
+          <ul>
+            {registredEmployees.map((item: any) => (
+              <li key={item.id} style={{ fontSize: '20px' }}>
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+                  {item.name} {item.surname}, {item.employmentType}, μισθός {item.salary}$ 
+
+                  <IconButton 
+                    disabled={false} 
+                    color="warning" 
+                    style={{ marginLeft: '10px' }}
+                    onClick={()=> deleteEmployeeFromDepartment(item.id)}
+                    >
+                    <DeleteIcon />
+                  </IconButton>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </>
+      )}
       </Box>
       </div>
     </div>
