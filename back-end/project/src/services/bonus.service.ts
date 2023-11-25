@@ -90,6 +90,7 @@ export class BonusService {
       let newSalary = salary +++ bonusAmount;
       return {
         newSalary: newSalary,
+        bonusRate: enumValue,
         bonusAmount: bonusAmount
       };
     }

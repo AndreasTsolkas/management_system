@@ -6,9 +6,7 @@ import {
   Button,
   InputLabel,
   MenuItem,
-  Select,
-  TextField,
-  Typography,
+  Select
 } from "@mui/material";
 import * as yup from "yup";
 import axios from "axios";
@@ -17,7 +15,7 @@ import * as Important from "src/important";
 import * as Display from "src/display";
 import { Season } from "src/enums/season";
 import { useState, useEffect } from 'react';
-import { Navigate, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 
 
 
@@ -36,8 +34,17 @@ const schema = yup.object({
 
 const CreateBonusForm = () => {
   const [employees, setEmployees] = useState<any[]>([]);
+  const [employeeSelected, setEmployeeSelected] = useState<boolean>(false);
+  const [seasonSelected, setSeasonSelected] = useState<boolean>(false);
+  const [readyToGetBonusCalculation, setReadyToGetBonusCalculation] = useState<boolean>(false);
+  const [currentEmployeeCurrentSalary, setCurrentEmployeeCurrentSalary] = useState<number | null>(null);
+  const [currentEmployeeBonusRate, setCurrentEmployeeBonusRate] = useState<number | null>(null);
+  const [currentEmployeeNewSalary, setCurrentEmployeeNewSalary] = useState<number | null>(null);
+  const [currentSeason, setCurrentSeason] = useState<string | null>(null);
+
   const bonusUrl = Important.backEndBonusUrl;
   const employeeGetAll = Important.getAllEmployee;
+
   const {
     handleSubmit,
     control,
@@ -52,6 +59,17 @@ const CreateBonusForm = () => {
   });
 
   const navigate = useNavigate();
+
+
+  const onReset = (data: any) => {
+    reset(data);
+    setEmployeeSelected(false);
+    setSeasonSelected(false);
+    setCurrentEmployeeCurrentSalary(null);
+    setCurrentEmployeeBonusRate(null);
+    setCurrentEmployeeNewSalary(null);
+    setCurrentSeason(null);
+  }
 
   const onSubmit = (data: any) => {
     const requestUrl = bonusUrl + `/create/bonus`;
@@ -71,6 +89,18 @@ const CreateBonusForm = () => {
         });
   };
 
+  const onChange = async (data: any, isEmployeeSelected: boolean) => {
+    if(isEmployeeSelected) {
+      setEmployeeSelected(true);
+      setCurrentEmployeeCurrentSalary(employees.find(employees => employees.id === data.target.value)?.salary)
+    }
+    else {
+      setSeasonSelected(true);
+      setCurrentSeason(data.target.value);
+    }
+    setReadyToGetBonusCalculation(true);
+  };
+
   const getAllEmployees =  async () => {
     const requestUrl = employeeGetAll;
     try {
@@ -84,20 +114,40 @@ const CreateBonusForm = () => {
     }
   }
 
+  const setBonusCalculationInformation = async () => {
+    const requestUrl = bonusUrl+'/calculate/'+currentEmployeeCurrentSalary+'/'+currentSeason;
+    try {
+      const response = await axios.get(requestUrl);
+      setCurrentEmployeeBonusRate(response.data.bonusRate);
+      setCurrentEmployeeNewSalary(response.data.newSalary);
+      setReadyToGetBonusCalculation(false);
+
+    }
+    catch(error: any) {
+      console.error(error);
+      toast.error(error?.response.data.message);
+    }
+  }
+
   useEffect(() => {
     getAllEmployees();
   }, []);
+
+  useEffect(() => {
+    if(readyToGetBonusCalculation && employeeSelected===true && seasonSelected===true) {
+      setBonusCalculationInformation();
+    }
+       
+  }, [readyToGetBonusCalculation, employeeSelected, seasonSelected]);
 
 
 
   return (
     <div>
-      {Display.displayIconButton()}
-      <h2>Δημιουργία bonus: </h2>
-      <div>
-      <Box display="flex">
+      <div style={{  marginTop:"20px", display: 'flex' }}>
       <Box sx={{ width: "200px" }}>
-        <form  noValidate onSubmit={handleSubmit(onSubmit)}>
+        <h2 >Δημιουργία bonus: </h2>
+        <form  noValidate onReset = {onReset} onSubmit={handleSubmit(onSubmit)}>
           <Controller
             name="employeeId"
             control={control}
@@ -110,6 +160,10 @@ const CreateBonusForm = () => {
                   id="employee-label"
                   fullWidth
                   variant="outlined"
+                  onChange={(e) => {
+                    field.onChange(e);
+                    onChange(e, true);
+                  }}
                 >
                   {employees.map((item: any) => {
                     let departmentNameValue: any = '-----';
@@ -138,6 +192,10 @@ const CreateBonusForm = () => {
                   id="season-label"
                   fullWidth
                   variant="outlined"
+                  onChange={(e) => {
+                    field.onChange(e);
+                    onChange(e, false);
+                  }}
                   
                 >
                   {Object.entries(Season).map(([name, value]) => (
@@ -159,8 +217,24 @@ const CreateBonusForm = () => {
           >
             Υποβολή
           </Button>
+          <Button
+            type="reset"
+            fullWidth
+            variant="outlined"
+          >
+            Ανανέωση
+          </Button>
         </form>
       </Box>
+      <Box sx={{ marginLeft: "250px", width: "600px" }}>
+      {(employeeSelected && seasonSelected) && (
+          <div style={{ marginTop: "170px" }}>
+            {Display.displayFieldWithTypography('Τωρινός μισθός: ', currentEmployeeCurrentSalary, 1)}
+            {Display.displayFieldWithTypography('Συντελεστής αύξησης: ', currentEmployeeBonusRate, 2)}
+            {Display.displayFieldWithTypography('Μισθός μετά την αύξηση: ', currentEmployeeNewSalary, 3)}
+          </div>
+      )}
+       
       </Box>
       </div>
       <div id="result"></div>

@@ -44,9 +44,9 @@ export class BonusController {
   @Get('/calculate/:salary/:season')
   async calculateSalaryAfterBonus(@Param('salary') salary: number, @Param('season') season: string,
   @Req() request: Request) {
-    const {newSalary, bonusAmount} = await this.bonusService.calculateSalaryAfterBonus(salary,season);
+    const {newSalary, bonusRate} = await this.bonusService.calculateSalaryAfterBonus(salary,season);
     return {
-      newSalary, bonusAmount
+      newSalary, bonusRate
     };
   }
 

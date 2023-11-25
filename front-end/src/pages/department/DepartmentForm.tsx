@@ -64,19 +64,16 @@ const DepartmentForm = () => {
   };
 
   const submitNameChange = async (data:any) => {
-    let success=false;
-
       try {
         await axios.patch(`${departmentUrl}/${params?.id}`, data, {
           headers: { "Content-Type": "application/json" }
         });
         toast.success('Οι αλλαγές έγιναν με επιτυχία.');
-        success=true;
+        await getDepartmentWithEmployees();
         
       } catch (error: any) {
         toast.error(error?.response.data.message);
       }
-    if(success) navigate("/department");
   };
 
   const submitAddNewEmployee = async (data:any) => {
