@@ -43,6 +43,7 @@ const EmployeeForm = () => {
       name: "",
       surname: "",
       email: "",
+      employeeUid: "",
       startDate: "",
       vacationDays: "",
       salary: "",
@@ -165,6 +166,14 @@ const EmployeeForm = () => {
               <MuiTextField
                 errors={errors}
                 control={control}
+                name="employeeUid"
+                label="Αριθμός μητρώου"
+              />
+            </Grid>
+            <Grid item xs={4}>
+              <MuiTextField
+                errors={errors}
+                control={control}
                 name="startDate"
                 label="Ημερομηνία Έναρξης"
               />
@@ -199,8 +208,13 @@ const EmployeeForm = () => {
                 control={control}
                 render={ ({ field }) => {
                   let selectValueId: any | undefined = undefined;
-                  if (employeeSelectedDepartmentId===null) 
-                    selectValueId = employeeCurrentDepartmentId;
+
+                  if (employeeSelectedDepartmentId===null) {
+                    if(employeeCurrentDepartmentId===null) 
+                      selectValueId = 1;
+                    else selectValueId = employeeCurrentDepartmentId;
+                  }
+                    
                   else selectValueId = employeeSelectedDepartmentId;
                      
                   return (

@@ -44,7 +44,7 @@ const EmployeeView = () => {
       { key: 'Όνομα: ', value: result.name },
       { key: 'Επώνυμο: ', value: result.surname },
       { key: 'Email: ', value: result.email },
-      { key: 'Κωδικός εγγραφής: ', value: result.employeeUid },
+      { key: 'Αριθμός μητρώου: ', value: result.employeeUid },
       { key: 'Επάγγελμα: ', value: result.employmentType },
       { key: 'Τμήμα: ', value: resultDepartmentValue },
       { key: 'Μισθός: ', value: result.salary },
