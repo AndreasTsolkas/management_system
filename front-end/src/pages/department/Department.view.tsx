@@ -35,9 +35,9 @@ const DepartmentView = () => {
         ];
 
         if (result.employees.length > 0) {
-            const employeeData = result.employees.map((item: any) => {
+            const employeeData = result.employees.map((item: any, index: any) => {
                 const thisEmployeeInfoUrl = `${Important.employeeInfoUrl}${item.id}`;
-                return <a href={thisEmployeeInfoUrl}>{item.name} {item.surname},         </a>;
+                return <a key = {index} href={thisEmployeeInfoUrl}>{item.name} {item.surname},         </a>;
             });
             displayData.push({ key: 'Εργαζόμενοι: ', value: employeeData });
         }
@@ -90,8 +90,8 @@ const DepartmentView = () => {
       >
         <div style={{marginLeft:"25px"}}>
         {result ? (
-            <div>
-                  {displayData.map((item, index) => {
+            <div >
+                  {displayData.map((item, index: any) => {
                     return Display.displayFieldWithTypography(item.key, item.value, index);
                   })}
             </div>
