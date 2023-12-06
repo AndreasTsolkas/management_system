@@ -1,5 +1,6 @@
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { Box, IconButton } from "@mui/material";
+import SettingsIcon from '@mui/icons-material/Settings';
 import ReadMoreIcon from "@mui/icons-material/ReadMore";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -18,9 +19,11 @@ const EmployeeTable = () => {
   const navigate = useNavigate();
   const employeeTableUrl = Important.backEndEmployeeUrl;
   const employeeGetAll = Important.getAllEmployee;
-  const [moreInformationLinkBase, setMoreInformationLinkBase] = useState<string>('');
   const [createNewEmployeeButtonDisabled, setCreateNewEmployeeButtonDisabled] = useState<boolean>(false);
-  const [deleteDepartmentButtonDisabled, setDeleteDepartmentButtonDisabled] = useState<boolean>(false);
+  const [deleteEmployeeButtonDisabled, setDeleteEmployeeButtonDisabled] = useState<boolean>(false);
+  const [editEmployeeButtonDisabled, setEditEmployeeButtonDisabled] = useState<boolean>(false);
+
+
 
 
   const columns: GridColDef[] = [
@@ -51,16 +54,29 @@ const EmployeeTable = () => {
       flex: 1,
       renderCell: (cellValues) => {
         let deleteIconDisabled = false;
-        if(deleteDepartmentButtonDisabled===true) {
+        let editIconDisabled = false;
+
+        if(deleteEmployeeButtonDisabled===true) 
           deleteIconDisabled = true;
-        }
+
+        if(editEmployeeButtonDisabled===true) 
+          editIconDisabled = true;
+      
         return (
           <>
             <IconButton 
               color="primary"
-              onClick={() => navigate(`${moreInformationLinkBase}/${cellValues?.row?.id}`)}
+              onClick={() => navigate(Important.moreInformationLinkBase+cellValues?.row?.id)}
             >
               <ReadMoreIcon />
+            </IconButton>
+            <IconButton 
+    
+              color="info"
+              disabled={editIconDisabled}
+              onClick={() => navigate(Important.editLinkBase+cellValues?.row?.id)}
+            >
+              <SettingsIcon />
             </IconButton>
             <IconButton
               disabled = {deleteIconDisabled}
@@ -127,26 +143,20 @@ const EmployeeTable = () => {
     return employeeDepartmentValue;
   }
   
-  function setInformationLinkBase() {
-    let link = `/employee/view`;
-    if(isAdmin) link = `/employee`;
-    setMoreInformationLinkBase(link);
-  }
 
   function setCreateNewEmployeeButton() {
     if(!isAdmin) {
       setCreateNewEmployeeButtonDisabled(true);
-      setDeleteDepartmentButtonDisabled(true);
+      setDeleteEmployeeButtonDisabled(true);
+      setEditEmployeeButtonDisabled(true);
     }
   }
 
-  useEffect(() => {
-    setInformationLinkBase();
-  }, []);
 
   useEffect(() => {
     setCreateNewEmployeeButton();
   }, []);
+
 
   useEffect(() => {
     axios

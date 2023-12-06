@@ -43,7 +43,7 @@ export const Router = createBrowserRouter([
         element: <DepartmentTable />,
       },
       {
-        path: "/department/:id",
+        path: "/department/edit/:id",
         element: <DepartmentForm />,
       },
       {
@@ -59,7 +59,7 @@ export const Router = createBrowserRouter([
         element: <EmployeeTable />,
       },
       {
-        path: "/employee/:id",
+        path: "/employee/edit/:id",
         element: <EmployeeForm />,
       },
       {

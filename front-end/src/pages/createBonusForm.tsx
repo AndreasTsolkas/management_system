@@ -24,12 +24,12 @@ import { useNavigate } from "react-router";
 const schema = yup.object({
   employeeId: yup
     .number()
-    .typeError("Η συμπλήρωση του user id είναι απαραίτητη.")
-    .required("Η συμπλήρωση του user id είναι απαραίτητη."),
+    .typeError("Η επιλογή ενός εργαζόμενου είναι απαραίτητη.")
+    .required("Η επιλογή ενός εργαζόμενου είναι απαραίτητη."),
   season: yup
     .string()
-    .typeError("Η συμπλήρωση της εποχής που ο εργαζόμενος θα πάρει το bonus είναι απαραίτητη.")
-    .required("Η συμπλήρωση της εποχής που ο εργαζόμενος θα πάρει το bonus είναι απαραίτητη."),
+    .typeError("Η επιλογή της εποχής που ο εργαζόμενος θα πάρει το bonus είναι απαραίτητη.")
+    .required("Η επιλογή της εποχής που ο εργαζόμενος θα πάρει το bonus είναι απαραίτητη."),
 });
 
 const CreateBonusForm = () => {
@@ -46,6 +46,7 @@ const CreateBonusForm = () => {
   const employeeGetAll = Important.getAllEmployee;
 
   const {
+    
     handleSubmit,
     control,
     reset,
@@ -144,9 +145,9 @@ const CreateBonusForm = () => {
 
   return (
     <div>
+      <h2 >Δημιουργία bonus: </h2>
       <div style={{  marginTop:"20px", display: 'flex' }}>
       <Box sx={{ width: "200px" }}>
-        <h2 >Δημιουργία bonus: </h2>
         <form  noValidate onReset = {onReset} onSubmit={handleSubmit(onSubmit)}>
           <Controller
             name="employeeId"
@@ -228,7 +229,7 @@ const CreateBonusForm = () => {
       </Box>
       <Box sx={{ marginLeft: "250px", width: "600px" }}>
       {(employeeSelected && seasonSelected) && (
-          <div style={{ marginTop: "170px" }}>
+          <div style={{ marginTop: "70px" }}>
             {Display.displayFieldWithTypography('Τωρινός μισθός: ', currentEmployeeCurrentSalary, 1)}
             {Display.displayFieldWithTypography('Συντελεστής αύξησης: ', currentEmployeeBonusRate, 2)}
             {Display.displayFieldWithTypography('Μισθός μετά την αύξηση: ', currentEmployeeNewSalary, 3)}

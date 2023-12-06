@@ -23,5 +23,8 @@ export const departmentInfoUrl = '/department/view/';
 export const getAllAndCountOnUserBaseUrl = backEndDepartmentUrl+'/all/countonuser';
 export const getAndCountOnUserBaseUrl = backEndDepartmentUrl+'/countonuser';
 
+export const moreInformationLinkBase = 'view/';
+export const editLinkBase = 'edit/';
+
 
 

@@ -1,5 +1,6 @@
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { Box, IconButton } from "@mui/material";
+import SettingsIcon from '@mui/icons-material/Settings';
 import ReadMoreIcon from "@mui/icons-material/ReadMore";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -21,6 +22,7 @@ const DepartmentTable = () => {
   const [moreInformationLinkBase, setMoreInformationLinkBase] = useState<string>('');
   const [createNewDepartmentButtonDisabled, setCreateNewDepartmentButtonDisabled] = useState<boolean>(false);
   const [deleteDepartmentButtonDisabled, setDeleteDepartmentButtonDisabled] = useState<boolean>(false);
+  const [editEmployeeButtonDisabled, setEditEmployeeButtonDisabled] = useState<boolean>(false);
 
   const getAllAndCountOnUserBaseUrl = Important.getAllAndCountOnUserBaseUrl;
 
@@ -40,15 +42,27 @@ const DepartmentTable = () => {
       flex: 0.5,
       renderCell: (cellValues: any) => {
         let deleteIconDisabled = false;
+        let editIconDisabled = false;
         if(cellValues?.row?.employeesNum > 0 || deleteDepartmentButtonDisabled===true) 
           deleteIconDisabled = true;
+
+        if(editEmployeeButtonDisabled===true) 
+          editIconDisabled = true;
+        
         return (
           <>
             <IconButton 
               color="primary"
-              onClick={() => navigate(`${moreInformationLinkBase}/${cellValues?.row?.id}`)}
+              onClick={() => navigate(Important.moreInformationLinkBase+cellValues?.row?.id)}
             >
               <ReadMoreIcon />
+            </IconButton>
+            <IconButton 
+              disabled= {editIconDisabled}
+              color="info"
+              onClick={() => navigate(Important.editLinkBase+cellValues?.row?.id)}
+            >
+              <SettingsIcon />
             </IconButton>
             <IconButton
               disabled ={deleteIconDisabled}
@@ -92,11 +106,6 @@ const DepartmentTable = () => {
     },
   ];
 
-  function setInformationLinkBase() {
-    let link = `/department/view`;
-    if(isAdmin) link = `/department`;
-    setMoreInformationLinkBase(link);
-  }
 
   function setCreateNewDepartmentButton() {
     if(!isAdmin) {
@@ -131,9 +140,6 @@ const DepartmentTable = () => {
 
 
 
-  useEffect(() => {
-    setInformationLinkBase();
-  }, []);
 
   useEffect(() => {
     setCreateNewDepartmentButton();
