@@ -22,6 +22,35 @@ export class EmployeeService {
     }
   }
 
+  async findAllWithRelationshipsWithCondition(field: string, value: string) {
+    try {
+      let whereCondition: Record<string, any> = {};
+      let relationshipArray: any | null = null;
+  
+      if (value.toLowerCase() === 'null') {
+        whereCondition[field] = IsNull();
+      } 
+      else if(value.toLowerCase() === 'notnull') {
+        relationshipArray = ['department'];
+         whereCondition[field] = Not(IsNull()) ;
+      }
+      else throw new BadRequestException();
+  
+      const queryOptions: any = {
+        where: whereCondition,
+      };
+  
+      if (relationshipArray) {
+        queryOptions.relations = relationshipArray;
+      }
+  
+      return await this.employeesRepository.find(queryOptions);
+    } catch (error) {
+      console.log(error);
+      throw new InternalServerErrorException();
+    }
+  }
+
   async findAllWithRelationshipsWithNullCondition(field: string, value: string) {
     try {
       let whereCondition: Record<string, any> = {};
