@@ -154,12 +154,15 @@ export class EmployeeService {
     try {
       let employee = await this.findOneWithRelationships(id);
       let isOnVacation = false;
+      let hasMadeRequestRecently = false;
       if(await this.utilityService.hasVacationRequestWithEmployeeId(employee.id)) {
         isOnVacation = await this.utilityService.isEmployeeOnVacation(employee.id);
+        hasMadeRequestRecently = await this.utilityService.hasPendingRequest(employee.id);
       }
       return {
-        employee: employee,
-        isOnVacation: isOnVacation
+        employee: employee, 
+        isOnVacation: isOnVacation,
+        hasMadeRequestRecently: hasMadeRequestRecently
       };
     } 
     catch (error) {
