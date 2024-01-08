@@ -87,6 +87,8 @@ export class VacationRequestService {
     }
   }
 
+
+
   // 
 
   async findByStatus(status: string) {
@@ -158,5 +160,19 @@ export class VacationRequestService {
       throw new InternalServerErrorException();
     }
     
+  }
+
+  async hasVacationRequestWithEmployeeId(employeeId: number): Promise<boolean> {
+    try {
+      const count = await this.vacationRequestRepository
+        .createQueryBuilder('vacation_request')
+        .where('vacation_request.employee_id = :employeeId', { employeeId })
+        .getCount();
+
+      return count > 0;
+    } catch (error) {
+      console.log(error);
+      throw new InternalServerErrorException();
+    }
   }
 }

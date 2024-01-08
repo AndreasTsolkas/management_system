@@ -58,5 +58,9 @@ export class VacationRequestController {
     (evaluateVacationRequest.vacationRequestId, evaluateVacationRequest.approved);
   }
   
+  @Get('/hasemployeeId/:id')
+  async hasVacationRequestWithEmployeeId(@Param('id') employeeId: number) {
+    return this.vacationRequestService.hasVacationRequestWithEmployeeId(employeeId);
+  }
 
 }

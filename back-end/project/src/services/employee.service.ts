@@ -2,14 +2,20 @@ import { BadRequestException, Injectable, InternalServerErrorException } from '@
 import { InjectRepository } from '@nestjs/typeorm';
 import { IsNull, Not, Repository, getManager } from 'typeorm';
 import { Employee } from 'src/entities/employee.entity';
+import { DatabaseService } from './database.service';
+import { UtilityService } from './utility.service';
 
 import * as Messages from 'src/messages';
+import { VacationRequest } from 'src/entities/vacation_request.entity';
 
 @Injectable()
 export class EmployeeService {
+
   constructor(
     @InjectRepository(Employee)
     private employeesRepository: Repository<Employee>,
+    private readonly db: DatabaseService,
+    private readonly utilityService: UtilityService,
   ) {}
 
   async findAllWithRelationships() {
@@ -22,34 +28,6 @@ export class EmployeeService {
     }
   }
 
-  async findAllWithRelationshipsWithCondition(field: string, value: string) {
-    try {
-      let whereCondition: Record<string, any> = {};
-      let relationshipArray: any | null = null;
-  
-      if (value.toLowerCase() === 'null') {
-        whereCondition[field] = IsNull();
-      } 
-      else if(value.toLowerCase() === 'notnull') {
-        relationshipArray = ['department'];
-         whereCondition[field] = Not(IsNull()) ;
-      }
-      else throw new BadRequestException();
-  
-      const queryOptions: any = {
-        where: whereCondition,
-      };
-  
-      if (relationshipArray) {
-        queryOptions.relations = relationshipArray;
-      }
-  
-      return await this.employeesRepository.find(queryOptions);
-    } catch (error) {
-      console.log(error);
-      throw new InternalServerErrorException();
-    }
-  }
 
   async findAllWithRelationshipsWithNullCondition(field: string, value: string) {
     try {
@@ -146,9 +124,50 @@ export class EmployeeService {
     };
   }
 
+  ///
 
-  
+  async getEmployeesAvailableForVacation(): Promise<Employee[]> {
+    try {
+      const query = this.employeesRepository.createQueryBuilder('e')
+        .select(['e', 'department']) 
+        .leftJoin('e.department', 'department') 
+        .where(qb => {
+          const subQuery = qb.subQuery()
+            .select('DISTINCT vr.employee_id')
+            .from('vacation_request', 'vr')
+            .where('NOW() BETWEEN vr.start_date AND vr.end_date')
+            .getQuery();
+          return `e.id NOT IN ${subQuery}`;
+        })
+        .groupBy('e.id, department.id'); 
+
+      const result = await query.getMany(); 
+      return result;
+    } catch (error) {
+      console.log(error);
+      throw new InternalServerErrorException();
+    }
+  }
 
 
+  async findOneWithRelationshipsAndCheckIfIsOnVacation(id: number) {
+    try {
+      let employee = await this.findOneWithRelationships(id);
+      let isOnVacation = false;
+      if(await this.utilityService.hasVacationRequestWithEmployeeId(employee.id)) {
+        isOnVacation = await this.utilityService.isEmployeeOnVacation(employee.id);
+      }
+      return {
+        employee: employee,
+        isOnVacation: isOnVacation
+      };
+    } 
+    catch (error) {
+      console.log(error);
+      throw new InternalServerErrorException();
+    }
+  }
 
 }
+
+

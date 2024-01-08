@@ -24,7 +24,6 @@ const VacationRequestForm = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const vacationRequestUrl = Important.backEndVacationRequestUrl;
   const employeeUrl = Important.backEndEmployeeUrl;
-  const [result, setResult] = useState<any | null>(null);
   const [avaliableDays, setAvaliableDays] = useState<number | null>(null);
   const [validatedStartDate, setValidatedStartDate] = useState<any | null>(null);
   const [validatedEndDate, setValidatedEndDate] = useState<any | null>(null);
@@ -32,10 +31,8 @@ const VacationRequestForm = () => {
   const [isDifferenceOutOfRage, setIsDifferenceOutOfRage] = useState<boolean>(false);
   const [differenceOutOfRageMessage, setDifferenceOutOfRageMessage] = useState<string | null>(null);
 
-  const userId = 1;
   const employeeGetAll = Important.getAllEmployee;
-  const [employees, setEmployees] = useState<any[]>([]);
-  const [employeeSelected, setEmployeeSelected] = useState<boolean>(false);
+  const [employees, setEmployees] = useState<any[] >([]);
 
   const defaultStartDate = moment().format("YYYY-MM-DD");
   const defaultEndDate = moment().add(1, "days").format("YYYY-MM-DD");
@@ -111,6 +108,7 @@ const VacationRequestForm = () => {
     setIsDifferenceOutOfRage(false);
     setDifferenceOutOfRageMessage(null);
     setIsNewDateSelected(false);
+    setAvaliableDays(null);
   }
 
   const onChange = (data: any) => {
@@ -129,10 +127,8 @@ const VacationRequestForm = () => {
   }
 
 
-  const onEmployeeChange = async (data: any, isEmployeeSelected: boolean) => {
-    if(isEmployeeSelected) {
-      setEmployeeSelected(true);
-    }
+  const onEmployeeChange = async (data: any) => {
+    setAvaliableDays(employees.find(employees => employees.id === data.target.value)?.vacationDays);
   };
 
   const onSubmit = (data: any) => {
@@ -157,19 +153,9 @@ const VacationRequestForm = () => {
     
   };
 
-  const getUserData = async () => {
-    try {
-      const response: any = await axios.get(`${employeeUrl}/${userId}`);
-      setResult(response.data);
-    }
-    catch(error: any) {
-      console.error(error);
-      toast.error(error.response.data.message);
-    }
-  }
 
   const getAllEmployees =  async () => {
-    const requestUrl = employeeGetAll;
+    const requestUrl = employeeGetAll+'/vrequest/avaliable';
     try {
       const response = await axios.get(requestUrl);
       setEmployees(response.data);
@@ -181,10 +167,6 @@ const VacationRequestForm = () => {
     }
   }
 
-  const setUserAvaliableDays = () => {
-    if(result!==null) 
-      setAvaliableDays(result.vacationDays);
-  };
 
   const calculateDateDifference = () => {
     const startDate = moment.utc(validatedStartDate, "YYYY-MM-DD", true);
@@ -223,14 +205,6 @@ useEffect(() => {
 }, []);
 
  useEffect(() => {
-   getUserData();
- }, [userId]);
-
- useEffect(() => {
-   setUserAvaliableDays();
- }, [result]);
-
- useEffect(() => {
   if (defaultStartDate && defaultEndDate) {
     setValidatedStartDate(defaultStartDate);
     setValidatedEndDate(defaultEndDate);
@@ -255,8 +229,6 @@ useEffect(() => {
 
 
 
-
-
   return (
     <div>
       {Display.displayIconButton()}
@@ -265,7 +237,7 @@ useEffect(() => {
             <CircularProgress size={30} />
           </Box>
         ) : 
-    ( avaliableDays !==null && avaliableDays >= 1) ? (
+    ( employees !==null) ? (
     <>
       <h2>Προσθέστε νέα άδεια:</h2>
       <div style={{ marginTop: "20px", display: 'flex' }}>
@@ -288,7 +260,7 @@ useEffect(() => {
                   variant="outlined"
                   onChange={(e) => {
                     field.onChange(e);
-                    onEmployeeChange(e, true);
+                    onEmployeeChange(e);
                   }}
                 >
                   {employees.map((item: any) => {
@@ -338,9 +310,9 @@ useEffect(() => {
         </Box>
         <Box sx={{ marginLeft: "250px", width: "600px" }}>
           {
-            result!=null  && (
+            (avaliableDays !==null && avaliableDays >= 1)  && (
               <div style={{ marginTop: "70px" }}>
-                {Display.displayFieldWithTypography('Όριο ημερών: ', result.vacationDays, 1)}
+                {Display.displayFieldWithTypography('Όριο ημερών: ', avaliableDays, 1)}
                 {
                   dateDifference !== null  && (
                     isDifferenceOutOfRage ? (

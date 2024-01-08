@@ -43,4 +43,16 @@ export class EmployeeController {
   async countIfDepartmentIdExistence(@Param('id') id: number) {
     return await this.employeeService.countDepartmentExistenceInEmployee(id);
   }
+
+  ///
+
+  @Get('/all/vrequest/avaliable')
+  async getAllUsersAvaliableForVacationRequest(): Promise<Employee[]> {
+    return await this.employeeService.getEmployeesAvailableForVacation();
+  }
+
+  @Get('/isonvacation/:id')
+  async findOneWithRelationshipsAndCheckIfIsOnVacation(@Param('id') id: number) {
+    return await this.employeeService.findOneWithRelationshipsAndCheckIfIsOnVacation(id);
+  }
 }

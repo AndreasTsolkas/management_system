@@ -28,6 +28,7 @@ const UserVacationRequestForm = () => {
   const vacationRequestUrl = Important.backEndVacationRequestUrl;
   const employeeUrl = Important.backEndEmployeeUrl;
   const [result, setResult] = useState<any | null>(null);
+  const [isEmployeeOnVacation, setIsEmployeeOnVacation] = useState<boolean>(false);
   const [avaliableDays, setAvaliableDays] = useState<number | null>(null);
   const [validatedStartDate, setValidatedStartDate] = useState<any | null>(null);
   const [validatedEndDate, setValidatedEndDate] = useState<any | null>(null);
@@ -147,7 +148,7 @@ const UserVacationRequestForm = () => {
 
   const getUserData = async () => {
     try {
-      const response: any = await axios.get(`${employeeUrl}/${userId}`);
+      const response: any = await axios.get(`${employeeUrl}/isonvacation/${userId}`);
       setResult(response.data);
     }
     catch(error: any) {
@@ -156,9 +157,14 @@ const UserVacationRequestForm = () => {
     }
   }
 
+  const setIsEmployeeOnVacationState = () => {
+    if(result!==null) 
+      setIsEmployeeOnVacation(result.isOnVacation);
+  };
+
   const setUserAvaliableDays = () => {
     if(result!==null) 
-      setAvaliableDays(result.vacationDays);
+      setAvaliableDays(result.employee.vacationDays);
   };
 
   const calculateDateDifference = () => {
@@ -199,6 +205,10 @@ const UserVacationRequestForm = () => {
  }, [userId]);
 
  useEffect(() => {
+  setIsEmployeeOnVacationState();
+}, [result]);
+
+ useEffect(() => {
    setUserAvaliableDays();
  }, [result]);
 
@@ -229,6 +239,7 @@ useEffect(() => {
 
 
 
+
   return (
     <div>
       {Display.displayIconButton()}
@@ -237,64 +248,72 @@ useEffect(() => {
             <CircularProgress size={30} />
           </Box>
         ) : 
-    ( avaliableDays !==null && avaliableDays >= 1) ? (
-    <>
-      <h2>Νέα αίτηση άδειας:</h2>
-      <div style={{ marginTop: "20px", display: 'flex' }}>
-        <Box
-          sx={{
-            width: "200px",
-          }}
-        >
-          <form noValidate onChange={onChange} onReset={onReset} onSubmit={handleSubmit(onSubmit)}>
-            <MuiTextField
-              errors={errors}
-              control={control}
-              name="startDate"
-              label="Ημερομηνία έναρξης"
-            />
-            <MuiTextField
-              errors={errors}
-              control={control}
-              name="endDate"
-              label="Ημερομηνία λήξης"
-            />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-            >
-              Υποβολή
-            </Button>
-            <Button
-              type="reset"
-              fullWidth
-              variant="outlined"
-            >
-              Ανανέωση
-            </Button>
-          </form>
-        </Box>
-        <Box sx={{ marginLeft: "250px", width: "600px" }}>
-          {
-            result!=null  && (
-              <div style={{ marginTop: "70px" }}>
-                {Display.displayFieldWithTypography('Όριο ημερών: ', result.vacationDays, 1)}
+    ( avaliableDays !==null && avaliableDays >= 1 ) ? (
+      <>
+      {
+        !isEmployeeOnVacation ? (
+          <>
+            <h2>Νέα αίτηση άδειας:</h2>
+            <div style={{ marginTop: "20px", display: 'flex' }}>
+              <Box
+                sx={{
+                  width: "200px",
+                }}
+              >
+                <form noValidate onChange={onChange} onReset={onReset} onSubmit={handleSubmit(onSubmit)}>
+                  <MuiTextField
+                    errors={errors}
+                    control={control}
+                    name="startDate"
+                    label="Ημερομηνία έναρξης"
+                  />
+                  <MuiTextField
+                    errors={errors}
+                    control={control}
+                    name="endDate"
+                    label="Ημερομηνία λήξης"
+                  />
+                  <Button
+                    type="submit"
+                    fullWidth
+                    variant="contained"
+                    sx={{ mt: 3, mb: 2 }}
+                  >
+                    Υποβολή
+                  </Button>
+                  <Button
+                    type="reset"
+                    fullWidth
+                    variant="outlined"
+                  >
+                    Ανανέωση
+                  </Button>
+                </form>
+              </Box>
+              <Box sx={{ marginLeft: "250px", width: "600px" }}>
                 {
-                  dateDifference !== null  && (
-                    isDifferenceOutOfRage ? (
-                      Display.displayFieldWithTypography(differenceOutOfRageMessage, '', 3)
-                    ) : (
-                      Display.displayFieldWithTypography('Ημέρες άδειας: ', dateDifference, 2)
-                    )
+                  result != null && (
+                    <div style={{ marginTop: "70px" }}>
+                      {Display.displayFieldWithTypography('Όριο ημερών: ', result.employee.vacationDays, 1)}
+                      {
+                        dateDifference !== null && (
+                          isDifferenceOutOfRage ? (
+                            Display.displayFieldWithTypography(differenceOutOfRageMessage, '', 3)
+                          ) : (
+                            Display.displayFieldWithTypography('Ημέρες άδειας: ', dateDifference, 2)
+                          )
+                        )
+                      }
+                    </div>
                   )
                 }
-              </div>
-            )
-          }
-        </Box>
-      </div>
+              </Box>
+            </div>
+          </>
+        ) : (
+          <h3>Βρισκόσαστε ήδη σε άδεια. Δεν έχετε δικαίωμα να υποβάλλετε καινούρια αίτηση.</h3>
+        )
+      }
     </>
   ) : (
     <h3>

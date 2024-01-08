@@ -18,6 +18,9 @@ import { EmployeeService } from 'src/services/employee.service';
 import { DepartmentService } from 'src/services/department.service';
 import { BonusService } from 'src/services/bonus.service';
 import { VacationRequestService } from 'src/services/vacation_request.service';
+import { DatabaseService } from 'src/services/database.service';
+import { UtilityService } from 'src/services/utility.service';
+
 
 import { EmployeeModule } from 'src/modules/employee.module';
 import { DepartmentModule } from 'src/modules/department.module';
@@ -51,7 +54,8 @@ dotenv.config();
     EmployeeModule, DepartmentModule, BonusModule, VacationRequestModule],
   controllers: [AppController, EmployeeController, DepartmentController, BonusController, 
     VacationRequestController],
-  providers: [AppService, EmployeeService, DepartmentService, BonusService, VacationRequestService],
+  providers: [AppService, EmployeeService, DepartmentService, BonusService, VacationRequestService, 
+    DatabaseService, UtilityService],
 })
 export class AppModule {
   constructor(private dataSource: DataSource) {}
