@@ -4,6 +4,7 @@ import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
+import { ScheduleModule } from '@nestjs/schedule';
 import * as winston from 'winston';
 import { utilities as nestWinstonModuleUtilities, WinstonModule } from 'nest-winston';
 
@@ -20,6 +21,7 @@ import { BonusService } from 'src/services/bonus.service';
 import { VacationRequestService } from 'src/services/vacation_request.service';
 import { DatabaseService } from 'src/services/database.service';
 import { UtilityService } from 'src/services/utility.service';
+import { ScheduledTasksService } from 'src/services/scheduled.tasks.service';
 
 
 import { EmployeeModule } from 'src/modules/employee.module';
@@ -35,7 +37,9 @@ import { VacationRequestController } from 'src/controllers/vacation_request.cont
 
 dotenv.config();
 @Module({
-  imports: [ConfigModule.forRoot(),
+  imports: [
+    ScheduleModule.forRoot(),
+    ConfigModule.forRoot(),
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: ['.env'],
@@ -55,7 +59,7 @@ dotenv.config();
   controllers: [AppController, EmployeeController, DepartmentController, BonusController, 
     VacationRequestController],
   providers: [AppService, EmployeeService, DepartmentService, BonusService, VacationRequestService, 
-    DatabaseService, UtilityService],
+    DatabaseService, UtilityService, ScheduledTasksService],
 })
 export class AppModule {
   constructor(private dataSource: DataSource) {}

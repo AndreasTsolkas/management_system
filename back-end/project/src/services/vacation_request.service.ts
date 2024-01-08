@@ -1,6 +1,6 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { LessThan, Repository } from 'typeorm';
 import { VacationRequest } from 'src/entities/vacation_request.entity';
 import { EmployeeService } from 'src/services/employee.service';
 
@@ -173,6 +173,24 @@ export class VacationRequestService {
     } catch (error) {
       console.log(error);
       throw new InternalServerErrorException();
+    }
+  }
+
+  async updatePendingRequests(): Promise<void> {
+    const currentDate = new Date();
+    
+    const pendingRequests = await this.vacationRequestRepository.find({
+      where: {
+        status: 'pending',
+        endDate: LessThan(currentDate),
+      },
+    });
+
+    if (pendingRequests.length > 0) {
+      await Promise.all(pendingRequests.map(request => {
+        request.status = 'rejected';
+        return this.vacationRequestRepository.save(request);
+      }));
     }
   }
 }

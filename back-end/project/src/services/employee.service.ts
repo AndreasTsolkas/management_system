@@ -136,9 +136,11 @@ export class EmployeeService {
             .select('DISTINCT vr.employee_id')
             .from('vacation_request', 'vr')
             .where('NOW() BETWEEN vr.start_date AND vr.end_date')
+            .andWhere('vr.status = :status', { status: 'approved' })
             .getQuery();
           return `e.id NOT IN ${subQuery}`;
         })
+        
         .groupBy('e.id, department.id'); 
 
       const result = await query.getMany(); 
