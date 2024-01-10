@@ -16,6 +16,7 @@ const PendingVacationRequestTable = () => {
   const vacationRequestUrl = Important.getAllVacationRequest;
   const vacationRequestStatus = 'pending';
   const getVacationRequestByStatus = vacationRequestTable+'/by/status?status='+vacationRequestStatus;
+  const [arePendingRequestsExist, setArePendingRequestsExist] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isCheckBoxChecked, setIsCheckboxChecked] = useState<boolean>(false);
   const [modalSelectedValue, setModalSelectedValue] = useState<boolean>(true);
@@ -116,21 +117,25 @@ const PendingVacationRequestTable = () => {
     await axios
       .get(getVacationRequestByStatus)
       .then((response) => {
-        const data = response.data;
-        setRows(
-          data.map(
-            (vacationRequest: { id: any; employee: any; startDate: any; endDate: any, status: any, days: any }) => {
-              return {
-                id: vacationRequest.id,
+        if(response.data.areDataExist === true) {
+          const data = response.data;
+          setRows(
+            data.map(
+              (vacationRequest: { id: any; employee: any; startDate: any; endDate: any, status: any, days: any }) => {
+                return {
+                  id: vacationRequest.id,
 
-                employee: vacationRequest.employee.name,
-                startDate: moment(vacationRequest.startDate).format('MM / DD / YYYY'),
-                endDate: moment(vacationRequest.endDate).format('MM / DD / YYYY'),
-                days: vacationRequest.days,
-              };
-            }
-          )
-        );
+                  employee: vacationRequest.employee.name,
+                  startDate: moment(vacationRequest.startDate).format('MM / DD / YYYY'),
+                  endDate: moment(vacationRequest.endDate).format('MM / DD / YYYY'),
+                  days: vacationRequest.days,
+                };
+              }
+            )
+          );
+          setArePendingRequestsExist(true);
+        } 
+        
         setReadyToGetPendingVacationRequests(false);
       })
       .catch((error) => {
@@ -174,39 +179,45 @@ const PendingVacationRequestTable = () => {
 
   return (
     <div>
-      <Modal
-        open={isModalOpen}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box sx={{
-                position: 'absolute',
-                top: '50%',
-                left: '50%',
-                transform: 'translate(-50%, -50%)',
-                bgcolor: 'background.paper',
-                boxShadow: 24,
-                p: 4,
-                width: 300,
-                textAlign: 'center',
-              }}>
-        {body}
-        </Box>
-      </Modal>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "space-between",
-          width: 900,
-        }}
-      >
-        <h2>Εκρεμμείς άδειες</h2>
-      </div>
-      <Box sx={{ height: 500, width: 900 }}>
-        {Display.displayDataGrid(rows ?? [], columns)} 
+      {arePendingRequestsExist ? (
+  <>
+    <Modal
+      open={isModalOpen}
+      onClose={handleClose}
+      aria-labelledby="modal-modal-title"
+      aria-describedby="modal-modal-description"
+    >
+      <Box sx={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              bgcolor: 'background.paper',
+              boxShadow: 24,
+              p: 4,
+              width: 300,
+              textAlign: 'center',
+            }}>
+      {body}
       </Box>
+    </Modal>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "space-between",
+        width: 900,
+      }}
+    >
+      <h2>Εκρεμμείς άδειες</h2>
+    </div>
+    <Box sx={{ height: 500, width: 900 }}>
+      {Display.displayDataGrid(rows ?? [], columns)} 
+    </Box>
+  </>
+) : (
+  <h3>Δεν υπάρχουν αιτήσεις αδειών που εκρεμμούν</h3>
+)}
     </div>
   );
 };

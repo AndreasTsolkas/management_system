@@ -112,7 +112,6 @@ const VacationRequestForm = () => {
   }
 
   const onChange = (data: any) => {
-
     if(checkIfDateIsValid(data.target.value)) {
       if(data.target.name === 'startDate') {
         setValidatedStartDate(data.target.value);
@@ -133,8 +132,6 @@ const VacationRequestForm = () => {
 
   const onSubmit = (data: any) => {
     const requestUrl = vacationRequestUrl+`/admincreate/vrequest`;;
-    console.log(requestUrl);
-    console.log(data);
     const putData = {
       startDate: data.startDate,
       endDate: data.endDate,
@@ -143,9 +140,9 @@ const VacationRequestForm = () => {
       axios.put(requestUrl, putData, {
         headers: { "Content-Type": "application/json" }
       })
-        .then(() => {
+        .then((response) => {
           toast.success("Η αίτηση άδειας καταχωρήθηκε με επιτυχία.");
-          
+          navigate('/vacation_request/view/'+response.data.id);
         })
         .catch((error) => {
           console.error(error);
@@ -172,13 +169,29 @@ const VacationRequestForm = () => {
   const calculateDateDifference = () => {
     const startDate = moment.utc(validatedStartDate, "YYYY-MM-DD", true);
     const endDate = moment.utc(validatedEndDate, "YYYY-MM-DD", true);
-    return endDate.diff(startDate, "days");
+    return  endDate.diff(startDate, "days") + 1;
   };
 
   const checkIfDateIsValid = (value: any) => {
     let result = moment.utc(value, true).isValid();
     return result;
   };
+
+  const calculateNumberOfNonWorkingDays = (startDate: Date, endDate: Date): number => {
+    let count = 0;
+    const currentDate = new Date(startDate);
+  
+    while (currentDate <= endDate) {
+      const dayOfWeek = currentDate.getDay(); 
+      if (dayOfWeek === 0 || dayOfWeek === 6) {
+        count++; 
+      }
+      currentDate.setDate(currentDate.getDate() + 1);
+    }
+  
+    return count;
+  };
+  
 
   const checkIfDifferenceIsOutOfRage = () => {
     if(dateDifference !==null) {
@@ -215,7 +228,9 @@ useEffect(() => {
  useEffect(() => {
   if (validatedStartDate && validatedEndDate) {
     const difference = calculateDateDifference();
-    setDateDifference(difference);
+    const nonWorkingDays = calculateNumberOfNonWorkingDays(new Date(validatedStartDate), new Date(validatedEndDate));
+    const vacationDays = difference - nonWorkingDays;
+    setDateDifference(vacationDays);
   }
 }, [validatedStartDate, validatedEndDate, isNewDateSelected]);
 

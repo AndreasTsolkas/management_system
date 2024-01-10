@@ -136,9 +136,9 @@ const UserVacationRequestForm = () => {
       axios.put(requestUrl, putData, {
         headers: { "Content-Type": "application/json" }
       })
-        .then(() => {
+        .then((response) => {
           toast.success("Η αίτηση άδειας καταχωρήθηκε με επιτυχία.");
-          
+          navigate('/vacation_request/view/'+response.data.id);
         })
         .catch((error) => {
           console.error(error);
@@ -173,12 +173,27 @@ const UserVacationRequestForm = () => {
   const calculateDateDifference = () => {
     const startDate = moment.utc(validatedStartDate, "YYYY-MM-DD", true);
     const endDate = moment.utc(validatedEndDate, "YYYY-MM-DD", true);
-    return endDate.diff(startDate, "days");
+    return endDate.diff(startDate, "days")+1;
   };
 
   const checkIfDateIsValid = (value: any) => {
     let result = moment.utc(value, true).isValid();
     return result;
+  };
+
+  const calculateNumberOfNonWorkingDays = (startDate: Date, endDate: Date): number => {
+    let count = 0;
+    const currentDate = new Date(startDate);
+  
+    while (currentDate <= endDate) {
+      const dayOfWeek = currentDate.getDay(); 
+      if (dayOfWeek === 0 || dayOfWeek === 6) {
+        count++; 
+      }
+      currentDate.setDate(currentDate.getDate() + 1);
+    }
+  
+    return count;
   };
 
   const checkIfDifferenceIsOutOfRage = () => {
@@ -225,7 +240,9 @@ const UserVacationRequestForm = () => {
  useEffect(() => {
   if (validatedStartDate && validatedEndDate) {
     const difference = calculateDateDifference();
-    setDateDifference(difference);
+    const nonWorkingDays = calculateNumberOfNonWorkingDays(new Date(validatedStartDate), new Date(validatedEndDate));
+    const vacationDays = difference - nonWorkingDays;
+    setDateDifference(vacationDays);
   }
 }, [validatedStartDate, validatedEndDate, isNewDateSelected]);
 
