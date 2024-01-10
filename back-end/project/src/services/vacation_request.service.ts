@@ -5,7 +5,7 @@ import { VacationRequest } from 'src/entities/vacation_request.entity';
 import { EmployeeService } from 'src/services/employee.service';
 
 import * as Messages from 'src/messages';
-import { UserCreateVacationRequest } from 'src/dto/userCreateVacationRequest.dto';
+import { CreateVacationRequest } from 'src/dto/createVacationRequest.dto';
 import { VacationRequestStatus} from 'src/enums/vacation.request.status';
 
 @Injectable()
@@ -53,7 +53,7 @@ export class VacationRequestService {
 
   async create(vacationRequestData: Partial<VacationRequest>): Promise<VacationRequest> {
     try {
-      const newVacationRequest = this.vacationRequestRepository.create(vacationRequestData);
+      const newVacationRequest = await this.vacationRequestRepository.create(vacationRequestData);
       return this.vacationRequestRepository.save(newVacationRequest);
     }
     catch(error) {
@@ -120,24 +120,51 @@ export class VacationRequestService {
     return nonWorkingDaysCount;
   }
    
-  async userCreateVacationRequest(userCreateVacationRequestData: UserCreateVacationRequest) {
+  async createVacationRequest(createVacationRequest: CreateVacationRequest, userCreated: boolean) {
     try {
-      let startDate = new Date(userCreateVacationRequestData.startDate);
-      let endDate = new Date(userCreateVacationRequestData.endDate);
+      let statusValue = 'APPROVED';
+      let startDate = new Date(createVacationRequest.startDate);
+      let endDate = new Date(createVacationRequest.endDate);
       const nonWorkingDays = this.calculateNonWorkingDays(startDate, endDate);
       const vacationDays = this.calculateVacationDays(startDate, 
         endDate, nonWorkingDays);
       const employee = await this.employeeService.findOneWithRelationships
-      (userCreateVacationRequestData.employeeId);
-      await this.create({employee: employee, startDate: userCreateVacationRequestData.startDate, 
-        endDate: userCreateVacationRequestData.endDate, status: VacationRequestStatus['PENDING'], 
+      (createVacationRequest.employeeId);
+      if(userCreated) 
+        statusValue = 'PENDING';
+      await this.create({employee: employee, startDate: createVacationRequest.startDate, 
+        endDate: createVacationRequest.endDate, status: VacationRequestStatus[statusValue], 
         days: vacationDays});
+      return vacationDays;
     }
     catch(error) {
       console.log(error);
       throw new InternalServerErrorException();
     }
+  }
 
+  async userCreateVacationRequest(createVacationRequest: CreateVacationRequest) {
+    try {
+      return this.createVacationRequest(createVacationRequest, true);
+    }
+    catch(error) {
+      console.log(error);
+      throw new InternalServerErrorException();
+    }
+  }
+
+  async adminCreateVacationRequest(createVacationRequest: CreateVacationRequest) {
+    try {
+      let vacationDays = await this.createVacationRequest(createVacationRequest, false);
+      const employee = await this.employeeService.findOneWithRelationships
+      (createVacationRequest.employeeId);
+      employee.vacationDays-=vacationDays;
+      await this.employeeService.update(createVacationRequest.employeeId, employee);
+    }
+    catch(error) {
+      console.log(error);
+      throw new InternalServerErrorException();
+    }
   }
 
   async evaluateVacationRequest(id: number, approved: boolean) {
@@ -176,7 +203,7 @@ export class VacationRequestService {
     }
   }
 
-  async updatePendingRequests(): Promise<void> {
+  async handleOutdatedPendingRequests(): Promise<void> {
     const currentDate = new Date();
     
     const pendingRequests = await this.vacationRequestRepository.find({

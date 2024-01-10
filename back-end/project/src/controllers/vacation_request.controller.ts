@@ -2,7 +2,7 @@ import { Body, Controller, Delete, Get, Param, Patch, Put, Query, Req } from '@n
 import { VacationRequest } from 'src/entities/vacation_request.entity';
 import { VacationRequestService } from 'src/services/vacation_request.service';
 
-import { UserCreateVacationRequest } from 'src/dto/userCreateVacationRequest.dto';
+import { CreateVacationRequest } from 'src/dto/createVacationRequest.dto';
 import { EvaluateVacationRequest } from 'src/dto/evaluateVacationRequest.dto';
 
 @Controller('vrequest')
@@ -46,9 +46,15 @@ export class VacationRequestController {
   }
 
   @Put('/usercreate/vrequest')
-  async userCreateVacation(@Body() userCreateVacationRequestData: UserCreateVacationRequest, 
+  async userCreateVacation(@Body() createVacationRequestData: CreateVacationRequest, 
   @Req() request: Request) {
-    return this.vacationRequestService.userCreateVacationRequest(userCreateVacationRequestData);
+    return this.vacationRequestService.userCreateVacationRequest(createVacationRequestData);
+  }
+
+  @Put('/admincreate/vrequest')
+  async adminCreateVacation(@Body() createVacationRequestData: CreateVacationRequest, 
+  @Req() request: Request) {
+    return this.vacationRequestService.adminCreateVacationRequest(createVacationRequestData);
   }
 
   @Put('/evaluate/vrequest')

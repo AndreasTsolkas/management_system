@@ -132,8 +132,9 @@ const VacationRequestForm = () => {
   };
 
   const onSubmit = (data: any) => {
-    const requestUrl = vacationRequestUrl;
+    const requestUrl = vacationRequestUrl+`/admincreate/vrequest`;;
     console.log(requestUrl);
+    console.log(data);
     const putData = {
       startDate: data.startDate,
       endDate: data.endDate,
