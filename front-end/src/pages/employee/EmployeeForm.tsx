@@ -65,9 +65,10 @@ const EmployeeForm = () => {
     if(data.department==='')
       data.department = departments[0].id;
     let success = false;
+    let response: any = '';
     if (!params?.id) {
       try {
-        await axios.put(employeeUrl, data);
+        response = await axios.put(employeeUrl, data);
         toast.success('Ο εργαζόμενος δημιουργήθηκε επιτυχώς');
         success = true;
       } catch (error) {
@@ -75,7 +76,7 @@ const EmployeeForm = () => {
       }
     } else {
       try {
-         await axios.patch(`${employeeUrl}/${params?.id}`, data, {
+         response = await axios.patch(`${employeeUrl}/${params?.id}`, data, {
           headers: { "Content-Type": "application/json" },
         });
         toast.success("Επιτυχής ενημέρωση εργαζόμενου");
@@ -85,8 +86,9 @@ const EmployeeForm = () => {
         toast.error('Αποτυχία ενημέρωσης εργαζόμενου');
       }
     }
-    if (success) navigate("/employee");
+    if (success) navigate('/employee/view/'+response.data.id);
   };
+
 
   const getEmployee = async () => {
     let text = 'Προσθέστε νέο εργαζόμενο:';
@@ -137,11 +139,8 @@ const EmployeeForm = () => {
     }
   }, [departments]);
 
-  console.log(employeeSelectedDepartmentId);
 
-
-
-
+  
   return (
     <div>
       {Display.displayIconButton()}
