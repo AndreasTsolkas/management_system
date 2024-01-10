@@ -27,8 +27,8 @@ const EmployeeForm = () => {
   const employeeUrl = Important.backEndEmployeeUrl;
   const departmentGetAll = Important.getAllDepartment;
   const [formTitle, setFormTitle] = useState<string>('');
-  const [employeeCurrentDepartmentId, setEmployeeCurrentDepartmentId] = useState<number | null >(null);
-  const [employeeSelectedDepartmentId, setEmployeeSelectedDepartmentId] = useState<number | null >(null);
+  const [employeeCurrentDepartmentId, setEmployeeCurrentDepartmentId] = useState<any | null >(null);
+  const [employeeSelectedDepartmentId, setEmployeeSelectedDepartmentId] = useState<any>('');
   
 
 
@@ -48,7 +48,7 @@ const EmployeeForm = () => {
       vacationDays: "",
       salary: "",
       employmentType: "",
-      department: "",
+      department: employeeSelectedDepartmentId,
     },
     resolver: yupResolver(NewEmployeeSchema),
   });
@@ -61,11 +61,13 @@ const EmployeeForm = () => {
     await getAllDepartments();
   }
 
-  const onSubmit =  (data: any) => {
+  const onSubmit =  async (data: any) => {
+    if(data.department==='')
+      data.department = departments[0].id;
     let success = false;
     if (!params?.id) {
       try {
-        axios.put(employeeUrl, data);
+        await axios.put(employeeUrl, data);
         toast.success('Ο εργαζόμενος δημιουργήθηκε επιτυχώς');
         success = true;
       } catch (error) {
@@ -73,7 +75,7 @@ const EmployeeForm = () => {
       }
     } else {
       try {
-         axios.patch(`${employeeUrl}/${params?.id}`, data, {
+         await axios.patch(`${employeeUrl}/${params?.id}`, data, {
           headers: { "Content-Type": "application/json" },
         });
         toast.success("Επιτυχής ενημέρωση εργαζόμενου");
@@ -83,7 +85,7 @@ const EmployeeForm = () => {
         toast.error('Αποτυχία ενημέρωσης εργαζόμενου');
       }
     }
-    /*if (success) navigate("/employee");*/
+    if (success) navigate("/employee");
   };
 
   const getEmployee = async () => {
@@ -124,6 +126,19 @@ const EmployeeForm = () => {
   useEffect(() => {
     getAllDepartments();
   }, []);
+
+  useEffect(() => {
+    if (departments.length > 0) {
+      let defaultDepartmentId = departments[0].id;
+      if (params?.id) {
+        defaultDepartmentId = employeeCurrentDepartmentId;
+      }
+      setEmployeeSelectedDepartmentId(defaultDepartmentId);
+    }
+  }, [departments]);
+
+  console.log(employeeSelectedDepartmentId);
+
 
 
 
@@ -207,15 +222,6 @@ const EmployeeForm = () => {
                 name="department"
                 control={control}
                 render={ ({ field }) => {
-                  let selectValueId: any | undefined = undefined;
-
-                  if (employeeSelectedDepartmentId===null) {
-                    if(employeeCurrentDepartmentId===null) 
-                      selectValueId = 1;
-                    else selectValueId = employeeCurrentDepartmentId;
-                  }
-                    
-                  else selectValueId = employeeSelectedDepartmentId;
                      
                   return (
                   <div >
@@ -225,20 +231,19 @@ const EmployeeForm = () => {
                       id="employee-label"
                       fullWidth
                       variant="outlined"
-                      value={selectValueId || ''}
+                      value={employeeSelectedDepartmentId || '' }
                       onChange={(event) => {
                         field.onChange(event);
                         setEmployeeSelectedDepartmentId(event.target.value);
-                        selectValueId = event.target.value;
                       }}
                     >
                       {departments.map((item: any) => (
                         <MenuItem key={item.id} value={item.id}>
-                          {item.name}
+                          {item.name} 
                         </MenuItem>
                       ))}
+                      
                     </Select>
-                    <span style={{ color: "red" }}>{errors.department?.message}</span>
                   </div>
                 );}}
               />

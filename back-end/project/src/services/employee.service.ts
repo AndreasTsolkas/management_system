@@ -91,7 +91,7 @@ export class EmployeeService {
 
   async create(employeeData: Partial<Employee>): Promise<Employee> {
     try {
-      const newEmployee = this.employeesRepository.create(employeeData);
+      const newEmployee = await this.employeesRepository.create(employeeData);
       return this.employeesRepository.save(newEmployee);
     }
     catch(error) {
