@@ -3,7 +3,7 @@ import { Link, Outlet } from "react-router-dom";
 
 export default function Root() {
 
-  const isAdmin = true;
+  const isAdmin = false;
   return (
     <>
       <div id="sidebar">

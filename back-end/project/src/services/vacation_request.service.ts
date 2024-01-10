@@ -97,7 +97,15 @@ export class VacationRequestService {
   // 
 
   async findByStatus(status: string) {
-    return await this.findByFieldWithRelationships('status', status);
+    let areDataExist = true;
+    let result = await this.findByFieldWithRelationships('status', status);
+    if(result === null) 
+      areDataExist = false;
+
+    return {
+      result,
+      areDataExist
+    }
   }
 
   private calculateVacationDays(startDate: Date, endDate: Date, nonWorkingDays: number) {
