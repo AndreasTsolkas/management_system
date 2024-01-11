@@ -2,7 +2,6 @@ import { BadRequestException, Injectable, InternalServerErrorException } from '@
 import { InjectRepository } from '@nestjs/typeorm';
 import { IsNull, Not, Repository, getManager } from 'typeorm';
 import { Employee } from 'src/entities/employee.entity';
-import { DatabaseService } from './database.service';
 import { UtilityService } from './utility.service';
 
 import * as Messages from 'src/messages';
@@ -14,7 +13,6 @@ export class EmployeeService {
   constructor(
     @InjectRepository(Employee)
     private employeesRepository: Repository<Employee>,
-    private readonly db: DatabaseService,
     private readonly utilityService: UtilityService,
   ) {}
 

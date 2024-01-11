@@ -5,8 +5,6 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
 import { ScheduleModule } from '@nestjs/schedule';
-import * as winston from 'winston';
-import { utilities as nestWinstonModuleUtilities, WinstonModule } from 'nest-winston';
 
 import * as dotenv from 'dotenv';
 
@@ -19,15 +17,18 @@ import { EmployeeService } from 'src/services/employee.service';
 import { DepartmentService } from 'src/services/department.service';
 import { BonusService } from 'src/services/bonus.service';
 import { VacationRequestService } from 'src/services/vacation_request.service';
-import { DatabaseService } from 'src/services/database.service';
 import { UtilityService } from 'src/services/utility.service';
 import { ScheduledTasksService } from 'src/services/scheduled.tasks.service';
+import { AuthService } from 'src/services/auth.service';
+import { UsersService } from 'src/services/users.service';
 
 
 import { EmployeeModule } from 'src/modules/employee.module';
 import { DepartmentModule } from 'src/modules/department.module';
 import { BonusModule } from 'src/modules/bonus.module';
 import { VacationRequestModule } from 'src/modules/vacation_request.module';
+import { AuthModule } from 'src/modules/auth.module';
+import { UsersModule } from 'src/modules/users.module';
 
 import { EmployeeController } from 'src/controllers/employee.controller';
 import { DepartmentController } from 'src/controllers/department.controller';
@@ -55,11 +56,11 @@ dotenv.config();
       synchronize: false,
     }),
     
-    EmployeeModule, DepartmentModule, BonusModule, VacationRequestModule],
+    EmployeeModule, DepartmentModule, BonusModule, VacationRequestModule, AuthModule, UsersModule],
   controllers: [AppController, EmployeeController, DepartmentController, BonusController, 
     VacationRequestController],
   providers: [AppService, EmployeeService, DepartmentService, BonusService, VacationRequestService, 
-    DatabaseService, UtilityService, ScheduledTasksService],
+     UtilityService, ScheduledTasksService, AuthService, UsersService],
 })
 export class AppModule {
   constructor(private dataSource: DataSource) {}
