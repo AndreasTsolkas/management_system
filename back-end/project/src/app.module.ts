@@ -43,7 +43,6 @@ dotenv.config();
 @Module({
   imports: [
     ScheduleModule.forRoot(),
-    ConfigModule.forRoot(),
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: ['.env'],
@@ -61,7 +60,7 @@ dotenv.config();
     
     EmployeeModule, DepartmentModule, BonusModule, VacationRequestModule, AuthModule, UsersModule],
   controllers: [AppController, EmployeeController, DepartmentController, BonusController, 
-    VacationRequestController],
+    VacationRequestController, AuthController],
   providers: [AppService, EmployeeService, DepartmentService, BonusService, VacationRequestService, 
      UtilityService, ScheduledTasksService, AuthService, UsersService, JwtService],
 })
