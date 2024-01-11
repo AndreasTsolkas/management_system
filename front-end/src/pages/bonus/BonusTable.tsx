@@ -67,7 +67,7 @@ const BonusTable = () => {
                     `${bonusTableUrl}/${cellValues?.row?.id}`
                   )
                   .then(() => {
-                    toast.error("deleted!");
+                    toast.info("Το bonus διαγράφτηκε με επιτυχία.");
                     axios
                       .get(bonusGetAll)
                       .then((response) => {

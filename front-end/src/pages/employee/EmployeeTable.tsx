@@ -87,7 +87,7 @@ const EmployeeTable = () => {
                     `${employeeTableUrl}/${cellValues?.row?.id}`
                   )
                   .then(() => {
-                    toast.error("Ο χρήστης διαγράφτηκε με επιτυχία.");
+                    toast.info("Ο χρήστης διαγράφτηκε με επιτυχία.");
                     axios
                       .get(employeeGetAll)
                       .then((response) => {

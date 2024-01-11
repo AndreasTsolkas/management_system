@@ -76,7 +76,7 @@ const VacationRequestTable = () => {
                     `${vacationRequestTable}/${cellValues?.row?.id}`
                   )
                   .then(() => {
-                    toast.error("deleted!");
+                    toast.info("H αίτηση άδειας διαγράφτηκε με επιτυχία.");
                     axios
                       .get(vacationRequestUrl)
                       .then((response) => {

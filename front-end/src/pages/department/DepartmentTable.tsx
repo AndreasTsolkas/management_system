@@ -73,7 +73,7 @@ const DepartmentTable = () => {
                     `${departmentTableUrl}/${cellValues?.row?.id}`
                   )
                   .then(() => {
-                    toast.error("Το τμήμα διαγράφτηκε επιτυχώς.");
+                    toast.info("Το τμήμα διαγράφτηκε με επιτυχία.");
                     axios
                       .get(departmentGetAll)
                       .then((response) => {
