@@ -5,6 +5,7 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
 import { ScheduleModule } from '@nestjs/schedule';
+import { JwtService } from "@nestjs/jwt";
 
 import * as dotenv from 'dotenv';
 
@@ -34,6 +35,8 @@ import { EmployeeController } from 'src/controllers/employee.controller';
 import { DepartmentController } from 'src/controllers/department.controller';
 import { BonusController } from 'src/controllers/bonus.controller';
 import { VacationRequestController } from 'src/controllers/vacation_request.controller';
+import { AuthController } from 'src/controllers/auth.controller';
+
 
 
 dotenv.config();
@@ -60,7 +63,7 @@ dotenv.config();
   controllers: [AppController, EmployeeController, DepartmentController, BonusController, 
     VacationRequestController],
   providers: [AppService, EmployeeService, DepartmentService, BonusService, VacationRequestService, 
-     UtilityService, ScheduledTasksService, AuthService, UsersService],
+     UtilityService, ScheduledTasksService, AuthService, UsersService, JwtService],
 })
 export class AppModule {
   constructor(private dataSource: DataSource) {}
