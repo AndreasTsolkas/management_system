@@ -71,6 +71,19 @@ export class EmployeeService {
     
   }
 
+  async findOneWithRelationshipsBySpecificFieldAndValue(field: string, value: any): Promise<Employee | null> {
+    try {
+      return this.employeesRepository
+        .createQueryBuilder('employee')
+        .leftJoinAndSelect('employee.department', 'department')
+        .where(`employee.${field} = :value`, { value })
+        .getOne();
+    } catch (error) {
+      console.log(error);
+      throw new InternalServerErrorException();
+    }
+  }
+
   async update(id: number, employeeData: Partial<Employee>): Promise<Employee | null> {
     try {
       const employee = await this.employeesRepository.findOneBy({id});
