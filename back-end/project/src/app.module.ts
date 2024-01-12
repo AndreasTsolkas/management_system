@@ -62,7 +62,7 @@ dotenv.config();
   controllers: [AppController, EmployeeController, DepartmentController, BonusController, 
     VacationRequestController, AuthController],
   providers: [AppService, EmployeeService, DepartmentService, BonusService, VacationRequestService, 
-     UtilityService, ScheduledTasksService, AuthService, UsersService, JwtService],
+     UtilityService, ScheduledTasksService, UsersService],
 })
 export class AppModule {
   constructor(private dataSource: DataSource) {}
