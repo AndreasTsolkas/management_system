@@ -20,7 +20,6 @@ import { BonusService } from 'src/services/bonus.service';
 import { VacationRequestService } from 'src/services/vacation_request.service';
 import { UtilityService } from 'src/services/utility.service';
 import { ScheduledTasksService } from 'src/services/scheduled.tasks.service';
-import { AuthService } from 'src/services/auth.service';
 import { UsersService } from 'src/services/users.service';
 
 

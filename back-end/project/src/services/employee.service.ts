@@ -4,8 +4,6 @@ import { IsNull, Not, Repository, getManager } from 'typeorm';
 import { Employee } from 'src/entities/employee.entity';
 import { UtilityService } from './utility.service';
 
-import * as Messages from 'src/messages';
-import { VacationRequest } from 'src/entities/vacation_request.entity';
 
 @Injectable()
 export class EmployeeService {

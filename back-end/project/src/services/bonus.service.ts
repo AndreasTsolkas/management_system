@@ -2,12 +2,10 @@ import { BadRequestException, Injectable, InternalServerErrorException } from '@
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Bonus } from 'src/entities/bonus.entity';
-import { Employee } from 'src/entities/employee.entity';
 import { EmployeeService } from 'src/services/employee.service';
 import { CreateBonus } from 'src/dto/createBonus.dto';
 import { SeasonBonus} from 'src/enums/season.bonus.enum';
 
-import * as Messages from 'src/messages';
 
 @Injectable()
 export class BonusService {
