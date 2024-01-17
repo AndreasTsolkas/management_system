@@ -16,7 +16,8 @@ export function displayDataGrid(rows: any, columns: any) {
           sorting: {
             sortModel: [{ field: 'id', sort: 'asc' }],
           },
-        }} />
+        }}
+         />
 
     );
 }
