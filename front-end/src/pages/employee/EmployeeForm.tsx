@@ -3,7 +3,7 @@ import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { Box, Button, Grid, InputLabel, MenuItem, Select } from "@mui/material";
+import { Box, Button, FormControlLabel, Grid, InputLabel, MenuItem, Select, Switch } from "@mui/material";
 import MuiTextField from "../../components/MuiTextField";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -14,6 +14,8 @@ export const NewEmployeeSchema = yup.object({
   name: yup.string().required("Το όνομα απαιτείται").min(2).max(20),
   surname: yup.string().required("Το επώνυμο απαιτείται").min(2).max(20),
   email: yup.string().email().required("Το email απαιτείται"),
+  password: yup.string().required("Ο κωδικός απαιτείται"),
+  employeeUid: yup.number().required("Ο αριθμός μητρώου απαιτείται"),
   startDate: yup.date().required("Η ημερομηνία έναρξης απαιτείται"),
   vacationDays: yup.number().required("Οι ημέρες διακοπών απαιτούνται"),
   salary: yup.number().required("Ο μισθός απαιτείται"),
@@ -43,12 +45,15 @@ const EmployeeForm = () => {
       name: "",
       surname: "",
       email: "",
+      password: "",
       employeeUid: "",
       startDate: "",
       vacationDays: "",
       salary: "",
       employmentType: "",
       department: employeeSelectedDepartmentId,
+      isAccepted: true,
+      isAdmin: false
     },
     resolver: yupResolver(NewEmployeeSchema),
   });
@@ -176,6 +181,16 @@ const EmployeeForm = () => {
                 label="Email"
               />
             </Grid>
+            {!params?.id && (
+              <Grid item xs={4}>
+                <MuiTextField
+                  errors={errors}
+                  control={control}
+                  name="password"
+                  label="Κωδικός πρόσβασης"
+                />
+              </Grid>
+            )}
             <Grid item xs={4}>
               <MuiTextField
                 errors={errors}
@@ -247,6 +262,19 @@ const EmployeeForm = () => {
                 );}}
               />
             </Grid>
+
+            <Controller
+              name="isAdmin"
+              control={control}
+              render={({ field }) => (
+                <FormControlLabel
+                  control={<Switch {...field} />}
+                  name="isAdmin"
+                  label="Συμμετοχή στη διαχείριση"
+                  sx={{ marginLeft: "20px", marginTop: "20px" }}
+                />
+              )}
+            />
             
           </Grid>
           <Button

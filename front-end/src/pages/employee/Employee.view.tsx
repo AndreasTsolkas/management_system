@@ -33,7 +33,7 @@ const EmployeeView = () => {
     if (result) {
       
       let isAdminText = 'Ναι';
-      if(!isAdmin) isAdminText = 'Όχι';
+      if(!result.isAdmin) isAdminText = 'Όχι';
       let resultDepartmentValue: any = '-----';
       if (result.department !== null ) {
         const departmentInfoUrl = '/department/view/'+result.department.id;
