@@ -53,7 +53,7 @@ const EmployeeForm = () => {
       employmentType: "",
       department: employeeSelectedDepartmentId,
       isAccepted: true,
-      isAdmin: false
+      isAdmin: true
     },
     resolver: yupResolver(NewEmployeeSchema),
   });
@@ -61,7 +61,7 @@ const EmployeeForm = () => {
   const onReset = async (data: any) => {
     setEmployeeCurrentDepartmentId(null);
     setEmployeeSelectedDepartmentId(null);
-    reset(data);
+    reset({ ...data, isAdmin: false });
     await getEmployee();
     await getAllDepartments();
   }
@@ -268,7 +268,7 @@ const EmployeeForm = () => {
               control={control}
               render={({ field }) => (
                 <FormControlLabel
-                  control={<Switch {...field} />}
+                  control={<Switch defaultChecked = {field.value} {...field} />}
                   name="isAdmin"
                   label="Συμμετοχή στη διαχείριση"
                   sx={{ marginLeft: "20px", marginTop: "20px" }}
