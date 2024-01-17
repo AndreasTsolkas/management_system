@@ -61,7 +61,7 @@ const EmployeeForm = () => {
   const onReset = async (data: any) => {
     setEmployeeCurrentDepartmentId(null);
     setEmployeeSelectedDepartmentId(null);
-    reset({ ...data, isAdmin: false });
+    reset(data);
     await getEmployee();
     await getAllDepartments();
   }

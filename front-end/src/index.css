@@ -16,7 +16,7 @@ body {
     height: 100%;
     margin: 0;
     line-height: 1.5;
-    background-color: #faf9fa;
+    background-color: #ffffff;
     color: #121212;
 }
 
@@ -28,7 +28,7 @@ body {
 
 #sidebar {
     width: 15rem;
-    background-color: #cdf0e8;
+    background-color: #9cc6ee;
     border-right: solid 1px #e3e3e3;
     display: flex;
     flex-direction: column;
