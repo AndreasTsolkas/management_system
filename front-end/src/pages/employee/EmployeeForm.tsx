@@ -38,6 +38,8 @@ const EmployeeForm = () => {
     register,
     handleSubmit,
     reset,
+    setValue,
+    watch,
     formState: { errors },
     control,
   } = useForm({
@@ -99,12 +101,14 @@ const EmployeeForm = () => {
     let text = 'Προσθέστε νέο εργαζόμενο:';
     if (params && params?.id) {
       text = 'Ρυθμίσεις εργαζόμενου:';
-      axios
+      await axios
         .get(`${employeeUrl}/${params?.id}`)
         .then((response) => {
           reset(response.data);
           if (response.data.department.name !== null || response.data.department.name !== null)
             setEmployeeCurrentDepartmentId(response.data.department.id);
+          console.log(response.data.isAdmin);
+          setValue('isAdmin', response.data.isAdmin);
         })
         .catch((error) => {
           console.error(error);
@@ -143,8 +147,6 @@ const EmployeeForm = () => {
       setEmployeeSelectedDepartmentId(defaultDepartmentId);
     }
   }, [departments]);
-
-
   
   return (
     <div>
@@ -268,7 +270,7 @@ const EmployeeForm = () => {
               control={control}
               render={({ field }) => (
                 <FormControlLabel
-                  control={<Switch defaultChecked = {field.value} {...field} />}
+                  control={<Switch checked = {field.value} {...field} />}
                   name="isAdmin"
                   label="Συμμετοχή στη διαχείριση"
                   sx={{ marginLeft: "20px", marginTop: "20px" }}
