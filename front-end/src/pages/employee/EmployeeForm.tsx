@@ -107,7 +107,6 @@ const EmployeeForm = () => {
           reset(response.data);
           if (response.data.department.name !== null || response.data.department.name !== null)
             setEmployeeCurrentDepartmentId(response.data.department.id);
-          console.log(response.data.isAdmin);
           setValue('isAdmin', response.data.isAdmin);
         })
         .catch((error) => {
