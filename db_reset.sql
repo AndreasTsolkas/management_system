@@ -109,7 +109,7 @@ CREATE TABLE management_system.employee (
 	employment_type varchar(255) NULL,
 	is_accepted bool NULL,
 	is_admin bool NULL,
-	"password" varchar(20) NULL,
+	"password" varchar(60) NULL,
 	CONSTRAINT employee_pkey PRIMARY KEY (id),
 	CONSTRAINT "FK_d62835db8c0aec1d18a5a927549" FOREIGN KEY (department_id) REFERENCES management_system.department(id)
 );
