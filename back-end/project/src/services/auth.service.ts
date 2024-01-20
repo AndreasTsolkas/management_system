@@ -3,7 +3,9 @@ import { JwtService } from "@nestjs/jwt";
 import * as bcrypt from 'bcrypt';
 import { MailerService } from '@nestjs-modules/mailer';
 
+import { Employee } from "src/entities/employee.entity";
 import { EmployeeService } from "src/services/employee.service";
+import {bcryptSaltOrRounds} from "src/important";
 
 
 @Injectable()
@@ -43,6 +45,26 @@ export class AuthService {
         throw new UnauthorizedException(message);
       }
       else throw new InternalServerErrorException('Σφάλμα κατά την αναζήτηση του λογαριασμού.');
+    }
+  }
+
+  async register(employee: Employee): Promise<Employee> {
+
+    const hashedPassword = await bcrypt.hash(employee.password,bcryptSaltOrRounds)
+    employee.password = hashedPassword;
+
+    try{
+      const newEmployee = await this.employeeService.create(employee);
+      newEmployee.password = 'hidden';
+      return newEmployee;
+    } 
+    catch(error) {
+      let message = "Σφάλμα κατά τη δημιουργία νέου λογαριασμού.";
+      if(error.code==23505) {
+        message= "Το email που δώσατε χρησιμοποιείται από άλλον χρήστη.";
+        throw new BadRequestException(message);
+      }
+      throw new InternalServerErrorException(message);
     }
   }
 

@@ -20,15 +20,12 @@ import { BonusService } from 'src/services/bonus.service';
 import { VacationRequestService } from 'src/services/vacation_request.service';
 import { UtilityService } from 'src/services/utility.service';
 import { ScheduledTasksService } from 'src/services/scheduled.tasks.service';
-import { UsersService } from 'src/services/users.service';
-
 
 import { EmployeeModule } from 'src/modules/employee.module';
 import { DepartmentModule } from 'src/modules/department.module';
 import { BonusModule } from 'src/modules/bonus.module';
 import { VacationRequestModule } from 'src/modules/vacation_request.module';
 import { AuthModule } from 'src/modules/auth.module';
-import { UsersModule } from 'src/modules/users.module';
 import { MailModule } from 'src/modules/mail.module';
 
 import { EmployeeController } from 'src/controllers/employee.controller';
@@ -59,11 +56,11 @@ dotenv.config();
       synchronize: false,
     }),
     
-    EmployeeModule, DepartmentModule, BonusModule, VacationRequestModule, AuthModule, UsersModule, MailModule],
+    EmployeeModule, DepartmentModule, BonusModule, VacationRequestModule, AuthModule, MailModule],
   controllers: [AppController, EmployeeController, DepartmentController, BonusController, 
     VacationRequestController, AuthController, TestController],
   providers: [AppService, EmployeeService, DepartmentService, BonusService, VacationRequestService, 
-     UtilityService, ScheduledTasksService, UsersService],
+     UtilityService, ScheduledTasksService],
 })
 export class AppModule {
   constructor(private dataSource: DataSource) {}
