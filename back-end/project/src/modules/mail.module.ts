@@ -3,25 +3,26 @@ import { MailerModule } from '@nestjs-modules/mailer';
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
 import { MailService } from 'src/services/mail.service';
 import { join } from 'path';
+import * as dotenv from 'dotenv';
 
+dotenv.config();
 @Module({
   imports: [
     MailerModule.forRootAsync({
         useFactory: () => ({
           transport: {
-            host: process.env.HOST,
-            secure: false,
+            service: process.env.MAIL_HOST,
             auth: {
-              user: process.env.USER,
-              pass: process.env.PASSWORD,
+              user: process.env.MAIL_USER,
+              pass: process.env.MAIL_PASSWORD,
             },
           },
           defaults: {
-            from: process.env.FROM,
+            from: process.env.MAIL_USER,
           },
           preview: false,
           template: {
-            dir: join(__dirname,  '/templates'), //
+            dir: join(__dirname, '/templates'),
             adapter: new HandlebarsAdapter(),
             options: {
               strict: true,
