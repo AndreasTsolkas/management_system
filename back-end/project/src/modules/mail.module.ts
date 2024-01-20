@@ -11,7 +11,8 @@ dotenv.config();
     MailerModule.forRootAsync({
         useFactory: () => ({
           transport: {
-            service: process.env.MAIL_HOST,
+            service: 'gmail',
+            secure: true,
             auth: {
               user: process.env.MAIL_USER,
               pass: process.env.MAIL_PASSWORD,

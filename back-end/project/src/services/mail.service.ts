@@ -55,9 +55,10 @@ export class MailService {
     const compiledTemplate = handlebars.compile(template);
     const html = compiledTemplate({ Important, project });
 
+    console.log("here");
     await this.mailerService.sendMail({
       to: mailToSend,
-      from: process.env.FROM,
+      from: process.env.MAIL_USER,
       subject: mailSubject,
       html: html,
       template: template,

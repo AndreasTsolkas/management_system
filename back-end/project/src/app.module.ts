@@ -29,13 +29,14 @@ import { BonusModule } from 'src/modules/bonus.module';
 import { VacationRequestModule } from 'src/modules/vacation_request.module';
 import { AuthModule } from 'src/modules/auth.module';
 import { UsersModule } from 'src/modules/users.module';
+import { MailModule } from 'src/modules/mail.module';
 
 import { EmployeeController } from 'src/controllers/employee.controller';
 import { DepartmentController } from 'src/controllers/department.controller';
 import { BonusController } from 'src/controllers/bonus.controller';
 import { VacationRequestController } from 'src/controllers/vacation_request.controller';
 import { AuthController } from 'src/controllers/auth.controller';
-import { MailModule } from 'src/modules/mail.module';
+import { TestController } from 'src/controllers/test.controller';
 
 
 
@@ -60,7 +61,7 @@ dotenv.config();
     
     EmployeeModule, DepartmentModule, BonusModule, VacationRequestModule, AuthModule, UsersModule, MailModule],
   controllers: [AppController, EmployeeController, DepartmentController, BonusController, 
-    VacationRequestController, AuthController],
+    VacationRequestController, AuthController, TestController],
   providers: [AppService, EmployeeService, DepartmentService, BonusService, VacationRequestService, 
      UtilityService, ScheduledTasksService, UsersService],
 })
