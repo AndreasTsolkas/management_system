@@ -34,7 +34,7 @@ export default function Root() {
             localStorage.removeItem('token');
             await new Promise(resolve => setTimeout(resolve, 1000));
             setIsLoading(false);
-            navigate(0);
+            navigate('/signIn');
         }
       } catch (error) {
           console.log(error);
