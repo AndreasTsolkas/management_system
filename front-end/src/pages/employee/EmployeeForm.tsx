@@ -11,15 +11,15 @@ import * as Important from "src/important";
 import * as Display from "src/display";
 
 export const NewEmployeeSchema = yup.object({
-  name: yup.string().required("Το όνομα είναι απαραίτητο").min(2).max(20),
-  surname: yup.string().required("Το επώνυμο είναι απαραίτητο").min(2).max(20),
-  email: yup.string().email().required("Το email είναι απαραίτητο"),
-  password: yup.string().required("Ο κωδικός είναι απαραίτητος"),
-  employeeUid: yup.number().required("Ο αριθμός μητρώου είναι απαραίτητος"),
-  startDate: yup.date().required("Η ημερομηνία έναρξης είναι απαραίτητη"),
-  vacationDays: yup.number().required("Οι ημέρες διακοπών είναι απαραίτητες"),
-  salary: yup.number().required("Ο μισθός είναι απαραίτητος"),
-  employmentType: yup.string().required("Ο τύπος απασχόλησης είναι απαραίτητος"),
+  name: yup.string().required("Το όνομα είναι απαραίτητο.").min(2).max(20),
+  surname: yup.string().required("Το επώνυμο είναι απαραίτητο.").min(2).max(20),
+  email: yup.string().email().required("Το email είναι απαραίτητο."),
+  password: yup.string().required("Ο κωδικός είναι απαραίτητος."),
+  employeeUid: yup.number().required("Ο αριθμός μητρώου είναι απαραίτητος."),
+  startDate: yup.date().required("Η ημερομηνία έναρξης είναι απαραίτητη."),
+  vacationDays: yup.number().required("Οι ημέρες διακοπών είναι απαραίτητες."),
+  salary: yup.number().required("Ο μισθός είναι απαραίτητος."),
+  employmentType: yup.string().required("Ο τύπος απασχόλησης είναι απαραίτητος."),
 });
 
 const EmployeeForm = () => {

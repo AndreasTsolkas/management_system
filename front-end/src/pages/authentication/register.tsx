@@ -29,13 +29,13 @@ import { Link as RouterLink } from 'react-router-dom';
 const defaultTheme = createTheme();
 
 const registerSchema = yup.object().shape({
-  firstName: yup.string().required("Το όνομα είναι απαραίτητο"),
-  lastName: yup.string().required("Το επώνυμο είναι απαραίτητο"),
-  employeeUid: yup.number().required("Η χώρα είναι απαραίτητη"),
-  email: yup.string().required("Το email είναι απαραίτητο").email("Παρακαλώ εκχωρήστε ένα έγκαιρο email"),
-  password: yup.string().min(4,'Ο κωδικός πρέπει να έχει τουλάχιστον 4 χαρακτήρες').max(20, 'Ο κωδικός δεν πρέπει να ξεπερνάει τους 20 χαρακτήρες').required("Ο κωδικός είναι απαραίτητος"),
-  confirmPassword: yup.string().oneOf([yup.ref('password')], 'Οι κωδικοί πρέπει να ταιριάζουν').required("Επιβεβαιώστε τον κωδικό"),
-  employmentType: yup.string().required("Η χώρα είναι απαραίτητη"),
+  firstName: yup.string().required("Το όνομα είναι απαραίτητο."),
+  lastName: yup.string().required("Το επώνυμο είναι απαραίτητο."),
+  employeeUid: yup.number().required("Η χώρα είναι απαραίτητη."),
+  email: yup.string().required("Το email είναι απαραίτητο.").email("Παρακαλώ εκχωρήστε ένα έγκαιρο email."),
+  password: yup.string().min(4,'Ο κωδικός πρέπει να έχει τουλάχιστον 4 χαρακτήρες.').max(20, 'Ο κωδικός δεν πρέπει να ξεπερνάει τους 20 χαρακτήρες.').required("Ο κωδικός είναι απαραίτητος."),
+  confirmPassword: yup.string().oneOf([yup.ref('password')], 'Οι κωδικοί πρέπει να ταιριάζουν.').required("Επιβεβαιώστε τον κωδικό."),
+  employmentType: yup.string().required("Η χώρα είναι απαραίτητη."),
 });
 
 type FormData = {
