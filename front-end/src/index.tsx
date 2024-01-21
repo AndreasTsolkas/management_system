@@ -5,6 +5,8 @@ import "./index.css";
 import Root from "./routes/root";
 import Home from "./pages/home/Home";
 import Error from "./pages/error/Error";
+import SignIn from "./pages/authentication/signIn";
+import SignUp from "./pages/authentication/register";
 import DepartmentForm from "./pages/department/DepartmentForm";
 import DepartmentNewForm from "./pages/department/Department.new.Form";
 import DepartmentTable from "./pages/department/DepartmentTable";
@@ -102,15 +104,18 @@ export const Router = createBrowserRouter([
         path: "/createbonuses",
         element: <CreateBonusForm />,
       },
-      
     ],
-    
-  },]
-);
+  },
+  {
+    path: "/signIn",
+    element: <SignIn />,
+  },
+  {
+    path: "/register",
+    element: <SignUp />,
+  },
+]);
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
-  <>
-    <RouterProvider router={Router} />
-    <ToastContainer />
-  </>
+  <RouterProvider router={Router} />
 );

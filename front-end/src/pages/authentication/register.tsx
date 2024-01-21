@@ -20,19 +20,10 @@ import { Controller, useForm } from 'react-hook-form';
 import { yupResolver } from "@hookform/resolvers/yup";
 import MuiTextField from "src/components/MuiTextField";
 import MuiSelectField from "src/components/MuiSelectField";
+import "src/index.css";
+import { Link as RouterLink } from 'react-router-dom';
 
-function Copyright(props: any) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="https://filmcluster.gr/" target="_blank">
-        Film Cluster
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
+
 
 
 const defaultTheme = createTheme();
@@ -40,15 +31,11 @@ const defaultTheme = createTheme();
 const registerSchema = yup.object().shape({
   firstName: yup.string().required("Απαιτείται όνομα"),
   lastName: yup.string().required("Απαιτείται επώνυμο"),
+  employeeUid: yup.number().required("Απαιτείται χώρα"),
   email: yup.string().required("Απαιτείται email").email("Παρακαλώ εκχωρήστε ένα έγκαιρο email"),
   password: yup.string().min(4,'Ο κωδικός πρέπει να έχει τουλάχιστον 4 χαρακτήρες').max(20, 'Ο κωδικός δεν πρέπει να ξεπερνάει τους 20 χαρακτήρες').required("Απαιτείται κωδικός"),
   confirmPassword: yup.string().oneOf([yup.ref('password')], 'Οι κωδικοί πρέπει να ταιριάζουν').required("Απαιτείται επιβεβαίωση κωδικού"),
-  phoneNumber: yup
-    .string()
-    .matches(/^\d{10}$/, "Μη έγκυρο νούμερο"),
-  hasCompany: yup.boolean().required("Παρακαλώ επιλέξτε"),
-  country: yup.string().required("Απαιτείται χώρα"),
-  industry: yup.string().required("Απαιτείται κλάδος"),
+  employmentType: yup.string().required("Απαιτείται χώρα"),
 });
 
 type FormData = {
@@ -57,10 +44,8 @@ type FormData = {
   email: string;
   password: string;
   confirmPassword: string;
-  phoneNumber: string;
-  country: string;
-  hasCompany: boolean;
-  industry: string;
+  employeeUid: Number;
+  employmentType: string;
 };
 
 export default function SignUp() {
@@ -70,7 +55,7 @@ export default function SignUp() {
   React.useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
-      navigate('/projects');
+      /*navigate('/projects');*/
     }
   }, [navigate]);
 
@@ -90,13 +75,13 @@ export default function SignUp() {
   };
 
   return (
+    <div className='authentication-pages'>
     <ThemeProvider theme={defaultTheme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline>
-        <Box sx={{marginTop: 8, display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-            <LockOutlinedIcon />
-          </Avatar>
+        <Box sx={{marginTop: 8, display: 'flex', flexDirection: 'column', alignItems: 'center',}}>
+        <Avatar sx={{ width: 94, height: 94, marginBottom: '30px' }}
+        src="https://t3.ftcdn.net/jpg/04/62/48/52/360_F_462485281_5KvGWMEhKb8GyOBXs0pV5vRt7gNw1mD3.jpg" />
           <Typography component="h1" variant="h5">
             Εγγραφή
           </Typography>
@@ -151,6 +136,21 @@ export default function SignUp() {
               </Grid>
               <Grid item xs={12}>
               <Controller
+                name="employeeUid"
+                control={control}
+                render={({ field }) => (
+                  <TextField
+                    {...field}
+                    label="employeeUid*"
+                    error={!!errors.employeeUid}
+                    helperText={errors.employeeUid?.message}
+                    fullWidth
+                  />
+                )}
+              />
+              </Grid>
+              <Grid item xs={12}>
+              <Controller
                 name="password"
                 control={control}
                 defaultValue=""
@@ -185,63 +185,15 @@ export default function SignUp() {
               </Grid> 
               <Grid item xs={12}>
               <Controller
-                name="phoneNumber"
+                name="employmentType"
                 control={control}
                 defaultValue=""
                 render={({ field }) => (
                   <TextField
                     {...field}
-                    label="Κινητό τηλέφωνο"
-                    error={!!errors.phoneNumber}
-                    helperText={errors.phoneNumber?.message}
-                    fullWidth
-                  />
-                )}
-              />
-              </Grid>
-              <Grid item xs={12}>
-              <Controller
-                name="hasCompany"
-                control={control}
-                defaultValue={true}
-                render={({ field }) => (
-                  <FormControl>
-                    <FormLabel id="hasCompanyLabel">Ανήκετε ή σχετίζεστε με κάποια εταιρία;</FormLabel>
-                    <RadioGroup {...field}>
-                      <FormControlLabel value={true} control={<Radio />} label="Ναι" />
-                      <FormControlLabel value={false} control={<Radio />} label="Όχι" />
-                    </RadioGroup>
-                  </FormControl>
-                )}
-              />
-              </Grid>
-            <Grid item xs={12}>
-            <Controller
-                name="country"
-                control={control}
-                defaultValue=""
-                render={({ field }) => (
-                  <TextField
-                    {...field}
-                    label="Χώρα*"
-                    error={!!errors.country}
-                    helperText={errors.country?.message}
-                    fullWidth
-                  />
-                )}
-              />
-              </Grid>
-              <Grid item xs={12}>
-              <Controller
-                name="industry"
-                control={control}
-                defaultValue=""
-                render={({ field }) => (
-                  <TextField
-                    {...field}
-                    label="Κλάδος*"
-                    error={!!errors.industry}
-                    helperText={errors.industry?.message}
+                    label="Επάγγελμα*"
+                    error={!!errors.employmentType}
+                    helperText={errors.employmentType?.message}
                     fullWidth
                   />
                 )}
@@ -258,16 +210,16 @@ export default function SignUp() {
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link href="#/signin" variant="body2">
+                <Link href="/signin" variant="body2">
                   Έχετε ήδη λογαριασμό; Συνδεθείτε εδώ
                 </Link>
               </Grid>
             </Grid>
           </Box> 
         </Box>
-        <Copyright sx={{ mt: 5 }} />
         </CssBaseline>
       </Container>
     </ThemeProvider>
+    </div>
   );
 }

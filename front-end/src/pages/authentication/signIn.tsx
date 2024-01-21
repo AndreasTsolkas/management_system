@@ -16,29 +16,19 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { CircularProgress } from '@mui/material';
+import "src/index.css";
 
 
-function Copyright(props: any) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="https://filmcluster.gr/" target="_blank">
-        Film Cluster
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
+
 
 const defaultTheme = createTheme();
 
-export default function SignIn({ setIsLoggedIn }: { setIsLoggedIn: (isLoggedIn: boolean) => void }) {
+export default function SignIn() {
   
   const navigate = useNavigate();
   const[isLoading, setIsLoading] = React.useState<boolean>(false);
   const [isFormSubmitted, setIsFormSubmitted] = React.useState<boolean>(false);
-  
+  const [isLoggedIn, setIsLoggedIn] = React.useState<boolean>(false);
 
 
 
@@ -68,9 +58,9 @@ export default function SignIn({ setIsLoggedIn }: { setIsLoggedIn: (isLoggedIn: 
       setIsLoggedIn(true);
 
       if(admin) {
-        navigate('/categories');
+        
       }else{
-        navigate('/projects');
+        
       }
     
     } catch(error: any) {
@@ -87,11 +77,12 @@ export default function SignIn({ setIsLoggedIn }: { setIsLoggedIn: (isLoggedIn: 
   React.useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
-      navigate('/projects'); // Είναι καρφωτό για τώρα, θα αλλάξει πιο μετά
+      navigate('/'); 
     }
   }, [navigate, localStorage.getItem('token')]);
 
   return (
+    <div className='authentication-pages'>
     <ThemeProvider theme={defaultTheme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
@@ -110,9 +101,8 @@ export default function SignIn({ setIsLoggedIn }: { setIsLoggedIn: (isLoggedIn: 
             </Box>
           ) : (
             <>
-              <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-                <LockOutlinedIcon />
-              </Avatar>
+              <Avatar sx={{ width: 94, height: 94, marginBottom: '30px' }}
+                src="https://t3.ftcdn.net/jpg/04/62/48/52/360_F_462485281_5KvGWMEhKb8GyOBXs0pV5vRt7gNw1mD3.jpg" />
               <Typography component="h1" variant="h5">
                 Σύνδεση
               </Typography>
@@ -142,18 +132,17 @@ export default function SignIn({ setIsLoggedIn }: { setIsLoggedIn: (isLoggedIn: 
                 </Button>
                 <Grid container>
                   <Grid item>
-                    <Link href="#/register" variant="body2">
+                    <Link href="/register" variant="body2">
                       {"Δεν έχετε λογαριασμό; Κάντε εγγραφή εδώ"}
                     </Link>
                   </Grid>
                 </Grid>
               </Box>
-            
-        <Copyright />
         </>
         )}  
         </Box>
       </Container>
     </ThemeProvider>
+    </div>
   );
 }

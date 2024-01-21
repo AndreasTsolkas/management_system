@@ -7,7 +7,10 @@ import { useState } from "react";
 export default function Root() {
 
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const settings = ['Προφίλ', 'Αποσύνδεση'];
+
+  const isLoggedIn: boolean = true;
 
   const navigate = useNavigate();
 
@@ -25,7 +28,18 @@ export default function Root() {
     }
 
     const logoutUser = async () => {
-
+      try {
+        if (isLoggedIn) {
+            setIsLoading(true); 
+            localStorage.removeItem('token');
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            setIsLoading(false);
+            navigate(0);
+        }
+      } catch (error) {
+          console.log(error);
+          return [];
+      } 
     }
 
   const isAdmin = false;
@@ -33,7 +47,7 @@ export default function Root() {
     <>
       <div id="sidebar">
         <nav>
-        <div style ={{marginBottom: "40px", marginLeft:"15px", marginTop:"40px"}}>
+        <div style ={{marginBottom: "30px", marginLeft:"15px", marginTop:"40px"}}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0, size: "30px" }} >
                 <Avatar src="/broken-image.jpg" />

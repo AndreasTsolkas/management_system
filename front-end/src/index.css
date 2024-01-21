@@ -108,3 +108,9 @@ i {
     justify-content: center;
     width: 100%;
 }
+
+.authentication-pages {
+    background-color: 	#fafbfd;
+    height: 1000px;
+    width: 2000px;
+}
