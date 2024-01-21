@@ -19,36 +19,36 @@ export class MailService {
     let template: any = fs.readFileSync('./src/templates/enabled-confirmation.hbs', 'utf8');
     switch(mailCase) {
       case 1:
-        mailSubject ="Σας ευχαριστούμε για την εγγραφή σας";
+        mailSubject ="Thank you for the registration";
         template =  fs.readFileSync('./src/templates/thank-you.hbs', 'utf8');
         break;
       case 2:
-        mailSubject ="Νέος χρήστης έκανε αίτημα εγγραφής";
+        mailSubject ="New employee registered";
         template =  fs.readFileSync('./src/templates/new-user-registered.hbs', 'utf8');
         mailToSend = adminMail;
         break;
       case 3:
-        mailSubject ="Συχαρητηρία! Το αίτημά σας έγινε αποδεκτό";
+        mailSubject ="Congratulations! Your registration request has been accepted";
         template =  fs.readFileSync('./src/templates/enabled-confirmation.hbs', 'utf8');
         break;
       case 4:
-        mailSubject ="Μόλις λάβαμε την αίτηση άδειας που υποβάλλατε";
+        mailSubject ="We have just received your vacation request";
         template =  fs.readFileSync('./src/templates/enabled-confirmation.hbs', 'utf8');
         break;
       case 5:
-        mailSubject ="Συχαρητηρία! Η αίτηση άδειας έγινε αποδεκτή";
+        mailSubject ="Congratulations! Your vacation request has been accepted";
         template =  fs.readFileSync('./src/templates/enabled-confirmation.hbs', 'utf8');
         break;
       case 6:
-        mailSubject ="Συχαρητηρία! Πήρατε νέο bonus";
+        mailSubject ="Congratulations! You recieved a new bonus";
         template =  fs.readFileSync('./src/templates/enabled-confirmation.hbs', 'utf8');
         break;
       case 7:
-        mailSubject ="Μόλις βγήκατε εκτός από το τμήμα που ήσασταν";
+        mailSubject ="You just got out of the department you were in";
         template =  fs.readFileSync('./src/templates/enabled-confirmation.hbs', 'utf8');
         break;
       case 7:
-        mailSubject ="Μόλις βγήκατε προστεθήκατε σε νέο τμήμα";
+        mailSubject ="You have just been added to a new department";
         template =  fs.readFileSync('./src/templates/enabled-confirmation.hbs', 'utf8');
         break;
     }

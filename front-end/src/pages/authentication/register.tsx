@@ -29,13 +29,13 @@ import { Link as RouterLink } from 'react-router-dom';
 const defaultTheme = createTheme();
 
 const registerSchema = yup.object().shape({
-  firstName: yup.string().required("Το όνομα είναι απαραίτητο."),
-  lastName: yup.string().required("Το επώνυμο είναι απαραίτητο."),
-  employeeUid: yup.number().required("Η χώρα είναι απαραίτητη."),
-  email: yup.string().required("Το email είναι απαραίτητο.").email("Παρακαλώ εκχωρήστε ένα έγκαιρο email."),
-  password: yup.string().min(4,'Ο κωδικός πρέπει να έχει τουλάχιστον 4 χαρακτήρες.').max(20, 'Ο κωδικός δεν πρέπει να ξεπερνάει τους 20 χαρακτήρες.').required("Ο κωδικός είναι απαραίτητος."),
+  firstName: yup.string().required("Name is required."),
+  lastName: yup.string().required("Surname is required."),
+  employeeUid: yup.number().required("Employee UId is required."),
+  email: yup.string().required("Email is required.").email("Email must be valid."),
+  password: yup.string().min(4,'Password must have at least 4 characters.').max(20, 'The password must not exceed 20 characters.').required("Password is required."),
   confirmPassword: yup.string().oneOf([yup.ref('password')], 'Οι κωδικοί πρέπει να ταιριάζουν.').required("Επιβεβαιώστε τον κωδικό."),
-  employmentType: yup.string().required("Η χώρα είναι απαραίτητη."),
+  employmentType: yup.string().required("Employment type is required."),
 });
 
 type FormData = {
@@ -83,7 +83,7 @@ export default function SignUp() {
         <Avatar sx={{ width: 94, height: 94, marginBottom: '30px' }}
         src="https://t3.ftcdn.net/jpg/04/62/48/52/360_F_462485281_5KvGWMEhKb8GyOBXs0pV5vRt7gNw1mD3.jpg" />
           <Typography component="h1" variant="h5">
-            Εγγραφή
+            Register
           </Typography>
          <Box component="form" noValidate onSubmit={handleSubmit(onSubmit)} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
@@ -95,7 +95,7 @@ export default function SignUp() {
                   render={({ field }) => (
                     <TextField
                       {...field}
-                      label="Όνομα*"
+                      label="Name*"
                       error={!!errors.firstName}
                       helperText={errors.firstName?.message}
                     />
@@ -111,7 +111,7 @@ export default function SignUp() {
                   render={({ field }) => (
                     <TextField
                       {...field}
-                      label="Επώνυμο*"
+                      label="Surname*"
                       error={!!errors.lastName}
                       helperText={errors.lastName?.message}
                     />
@@ -157,7 +157,7 @@ export default function SignUp() {
                 render={({ field }) => (
                   <TextField
                     {...field}
-                    label="Κωδικός*"
+                    label="Password*"
                     type="password"
                     error={!!errors.password}
                     helperText={errors.password?.message}
@@ -174,7 +174,7 @@ export default function SignUp() {
                 render={({ field }) => (
                   <TextField
                     {...field}
-                    label="Επιβεβαίωση κωδικού*"
+                    label="Confirm password*"
                     type="password"
                     error={!!errors.confirmPassword}
                     helperText={errors.confirmPassword?.message}
@@ -191,7 +191,7 @@ export default function SignUp() {
                 render={({ field }) => (
                   <TextField
                     {...field}
-                    label="Επάγγελμα*"
+                    label="Employment type*"
                     error={!!errors.employmentType}
                     helperText={errors.employmentType?.message}
                     fullWidth
@@ -206,12 +206,12 @@ export default function SignUp() {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              Εγγραφειτε
+              Register
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
                 <Link href="/signin" variant="body2">
-                  Έχετε ήδη λογαριασμό; Συνδεθείτε εδώ
+                Already have an account? Sign in here
                 </Link>
               </Grid>
             </Grid>

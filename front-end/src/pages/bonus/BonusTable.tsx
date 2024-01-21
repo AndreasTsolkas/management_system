@@ -26,25 +26,25 @@ const BonusTable = () => {
     { field: "id", headerName: "id", flex: 1 },
     {
       field: "employee",
-      headerName: "Εργαζόμενος",
+      headerName: "Employee",
       flex: 1,
     },
     {
       field: "amount",
-      headerName: "Ποσό",
+      headerName: "Amount",
       flex: 1,
     },
 
     {
       field: "date_given",
-      headerName: "Ημερομηνία",
+      headerName: "Datetime",
       flex: 1,
     },
 
     
     {
       field: "actions",
-      headerName: "Ενέργειες",
+      headerName: "Actions",
       flex: 1,
       renderCell: (cellValues) => {
         let deleteIconDisabled = false;
@@ -67,7 +67,7 @@ const BonusTable = () => {
                     `${bonusTableUrl}/${cellValues?.row?.id}`
                   )
                   .then(() => {
-                    toast.info("Το bonus διαγράφτηκε με επιτυχία.");
+                    toast.info("Bonus deleted successfully.");
                     axios
                       .get(bonusGetAll)
                       .then((response) => {
@@ -149,7 +149,7 @@ const BonusTable = () => {
           width: 900,
         }}
       >
-        <h2>Λίστα bonus</h2>
+        <h2>Bonus List</h2>
         <IconButton disabled={createNewBonusButtonDisabled} color="primary" onClick={() => navigate(`/createbonuses`)}>
           <AddIcon />
         </IconButton>

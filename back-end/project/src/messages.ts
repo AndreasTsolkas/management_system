@@ -1,6 +1,6 @@
 
-export const updateBonusTableError = 'Σφάλμα κατά την ενημέρωση του πίνακα bonus.';
-export const updateEmployeeTableError = 'Σφάλμα κατά την ενημέρωση του πίνακα employee.';
-export const updateDepartmentTableError = 'Σφάλμα κατά την ενημέρωση του πίνακα department.';
-export const updateVacationRequestTableError = 'Σφάλμα κατά την ενημέρωση του πίνακα vacation_request.';
+export const updateBonusTableError = 'Bonus table update failed.';
+export const updateEmployeeTableError = 'Employee table update failed.';
+export const updateDepartmentTableError = 'Department table update failed.';
+export const updateVacationRequestTableError = 'Vacation request table update failed.';
 

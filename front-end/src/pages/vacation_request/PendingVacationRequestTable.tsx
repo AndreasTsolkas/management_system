@@ -28,17 +28,17 @@ const PendingVacationRequestTable = () => {
   const body = (
     <Box sx={{ width: 300, bgcolor: 'background.paper', p: 2 }}>
       <Typography variant="h6" component="div" gutterBottom>
-        Εγκρίνετε αυτή την αίτηση άδειας;
+        Do you accept this vacation request;
       </Typography>
       <div style={{marginTop:"20px"}}>
       <Button  variant="contained" color="primary" onClick={() => handleButtonClick(1)}>
-        NΑΙ
+        YES
       </Button>
       <Button style={{marginLeft:"10px"}} variant="contained" color="error" onClick={() => handleButtonClick(2)}>
-        ΟΧΙ
+        NO
       </Button>
       <Button style={{marginLeft:"10px"}} variant="contained" color="info" onClick={() => handleButtonClick(3)}>
-        ΑΚΥΡΟ
+        CANCEL
       </Button>
       </div>
     </Box>
@@ -48,27 +48,27 @@ const PendingVacationRequestTable = () => {
     { field: "id", headerName: "id", flex: 1 },
     {
       field: "employee",
-      headerName: "Όνομα εργαζομένου",
+      headerName: "Employee",
       flex: 1,
     },
     {
       field: "startDate",
-      headerName: "Ημερομηνία έναρξης",
+      headerName: "Start date",
       flex: 1,
     },
     {
       field: "endDate",
-      headerName: "Ημερομηνία λήξης",
+      headerName: "End date",
       flex: 1,
     },
       {
         field: "days",
-        headerName: "Ημέρες",
+        headerName: "Days",
         flex: 1,
       },
     {
       field: "actions",
-      headerName: "Εξέταση ",
+      headerName: "Evaluation ",
       flex: 1,
       renderCell:  (cellValues) => {
         let checkboxChecked=isCheckBoxChecked;
@@ -151,7 +151,7 @@ const PendingVacationRequestTable = () => {
 
       }
       const response: any = await axios.put(requestUrl, putData);
-      toast.success("Η αίτηση διακοπών αξιολογήθηκε με επιτυχία.");
+      toast.success("Vacation request evaluated successfully.");
       navigate('/vacation_request/view/'+response.data.id);
     }
     catch (error: any) {
@@ -209,14 +209,14 @@ const PendingVacationRequestTable = () => {
         width: 900,
       }}
     >
-      <h2>Εκρεμμείς άδειες</h2>
+      <h2>Pending vacation requests</h2>
     </div>
     <Box sx={{ height: 500, width: 900 }}>
       {Display.displayDataGrid(rows ?? [], columns)} 
     </Box>
   </>
 ) : (
-  <h3>Δεν υπάρχουν αιτήσεις αδειών που εκρεμμούν.</h3>
+  <h3>No avaliable pending requests.</h3>
 )}
     </div>
   );

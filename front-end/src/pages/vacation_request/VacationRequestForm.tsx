@@ -41,13 +41,13 @@ const VacationRequestForm = () => {
   const schema = yup.object({
     employeeId: yup
     .number()
-    .typeError("Η επιλογή ενός εργαζόμενου είναι απαραίτητη.")
-    .required("Η επιλογή ενός εργαζόμενου είναι απαραίτητη."),
+    .typeError("Select an employee is required.")
+    .required("Select an employee is required."),
     startDate: yup
       .string()
       .test(
         "is-utc-date",
-        "Προσθέστε μια έγκυρη ημερομηνία έναρξης.",
+        "Add a valid start date.",
         (value: any) => {
           const isValid = checkIfDateIsValid(value);
           if (isValid) 
@@ -55,12 +55,12 @@ const VacationRequestForm = () => {
           return isValid;
         }
       )
-      .required("Η ημερομηνία έναρξης είναι απαραίτητη."),
+      .required("Start date is required."),
     endDate: yup
       .string()
       .test(
         "is-utc-date",
-        "Προσθέστε μια έγκυρη ημερομηνία λήξης.",
+        "Add a valid end date.",
         (value: any) => {
           const isValid = checkIfDateIsValid(value);
           if (isValid) 
@@ -70,7 +70,7 @@ const VacationRequestForm = () => {
       )
       .test(
         "date-difference",
-        "Η διάρκεια πρέπει να είναι τουλάχιστον 1 ημέρα.",
+        "The duration between start date and end date must be at least 1 day.",
         function (value) {
           const startDate = moment.utc(this.parent.startDate, "YYYY-MM-DD", true);
           const endDate = moment.utc(value, "YYYY-MM-DD", true);
@@ -80,7 +80,7 @@ const VacationRequestForm = () => {
           return difference >= 1;
         }
       )
-      .required("Η ημερομηνία λήξης είναι απαραίτητη.")
+      .required("End date is required.")
   });
 
   
@@ -141,7 +141,7 @@ const VacationRequestForm = () => {
         headers: { "Content-Type": "application/json" }
       })
         .then((response) => {
-          toast.success("Η αίτηση άδειας καταχωρήθηκε με επιτυχία.");
+          toast.success("Vacation request submitted successfully.");
           navigate('/vacation_request/view/'+response.data.id);
         })
         .catch((error) => {
@@ -255,7 +255,7 @@ useEffect(() => {
         ) : 
     ( employees !==null) ? (
     <>
-      <h2>Προσθέστε νέα άδεια:</h2>
+      <h2>Add a new vacation request:</h2>
       <div style={{ marginTop: "20px", display: 'flex' }}>
         <Box
           sx={{
@@ -298,13 +298,13 @@ useEffect(() => {
               errors={errors}
               control={control}
               name="startDate"
-              label="Ημερομηνία έναρξης"
+              label="Start date"
             />
             <MuiTextField
               errors={errors}
               control={control}
               name="endDate"
-              label="Ημερομηνία λήξης"
+              label="End date"
             />
             <Button
               type="submit"
@@ -312,14 +312,14 @@ useEffect(() => {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              Υποβολή
+              Submit
             </Button>
             <Button
               type="reset"
               fullWidth
               variant="outlined"
             >
-              Ανανέωση
+              Reset
             </Button>
             </div>
           </form>
@@ -328,13 +328,13 @@ useEffect(() => {
           {
             (avaliableDays !==null && avaliableDays >= 1)  && (
               <div style={{ marginTop: "70px" }}>
-                {Display.displayFieldWithTypography('Όριο ημερών: ', avaliableDays, 1)}
+                {Display.displayFieldWithTypography('Days (limit): ', avaliableDays, 1)}
                 {
                   dateDifference !== null  && (
                     isDifferenceOutOfRage ? (
                       Display.displayFieldWithTypography(differenceOutOfRageMessage, '', 3)
                     ) : (
-                      Display.displayFieldWithTypography('Ημέρες άδειας: ', dateDifference, 2)
+                      Display.displayFieldWithTypography('Vacation days: ', dateDifference, 2)
                     )
                   )
                 }

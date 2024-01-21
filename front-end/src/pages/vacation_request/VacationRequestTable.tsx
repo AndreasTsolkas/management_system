@@ -27,32 +27,32 @@ const VacationRequestTable = () => {
     { field: "id", headerName: "id", flex: 1 },
     {
       field: "employee",
-      headerName: "Εργαζόμενος",
+      headerName: "Employee",
       flex: 1,
     },
     {
       field: "startDate",
-      headerName: "Ημερομηνία έναρξης",
+      headerName: "Start date",
       flex: 1,
     },
     {
       field: "endDate",
-      headerName: "Ημερομηνία λήξης",
+      headerName: "End date",
       flex: 1,
     },
     {
         field: "status",
-        headerName: "Κατάσταση αποδοχής",
+        headerName: "Status",
         flex: 1,
       },
       {
         field: "days",
-        headerName: "Ημέρες",
+        headerName: "Days",
         flex: 1,
       },
     {
       field: "actions",
-      headerName: "Ενέργειες",
+      headerName: "Actions",
       flex: 1,
       renderCell: (cellValues) => {
         let deleteIconDisabled = false;
@@ -76,7 +76,7 @@ const VacationRequestTable = () => {
                     `${vacationRequestTable}/${cellValues?.row?.id}`
                   )
                   .then(() => {
-                    toast.info("H αίτηση άδειας διαγράφτηκε με επιτυχία.");
+                    toast.info("Vacation request deleted successfully.");
                     axios
                       .get(vacationRequestUrl)
                       .then((response) => {
@@ -168,7 +168,7 @@ const VacationRequestTable = () => {
           width: 900,
         }}
       >
-        <h2>Λίστα αδειών</h2>
+        <h2>Vacation request List</h2>
         <IconButton disabled={createNewVacationRequestButtonDisabled} color="primary" onClick={() => navigate(`/vacation_request/new`)}>
           <AddIcon />
         </IconButton>

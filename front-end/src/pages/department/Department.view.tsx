@@ -30,8 +30,8 @@ const DepartmentView = () => {
     if (result) {
         let displayData = [
             { key: 'id: ', value: result.departmentEntityData.id },
-            { key: 'Όνομα: ', value: result.departmentEntityData.name },
-            { key: 'Αριθμός εργαζομένων: ', value: result.employeesNum }
+            { key: 'Name: ', value: result.departmentEntityData.name },
+            { key: 'Employees`s number: ', value: result.employeesNum }
         ];
 
         if (result.employees.length > 0) {
@@ -39,7 +39,7 @@ const DepartmentView = () => {
                 const thisEmployeeInfoUrl = `${Important.employeeInfoUrl}${item.id}`;
                 return <a key = {index} href={thisEmployeeInfoUrl}>{item.name} {item.surname},         </a>;
             });
-            displayData.push({ key: 'Εργαζόμενοι: ', value: employeeData });
+            displayData.push({ key: 'Employees: ', value: employeeData });
         }
 
         setDisplayData(displayData);
@@ -82,7 +82,7 @@ const DepartmentView = () => {
       
       {Display.displayIconButton()}
       
-      <h2>Πληροφορίες τμήματος:</h2>
+      <h2>Department details:</h2>
       <Box
         sx={{
           width: "600px",
@@ -96,7 +96,7 @@ const DepartmentView = () => {
                   })}
             </div>
             ) : (
-                <DisplayErrorMessage  message = "Πρόβλημα στην αναζήτηση του στοιχείων του τμήματος."  />
+                <DisplayErrorMessage  message = "Error searching for department details."  />
             )}
         </div>
         

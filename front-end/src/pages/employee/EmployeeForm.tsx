@@ -11,15 +11,15 @@ import * as Important from "src/important";
 import * as Display from "src/display";
 
 export const NewEmployeeSchema = yup.object({
-  name: yup.string().required("Το όνομα είναι απαραίτητο.").min(2).max(20),
-  surname: yup.string().required("Το επώνυμο είναι απαραίτητο.").min(2).max(20),
-  email: yup.string().email().required("Το email είναι απαραίτητο."),
-  password: yup.string().required("Ο κωδικός είναι απαραίτητος."),
-  employeeUid: yup.number().required("Ο αριθμός μητρώου είναι απαραίτητος."),
-  startDate: yup.date().required("Η ημερομηνία έναρξης είναι απαραίτητη."),
-  vacationDays: yup.number().required("Οι ημέρες διακοπών είναι απαραίτητες."),
-  salary: yup.number().required("Ο μισθός είναι απαραίτητος."),
-  employmentType: yup.string().required("Ο τύπος απασχόλησης είναι απαραίτητος."),
+  name: yup.string().required("Name is required.").min(2).max(20),
+  surname: yup.string().required("Surname is required.").min(2).max(20),
+  email: yup.string().email().required("Email is required."),
+  password: yup.string().required("Password is required."),
+  employeeUid: yup.number().required("Employee UId is required."),
+  startDate: yup.date().required("Start date is required."),
+  vacationDays: yup.number().required("Vacation days is required."),
+  salary: yup.number().required("Salary is required."),
+  employmentType: yup.string().required("Employment type is required."),
 });
 
 const EmployeeForm = () => {
@@ -76,21 +76,21 @@ const EmployeeForm = () => {
     if (!params?.id) {
       try {
         response = await axios.put(employeeUrl, data);
-        toast.success('Ο εργαζόμενος δημιουργήθηκε επιτυχώς');
+        toast.success('The new employee was created successfully');
         success = true;
       } catch (error) {
-        toast.error('Αποτυχία δημιουργίας εργαζόμενου');
+        toast.error('New employee creation failed');
       }
     } else {
       try {
          response = await axios.patch(`${employeeUrl}/${params?.id}`, data, {
           headers: { "Content-Type": "application/json" },
         });
-        toast.success("Επιτυχής ενημέρωση εργαζόμενου");
+        toast.success("Employee updated successfully");
         success = true;
 
       } catch (error) {
-        toast.error('Αποτυχία ενημέρωσης εργαζόμενου');
+        toast.error('Employee update failed');
       }
     }
     if (success) navigate('/employee/view/'+response.data.id);
@@ -98,9 +98,9 @@ const EmployeeForm = () => {
 
 
   const getEmployee = async () => {
-    let text = 'Προσθέστε νέο εργαζόμενο:';
+    let text = 'Add a new employee:';
     if (params && params?.id) {
-      text = 'Ρυθμίσεις εργαζόμενου:';
+      text = 'Employee settings:';
       await axios
         .get(`${employeeUrl}/${params?.id}`)
         .then((response) => {
@@ -163,7 +163,7 @@ const EmployeeForm = () => {
                 errors={errors}
                 control={control}
                 name="name"
-                label="Όνομα"
+                label="Name"
               />
             </Grid>
             <Grid item xs={4}>
@@ -171,7 +171,7 @@ const EmployeeForm = () => {
                 errors={errors}
                 control={control}
                 name="surname"
-                label="Επώνυμο"
+                label="Surname"
               />
             </Grid>
             <Grid item xs={4}>
@@ -188,7 +188,7 @@ const EmployeeForm = () => {
                   errors={errors}
                   control={control}
                   name="password"
-                  label="Κωδικός πρόσβασης"
+                  label="Password"
                 />
               </Grid>
             )}
@@ -197,7 +197,7 @@ const EmployeeForm = () => {
                 errors={errors}
                 control={control}
                 name="employeeUid"
-                label="Αριθμός μητρώου"
+                label="Employee UId"
               />
             </Grid>
             <Grid item xs={4}>
@@ -205,7 +205,7 @@ const EmployeeForm = () => {
                 errors={errors}
                 control={control}
                 name="startDate"
-                label="Ημερομηνία Έναρξης"
+                label="Start datetime"
               />
             </Grid>
             <Grid item xs={4}>
@@ -213,7 +213,7 @@ const EmployeeForm = () => {
                 errors={errors}
                 control={control}
                 name="vacationDays"
-                label="Ημέρες Διακοπών"
+                label="Vacation days (limit)"
               />
             </Grid>
             <Grid item xs={4}>
@@ -221,7 +221,7 @@ const EmployeeForm = () => {
                 errors={errors}
                 control={control}
                 name="salary"
-                label="Μισθός"
+                label="Salary"
               />
             </Grid>
             <Grid item xs={4}>
@@ -229,7 +229,7 @@ const EmployeeForm = () => {
                 errors={errors}
                 control={control}
                 name="employmentType"
-                label="Επάγγελμα"
+                label="Employment type"
               />
             </Grid>
             <Grid item xs={4}>
@@ -271,7 +271,7 @@ const EmployeeForm = () => {
                 <FormControlLabel
                   control={<Switch checked = {field.value} {...field} />}
                   name="isAdmin"
-                  label="Συμμετοχή στη διαχείριση"
+                  label="Is admin"
                   sx={{ marginLeft: "20px", marginTop: "20px" }}
                 />
               )}
@@ -283,7 +283,7 @@ const EmployeeForm = () => {
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
           >
-            Υποβολή
+            Submit
           </Button>
           <Button
             type="reset"
@@ -291,7 +291,7 @@ const EmployeeForm = () => {
             sx={{ mt: 3, mb: 2 }}
             style={{ marginLeft: "20px" }}
           >
-            Ανανέωση
+            Reset
           </Button>
         </form>
       </Box>

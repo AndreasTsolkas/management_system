@@ -33,12 +33,12 @@ const DepartmentTable = () => {
     { field: "id", headerName: "id", flex: 1 },
     {
       field: "name",
-      headerName: "Όνομα",
+      headerName: "Name",
       flex: 1,
     },
     {
       field: "actions",
-      headerName: "Ενέργειες",
+      headerName: "Actions",
       flex: 0.5,
       renderCell: (cellValues: any) => {
         let deleteIconDisabled = false;
@@ -73,7 +73,7 @@ const DepartmentTable = () => {
                     `${departmentTableUrl}/${cellValues?.row?.id}`
                   )
                   .then(() => {
-                    toast.info("Το τμήμα διαγράφτηκε με επιτυχία.");
+                    toast.info("Department deleted successfully.");
                     axios
                       .get(departmentGetAll)
                       .then((response) => {
@@ -165,7 +165,7 @@ const DepartmentTable = () => {
           width: 900,
         }}
       >
-        <h2>Λίστα τμημάτων</h2>
+        <h2>Department list</h2>
         <IconButton disabled={createNewDepartmentButtonDisabled} color="primary" onClick={() => navigate(`/department/new`)}>
           <AddIcon />
         </IconButton>

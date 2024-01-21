@@ -24,12 +24,12 @@ import { useNavigate } from "react-router";
 const schema = yup.object({
   employeeId: yup
     .number()
-    .typeError("Η επιλογή ενός εργαζόμενου είναι απαραίτητη.")
-    .required("Η επιλογή ενός εργαζόμενου είναι απαραίτητη."),
+    .typeError("Select an employee is required.")
+    .required("Select an employee is required."),
   season: yup
     .string()
-    .typeError("Η επιλογή της εποχής που ο εργαζόμενος θα πάρει το bonus είναι απαραίτητη.")
-    .required("Η επιλογή της εποχής που ο εργαζόμενος θα πάρει το bonus είναι απαραίτητη."),
+    .typeError("Select th season in which the employee will recieve the bonus is required.")
+    .required("Select th season in which the employee will recieve the bonus is required."),
 });
 
 const CreateBonusForm = () => {
@@ -81,7 +81,7 @@ const CreateBonusForm = () => {
       axios
         .put(requestUrl, putData)
         .then((response) => {
-          toast.success("Το bonus δημιουργήθηκε με επιτυχία.");
+          toast.success("Bonus created successfully.");
           navigate('/bonus/view/'+response.data.id);
         })
         .catch((error) => {
@@ -145,7 +145,7 @@ const CreateBonusForm = () => {
 
   return (
     <div>
-      <h2 >Δημιουργία bonus: </h2>
+      <h2 >Create new bonus: </h2>
       <div style={{  marginTop:"20px", display: 'flex' }}>
       <Box sx={{ width: "200px" }}>
         <form  noValidate onReset = {onReset} onSubmit={handleSubmit(onSubmit)}>
@@ -154,7 +154,7 @@ const CreateBonusForm = () => {
             control={control}
             render={({ field }) => (
               <div>
-                <InputLabel htmlFor="employee-label">Εργαζόμενος</InputLabel>
+                <InputLabel htmlFor="employee-label">Employee</InputLabel>
                 <Select
                   {...field}
                   labelId="employee-label"
@@ -186,7 +186,7 @@ const CreateBonusForm = () => {
             control={control}
             render={({ field }) => (
               <div style={{marginTop:"10px"}}>
-                <InputLabel htmlFor="season-label">Εποχή</InputLabel>
+                <InputLabel htmlFor="season-label">Season</InputLabel>
                 <Select
                   {...field}
                   labelId="season-label"
@@ -216,23 +216,23 @@ const CreateBonusForm = () => {
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
           >
-            Υποβολή
+            Submit
           </Button>
           <Button
             type="reset"
             fullWidth
             variant="outlined"
           >
-            Ανανέωση
+            Reset
           </Button>
         </form>
       </Box>
       <Box sx={{ marginLeft: "250px", width: "600px" }}>
       {(employeeSelected && seasonSelected) && (
           <div style={{ marginTop: "70px" }}>
-            {Display.displayFieldWithTypography('Τωρινός μισθός: ', currentEmployeeCurrentSalary, 1)}
-            {Display.displayFieldWithTypography('Συντελεστής αύξησης: ', currentEmployeeBonusRate, 2)}
-            {Display.displayFieldWithTypography('Μισθός μετά την αύξηση: ', currentEmployeeNewSalary, 3)}
+            {Display.displayFieldWithTypography('Current salary: ', currentEmployeeCurrentSalary, 1)}
+            {Display.displayFieldWithTypography('Increase factor: ', currentEmployeeBonusRate, 2)}
+            {Display.displayFieldWithTypography('Salary after increase: ', currentEmployeeNewSalary, 3)}
           </div>
       )}
        

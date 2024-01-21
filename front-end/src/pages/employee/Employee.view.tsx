@@ -32,8 +32,8 @@ const EmployeeView = () => {
     
     if (result) {
       
-      let isAdminText = 'Ναι';
-      if(!result.isAdmin) isAdminText = 'Όχι';
+      let isAdminText = 'Yes';
+      if(!result.isAdmin) isAdminText = 'No';
       let resultDepartmentValue: any = '-----';
       if (result.department !== null ) {
         const departmentInfoUrl = '/department/view/'+result.department.id;
@@ -41,16 +41,16 @@ const EmployeeView = () => {
       }
       setDisplayData([
       { key: 'id: ', value: result.id },
-      { key: 'Όνομα: ', value: result.name },
-      { key: 'Επώνυμο: ', value: result.surname },
+      { key: 'Name: ', value: result.name },
+      { key: 'Surname: ', value: result.surname },
       { key: 'Email: ', value: result.email },
-      { key: 'Αριθμός μητρώου: ', value: result.employeeUid },
-      { key: 'Επάγγελμα: ', value: result.employmentType },
-      { key: 'Τμήμα: ', value: resultDepartmentValue },
-      { key: 'Μισθός: ', value: result.salary },
-      { key: 'Ημέρα πρόσληψης: ', value: moment(result.startDate).format('DD / MM / YYYY') },
-      { key: 'Ημέρες διακοπών (όριο): ', value: result.vacationDays },
-      { key: 'Συμμετέχει στη διαχείριση: ', value: isAdminText }
+      { key: 'Employee UId: ', value: result.employeeUid },
+      { key: 'Employment type: ', value: result.employmentType },
+      { key: 'Department: ', value: resultDepartmentValue },
+      { key: 'Salary: ', value: result.salary },
+      { key: 'Start datetime: ', value: moment(result.startDate).format('DD / MM / YYYY') },
+      { key: 'Vacation days (limit): ', value: result.vacationDays },
+      { key: 'Is admin: ', value: isAdminText }
     ]);
     }
   }
@@ -88,7 +88,7 @@ const EmployeeView = () => {
       
       {Display.displayIconButton()}
       
-      <h2>Πληροφορίες εργαζόμενου:</h2>
+      <h2>Employee details:</h2>
       <Box
         sx={{
           width: "600px",
@@ -102,7 +102,7 @@ const EmployeeView = () => {
                   })}
             </div>
             ) : (
-                <DisplayErrorMessage  message = "Πρόβλημα στην αναζήτηση του στοιχείων του εργαζόμενου."  />
+                <DisplayErrorMessage  message = "Error searching for employee details."  />
             )}
         </div>
         

@@ -104,7 +104,7 @@ export default function SignIn() {
               <Avatar sx={{ width: 94, height: 94, marginBottom: '30px' }}
                 src="https://t3.ftcdn.net/jpg/04/62/48/52/360_F_462485281_5KvGWMEhKb8GyOBXs0pV5vRt7gNw1mD3.jpg" />
               <Typography component="h1" variant="h5">
-                Σύνδεση
+                Sign In
               </Typography>
               <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
                 <TextField
@@ -122,18 +122,18 @@ export default function SignIn() {
                   required
                   fullWidth
                   name="password"
-                  label="Κωδικός"
+                  label="Password"
                   type="password"
                   id="password"
                   autoComplete="current-password"
                 />
                 <Button type="submit" color="primary" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
-                  Συνδεθειτε
+                  Sign In
                 </Button>
                 <Grid container>
                   <Grid item>
                     <Link href="/register" variant="body2">
-                      {"Δεν έχετε λογαριασμό; Κάντε εγγραφή εδώ"}
+                      {"You do not have an account; Register here"}
                     </Link>
                   </Grid>
                 </Grid>

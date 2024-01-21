@@ -32,11 +32,11 @@ const VacationRequestView = () => {
       const thisDepartmentInfoUrl = Important.departmentInfoUrl+result.employee.department.id;
       setDisplayData([
       { key: 'id: ', value: result.id },
-      { key: 'Όνοματεπώνυμο: ', value: <a href={thisEmployeeInfoUrl}>{result.employee.name} {result.employee.surname}</a>},
-      { key: 'Τμήμα εργαζομένου: ', value: <a href={thisDepartmentInfoUrl}>{result.employee.department.name}</a> },
-      { key: 'Ημερομηνία έναρξης: ', value: moment(result.startDate).format('DD / MM / YYYY') },
-      { key: 'Ημερομηνία λήξης: ', value: moment(result.endDate).format('DD / MM / YYYY') },
-      { key: 'Αριθμός ημερών: ', value: result.days },
+      { key: 'Fullname: ', value: <a href={thisEmployeeInfoUrl}>{result.employee.name} {result.employee.surname}</a>},
+      { key: 'Employee`s department: ', value: <a href={thisDepartmentInfoUrl}>{result.employee.department.name}</a> },
+      { key: 'Start date: ', value: moment(result.startDate).format('DD / MM / YYYY') },
+      { key: 'End date: ', value: moment(result.endDate).format('DD / MM / YYYY') },
+      { key: 'Days: ', value: result.days },
     ]);
     }
   }
@@ -74,7 +74,7 @@ const VacationRequestView = () => {
       
       {Display.displayIconButton()}
       
-      <h2>Πληροφορίες άδειας:</h2>
+      <h2>Vacation request details:</h2>
       <Box
         sx={{
           width: "600px",
@@ -88,7 +88,7 @@ const VacationRequestView = () => {
                   })}
             </div>
             ) : (
-                <DisplayErrorMessage  message = "Πρόβλημα στην αναζήτηση του στοιχείων της άδειας."  />
+                <DisplayErrorMessage  message = "Error searching for vacation request details."  />
             )}
         </div>
         

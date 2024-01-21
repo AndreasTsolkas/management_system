@@ -45,7 +45,7 @@ const DepartmentNewForm = () => {
   });
 
   useEffect(() => {
-    let text = 'Προσθέστε νέο τμήμα:';
+    let text = 'Add a new department:';
     setFormTitle(text);
   }, []);
 
@@ -55,7 +55,7 @@ const DepartmentNewForm = () => {
     let success=false;
     try {
        await axios.put(departmentUrl, data);
-        toast.success('Το τμήμα δημιουργήθηκε με επιτυχία.');
+        toast.success('The new department created successfully.');
         success=true;
     } catch (error: any) {
         toast.error(error?.response.data.message);
@@ -76,7 +76,7 @@ const DepartmentNewForm = () => {
     
       >
         <div style={{marginLeft: '350px'}}>
-        <h3>Όνομα νέου τμήματος: </h3>
+        <h3>Name of the new department: </h3>
         <form  style={{width:"200px"}} noValidate onSubmit={handleSubmit(onSubmit)}>
           
           <MuiTextField
@@ -92,7 +92,7 @@ const DepartmentNewForm = () => {
             variant="contained"
             sx={{ marginLeft:"40px", marginRight: '10px' }}
           >
-            Δημιουργία
+            Create
           </Button>
           </div>
         </form>

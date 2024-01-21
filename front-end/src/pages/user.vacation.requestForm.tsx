@@ -48,7 +48,7 @@ const UserVacationRequestForm = () => {
       .string()
       .test(
         "is-utc-date",
-        "Προσθέστε μια έγκυρη ημερομηνία έναρξης.",
+        "Add a valid start date.",
         (value: any) => {
           const isValid = checkIfDateIsValid(value);
           if (isValid) 
@@ -56,12 +56,12 @@ const UserVacationRequestForm = () => {
           return isValid;
         }
       )
-      .required("Η ημερομηνία έναρξης είναι απαραίτητη."),
+      .required("Start date is required."),
     endDate: yup
       .string()
       .test(
         "is-utc-date",
-        "Προσθέστε μια έγκυρη ημερομηνία λήξης.",
+        "Add a valid end date.",
         (value: any) => {
           const isValid = checkIfDateIsValid(value);
           if (isValid) 
@@ -71,7 +71,7 @@ const UserVacationRequestForm = () => {
       )
       .test(
         "date-difference",
-        "Η διάρκεια πρέπει να είναι τουλάχιστον 1 ημέρα.",
+        "Duration must be at least 1 day.",
         function (value) {
           const startDate = moment.utc(this.parent.startDate, "YYYY-MM-DD", true);
           const endDate = moment.utc(value, "YYYY-MM-DD", true);
@@ -81,7 +81,7 @@ const UserVacationRequestForm = () => {
           return difference >= 1;
         }
       )
-      .required("Η ημερομηνία λήξης είναι απαραίτητη.")
+      .required("End date is required.")
   });
 
   
@@ -137,7 +137,7 @@ const UserVacationRequestForm = () => {
         headers: { "Content-Type": "application/json" }
       })
         .then((response) => {
-          toast.success("Η αίτηση άδειας καταχωρήθηκε με επιτυχία.");
+          toast.success("Vacation request submitted successfully.");
           navigate('/vacation_request/view/'+response.data.id);
         })
         .catch((error) => {
@@ -200,11 +200,11 @@ const UserVacationRequestForm = () => {
     if(dateDifference !==null) {
       if(dateDifference > 10) {
         setIsDifferenceOutOfRage(true);
-        setDifferenceOutOfRageMessage("Έχετε ξεπεράσει το όριο αδειών που δικαιούστε.");
+        setDifferenceOutOfRageMessage("You have exceeded the limit of vacation days to which you are entitled.");
       }
       else if(dateDifference < 1) {
         setIsDifferenceOutOfRage(true);
-        setDifferenceOutOfRageMessage("Οι ημέρες άδειας πρέπει να είναι τουλάχιστον 1.");
+        setDifferenceOutOfRageMessage("Vacation days must be at least 1.");
       }
       else {
         if(isDifferenceOutOfRage === true && differenceOutOfRageMessage!==null) {
@@ -276,7 +276,7 @@ useEffect(() => {
   {
     !hasMadeRequestRecently ? (
       <>
-        <h2>Νέα αίτηση άδειας:</h2>
+        <h2>New vacation request:</h2>
         <div style={{ marginTop: "20px", display: 'flex' }}>
           <Box
             sx={{
@@ -288,13 +288,13 @@ useEffect(() => {
                 errors={errors}
                 control={control}
                 name="startDate"
-                label="Ημερομηνία έναρξης"
+                label="Start date"
               />
               <MuiTextField
                 errors={errors}
                 control={control}
                 name="endDate"
-                label="Ημερομηνία λήξης"
+                label="End date"
               />
               <Button
                 type="submit"
@@ -302,14 +302,14 @@ useEffect(() => {
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
               >
-                Υποβολή
+                Submit
               </Button>
               <Button
                 type="reset"
                 fullWidth
                 variant="outlined"
               >
-                Ανανέωση
+                Reset
               </Button>
             </form>
           </Box>
@@ -317,13 +317,13 @@ useEffect(() => {
             {
               result != null && (
                 <div style={{ marginTop: "70px" }}>
-                  {Display.displayFieldWithTypography('Όριο ημερών: ', result.employee.vacationDays, 1)}
+                  {Display.displayFieldWithTypography('Days limit: ', result.employee.vacationDays, 1)}
                   {
                     dateDifference !== null && (
                       isDifferenceOutOfRage ? (
                         Display.displayFieldWithTypography(differenceOutOfRageMessage, '', 3)
                       ) : (
-                        Display.displayFieldWithTypography('Ημέρες άδειας: ', dateDifference, 2)
+                        Display.displayFieldWithTypography('Vacation days: ', dateDifference, 2)
                       )
                     )
                   }
@@ -334,18 +334,19 @@ useEffect(() => {
         </div>
       </>
     ) : (
-      <h3>Υποβάλλατε πρόσφατα αίτηση άδειας. Δεν έχετε δικαίωμα να υποβάλλετε ξανά.</h3>
+      <h3>
+      You recently applied for a leave. You are not eligible to resubmit.</h3>
     )
   }
 </>
         ) : (
-          <h3>Βρισκόσαστε ήδη σε άδεια. Δεν έχετε δικαίωμα να υποβάλλετε καινούρια αίτηση.</h3>
+          <h3>You were already on leave. You do not have the right to submit a new application.</h3>
         )
       }
     </>
   ) : (
     <h3>
-      Έχετε εξαντλήσει όλες τις ημέρες άδειας. Δεν έχετε δικαίωμα να υποβάλετε νέα αίτηση άδειας.</h3>
+      You have used up all your vacation days. You are not eligible to submit a new leave application.</h3>
   )
 }
     </div>

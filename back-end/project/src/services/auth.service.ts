@@ -38,13 +38,13 @@ export class AuthService {
     catch (error) {
       console.log(error);
       if(error instanceof BadRequestException)
-        throw new BadRequestException('Δεν βρέθηκε ο χρήστης με το email: '+email+'.');
+        throw new BadRequestException('Employee with the email : '+email+' not found.');
       else if(error instanceof UnauthorizedException) {
-        let message = 'Ο κωδικός που δώσατε δεν είναι σωστός.';
-        if(isEmployeeNotAccepted) message = 'Ο λογαριασμός με το email '+email+' υπάρχει αλλά δεν έχει γίνει αποδεκτός.';
+        let message = 'Password given is incorrect.';
+        if(isEmployeeNotAccepted) message = 'The account with the email '+email+' exists but has not yet benn accepted.';
         throw new UnauthorizedException(message);
       }
-      else throw new InternalServerErrorException('Σφάλμα κατά την αναζήτηση του λογαριασμού.');
+      else throw new InternalServerErrorException('Account search failed.');
     }
   }
 
@@ -59,9 +59,9 @@ export class AuthService {
       return newEmployee;
     } 
     catch(error) {
-      let message = "Σφάλμα κατά τη δημιουργία νέου λογαριασμού.";
+      let message = "New account creation failed.";
       if(error.code==23505) {
-        message= "Το email που δώσατε χρησιμοποιείται από άλλον χρήστη.";
+        message= "Email given is used by another employee.";
         throw new BadRequestException(message);
       }
       throw new InternalServerErrorException(message);

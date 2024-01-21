@@ -30,27 +30,27 @@ const EmployeeTable = () => {
     { field: "id", headerName: "id", flex: 1 },
     {
       field: "name",
-      headerName: "Όνομα",
+      headerName: "Name",
       flex: 1,
     },
     {
       field: "surName",
-      headerName: "Επώνυμο",
+      headerName: "Surname",
       flex: 1,
     },
       {
         field: "employmentType",
-        headerName: "Επάγγελμα",
+        headerName: "Employment type",
         flex: 1,
       },
       {
         field: "employeeDepartment",
-        headerName: "Τμήμα",
+        headerName: "Department",
         flex: 1,
       },
     {
       field: "actions",
-      headerName: "Ενέργειες",
+      headerName: "Actions",
       flex: 1,
       renderCell: (cellValues) => {
         let deleteIconDisabled = false;
@@ -87,7 +87,7 @@ const EmployeeTable = () => {
                     `${employeeTableUrl}/${cellValues?.row?.id}`
                   )
                   .then(() => {
-                    toast.info("Ο χρήστης διαγράφτηκε με επιτυχία.");
+                    toast.info("The employee deleted successfully.");
                     axios
                       .get(employeeGetAll)
                       .then((response) => {
@@ -196,7 +196,7 @@ const EmployeeTable = () => {
           width: 900,
         }}
       >
-        <h2>Λίστα εργαζομένων</h2>
+        <h2>Employee List</h2>
         <IconButton disabled={createNewEmployeeButtonDisabled} color="primary" onClick={() => navigate(`/employee/new`)}>
           <AddIcon />
         </IconButton>

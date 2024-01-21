@@ -70,7 +70,7 @@ const BonusView = () => {
       
       {Display.displayIconButton()}
       
-      <h2>Πληροφορίες bonus:</h2>
+      <h2>Bonus details:</h2>
       <Box
         sx={{
           width: "600px",
@@ -84,7 +84,7 @@ const BonusView = () => {
                   })}
             </div>
             ) : (
-                <DisplayErrorMessage  message = "Πρόβλημα στην αναζήτηση του στοιχείων του bonus."  />
+                <DisplayErrorMessage  message = "Error searching for bonus details."  />
             )}
         </div>
         

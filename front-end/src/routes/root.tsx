@@ -8,7 +8,8 @@ export default function Root() {
 
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const settings = ['Προφίλ', 'Αποσύνδεση'];
+  const settings = ['My Profile', 'Sign Out'];
+  const standartIlMarginBottom = '-7px';
 
   const isLoggedIn: boolean = true;
 
@@ -47,7 +48,7 @@ export default function Root() {
     <>
       <div id="sidebar">
         <nav>
-        <div style ={{marginBottom: "30px", marginLeft:"15px", marginTop:"40px"}}>
+        <div style ={{marginBottom: "30px", marginLeft:"15px", marginTop:"80px"}}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0, size: "30px" }} >
                 <Avatar src="/broken-image.jpg" />
@@ -74,9 +75,9 @@ export default function Root() {
             >
               {settings.map((setting, index) => (
                 <MenuItem key={index} onClick={() => {
-                  if (setting === 'Αποσύνδεση') {
+                  if (setting === 'Sign Out') {
                     logoutUser();
-                  } else if (setting === 'Προφίλ') {
+                  } else if (setting === 'My Profile') {
                     handleProfileClick();
                   } else {
                     handleCloseUserMenu();
@@ -89,33 +90,33 @@ export default function Root() {
           </div>
           <ul>
 
-            <li>
-              <Link to={`/department`}>Τμήματα</Link>
+            <li style={{marginBottom:standartIlMarginBottom}}>
+              <Link to={`/department`}>Departments</Link>
             </li>
-            <li>
-              <Link to={`/employee`}>Εργαζόμενοι</Link>
+            <li style={{marginBottom:standartIlMarginBottom}}>
+              <Link to={`/employee`}>Employees</Link>
             </li>
-            <li>
+            <li style={{marginBottom:standartIlMarginBottom}}>
               <Link to={`/bonus`}>Bonus</Link>
            </li>
-            <li>
-              <Link to={`/vacation_request`}>Άδειες</Link>
+            <li style={{marginBottom:standartIlMarginBottom}}>
+              <Link to={`/vacation_request`}>VR's</Link>
             </li>
           </ul>
           
           {isAdmin ? (
-  <ul style={{ marginTop: "30px" }}>
-    <li>
-      <Link to={`/pvacation_request`}>Εκρεμμείς άδειες</Link>
+  <ul >
+    <li style={{marginBottom:standartIlMarginBottom}}>
+      <Link to={`/pvacation_request`}>Pending VR's</Link>
     </li>
-    <li>
-      <Link to={`/createbonuses`}>Δημιουργία bonus</Link>
+    <li style={{marginBottom:standartIlMarginBottom}}>
+      <Link to={`/createbonuses`}>Bonus creation</Link>
     </li>
   </ul>
 ) : (
-  <ul style={{ marginTop: "30px" }}>
-  <li>
-    <Link to={`/uservacationrequest`}>Νέα αίτηση άδειας</Link>
+  <ul >
+  <li style={{marginBottom:standartIlMarginBottom}}>
+    <Link to={`/uservacationrequest`}>New VR</Link>
   </li>
   </ul>
 )}

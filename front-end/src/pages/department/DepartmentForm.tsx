@@ -16,7 +16,7 @@ import * as Display from "src/display";
 
 
 export const DepartmentSchema = yup.object({
-  name: yup.string().required("Ειναι απαραίτητο να προσθέσετε το όνομα του τμήματος."),
+  name: yup.string().required("Name is required."),
 });
 
 
@@ -27,7 +27,7 @@ const DepartmentForm = () => {
   const employeeUrl = Important.backEndEmployeeUrl;
   const departmentId = params?.id;
   const employeeGetAll = Important.getAllEmployee;
-  const [formTitle, setFormTitle] = useState<string>('Ρυθμίσεις τμήματος: ');
+  const [formTitle, setFormTitle] = useState<string>('Department settings: ');
   const [employeesNum, setEmployeesNum] = useState<number>(0); 
   const [registredEmployees, setRegisteredEmployees] = useState<any[]>([]);
   const [unregistredEmployees, setUnregisteredEmployees] = useState<any[]>([]);
@@ -69,7 +69,7 @@ const DepartmentForm = () => {
         await axios.patch(`${departmentUrl}/${params?.id}`, data, {
           headers: { "Content-Type": "application/json" }
         });
-        toast.success('Οι αλλαγές έγιναν με επιτυχία.');
+        toast.success('Changes performed successfully.');
         await getDepartmentWithEmployees();
         
       } catch (error: any) {
@@ -181,7 +181,7 @@ const DepartmentForm = () => {
         <div style={{marginTop:"60px"}}>
         {unregistredEmployees.length > 0 ? (
         <>
-          <h3>Προσθήκη εργαζόμενου: </h3>
+          <h3>Add an employee: </h3>
           <form noValidate onSubmit={handleSubmit(submitAddNewEmployee)}>
             <Controller
               name="employeeId"
@@ -197,7 +197,7 @@ const DepartmentForm = () => {
                   >
                     {unregistredEmployees.map((item: any) => (
                       <MenuItem key={item.id} value={item.id}>
-                        {item.name} {item.surname}, {item.salary}$ μισθός,
+                        {item.name} {item.surname}, {item.salary}$ salary,
                       </MenuItem>
                     ))}
                   </Select>
@@ -213,7 +213,7 @@ const DepartmentForm = () => {
           </form>
         </>
       ) : (
-        <h3>Δεν υπάρχει κανένας διαθέσιμος εργαζόμενος για προσθήκη.</h3>
+        <h3>No avaliable employee to add.</h3>
       )}
       </div>
       </Box>
@@ -225,7 +225,7 @@ const DepartmentForm = () => {
       >
         {employeesNum > 0 && (
         <>
-          <h3>Εργαζόμενοι: {employeesNum}</h3>
+          <h3>Employees: {employeesNum}</h3>
           <ul>
             {registredEmployees.map((item: any) => (
               <li key={item.id} style={{ fontSize: '20px' }}>
