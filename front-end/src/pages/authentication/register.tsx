@@ -21,6 +21,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import MuiTextField from "src/components/MuiTextField";
 import MuiSelectField from "src/components/MuiSelectField";
 import "src/index.css";
+import * as Important from "src/important";
 import { Link as RouterLink } from 'react-router-dom';
 
 
@@ -29,34 +30,41 @@ import { Link as RouterLink } from 'react-router-dom';
 const defaultTheme = createTheme();
 
 const registerSchema = yup.object().shape({
-  firstName: yup.string().required("Name is required."),
-  lastName: yup.string().required("Surname is required."),
+  name: yup.string().required("Name is required."),
+  surname: yup.string().required("Surname is required."),
   employeeUid: yup.number().required("Employee UId is required."),
   email: yup.string().required("Email is required.").email("Email must be valid."),
+  startDate: yup.date().required("Start date is required."),
   password: yup.string().min(4,'Password must have at least 4 characters.').max(20, 'The password must not exceed 20 characters.').required("Password is required."),
   confirmPassword: yup.string().oneOf([yup.ref('password')], 'Οι κωδικοί πρέπει να ταιριάζουν.').required("Επιβεβαιώστε τον κωδικό."),
   employmentType: yup.string().required("Employment type is required."),
 });
 
 type FormData = {
-  firstName: string;
-  lastName: string;
+  name: string;
+  surname: string;
   email: string;
   password: string;
   confirmPassword: string;
   employeeUid: Number;
   employmentType: string;
+  isAccepted: boolean;
+  isAdmin: boolean;
+  startDate: Date;
+  department: Number | null;
+  salary: Number;
+  vacationDays: Number;
 };
 
 export default function SignUp() {
 
+  const authUrl = Important.backEndAuthUrl;
   const navigate = useNavigate();
 
   React.useEffect(() => {
     const token = localStorage.getItem('token');
-    if (token) {
-      /*navigate('/projects');*/
-    }
+    if (token) 
+      navigate('/');
   }, [navigate]);
 
   const { register, handleSubmit, control, formState: { errors } } = useForm<FormData>({
@@ -65,8 +73,14 @@ export default function SignUp() {
   });
 
   const onSubmit = async (data: FormData) => {  
+    data.isAccepted=false;
+    data.isAdmin=false;
+    data.department=null;
+    data.salary=0;
+    data.vacationDays=0;
+    const requestUrl = authUrl+'/register';
     try {
-      const response = await axios.post(`${'thisUrl'}`, data );  
+      const response = await axios.post(requestUrl, data );  
       navigate('/signin');
     } catch(error: any) {
       let message=error?.response?.data?.message;
@@ -89,15 +103,15 @@ export default function SignUp() {
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
                 <Controller
-                  name="firstName"
+                  name="name"
                   control={control}
                   defaultValue=""
                   render={({ field }) => (
                     <TextField
                       {...field}
                       label="Name*"
-                      error={!!errors.firstName}
-                      helperText={errors.firstName?.message}
+                      error={!!errors.name}
+                      helperText={errors.surname?.message}
                     />
                   )}
                 />
@@ -105,15 +119,15 @@ export default function SignUp() {
               
               <Grid item xs={12} sm={6}>
               <Controller
-                  name="lastName"
+                  name="surname"
                   control={control}
                   defaultValue=""
                   render={({ field }) => (
                     <TextField
                       {...field}
                       label="Surname*"
-                      error={!!errors.lastName}
-                      helperText={errors.lastName?.message}
+                      error={!!errors.surname}
+                      helperText={errors.surname?.message}
                     />
                   )}
                 />
@@ -144,6 +158,21 @@ export default function SignUp() {
                     label="employeeUid*"
                     error={!!errors.employeeUid}
                     helperText={errors.employeeUid?.message}
+                    fullWidth
+                  />
+                )}
+              />
+              </Grid>
+              <Grid item xs={12}>
+              <Controller
+                name="startDate"
+                control={control}
+                render={({ field }) => (
+                  <TextField
+                    {...field}
+                    label="startDate*"
+                    error={!!errors.startDate}
+                    helperText={errors.startDate?.message}
                     fullWidth
                   />
                 )}

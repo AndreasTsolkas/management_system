@@ -1,5 +1,6 @@
 export const backEndBaseUrl = 'http://localhost:3001';
 
+export const backEndAuthUrl = backEndBaseUrl + '/auth';
 export const backEndBonusUrl = backEndBaseUrl + '/bonus';
 export const backEndEmployeeUrl = backEndBaseUrl + '/employee';
 export const backEndEmployeeProductUrl = backEndBaseUrl + '/eproduct';

@@ -43,12 +43,12 @@ export default function Root() {
       } 
     }
 
-  const isAdmin = true;
+  const isAdmin = false;
   return (
     <>
       <div id="sidebar">
         <nav>
-        <div style ={{marginBottom: "30px", marginLeft:"15px", marginTop:"100px"}}>
+        <div style ={{marginBottom: "30px", marginLeft:"15px", marginTop:"60px"}}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0, size: "30px" }} >
               <Avatar sx={{ width: 64, height: 64, marginBottom: '20px' }}
@@ -98,7 +98,7 @@ export default function Root() {
               <Link to={`/employee`}>Employees</Link>
             </li>
             <li style={{marginBottom:standartIlMarginBottom}}>
-              <Link to={`/bonus`}>Bonus</Link>
+              <Link to={`/bonus`}>Bonuses</Link>
            </li>
             <li style={{marginBottom:standartIlMarginBottom}}>
               <Link to={`/vacation_request`}>Leaves</Link>
