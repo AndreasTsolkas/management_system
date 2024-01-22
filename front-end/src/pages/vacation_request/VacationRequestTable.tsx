@@ -168,7 +168,7 @@ const VacationRequestTable = () => {
           width: 900,
         }}
       >
-        <h2>Vacation request List</h2>
+        <h2>Leaves </h2>
         <IconButton disabled={createNewVacationRequestButtonDisabled} color="primary" onClick={() => navigate(`/vacation_request/new`)}>
           <AddIcon />
         </IconButton>

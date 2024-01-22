@@ -276,7 +276,7 @@ useEffect(() => {
   {
     !hasMadeRequestRecently ? (
       <>
-        <h2>New vacation request:</h2>
+        <h2>Request a new leave:</h2>
         <div style={{ marginTop: "20px", display: 'flex' }}>
           <Box
             sx={{

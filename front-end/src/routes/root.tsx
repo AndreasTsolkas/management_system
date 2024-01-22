@@ -43,15 +43,16 @@ export default function Root() {
       } 
     }
 
-  const isAdmin = false;
+  const isAdmin = true;
   return (
     <>
       <div id="sidebar">
         <nav>
-        <div style ={{marginBottom: "30px", marginLeft:"15px", marginTop:"80px"}}>
+        <div style ={{marginBottom: "30px", marginLeft:"15px", marginTop:"100px"}}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0, size: "30px" }} >
-                <Avatar src="/broken-image.jpg" />
+              <Avatar sx={{ width: 64, height: 64, marginBottom: '20px' }}
+                src="https://t3.ftcdn.net/jpg/04/62/48/52/360_F_462485281_5KvGWMEhKb8GyOBXs0pV5vRt7gNw1mD3.jpg" />
               </IconButton>
             </Tooltip>
             <Menu
@@ -100,14 +101,14 @@ export default function Root() {
               <Link to={`/bonus`}>Bonus</Link>
            </li>
             <li style={{marginBottom:standartIlMarginBottom}}>
-              <Link to={`/vacation_request`}>VR's</Link>
+              <Link to={`/vacation_request`}>Leaves</Link>
             </li>
           </ul>
           
           {isAdmin ? (
   <ul >
     <li style={{marginBottom:standartIlMarginBottom}}>
-      <Link to={`/pvacation_request`}>Pending VR's</Link>
+      <Link to={`/pvacation_request`}>Pending Leaves</Link>
     </li>
     <li style={{marginBottom:standartIlMarginBottom}}>
       <Link to={`/createbonuses`}>Bonus creation</Link>
@@ -116,7 +117,7 @@ export default function Root() {
 ) : (
   <ul >
   <li style={{marginBottom:standartIlMarginBottom}}>
-    <Link to={`/uservacationrequest`}>New VR</Link>
+    <Link to={`/uservacationrequest`}>New Leave</Link>
   </li>
   </ul>
 )}

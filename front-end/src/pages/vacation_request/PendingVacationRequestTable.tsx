@@ -209,7 +209,7 @@ const PendingVacationRequestTable = () => {
         width: 900,
       }}
     >
-      <h2>Pending vacation requests</h2>
+      <h2>Pending leave requests</h2>
     </div>
     <Box sx={{ height: 500, width: 900 }}>
       {Display.displayDataGrid(rows ?? [], columns)} 

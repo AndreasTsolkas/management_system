@@ -255,7 +255,7 @@ useEffect(() => {
         ) : 
     ( employees !==null) ? (
     <>
-      <h2>Add a new vacation request:</h2>
+      <h2>Add a new leave:</h2>
       <div style={{ marginTop: "20px", display: 'flex' }}>
         <Box
           sx={{

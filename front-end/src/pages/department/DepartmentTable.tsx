@@ -165,7 +165,7 @@ const DepartmentTable = () => {
           width: 900,
         }}
       >
-        <h2>Department list</h2>
+        <h2>Departments</h2>
         <IconButton disabled={createNewDepartmentButtonDisabled} color="primary" onClick={() => navigate(`/department/new`)}>
           <AddIcon />
         </IconButton>

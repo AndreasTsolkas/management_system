@@ -149,7 +149,7 @@ const BonusTable = () => {
           width: 900,
         }}
       >
-        <h2>Bonus List</h2>
+        <h2>Bonuses</h2>
         <IconButton disabled={createNewBonusButtonDisabled} color="primary" onClick={() => navigate(`/createbonuses`)}>
           <AddIcon />
         </IconButton>

@@ -196,7 +196,7 @@ const EmployeeTable = () => {
           width: 900,
         }}
       >
-        <h2>Employee List</h2>
+        <h2>Employees</h2>
         <IconButton disabled={createNewEmployeeButtonDisabled} color="primary" onClick={() => navigate(`/employee/new`)}>
           <AddIcon />
         </IconButton>

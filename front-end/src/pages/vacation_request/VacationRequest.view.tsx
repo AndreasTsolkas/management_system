@@ -74,7 +74,7 @@ const VacationRequestView = () => {
       
       {Display.displayIconButton()}
       
-      <h2>Vacation request details:</h2>
+      <h2>Leave details:</h2>
       <Box
         sx={{
           width: "600px",
