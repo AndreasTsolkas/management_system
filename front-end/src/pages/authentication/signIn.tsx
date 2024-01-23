@@ -66,7 +66,7 @@ export default function SignIn() {
     
     } catch(error: any) {
       console.log(error?.response?.status);
-      toast.error(error?.response?.message);
+      toast.error(error?.response?.data?.message || 'An error occurred');
 
     } finally {
       setIsLoading(false);

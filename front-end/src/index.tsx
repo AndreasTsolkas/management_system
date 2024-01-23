@@ -31,7 +31,6 @@ export const Router = createBrowserRouter([
     element: (
       <>
         <Root />
-        <ToastContainer />
       </>
     ),
     children: [
@@ -107,11 +106,11 @@ export const Router = createBrowserRouter([
   },
   {
     path: "/signIn",
-    element: <SignIn />,
+    element:<SignIn />
   },
   {
     path: "/register",
-    element: <SignUp />,
+    element:<SignUp />
   },
   {
     path: '*',
@@ -121,6 +120,7 @@ export const Router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <CookiesProvider defaultSetOptions={{ path: '/' }}>
+    <ToastContainer />
     <RouterProvider router={Router} />
   </CookiesProvider>
 );

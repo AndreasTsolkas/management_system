@@ -87,7 +87,7 @@ export default function SignUp() {
       navigate('/signin');
     } catch(error: any) {
       let message=error?.response?.data?.message;
-      toast.error(message);
+      toast.error(message || 'An error occurred');
     }
   };
 
