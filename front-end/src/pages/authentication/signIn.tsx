@@ -48,12 +48,14 @@ export default function SignIn() {
       setIsLoading(true);
       const response = await axios.post(requestUrl, {email, password});
       console.log(response.status);
-      const token = response.data.token;
+      console.log(response.data.access_token);
+      console.log(response.data.admin);
+      const token = response.data.access_token;
 
       const admin = response.data.admin;
 
 
-      localStorage.setItem('token', token);
+      localStorage.setItem('access_token', token);
       localStorage.setItem('admin', admin);
       
       await new Promise(resolve => setTimeout(resolve, 1000));
@@ -70,7 +72,7 @@ export default function SignIn() {
       console.log(error?.response?.status);
       let message = 'Κατι πήγε στραβά...δοκιμάστε ξανα!';
       if(error.response?.status === 401) message = 'thisMessage';
-      toast.error(message);
+      toast.error('lathos');
 
     } finally {
       setIsLoading(false);
@@ -78,11 +80,11 @@ export default function SignIn() {
   };
 
   React.useEffect(() => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('access_token');
     if (token) {
       navigate('/'); 
     }
-  }, [navigate, localStorage.getItem('token')]);
+  }, [navigate, localStorage.getItem('access_token')]);
 
   return (
     <div className='authentication-pages'>
@@ -100,7 +102,7 @@ export default function SignIn() {
           {isLoading ? (
             
             <Box sx={{ display: 'flex', mt: 2 }}>
-              <CircularProgress  sx={{color:'#BA1E4C'}}/>
+              <CircularProgress  sx={{color:'blue'}}/>
             </Box>
           ) : (
             <>

@@ -8,7 +8,7 @@ interface UseAuthOptions {
 const useAuth = ({ redirectTo }: UseAuthOptions) => {
   const navigate = useNavigate();
   useEffect(() => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('access_token');
     if (!token) 
       navigate(redirectTo);
   }, [redirectTo]);
