@@ -14,7 +14,7 @@ import * as Display from "src/display";
 import {hasAccessAuth, isAdminAuth} from "src/useAuth";
 
 const DepartmentTable = () => {
-  const isAdmin = true;
+  const isAdmin = JSON.parse(localStorage.getItem('admin') || 'false');
   const [rows, setRows] = useState<IPost[]>([]);
   const navigate = useNavigate();
   const departmentTableUrl = Important.backEndDepartmentUrl;

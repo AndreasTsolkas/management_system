@@ -14,7 +14,7 @@ import moment from "moment";
 import {hasAccessAuth, isAdminAuth} from "src/useAuth";
 
 const VacationRequestTable = () => {
-  const isAdmin = true;
+  const isAdmin = JSON.parse(localStorage.getItem('admin') || 'false');
   const [rows, setRows] = useState<IPost[]>([]);
   const navigate = useNavigate();
   const vacationRequestTable = Important.backEndVacationRequestUrl;

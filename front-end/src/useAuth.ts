@@ -29,11 +29,12 @@ export const isAdminAuth = () => {
     if (admin === 'false') {
       navigate(redirectTo);
     }
+    return admin; 
   };
 
   useEffect(() => {
     checkAdmin();
   }, [redirectTo]);
 
-  return checkAdmin;
+  return checkAdmin();
 };

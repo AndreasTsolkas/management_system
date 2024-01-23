@@ -15,7 +15,7 @@ import {hasAccessAuth, isAdminAuth} from "src/useAuth";
 
 
 const EmployeeTable = () => {
-  const isAdmin = true;
+  const isAdmin = JSON.parse(localStorage.getItem('admin') || 'false');
   const [rows, setRows] = useState<IPost[]>([]);
   const navigate = useNavigate();
   const employeeTableUrl = Important.backEndEmployeeUrl;

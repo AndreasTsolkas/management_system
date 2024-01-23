@@ -4,7 +4,7 @@ import { useState } from "react";
 
 
 export default function Root() {
-  const isAdmin = JSON.parse(localStorage.getItem('admin') || 'false')
+  const isAdmin = JSON.parse(localStorage.getItem('admin') || 'false');
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
   const settings = ['My Profile', 'Sign Out'];
   const standartIlMarginBottom = '-7px';
