@@ -35,7 +35,8 @@ const DepartmentForm = () => {
 
   const getAndCountOnUserBaseUrl = Important.getAndCountOnUserBaseUrl;
 
-  hasAccessAuth({ redirectTo: '/signIn' });
+  hasAccessAuth();
+  isAdminAuth();
 
 
 

@@ -33,7 +33,8 @@ const EmployeeForm = () => {
   const [employeeCurrentDepartmentId, setEmployeeCurrentDepartmentId] = useState<any | null >(null);
   const [employeeSelectedDepartmentId, setEmployeeSelectedDepartmentId] = useState<any>('');
 
-  hasAccessAuth({ redirectTo: '/signIn' });
+  hasAccessAuth();
+  isAdminAuth();
   
 
 

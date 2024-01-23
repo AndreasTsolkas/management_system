@@ -1,13 +1,11 @@
 import { Link, Outlet, useNavigate } from "react-router-dom";
-import ExitToAppIcon from "@mui/icons-material/ExitToApp"; 
 import { Avatar, IconButton, Menu, MenuItem, Tooltip, Typography } from "@mui/material";
 import { useState } from "react";
 
 
 export default function Root() {
-
+  const isAdmin = JSON.parse(localStorage.getItem('admin') || 'false')
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
   const settings = ['My Profile', 'Sign Out'];
   const standartIlMarginBottom = '-7px';
 
@@ -31,10 +29,9 @@ export default function Root() {
     const logoutUser = async () => {
       try {
         if (isLoggedIn) {
-            setIsLoading(true); 
-            localStorage.removeItem('token');
+            localStorage.removeItem('access_token');
+            localStorage.removeItem('admin');
             await new Promise(resolve => setTimeout(resolve, 1000));
-            setIsLoading(false);
             navigate('/signIn');
         }
       } catch (error) {
@@ -43,7 +40,7 @@ export default function Root() {
       } 
     }
 
-  const isAdmin = false;
+  
   return (
     <>
       <div id="sidebar">

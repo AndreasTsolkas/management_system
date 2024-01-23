@@ -25,7 +25,8 @@ const BonusView = () => {
   const [result, setResult] = useState<any>();
   const [displayData, setDisplayData] = useState<any[]>([]);
 
-  hasAccessAuth({ redirectTo: '/signIn' });
+  hasAccessAuth();
+  isAdminAuth();
 
 
   function populateDisplayDataArray() {

@@ -27,10 +27,8 @@ const DepartmentTable = () => {
 
   const getAllAndCountOnUserBaseUrl = Important.getAllAndCountOnUserBaseUrl;
 
-  hasAccessAuth({ redirectTo: '/signIn' });
-
-
-
+  hasAccessAuth();
+  isAdminAuth();
 
   const columns: GridColDef[] = [
     { field: "id", headerName: "id", flex: 1 },

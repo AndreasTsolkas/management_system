@@ -44,7 +44,8 @@ const UserVacationRequestForm = () => {
   const defaultEndDate = moment().add(1, "days").format("YYYY-MM-DD");
   const [dateDifference, setDateDifference] = useState<number | null>(null);
 
-  hasAccessAuth({ redirectTo: '/signIn' });
+  hasAccessAuth();
+  isAdminAuth();
 
   const schema = yup.object({
     startDate: yup

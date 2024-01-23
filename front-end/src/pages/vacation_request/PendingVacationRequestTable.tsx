@@ -25,7 +25,8 @@ const PendingVacationRequestTable = () => {
   const [isRecordReadyToEvaluate, setIsRecordReadyToEvaluate] = useState<boolean>(false);
   const [readyToGetPendingVacationRequests, setReadyToGetPendingVacationRequests] = useState<boolean>(true);
 
-  hasAccessAuth({ redirectTo: '/signIn' });
+  hasAccessAuth();
+  isAdminAuth();
 
 
   const body = (

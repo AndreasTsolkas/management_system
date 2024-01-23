@@ -6,7 +6,6 @@ import { AuthGuard } from 'src/auth.guard';
 import { RolesGuard } from 'src/roles.guard';
 
 
-@UseGuards(AuthGuard, RolesGuard)
 @Controller('bonus')
 export class BonusController {
   

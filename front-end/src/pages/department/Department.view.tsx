@@ -26,7 +26,8 @@ const DepartmentView = () => {
 
   const getAndCountOnUserBaseUrl = Important.getAndCountOnUserBaseUrl;
 
-  hasAccessAuth({ redirectTo: '/signIn' });
+  hasAccessAuth();
+  isAdminAuth();
 
 
   function populateDisplayDataArray() {

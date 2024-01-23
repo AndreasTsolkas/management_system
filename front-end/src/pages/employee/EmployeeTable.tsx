@@ -25,7 +25,8 @@ const EmployeeTable = () => {
   const [editEmployeeButtonDisabled, setEditEmployeeButtonDisabled] = useState<boolean>(false);
 
 
-  hasAccessAuth({ redirectTo: '/signIn' });
+  hasAccessAuth();
+  isAdminAuth();
 
 
   const columns: GridColDef[] = [

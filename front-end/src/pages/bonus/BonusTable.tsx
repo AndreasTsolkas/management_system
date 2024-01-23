@@ -23,7 +23,8 @@ const BonusTable = () => {
   const [createNewBonusButtonDisabled, setCreateNewBonusButtonDisabled] = useState<boolean>(false);
   const [deleteDepartmentButtonDisabled, setDeleteDepartmentButtonDisabled] = useState<boolean>(false);
 
-  hasAccessAuth({ redirectTo: '/signIn' });
+  hasAccessAuth();
+  isAdminAuth();
 
   const columns: GridColDef[] = [
     { field: "id", headerName: "id", flex: 1 },

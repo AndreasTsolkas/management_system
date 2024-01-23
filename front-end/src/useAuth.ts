@@ -1,26 +1,39 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import * as Important from 'src/important';
 
-interface UseAuthOptions {
-  redirectTo: string;
-}
-
-export const hasAccessAuth = ({ redirectTo }: UseAuthOptions) => {
+export const hasAccessAuth = () => {
   const navigate = useNavigate();
-  useEffect(() => {
+  const redirectTo = Important.redirectWhenHasNoAccess;
+
+  const checkAccess = () => {
     const token = localStorage.getItem('access_token');
-    if (!token) 
+    if (!token) {
       navigate(redirectTo);
+    }
+  };
+
+  useEffect(() => {
+    checkAccess();
   }, [redirectTo]);
 
+  return checkAccess;
 };
 
-export const isAdminAuth = ({ redirectTo }: UseAuthOptions) => {
+export const isAdminAuth = () => {
   const navigate = useNavigate();
-  useEffect(() => {
-    const token = localStorage.getItem('access_token');
-    if (!token) 
+  const redirectTo = Important.redirectWhenIsNotAdmin;
+
+  const checkAdmin = () => {
+    const admin = localStorage.getItem('admin');
+    if (admin === 'false') {
       navigate(redirectTo);
+    }
+  };
+
+  useEffect(() => {
+    checkAdmin();
   }, [redirectTo]);
 
+  return checkAdmin;
 };

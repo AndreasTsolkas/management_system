@@ -44,7 +44,8 @@ const CreateBonusForm = () => {
   const bonusUrl = Important.backEndBonusUrl;
   const employeeGetAll = Important.getAllEmployee;
 
-  hasAccessAuth({ redirectTo: '/signIn' });
+  hasAccessAuth();
+  isAdminAuth();
 
   const {
     
