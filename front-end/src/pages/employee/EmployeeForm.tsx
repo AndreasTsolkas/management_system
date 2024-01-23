@@ -34,7 +34,6 @@ const EmployeeForm = () => {
   const [employeeSelectedDepartmentId, setEmployeeSelectedDepartmentId] = useState<any>('');
 
   hasAccessAuth();
-  isAdminAuth();
   
 
 

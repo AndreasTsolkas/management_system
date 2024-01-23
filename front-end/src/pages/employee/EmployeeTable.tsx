@@ -26,7 +26,6 @@ const EmployeeTable = () => {
 
 
   hasAccessAuth();
-  isAdminAuth();
 
 
   const columns: GridColDef[] = [

@@ -45,7 +45,6 @@ const UserVacationRequestForm = () => {
   const [dateDifference, setDateDifference] = useState<number | null>(null);
 
   hasAccessAuth();
-  isAdminAuth();
 
   const schema = yup.object({
     startDate: yup

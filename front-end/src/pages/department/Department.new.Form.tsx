@@ -31,7 +31,6 @@ const DepartmentNewForm = () => {
   const getAndCountOnUserBaseUrl = Important.getAndCountOnUserBaseUrl;
 
   hasAccessAuth();
-  isAdminAuth();
 
 
 

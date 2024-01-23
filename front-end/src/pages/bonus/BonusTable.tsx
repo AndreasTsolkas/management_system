@@ -24,7 +24,6 @@ const BonusTable = () => {
   const [deleteDepartmentButtonDisabled, setDeleteDepartmentButtonDisabled] = useState<boolean>(false);
 
   hasAccessAuth();
-  isAdminAuth();
 
   const columns: GridColDef[] = [
     { field: "id", headerName: "id", flex: 1 },

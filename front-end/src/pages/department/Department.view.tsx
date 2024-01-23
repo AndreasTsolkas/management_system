@@ -27,7 +27,6 @@ const DepartmentView = () => {
   const getAndCountOnUserBaseUrl = Important.getAndCountOnUserBaseUrl;
 
   hasAccessAuth();
-  isAdminAuth();
 
 
   function populateDisplayDataArray() {

@@ -29,7 +29,6 @@ const EmployeeView = () => {
   const [displayData, setDisplayData] = useState<any[]>([]);
 
   hasAccessAuth();
-  isAdminAuth();
 
 
   function populateDisplayDataArray() {

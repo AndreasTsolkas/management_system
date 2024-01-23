@@ -24,7 +24,6 @@ const VacationRequestTable = () => {
   const [deleteDepartmentButtonDisabled, setDeleteDepartmentButtonDisabled] = useState<boolean>(false);
 
   hasAccessAuth();
-  isAdminAuth();
 
 
   const columns: GridColDef[] = [
