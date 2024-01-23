@@ -13,6 +13,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
+import { CookiesProvider, useCookies } from "react-cookie";
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { FormControl, FormLabel, InputLabel, MenuItem, Radio, RadioGroup, Select, Box } from '@mui/material';
@@ -60,9 +61,11 @@ export default function SignUp() {
 
   const authUrl = Important.backEndAuthUrl;
   const navigate = useNavigate();
+  const [cookies, setCookie, removeCookie] = useCookies();
+  const accessTokenCookie = Important.accessTokenCookie;
 
   React.useEffect(() => {
-    const token = localStorage.getItem('token');
+    const token = cookies[accessTokenCookie];
     if (token) 
       navigate('/');
   }, [navigate]);

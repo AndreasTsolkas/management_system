@@ -24,6 +24,8 @@ export const editLinkBase = 'edit/';
 
 export const redirectWhenHasNoAccess = '/signIn';
 export const redirectWhenIsNotAdmin = -1;
+export const accessTokenCookie = 'access_token';
+export const adminCookie = 'admin';
 
 
 

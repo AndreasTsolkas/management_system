@@ -12,11 +12,14 @@ import moment from "moment";
 import * as Important from "src/important";
 import * as Display from "src/display";
 import {hasAccessAuth, isAdminAuth} from "src/useAuth";
+import { useCookies } from "react-cookie";
 
 const BonusTable = () => {
-  const isAdmin = JSON.parse(localStorage.getItem('admin') || 'false');
-  const [rows, setRows] = useState<IPost[]>([]);
   const navigate = useNavigate();
+  const [cookies] = useCookies();
+  const adminCookie = Important.adminCookie;
+  const isAdmin = JSON.parse(cookies[adminCookie] || 'false');
+  const [rows, setRows] = useState<IPost[]>([]);
   const bonusTableUrl = Important.backEndBonusUrl;
   const bonusGetAll = Important.getAllBonus;
   const [moreInformationLinkBase, setMoreInformationLinkBase] = useState<string>('');

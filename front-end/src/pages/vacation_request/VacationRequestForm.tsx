@@ -260,7 +260,8 @@ useEffect(() => {
     ( employees !==null) ? (
     <>
       <h2>Add a new leave:</h2>
-      <div style={{ marginTop: "20px", display: 'flex' }}>
+      <div >
+        <Box sx={{ display: 'flex', flexDirection: 'row', width: '100%' }}>
         <Box
           sx={{
             width: "200px",
@@ -328,7 +329,7 @@ useEffect(() => {
             </div>
           </form>
         </Box>
-        <Box sx={{ marginLeft: "250px", width: "600px" }}>
+        <Box sx={{ marginLeft:"250px", width: "50%" }}>
           {
             (avaliableDays !==null && avaliableDays >= 1)  && (
               <div style={{ marginTop: "70px" }}>
@@ -345,6 +346,7 @@ useEffect(() => {
               </div>
             )
           }
+        </Box>
         </Box>
       </div>
     </>

@@ -149,7 +149,8 @@ const CreateBonusForm = () => {
     <div>
       <h2 >Create new bonus: </h2>
       <div >
-      <Box sx={{ width: "200px" }}>
+      <Box sx={{ display: 'flex', flexDirection: 'row', width: '100%' }}>
+        <Box sx={{ width: "200px" }}>
         <form  noValidate onReset = {onReset} onSubmit={handleSubmit(onSubmit)}>
           <Controller
             name="employeeId"
@@ -229,7 +230,7 @@ const CreateBonusForm = () => {
           </Button>
         </form>
       </Box>
-      <Box sx={{ marginLeft: "250px", width: "600px" }}>
+      <Box sx={{ marginLeft:"200px", width: "50%" }}>
       {(employeeSelected && seasonSelected) && (
           <div style={{ marginTop: "70px" }}>
             {Display.displayFieldWithTypography('Current salary: ', currentEmployeeCurrentSalary, 1)}
@@ -238,6 +239,7 @@ const CreateBonusForm = () => {
           </div>
       )}
        
+      </Box>
       </Box>
       </div>
       <div id="result"></div>

@@ -281,10 +281,9 @@ useEffect(() => {
       <>
         <h2>Request a new leave:</h2>
         <div >
+          <Box sx={{ display: 'flex', flexDirection: 'row', width: '100%' }}>
           <Box
-            sx={{
-              width: "200px",
-            }}
+            sx={{ width: "200px" }}
           >
             <form noValidate onChange={onChange} onReset={onReset} onSubmit={handleSubmit(onSubmit)}>
               <MuiTextField
@@ -316,7 +315,7 @@ useEffect(() => {
               </Button>
             </form>
           </Box>
-          <Box sx={{ marginLeft: "250px", width: "600px" }}>
+          <Box sx={{ marginLeft:"250px", width: "50%" }}>
             {
               result != null && (
                 <div style={{ marginTop: "70px" }}>
@@ -333,6 +332,7 @@ useEffect(() => {
                 </div>
               )
             }
+          </Box>
           </Box>
         </div>
       </>

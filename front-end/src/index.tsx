@@ -23,6 +23,7 @@ import UserVacationRequestForm from "./pages/user.vacation.requestForm";
 import CreateBonusForm from "./pages/createBonusForm";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { CookiesProvider } from "react-cookie";
 
 export const Router = createBrowserRouter([
   {
@@ -119,5 +120,7 @@ export const Router = createBrowserRouter([
 ]);
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
-  <RouterProvider router={Router} />
+  <CookiesProvider defaultSetOptions={{ path: '/' }}>
+    <RouterProvider router={Router} />
+  </CookiesProvider>
 );

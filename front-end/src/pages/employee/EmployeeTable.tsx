@@ -12,12 +12,15 @@ import axios from "axios";
 import * as Important from "src/important";
 import * as Display from "src/display";
 import {hasAccessAuth, isAdminAuth} from "src/useAuth";
+import { useCookies } from "react-cookie";
 
 
 const EmployeeTable = () => {
-  const isAdmin = JSON.parse(localStorage.getItem('admin') || 'false');
-  const [rows, setRows] = useState<IPost[]>([]);
   const navigate = useNavigate();
+  const [cookies] = useCookies();
+  const adminCookie = Important.adminCookie;
+  const isAdmin = JSON.parse(cookies[adminCookie] || 'false');
+  const [rows, setRows] = useState<IPost[]>([]);
   const employeeTableUrl = Important.backEndEmployeeUrl;
   const employeeGetAll = Important.getAllEmployee;
   const [createNewEmployeeButtonDisabled, setCreateNewEmployeeButtonDisabled] = useState<boolean>(false);

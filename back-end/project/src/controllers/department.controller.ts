@@ -1,11 +1,13 @@
-import { Body, Controller, Delete, Get, Param, Patch, Put, Req } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Put, Req, UseGuards } from '@nestjs/common';
 import { Department } from 'src/entities/department.entity';
 import { DepartmentService } from 'src/services/department.service';
 import { EmployeeService } from 'src/services/employee.service';
 import { GetAllDepartmentsSpecial } from 'src/dto/getAllDepartmentsSpecial.dto';
 import { GetDepartmentsSpecial } from 'src/dto/getDepartmentSpecial.dto';
+import { AuthGuard } from 'src/auth.guard';
+import { RolesGuard } from 'src/roles.guard';
 
-
+/*@UseGuards(AuthGuard,RolesGuard)*/
 @Controller('department')
 export class  DepartmentController {
   

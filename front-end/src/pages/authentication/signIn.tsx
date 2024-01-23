@@ -13,6 +13,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { CircularProgress } from '@mui/material';
+import { CookiesProvider, useCookies } from "react-cookie";
 import "src/index.css";
 import * as Important from "src/important";
 
@@ -26,6 +27,11 @@ export default function SignIn() {
   const navigate = useNavigate();
   const authUrl = Important.backEndAuthUrl;
   const[isLoading, setIsLoading] = React.useState<boolean>(false);
+  const [cookies, setCookie, removeCookie] = useCookies();
+
+  const accessTokenCookie = Important.accessTokenCookie;
+  const adminCookie = Important.adminCookie;
+
 
 
 
@@ -45,8 +51,10 @@ export default function SignIn() {
       const token = response.data.access_token;
       const admin = response.data.admin;
 
-      localStorage.setItem('access_token', token);
-      localStorage.setItem('admin', admin);
+      setCookie(accessTokenCookie, token);
+      setCookie(adminCookie, admin);
+      /*localStorage.setItem('access_token', token);
+      localStorage.setItem('admin', admin);*/
       
       await new Promise(resolve => setTimeout(resolve, 1000));
 
@@ -66,11 +74,11 @@ export default function SignIn() {
   };
 
   React.useEffect(() => {
-    const token = localStorage.getItem('access_token');
+    const token = cookies[accessTokenCookie];;
     if (token) {
       navigate('/'); 
     }
-  }, [navigate, localStorage.getItem('access_token')]);
+  }, [navigate, cookies[accessTokenCookie]]);
 
   return (
     <div className='authentication-pages'>

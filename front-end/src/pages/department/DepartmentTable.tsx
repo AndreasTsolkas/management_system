@@ -4,6 +4,7 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import ReadMoreIcon from "@mui/icons-material/ReadMore";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { CookiesProvider, useCookies } from "react-cookie";
 import { IPost } from "./department.model";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -11,12 +12,15 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import * as Important from "src/important";
 import * as Display from "src/display";
+import * as Requests from "src/requests";
 import {hasAccessAuth, isAdminAuth} from "src/useAuth";
 
 const DepartmentTable = () => {
-  const isAdmin = JSON.parse(localStorage.getItem('admin') || 'false');
-  const [rows, setRows] = useState<IPost[]>([]);
   const navigate = useNavigate();
+  const [cookies] = useCookies();
+  const adminCookie = Important.adminCookie;
+  const isAdmin = JSON.parse(cookies[adminCookie] || 'false');
+  const [rows, setRows] = useState<IPost[]>([]);
   const departmentTableUrl = Important.backEndDepartmentUrl;
   const departmentGetAll = Important.getAllDepartment;
   const employeeUrl = Important.backEndEmployeeUrl;
@@ -146,6 +150,7 @@ const DepartmentTable = () => {
   }, []);
 
   useEffect(() => {
+    /*Requests.httpClient.get('http://localhost:3001/department/all');*/
     getDepartments();
   }, []);
 

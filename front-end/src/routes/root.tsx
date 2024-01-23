@@ -1,11 +1,16 @@
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import { Avatar, IconButton, Menu, MenuItem, Tooltip, Typography } from "@mui/material";
 import { useState } from "react";
+import { CookiesProvider, useCookies } from "react-cookie";
+import * as Important from "src/important";
 
 
 export default function Root() {
   const isAdmin = JSON.parse(localStorage.getItem('admin') || 'false');
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
+  const [cookies, setCookie, removeCookie] = useCookies();
+  const accessTokenCookie = Important.accessTokenCookie;
+  const adminCookie = Important.adminCookie;
   const settings = ['My Profile', 'Sign Out'];
   const standartIlMarginBottom = '-7px';
 
@@ -29,8 +34,8 @@ export default function Root() {
     const logoutUser = async () => {
       try {
         if (isLoggedIn) {
-            localStorage.removeItem('access_token');
-            localStorage.removeItem('admin');
+            removeCookie(accessTokenCookie);
+            removeCookie(adminCookie);
             await new Promise(resolve => setTimeout(resolve, 1000));
             navigate('/signIn');
         }

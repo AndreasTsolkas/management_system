@@ -161,7 +161,7 @@ const DepartmentForm = () => {
           width: "200px",
         }}
       >
-        <h3>Όνομα: </h3>
+        <h3>Name: </h3>
         <form noValidate onSubmit={handleSubmit(submitNameChange)}>
           
           <MuiTextField
