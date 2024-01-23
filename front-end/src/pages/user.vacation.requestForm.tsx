@@ -280,7 +280,7 @@ useEffect(() => {
     !hasMadeRequestRecently ? (
       <>
         <h2>Request a new leave:</h2>
-        <div style={{ marginTop: "20px", display: 'flex' }}>
+        <div >
           <Box
             sx={{
               width: "200px",

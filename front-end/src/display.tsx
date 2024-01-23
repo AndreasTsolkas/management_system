@@ -52,6 +52,17 @@ export const displayTitleWithTypography = (name: any) => {
   
 }
 
+export const displayPrettyTitleWithTypography = (name: any) => {
+  return (
+
+    <Typography  variant="h5" gutterBottom>
+        {name}
+    </Typography>
+ 
+  );
+  
+}
+
 export const displayFieldWithTypography = (name: any, data: any, index: number) => {
   return (
     <Typography  variant="h6" key={index} >
@@ -60,6 +71,8 @@ export const displayFieldWithTypography = (name: any, data: any, index: number) 
   );
   
 }
+
+
 
 export function DisplayErrorMessage({ message }: { message: string }) {
   return <h4>{message}</h4>;

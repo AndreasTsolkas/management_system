@@ -148,7 +148,7 @@ const CreateBonusForm = () => {
   return (
     <div>
       <h2 >Create new bonus: </h2>
-      <div style={{  marginTop:"20px", display: 'flex' }}>
+      <div >
       <Box sx={{ width: "200px" }}>
         <form  noValidate onReset = {onReset} onSubmit={handleSubmit(onSubmit)}>
           <Controller

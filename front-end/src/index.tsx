@@ -4,7 +4,6 @@ import { BrowserRouter, createBrowserRouter, Navigate, RouterProvider } from "re
 import "./index.css";
 import Root from "./routes/root";
 import Home from "./pages/home/Home";
-import Error from "./pages/error/Error";
 import SignIn from "./pages/authentication/signIn";
 import SignUp from "./pages/authentication/register";
 import DepartmentForm from "./pages/department/DepartmentForm";
@@ -34,7 +33,6 @@ export const Router = createBrowserRouter([
         <ToastContainer />
       </>
     ),
-    errorElement: <Error />,
     children: [
       {
         path: "/",
