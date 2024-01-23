@@ -14,6 +14,7 @@ import * as Important from "src/important";
 import * as Display from "src/display";
 import {DisplayErrorMessage} from 'src/display';
 import moment from "moment";
+import useAuth from "src/useAuth";
 
 
 const BonusView = () => {
@@ -23,6 +24,8 @@ const BonusView = () => {
   const bonusId = params?.id;
   const [result, setResult] = useState<any>();
   const [displayData, setDisplayData] = useState<any[]>([]);
+
+  useAuth({ redirectTo: '/signIn' });
 
 
   function populateDisplayDataArray() {

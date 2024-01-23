@@ -16,6 +16,7 @@ import * as Display from "src/display";
 import { Season } from "src/enums/season";
 import { useState, useEffect } from 'react';
 import { useNavigate } from "react-router";
+import useAuth from "src/useAuth";
 
 
 
@@ -44,6 +45,8 @@ const CreateBonusForm = () => {
 
   const bonusUrl = Important.backEndBonusUrl;
   const employeeGetAll = Important.getAllEmployee;
+
+  useAuth({ redirectTo: '/signIn' });
 
   const {
     

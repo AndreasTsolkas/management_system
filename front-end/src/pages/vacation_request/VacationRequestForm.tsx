@@ -15,6 +15,7 @@ import { IPost } from "./vacationRequest.model";
 import * as Important from "src/important";
 import * as Display from "src/display";
 import moment from "moment";
+import useAuth from "src/useAuth";
 
 
 const VacationRequestForm = () => {
@@ -37,6 +38,8 @@ const VacationRequestForm = () => {
   const defaultStartDate = moment().format("YYYY-MM-DD");
   const defaultEndDate = moment().add(1, "days").format("YYYY-MM-DD");
   const [dateDifference, setDateDifference] = useState<number | null>(null);
+
+  useAuth({ redirectTo: '/signIn' });
 
   const schema = yup.object({
     employeeId: yup

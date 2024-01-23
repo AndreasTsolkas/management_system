@@ -11,6 +11,7 @@ import axios from "axios";
 import * as Important from "src/important";
 import * as Display from "src/display";
 import moment from "moment";
+import useAuth from "src/useAuth";
 
 const VacationRequestTable = () => {
   const isAdmin = true;
@@ -21,6 +22,8 @@ const VacationRequestTable = () => {
   const [moreInformationLinkBase, setMoreInformationLinkBase] = useState<string>('');
   const [createNewVacationRequestButtonDisabled, setCreateNewVacationRequestButtonDisabled] = useState<boolean>(false);
   const [deleteDepartmentButtonDisabled, setDeleteDepartmentButtonDisabled] = useState<boolean>(false);
+
+  useAuth({ redirectTo: '/signIn' });
 
 
   const columns: GridColDef[] = [

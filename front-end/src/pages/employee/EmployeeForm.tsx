@@ -9,6 +9,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import * as Important from "src/important";
 import * as Display from "src/display";
+import useAuth from "src/useAuth";
 
 export const NewEmployeeSchema = yup.object({
   name: yup.string().required("Name is required.").min(2).max(20),
@@ -31,6 +32,8 @@ const EmployeeForm = () => {
   const [formTitle, setFormTitle] = useState<string>('');
   const [employeeCurrentDepartmentId, setEmployeeCurrentDepartmentId] = useState<any | null >(null);
   const [employeeSelectedDepartmentId, setEmployeeSelectedDepartmentId] = useState<any>('');
+
+  useAuth({ redirectTo: '/signIn' });
   
 
 

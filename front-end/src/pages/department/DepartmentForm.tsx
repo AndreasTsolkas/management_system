@@ -13,6 +13,7 @@ import CheckIcon from '@mui/icons-material/Check';
 import DeleteIcon from "@mui/icons-material/Delete";
 import * as Important from "src/important";
 import * as Display from "src/display";
+import useAuth from "src/useAuth";
 
 
 export const DepartmentSchema = yup.object({
@@ -33,6 +34,8 @@ const DepartmentForm = () => {
   const [unregistredEmployees, setUnregisteredEmployees] = useState<any[]>([]);
 
   const getAndCountOnUserBaseUrl = Important.getAndCountOnUserBaseUrl;
+
+  useAuth({ redirectTo: '/signIn' });
 
 
 

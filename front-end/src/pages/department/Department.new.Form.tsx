@@ -10,6 +10,7 @@ import { toast, ToastContainer } from "react-toastify";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import * as Important from "src/important";
 import * as Display from "src/display";
+import useAuth from "src/useAuth";
 
 
 export const DepartmentSchema = yup.object({
@@ -28,6 +29,8 @@ const DepartmentNewForm = () => {
   const [unregistredEmployees, setUnregisteredEmployees] = useState<any[]>([]);
 
   const getAndCountOnUserBaseUrl = Important.getAndCountOnUserBaseUrl;
+
+  useAuth({ redirectTo: '/signIn' });
 
 
 

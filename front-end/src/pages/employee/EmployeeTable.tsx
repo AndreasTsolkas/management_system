@@ -11,6 +11,7 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import * as Important from "src/important";
 import * as Display from "src/display";
+import useAuth from "src/useAuth";
 
 
 const EmployeeTable = () => {
@@ -24,6 +25,7 @@ const EmployeeTable = () => {
   const [editEmployeeButtonDisabled, setEditEmployeeButtonDisabled] = useState<boolean>(false);
 
 
+  useAuth({ redirectTo: '/signIn' });
 
 
   const columns: GridColDef[] = [
