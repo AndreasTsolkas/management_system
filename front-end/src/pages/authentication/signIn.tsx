@@ -42,13 +42,8 @@ export default function SignIn() {
     try {
       setIsLoading(true);
       const response = await axios.post(requestUrl, {email, password});
-      console.log(response.status);
-      console.log(response.data.access_token);
-      console.log(response.data.admin);
       const token = response.data.access_token;
-
       const admin = response.data.admin;
-
 
       localStorage.setItem('access_token', token);
       localStorage.setItem('admin', admin);
