@@ -15,7 +15,7 @@ import { format } from 'date-fns';
 import * as Important from "src/important";
 import * as Display from "src/display";
 import { difference } from "lodash";
-import useAuth from "src/useAuth";
+import {hasAccessAuth, isAdminAuth} from "src/useAuth";
 
 
 
@@ -44,7 +44,7 @@ const UserVacationRequestForm = () => {
   const defaultEndDate = moment().add(1, "days").format("YYYY-MM-DD");
   const [dateDifference, setDateDifference] = useState<number | null>(null);
 
-  useAuth({ redirectTo: '/signIn' });
+  hasAccessAuth({ redirectTo: '/signIn' });
 
   const schema = yup.object({
     startDate: yup

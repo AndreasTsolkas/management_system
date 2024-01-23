@@ -8,7 +8,7 @@ import axios from "axios";
 import * as Important from "src/important";
 import * as Display from "src/display";
 import moment from "moment";
-import useAuth from "src/useAuth";
+import {hasAccessAuth, isAdminAuth} from "src/useAuth";
 
 const PendingVacationRequestTable = () => {
   const [rows, setRows] = useState<IPost[]>([]);
@@ -25,7 +25,7 @@ const PendingVacationRequestTable = () => {
   const [isRecordReadyToEvaluate, setIsRecordReadyToEvaluate] = useState<boolean>(false);
   const [readyToGetPendingVacationRequests, setReadyToGetPendingVacationRequests] = useState<boolean>(true);
 
-  useAuth({ redirectTo: '/signIn' });
+  hasAccessAuth({ redirectTo: '/signIn' });
 
 
   const body = (

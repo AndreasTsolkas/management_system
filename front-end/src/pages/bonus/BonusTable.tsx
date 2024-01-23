@@ -11,7 +11,7 @@ import axios from "axios";
 import moment from "moment";
 import * as Important from "src/important";
 import * as Display from "src/display";
-import useAuth from "src/useAuth";
+import {hasAccessAuth, isAdminAuth} from "src/useAuth";
 
 const BonusTable = () => {
   const isAdmin = true;
@@ -23,7 +23,7 @@ const BonusTable = () => {
   const [createNewBonusButtonDisabled, setCreateNewBonusButtonDisabled] = useState<boolean>(false);
   const [deleteDepartmentButtonDisabled, setDeleteDepartmentButtonDisabled] = useState<boolean>(false);
 
-  useAuth({ redirectTo: '/signIn' });
+  hasAccessAuth({ redirectTo: '/signIn' });
 
   const columns: GridColDef[] = [
     { field: "id", headerName: "id", flex: 1 },

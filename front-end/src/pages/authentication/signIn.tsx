@@ -3,12 +3,9 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
@@ -29,8 +26,6 @@ export default function SignIn() {
   const navigate = useNavigate();
   const authUrl = Important.backEndAuthUrl;
   const[isLoading, setIsLoading] = React.useState<boolean>(false);
-  const [isFormSubmitted, setIsFormSubmitted] = React.useState<boolean>(false);
-  const [isLoggedIn, setIsLoggedIn] = React.useState<boolean>(false);
 
 
 
@@ -60,8 +55,6 @@ export default function SignIn() {
       
       await new Promise(resolve => setTimeout(resolve, 1000));
 
-      setIsLoggedIn(true);
-
       if(admin) {
         
       }else{
@@ -70,9 +63,7 @@ export default function SignIn() {
     
     } catch(error: any) {
       console.log(error?.response?.status);
-      let message = 'Κατι πήγε στραβά...δοκιμάστε ξανα!';
-      if(error.response?.status === 401) message = 'thisMessage';
-      toast.error('lathos');
+      toast.error(error?.response?.message);
 
     } finally {
       setIsLoading(false);

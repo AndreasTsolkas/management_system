@@ -14,7 +14,7 @@ import * as Important from "src/important";
 import * as Display from "src/display";
 import {DisplayErrorMessage} from 'src/display';
 import moment from "moment";
-import useAuth from "src/useAuth";
+import {hasAccessAuth, isAdminAuth} from "src/useAuth";
 
 
 const DepartmentView = () => {
@@ -26,7 +26,7 @@ const DepartmentView = () => {
 
   const getAndCountOnUserBaseUrl = Important.getAndCountOnUserBaseUrl;
 
-  useAuth({ redirectTo: '/signIn' });
+  hasAccessAuth({ redirectTo: '/signIn' });
 
 
   function populateDisplayDataArray() {

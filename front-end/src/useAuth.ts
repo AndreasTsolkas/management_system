@@ -5,7 +5,7 @@ interface UseAuthOptions {
   redirectTo: string;
 }
 
-const useAuth = ({ redirectTo }: UseAuthOptions) => {
+export const hasAccessAuth = ({ redirectTo }: UseAuthOptions) => {
   const navigate = useNavigate();
   useEffect(() => {
     const token = localStorage.getItem('access_token');
@@ -13,8 +13,14 @@ const useAuth = ({ redirectTo }: UseAuthOptions) => {
       navigate(redirectTo);
   }, [redirectTo]);
 
-  return {
-  };
 };
 
-export default useAuth;
+export const isAdminAuth = ({ redirectTo }: UseAuthOptions) => {
+  const navigate = useNavigate();
+  useEffect(() => {
+    const token = localStorage.getItem('access_token');
+    if (!token) 
+      navigate(redirectTo);
+  }, [redirectTo]);
+
+};

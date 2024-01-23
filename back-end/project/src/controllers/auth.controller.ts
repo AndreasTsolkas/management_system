@@ -19,9 +19,4 @@ export class AuthController {
       return this.authService.register(employee);
     }
   
-    @UseGuards(AuthGuard)
-    @Get('profile')
-    getProfile(/*@Request() req*/) {
-      return /*req.user*/ 1;
-    }
   }

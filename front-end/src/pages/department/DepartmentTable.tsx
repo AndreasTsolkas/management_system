@@ -11,7 +11,7 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import * as Important from "src/important";
 import * as Display from "src/display";
-import useAuth from "src/useAuth";
+import {hasAccessAuth, isAdminAuth} from "src/useAuth";
 
 const DepartmentTable = () => {
   const isAdmin = true;
@@ -27,7 +27,7 @@ const DepartmentTable = () => {
 
   const getAllAndCountOnUserBaseUrl = Important.getAllAndCountOnUserBaseUrl;
 
-  useAuth({ redirectTo: '/signIn' });
+  hasAccessAuth({ redirectTo: '/signIn' });
 
 
 
