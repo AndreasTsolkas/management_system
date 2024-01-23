@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { BrowserRouter, createBrowserRouter, RouterProvider } from "react-router-dom";
+import { BrowserRouter, createBrowserRouter, Navigate, RouterProvider } from "react-router-dom";
 import "./index.css";
 import Root from "./routes/root";
 import Home from "./pages/home/Home";
@@ -113,6 +113,10 @@ export const Router = createBrowserRouter([
   {
     path: "/register",
     element: <SignUp />,
+  },
+  {
+    path: '*',
+    element: <Navigate to="/" replace />,
   },
 ]);
 
