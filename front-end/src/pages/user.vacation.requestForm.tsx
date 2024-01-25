@@ -14,6 +14,7 @@ import { format } from 'date-fns';
 
 import * as Important from "src/important";
 import * as Display from "src/display";
+import * as Datetime from "src/datetime";
 import { difference } from "lodash";
 import {hasAccessAuth, isAdminAuth} from "src/useAuth";
 import { httpClient } from "src/requests";
@@ -39,10 +40,12 @@ const UserVacationRequestForm = () => {
   const [isDifferenceOutOfRage, setIsDifferenceOutOfRage] = useState<boolean>(false);
   const [differenceOutOfRageMessage, setDifferenceOutOfRageMessage] = useState<string | null>(null);
 
+  const datetimeFormat = Important.datetimeFormat2;
+
   const userId = 1;
 
-  const defaultStartDate = moment().format("YYYY-MM-DD");
-  const defaultEndDate = moment().add(1, "days").format("YYYY-MM-DD");
+  const defaultStartDate = Datetime.getCurrentDate(datetimeFormat);
+  const defaultEndDate = Datetime.getDateFromCurrentDate(1, datetimeFormat);
   const [dateDifference, setDateDifference] = useState<number | null>(null);
 
   hasAccessAuth();
@@ -77,10 +80,10 @@ const UserVacationRequestForm = () => {
         "date-difference",
         "Duration must be at least 1 day.",
         function (value) {
-          const startDate = moment.utc(this.parent.startDate, "YYYY-MM-DD", true);
-          const endDate = moment.utc(value, "YYYY-MM-DD", true);
+          const startDate = Datetime.getUTCdate(this.parent.startDate, datetimeFormat);
+          const endDate = Datetime.getUTCdate(value, datetimeFormat);
 
-          const difference = endDate.diff(startDate, "days");
+          const difference = Datetime.calculateDateDifference(startDate, endDate);
           setDateDifference(difference);
           return difference >= 1;
         }
@@ -172,13 +175,13 @@ const UserVacationRequestForm = () => {
   };
 
   const calculateDateDifference = () => {
-    const startDate = moment.utc(validatedStartDate, "YYYY-MM-DD", true);
-    const endDate = moment.utc(validatedEndDate, "YYYY-MM-DD", true);
-    return endDate.diff(startDate, "days")+1;
+    const startDate = Datetime.getUTCdate(validatedStartDate, datetimeFormat);
+    const endDate = Datetime.getUTCdate(validatedEndDate, datetimeFormat);
+    return Datetime.calculateDateDifference(startDate, endDate)+1;
   };
 
   const checkIfDateIsValid = (value: any) => {
-    let result = moment.utc(value, true).isValid();
+    let result = Datetime.checkIfDateIsValid(value);
     return result;
   };
 
@@ -187,7 +190,7 @@ const UserVacationRequestForm = () => {
     const currentDate = new Date(startDate);
   
     while (currentDate <= endDate) {
-      const dayOfWeek = currentDate.getDay(); 
+      const dayOfWeek = Datetime.getDayNumberFromDayName(currentDate); 
       if (dayOfWeek === 0 || dayOfWeek === 6) {
         count++; 
       }

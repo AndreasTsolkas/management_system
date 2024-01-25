@@ -31,6 +31,7 @@ export const accessTokenCookie = 'access_token';
 export const adminCookie = 'admin';
 
 export const datetimeFormat = 'DD/ MM/ YYYY';
+export const datetimeFormat2 = 'YYYY-MM-DD';
 
 
 
