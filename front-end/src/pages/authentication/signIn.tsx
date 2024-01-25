@@ -53,16 +53,8 @@ export default function SignIn() {
 
       setCookie(accessTokenCookie, token);
       setCookie(adminCookie, admin);
-      /*localStorage.setItem('access_token', token);
-      localStorage.setItem('admin', admin);*/
       
       await new Promise(resolve => setTimeout(resolve, 1000));
-
-      if(admin) {
-        
-      }else{
-        
-      }
     
     } catch(error: any) {
       console.log(error?.response?.status);

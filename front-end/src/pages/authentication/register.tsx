@@ -61,7 +61,7 @@ export default function SignUp() {
 
   const authUrl = Important.backEndAuthUrl;
   const navigate = useNavigate();
-  const [cookies, setCookie, removeCookie] = useCookies();
+  const [cookies] = useCookies();
   const accessTokenCookie = Important.accessTokenCookie;
 
   React.useEffect(() => {
