@@ -15,6 +15,7 @@ import * as Display from "src/display";
 import {DisplayErrorMessage} from 'src/display';
 import moment from "moment";
 import {hasAccessAuth, isAdminAuth} from "src/useAuth";
+import { httpClient } from "src/requests";
 
 
 const DepartmentView = () => {
@@ -51,7 +52,7 @@ const DepartmentView = () => {
 
   async function getCurrentDepartment() {
     try {
-        const response: any = await axios.get(`${getAndCountOnUserBaseUrl}/${departmentId}`);
+        const response: any = await httpClient.get(`${getAndCountOnUserBaseUrl}/${departmentId}`);
         setResult(response.data);
     }
     catch(error: any) {

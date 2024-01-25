@@ -10,6 +10,7 @@ import { toast } from "react-toastify";
 import * as Important from "src/important";
 import * as Display from "src/display";
 import {hasAccessAuth, isAdminAuth} from "src/useAuth";
+import { httpClient } from "src/requests";
 
 export const NewEmployeeSchema = yup.object({
   name: yup.string().required("Name is required.").min(2).max(20),
@@ -27,7 +28,7 @@ const EmployeeForm = () => {
   const params = useParams();
   const [departments, setDepartments] = useState<any[]>([]);
   const navigate = useNavigate();
-  const employeeUrl = Important.backEndEmployeeUrl;
+  const employeeUrl = Important.employeeUrl;
   const departmentGetAll = Important.getAllDepartment;
   const [formTitle, setFormTitle] = useState<string>('');
   const [employeeCurrentDepartmentId, setEmployeeCurrentDepartmentId] = useState<any | null >(null);
@@ -79,7 +80,7 @@ const EmployeeForm = () => {
     let response: any = '';
     if (!params?.id) {
       try {
-        response = await axios.put(employeeUrl, data);
+        response = await httpClient.put(employeeUrl, data);
         toast.success('The new employee was created successfully');
         success = true;
       } catch (error) {
@@ -87,9 +88,7 @@ const EmployeeForm = () => {
       }
     } else {
       try {
-         response = await axios.patch(`${employeeUrl}/${params?.id}`, data, {
-          headers: { "Content-Type": "application/json" },
-        });
+         response = await httpClient.patch(`${employeeUrl}/${params?.id}`, data);
         toast.success("Employee updated successfully");
         success = true;
 
@@ -105,7 +104,7 @@ const EmployeeForm = () => {
     let text = 'Add a new employee:';
     if (params && params?.id) {
       text = 'Employee settings:';
-      await axios
+      await httpClient
         .get(`${employeeUrl}/${params?.id}`)
         .then((response) => {
           reset(response.data);
@@ -124,7 +123,7 @@ const EmployeeForm = () => {
   const getAllDepartments: any = async () => {
     const requestUrl = departmentGetAll;
     try {
-      const response: any = await axios.get(requestUrl);
+      const response: any = await httpClient.get(requestUrl);
       setDepartments(response.data);
     }
     catch (error: any) {

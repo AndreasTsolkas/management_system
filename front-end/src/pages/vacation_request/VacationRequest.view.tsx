@@ -15,12 +15,13 @@ import * as Display from "src/display";
 import {DisplayErrorMessage} from 'src/display';
 import moment from "moment";
 import {hasAccessAuth, isAdminAuth} from "src/useAuth";
+import { httpClient } from "src/requests";
 
 
 const VacationRequestView = () => {
   const params: any | never = useParams();
   const navigate = useNavigate();
-  const vacationRequestUrl = Important.backEndVacationRequestUrl;
+  const vacationRequestUrl = Important.vacationRequestUrl;
   const vacationRequestId = params?.id;
   const [result, setResult] = useState<any>();
   const [displayData, setDisplayData] = useState<any[]>([]);
@@ -46,7 +47,7 @@ const VacationRequestView = () => {
 
   async function getCurrentUser() {
     try {
-        const response: any = await axios.get(`${vacationRequestUrl}/${vacationRequestId}`);
+        const response: any = await httpClient.get(`${vacationRequestUrl}/${vacationRequestId}`);
         setResult(response.data);
     }
     catch(error: any) {

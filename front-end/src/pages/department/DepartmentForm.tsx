@@ -14,6 +14,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import * as Important from "src/important";
 import * as Display from "src/display";
 import {hasAccessAuth, isAdminAuth} from "src/useAuth";
+import { httpClient } from "src/requests";
 
 
 export const DepartmentSchema = yup.object({
@@ -24,8 +25,8 @@ export const DepartmentSchema = yup.object({
 const DepartmentForm = () => {
   const params = useParams();
   const navigate = useNavigate();
-  const departmentUrl = Important.backEndDepartmentUrl;
-  const employeeUrl = Important.backEndEmployeeUrl;
+  const departmentUrl = Important.departmentUrl;
+  const employeeUrl = Important.employeeUrl;
   const departmentId = params?.id;
   const employeeGetAll = Important.getAllEmployee;
   const [formTitle, setFormTitle] = useState<string>('Department settings: ');
@@ -59,7 +60,7 @@ const DepartmentForm = () => {
         const body = {
           department: departmentValue
         };
-        const response = await axios.patch(requestUrl, body);
+        const response = await httpClient.patch(requestUrl, body);
         await getDepartmentWithEmployees();
         await getAllEmployeesWithoutDepartment();
         
@@ -70,9 +71,7 @@ const DepartmentForm = () => {
 
   const submitNameChange = async (data:any) => {
       try {
-        await axios.patch(`${departmentUrl}/${params?.id}`, data, {
-          headers: { "Content-Type": "application/json" }
-        });
+        await httpClient.patch(`${departmentUrl}/${params?.id}`, data);
         toast.success('Changes performed successfully.');
         await getDepartmentWithEmployees();
         
@@ -95,7 +94,7 @@ const DepartmentForm = () => {
    const getDepartmentWithEmployees =  async () => {
     const requestUrl = getAndCountOnUserBaseUrl;
     try {
-      const response: any = await axios.get(`${requestUrl}/${departmentId}`);
+      const response: any = await httpClient.get(`${requestUrl}/${departmentId}`);
       setRegisteredEmployees(response.data?.employees);
       setEmployeesNum(response.data?.employeesNum);
       reset({
@@ -112,7 +111,7 @@ const DepartmentForm = () => {
    const getAllEmployeesWithoutDepartment =  async () => {
     const requestUrl = employeeGetAll+'/condition';
     try {
-      const response = await axios.get(requestUrl, {
+      const response = await httpClient.get(requestUrl, {
         params: {
           field: 'department.id',
           value: 'null',

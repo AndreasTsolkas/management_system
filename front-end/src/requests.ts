@@ -2,6 +2,7 @@ import { TokenRounded } from '@mui/icons-material';
 import axios from 'axios';
 import { Cookies } from 'react-cookie';
 import * as Important from "src/important";
+import { AnyObject } from 'yup/lib/object';
 
 
 
@@ -15,11 +16,14 @@ const axiosConfig = {
             'Authorization': '', 
             'role': '',
         },
+        params: {}, 
         initializedHeaders: false
 };
     
-async function getRequest(requestUrl: any) {
+async function getRequest(requestUrl: any, params?:AnyObject) {
         try {
+                if(params)
+                  axiosConfig.params = params;
                 const response = await axios.get(requestUrl, {
                         baseURL: backEndBaseUrl,
                         headers: axiosConfig.headers
@@ -93,10 +97,10 @@ const initializeHeaders = () => {
         axiosConfig.initializedHeaders = true;
 };
 
-const authGetRequest = async (requestUrl: string) => {
+const authGetRequest = async (requestUrl: string, params?:any) => {
         if(axiosConfig.initializedHeaders === false) 
           initializeHeaders();
-        return getRequest(requestUrl);
+        return getRequest(requestUrl, params);
 }
 const authDeleteRequest = async (requestUrl: string) => {
         if(axiosConfig.initializedHeaders === false) 

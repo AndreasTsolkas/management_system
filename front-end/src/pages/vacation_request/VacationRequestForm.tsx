@@ -16,6 +16,7 @@ import * as Important from "src/important";
 import * as Display from "src/display";
 import moment from "moment";
 import {hasAccessAuth, isAdminAuth} from "src/useAuth";
+import { httpClient } from "src/requests";
 
 
 const VacationRequestForm = () => {
@@ -23,8 +24,8 @@ const VacationRequestForm = () => {
   const params = useParams();
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const vacationRequestUrl = Important.backEndVacationRequestUrl;
-  const employeeUrl = Important.backEndEmployeeUrl;
+  const vacationRequestUrl = Important.vacationRequestUrl;
+  const employeeUrl = Important.employeeUrl;
   const [avaliableDays, setAvaliableDays] = useState<number | null>(null);
   const [validatedStartDate, setValidatedStartDate] = useState<any | null>(null);
   const [validatedEndDate, setValidatedEndDate] = useState<any | null>(null);
@@ -134,16 +135,14 @@ const VacationRequestForm = () => {
     setAvaliableDays(employees.find(employees => employees.id === data.target.value)?.vacationDays);
   };
 
-  const onSubmit = (data: any) => {
+  const onSubmit = async (data: any) => {
     const requestUrl = vacationRequestUrl+`/admincreate/vrequest`;;
     const putData = {
       startDate: data.startDate,
       endDate: data.endDate,
       employeeId: data.employeeId,
     };
-      axios.put(requestUrl, putData, {
-        headers: { "Content-Type": "application/json" }
-      })
+      await httpClient.put(requestUrl, putData)
         .then((response) => {
           toast.success("Vacation request submitted successfully.");
           navigate('/vacation_request/view/'+response.data.id);
@@ -159,7 +158,7 @@ const VacationRequestForm = () => {
   const getAllEmployees =  async () => {
     const requestUrl = employeeGetAll+'/vrequest/avaliable';
     try {
-      const response = await axios.get(requestUrl);
+      const response = await httpClient.get(requestUrl);
       setEmployees(response.data);
 
     }
@@ -201,11 +200,11 @@ const VacationRequestForm = () => {
     if(dateDifference !==null) {
       if(dateDifference > 10) {
         setIsDifferenceOutOfRage(true);
-        setDifferenceOutOfRageMessage("Έχετε ξεπεράσει το όριο αδειών που δικαιούστε.");
+        setDifferenceOutOfRageMessage("You have exceeded the limit of vacation days to which this employee is entitled.");
       }
       else if(dateDifference < 1) {
         setIsDifferenceOutOfRage(true);
-        setDifferenceOutOfRageMessage("Οι ημέρες άδειας πρέπει να είναι τουλάχιστον 1.");
+        setDifferenceOutOfRageMessage("Vacation days must be at least 1.");
       }
       else {
         if(isDifferenceOutOfRage === true && differenceOutOfRageMessage!==null) {

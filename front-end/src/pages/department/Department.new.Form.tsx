@@ -11,17 +11,18 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import * as Important from "src/important";
 import * as Display from "src/display";
 import {hasAccessAuth, isAdminAuth} from "src/useAuth";
+import { httpClient } from "src/requests";
 
 
 export const DepartmentSchema = yup.object({
-  name: yup.string().required("Ειναι απαραίτητο να προσθέσετε το όνομα του τμήματος."),
+  name: yup.string().required("Department name is required."),
 });
 
 
 const DepartmentNewForm = () => {
   const params = useParams();
   const navigate = useNavigate();
-  const departmentUrl = Important.backEndDepartmentUrl;
+  const departmentUrl = Important.departmentUrl;
   const departmentId = params?.id;
   const employeeGetAll = Important.getAllEmployee;
   const [formTitle, setFormTitle] = useState<string>('');
@@ -57,7 +58,7 @@ const DepartmentNewForm = () => {
   const onSubmit = async (data:any) => {
     let success=false;
     try {
-       await axios.put(departmentUrl, data);
+       await httpClient.put(departmentUrl, data);
         toast.success('The new department created successfully.');
         success=true;
     } catch (error: any) {

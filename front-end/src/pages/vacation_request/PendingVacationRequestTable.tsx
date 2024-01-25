@@ -9,14 +9,15 @@ import * as Important from "src/important";
 import * as Display from "src/display";
 import moment from "moment";
 import {hasAccessAuth, isAdminAuth} from "src/useAuth";
+import { httpClient } from "src/requests";
 
 const PendingVacationRequestTable = () => {
   const [rows, setRows] = useState<IPost[]>([]);
   const navigate = useNavigate();
-  const vacationRequestTable = Important.backEndVacationRequestUrl;
-  const vacationRequestUrl = Important.getAllVacationRequest;
+  const vacationRequestUrl = Important.vacationRequestUrl;
+  const vacationRequestGetAll = Important.getAllVacationRequest;
   const vacationRequestStatus = 'pending';
-  const getVacationRequestByStatus = vacationRequestTable+'/by/status?status='+vacationRequestStatus;
+  const getVacationRequestByStatus = vacationRequestUrl+'/by/status?status='+vacationRequestStatus;
   const [arePendingRequestsExist, setArePendingRequestsExist] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isCheckBoxChecked, setIsCheckboxChecked] = useState<boolean>(false);
@@ -148,13 +149,13 @@ const PendingVacationRequestTable = () => {
   }
   async function evaluatePendingVacarionRequest() {
     try {
-      let requestUrl = vacationRequestTable+'/evaluate/vrequest';
+      let requestUrl = vacationRequestUrl+'/evaluate/vrequest';
       const putData = {
         vacationRequestId: currentCheckedRecordId,
         approved: modalSelectedValue
 
       }
-      const response: any = await axios.put(requestUrl, putData);
+      const response: any = await httpClient.put(requestUrl, putData);
       toast.success("Vacation request evaluated successfully.");
       navigate('/vacation_request/view/'+response.data.id);
     }

@@ -17,13 +17,14 @@ import * as Display from "src/display";
 import {DisplayErrorMessage} from 'src/display';
 import moment from "moment";
 import {hasAccessAuth, isAdminAuth} from "src/useAuth";
+import { httpClient } from "src/requests";
 
 
 const EmployeeView = () => {
   const isAdmin = false;
   const params: any | never = useParams();
   const navigate = useNavigate();
-  const employeeUrl = Important.backEndEmployeeUrl;
+  const employeeUrl = Important.employeeUrl;
   const userId = params?.id;
   const [result, setResult] = useState<any>();
   const [displayData, setDisplayData] = useState<any[]>([]);
@@ -60,7 +61,7 @@ const EmployeeView = () => {
 
   async function getCurrentUser() {
     try {
-        const response: any = await axios.get(`${employeeUrl}/${userId}`);
+        const response: any = await httpClient.get(`${employeeUrl}/${userId}`);
         setResult(response.data);
     }
     catch(error: any) {
