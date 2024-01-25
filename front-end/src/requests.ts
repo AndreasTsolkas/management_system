@@ -20,13 +20,15 @@ const axiosConfig = {
         initializedHeaders: false
 };
     
-async function getRequest(requestUrl: any, params?:AnyObject) {
+async function getRequest(requestUrl: any, params?:any) {
         try {
-                if(params)
+                if(params) 
                   axiosConfig.params = params;
+                  
                 const response = await axios.get(requestUrl, {
-                        baseURL: backEndBaseUrl,
-                        headers: axiosConfig.headers
+                        baseURL: axiosConfig.url,
+                        headers: axiosConfig.headers,
+                        params: axiosConfig.params
                 });
                 return response;
         } catch (error) {
@@ -37,7 +39,7 @@ async function getRequest(requestUrl: any, params?:AnyObject) {
 async function deleteRequest(requestUrl: any) {
         try {
                 const response = await axios.delete(requestUrl, {
-                        baseURL: backEndBaseUrl,
+                        baseURL: axiosConfig.url,
                         headers: axiosConfig.headers
                 });
                 return response;
@@ -49,7 +51,7 @@ async function deleteRequest(requestUrl: any) {
 async function postRequest(requestUrl: any, data: any){
         try{
                 const response = await axios.post(`${requestUrl}`, data, {
-                        baseURL: backEndBaseUrl,
+                        baseURL: axiosConfig.url,
                         headers: axiosConfig.headers
                 });
                 return response;
@@ -61,7 +63,7 @@ async function postRequest(requestUrl: any, data: any){
 async function patchRequest(requestUrl: any, data: any){
         try{
                 const response = await axios.patch(`${requestUrl}`, data, {
-                        baseURL: backEndBaseUrl,
+                        baseURL: axiosConfig.url,
                         headers: axiosConfig.headers
                 })
                 return response;
@@ -73,7 +75,7 @@ async function patchRequest(requestUrl: any, data: any){
 async function putRequest(requestUrl: any, data: any){
         try{
                 const response = await axios.put(`${requestUrl}`, data, {
-                        baseURL: backEndBaseUrl,
+                        baseURL: axiosConfig.url,
                         headers: axiosConfig.headers
                 })
                 return response;
@@ -100,6 +102,7 @@ const initializeHeaders = () => {
 const authGetRequest = async (requestUrl: string, params?:any) => {
         if(axiosConfig.initializedHeaders === false) 
           initializeHeaders();
+        console.log(params);
         return getRequest(requestUrl, params);
 }
 const authDeleteRequest = async (requestUrl: string) => {

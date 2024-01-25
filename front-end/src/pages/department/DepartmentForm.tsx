@@ -111,12 +111,11 @@ const DepartmentForm = () => {
    const getAllEmployeesWithoutDepartment =  async () => {
     const requestUrl = employeeGetAll+'/condition';
     try {
-      const response = await httpClient.get(requestUrl, {
-        params: {
+      const response = await httpClient.get(requestUrl, 
+        {
           field: 'department.id',
           value: 'null',
-        },
-      });
+        });
       setUnregisteredEmployees(response.data);
     }
 
