@@ -51,7 +51,6 @@ const DepartmentTable = () => {
     await httpClient.get(getAllAndCountOnUserBaseUrl)
       .then((response) => {
         const data = response.data;
-        console.log(response);
         setDepartmentRows(data);
       })
       .catch((error) => {

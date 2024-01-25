@@ -15,12 +15,13 @@ import * as Display from "src/display";
 import {DisplayErrorMessage} from 'src/display';
 import moment from "moment";
 import {hasAccessAuth, isAdminAuth} from "src/useAuth";
+import { httpClient } from 'src/requests';
 
 
 const BonusView = () => {
   const params: any | never = useParams();
   const navigate = useNavigate();
-  const bonusUrl = Important.backEndBonusUrl;
+  const bonusUrl = Important.bonusUrl;
   const bonusId = params?.id;
   const [result, setResult] = useState<any>();
   const [displayData, setDisplayData] = useState<any[]>([]);
@@ -40,9 +41,9 @@ const BonusView = () => {
     }
   }
 
-  async function getCurrentUser() {
+  async function getCurrentBonus() {
     try {
-        const response: any = await axios.get(`${bonusUrl}/${bonusId}`);
+        const response: any = await httpClient.get(`${bonusUrl}/${bonusId}`);
         setResult(response.data);
     }
     catch(error: any) {
@@ -59,7 +60,7 @@ const BonusView = () => {
   }, []);
 
   useEffect(() => {
-    getCurrentUser();
+    getCurrentBonus();
   }, [bonusId]);
 
   useEffect(() => {

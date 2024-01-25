@@ -16,6 +16,7 @@ import { CircularProgress } from '@mui/material';
 import { CookiesProvider, useCookies } from "react-cookie";
 import "src/index.css";
 import * as Important from "src/important";
+import { httpClient } from "src/requests";
 
 
 
@@ -25,7 +26,7 @@ const defaultTheme = createTheme();
 export default function SignIn() {
   
   const navigate = useNavigate();
-  const authUrl = Important.backEndAuthUrl;
+  const authUrl = Important.authUrl;
   const[isLoading, setIsLoading] = React.useState<boolean>(false);
   const [cookies, setCookie, removeCookie] = useCookies();
 
@@ -47,7 +48,7 @@ export default function SignIn() {
     
     try {
       setIsLoading(true);
-      const response = await axios.post(requestUrl, {email, password});
+      const response = await httpClient.post(requestUrl, {email, password});
       const token = response.data.access_token;
       const admin = response.data.admin;
 

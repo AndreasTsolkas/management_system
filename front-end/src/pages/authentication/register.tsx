@@ -24,6 +24,7 @@ import MuiSelectField from "src/components/MuiSelectField";
 import "src/index.css";
 import * as Important from "src/important";
 import { Link as RouterLink } from 'react-router-dom';
+import { httpClient } from 'src/requests';
 
 
 
@@ -59,7 +60,7 @@ type FormData = {
 
 export default function SignUp() {
 
-  const authUrl = Important.backEndAuthUrl;
+  const authUrl = Important.authUrl;
   const navigate = useNavigate();
   const [cookies] = useCookies();
   const accessTokenCookie = Important.accessTokenCookie;
@@ -83,7 +84,7 @@ export default function SignUp() {
     data.vacationDays=0;
     const requestUrl = authUrl+'/register';
     try {
-      const response = await axios.post(requestUrl, data );  
+      const response = await httpClient.post(requestUrl, data );  
       navigate('/signin');
     } catch(error: any) {
       let message=error?.response?.data?.message;

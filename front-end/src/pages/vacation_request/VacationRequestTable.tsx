@@ -23,7 +23,7 @@ const VacationRequestTable = () => {
   const [rows, setRows] = useState<IPost[]>([]);
   const vacationRequestUrl = Important.vacationRequestUrl;
   const vacationRequesGetAll = Important.getAllVacationRequest;
-  const [moreInformationLinkBase, setMoreInformationLinkBase] = useState<string>('');
+  const [moreInformationLinkBase, setMoreInformationLinkBase] = useState<string>('/vacation_request/view');
   const [createNewVacationRequestButtonDisabled, setCreateNewVacationRequestButtonDisabled] = useState<boolean>(false);
   const [deleteDepartmentButtonDisabled, setDeleteDepartmentButtonDisabled] = useState<boolean>(false);
 
@@ -136,7 +136,6 @@ const VacationRequestTable = () => {
   }, []);
 
   useEffect(() => {
-    setMoreInformationLinkBase('/vacation_request/view');
     getAllVacationRequests();
   }, []);
 

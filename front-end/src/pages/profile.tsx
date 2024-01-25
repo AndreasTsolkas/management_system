@@ -19,33 +19,7 @@ import { useState, useEffect } from 'react';
 
 
 const UserProfile = () => {
-  const [employees, setEmployees] = useState<any[]>([]);
-  const employeeUrl = Important.backEndEmployeeUrl;
 
-  const {
-    handleSubmit,
-    control,
-    reset,
-    formState: { errors },
-  } = useForm({
-    defaultValues: {
-      employeeId: "",
-      season: "",
-    },
-  });
-
-  const getEmployeeProfile =  async () => {
-    const requestUrl=employeeUrl+'';
-    try {
-      const response = await axios.get(requestUrl);
-      setEmployees([response.data]);
-
-    }
-    catch(error: any) {
-      console.error(error);
-      toast.error(error?.response.data.message);
-    }
-  }
 
   useEffect(() => {
 

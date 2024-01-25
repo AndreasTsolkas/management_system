@@ -16,6 +16,7 @@ import * as Important from "src/important";
 import * as Display from "src/display";
 import { difference } from "lodash";
 import {hasAccessAuth, isAdminAuth} from "src/useAuth";
+import { httpClient } from "src/requests";
 
 
 
@@ -26,8 +27,8 @@ const UserVacationRequestForm = () => {
   const params = useParams();
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const vacationRequestUrl = Important.backEndVacationRequestUrl;
-  const employeeUrl = Important.backEndEmployeeUrl;
+  const vacationRequestUrl = Important.vacationRequestUrl;
+  const employeeUrl = Important.employeeUrl;
   const [result, setResult] = useState<any | null>(null);
   const [isEmployeeOnVacation, setIsEmployeeOnVacation] = useState<boolean>(false);
   const [hasMadeRequestRecently, setHasMadeRequestRecently] = useState<boolean>(false);
@@ -128,17 +129,14 @@ const UserVacationRequestForm = () => {
     
   }
 
-  const onSubmit = (data: any) => {
+  const onSubmit = async (data: any) => {
     const requestUrl = vacationRequestUrl+`/usercreate/vrequest`;
-    console.log(requestUrl);
     const putData = {
       startDate: data.startDate,
       endDate: data.endDate,
       employeeId: userId,
     };
-      axios.put(requestUrl, putData, {
-        headers: { "Content-Type": "application/json" }
-      })
+      await httpClient.put(requestUrl, putData)
         .then((response) => {
           toast.success("Vacation request submitted successfully.");
           navigate('/vacation_request/view/'+response.data.id);
@@ -152,7 +150,7 @@ const UserVacationRequestForm = () => {
 
   const getUserData = async () => {
     try {
-      const response: any = await axios.get(`${employeeUrl}/isonvacation/${userId}`);
+      const response: any = await httpClient.get(`${employeeUrl}/isonvacation/${userId}`);
       setResult(response.data);
     }
     catch(error: any) {

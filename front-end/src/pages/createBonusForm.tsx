@@ -17,6 +17,7 @@ import { Season } from "src/enums/season";
 import { useState, useEffect } from 'react';
 import { useNavigate } from "react-router";
 import {hasAccessAuth, isAdminAuth} from "src/useAuth";
+import {httpClient} from "src/requests";
 
 
 
@@ -74,13 +75,13 @@ const CreateBonusForm = () => {
     setCurrentSeason(null);
   }
 
-  const onSubmit = (data: any) => {
+  const onSubmit = async (data: any) => {
     const requestUrl = bonusUrl + `/create/bonus`;
     const putData = {
       employeeId: data.employeeId,
       season: data.season,
     };
-      axios
+      await httpClient
         .put(requestUrl, putData)
         .then((response) => {
           toast.success("Bonus created successfully.");
@@ -107,7 +108,7 @@ const CreateBonusForm = () => {
   const getAllEmployees =  async () => {
     const requestUrl = employeeGetAll;
     try {
-      const response = await axios.get(requestUrl);
+      const response = await httpClient.get(requestUrl);
       setEmployees(response.data);
 
     }
@@ -120,7 +121,7 @@ const CreateBonusForm = () => {
   const setBonusCalculationInformation = async () => {
     const requestUrl = bonusUrl+'/calculate/'+currentEmployeeCurrentSalary+'/'+currentSeason;
     try {
-      const response = await axios.get(requestUrl);
+      const response = await httpClient.get(requestUrl);
       setCurrentEmployeeBonusRate(response.data.bonusRate);
       setCurrentEmployeeNewSalary(response.data.newSalary);
       setReadyToGetBonusCalculation(false);
