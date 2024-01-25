@@ -120,8 +120,7 @@ const DepartmentTable = () => {
 
 
   async function getDepartments() {
-    axios
-      .get(getAllAndCountOnUserBaseUrl)
+    Requests.httpClient.get('/department/all')
       .then((response) => {
         const data = response.data;
         
