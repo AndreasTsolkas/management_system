@@ -1,14 +1,28 @@
+import { TokenRounded } from '@mui/icons-material';
 import axios from 'axios';
-import { backEndBaseUrl } from 'src/important';
+import { useCookies } from "react-cookie";
+import * as Important from "src/important";
 
+const [cookies] = useCookies();
 
-async function getRequest(requestUrl: any, authToken: string | null) {
+const backEndBaseUrl = Important.backEndBaseUrl;
+const accessTokenCookie = Important.accessTokenCookie;
+const adminCookie = Important.adminCookie;
+
+const axiosConfig = {
+        url:'',
+        headers: {
+            'Authorization': '', 
+            'role': '',
+        },
+        initializedHeaders: false
+};
+    
+async function getRequest(requestUrl: any) {
         try {
                 const response = await axios.get(requestUrl, {
                         baseURL: backEndBaseUrl,
-                        headers: {
-                                Authorization: `Bearer ${authToken}`,
-                        },
+                        headers: axiosConfig.headers
                 });
                 return response;
         } catch (error) {
@@ -16,13 +30,11 @@ async function getRequest(requestUrl: any, authToken: string | null) {
         }
 }
 
-async function deleteRequest(requestUrl: any, authToken: string | null) {
+async function deleteRequest(requestUrl: any) {
         try {
                 const response = await axios.delete(requestUrl, {
                         baseURL: backEndBaseUrl,
-                        headers: {
-                                Authorization: `Bearer ${authToken}`,
-                        }
+                        headers: axiosConfig.headers
                 });
                 return response;
         } catch (error) {
@@ -30,14 +42,11 @@ async function deleteRequest(requestUrl: any, authToken: string | null) {
         }
 }
 
-async function postRequest(requestUrl: any, data: any, authToken: string | null){
+async function postRequest(requestUrl: any, data: any){
         try{
                 const response = await axios.post(`${requestUrl}`, data, {
                         baseURL: backEndBaseUrl,
-                        headers: {
-                                //"Content-Type": "multipart/form-data",
-                                Authorization: `Bearer ${authToken}`,
-                        }
+                        headers: axiosConfig.headers
                 });
                 return response;
         } catch(error){
@@ -45,37 +54,71 @@ async function postRequest(requestUrl: any, data: any, authToken: string | null)
         }
 }
 
-async function patchRequest(requestUrl: any, data: any, authToken: string | null){
+async function patchRequest(requestUrl: any, data: any){
         try{
                 const response = await axios.patch(`${requestUrl}`, data, {
                         baseURL: backEndBaseUrl,
-                        headers: {
-                                Authorization: `Bearer ${authToken}`,
-                        }
+                        headers: axiosConfig.headers
                 })
+                return response;
         }catch(error){
                 throw error;
         }
 }
 
+async function putRequest(requestUrl: any, data: any){
+        try{
+                const response = await axios.put(`${requestUrl}`, data, {
+                        baseURL: backEndBaseUrl,
+                        headers: axiosConfig.headers
+                })
+                return response;
+        }catch(error){
+                throw error;
+        }
+}
+
+const getCookies = () => {
+        const token = cookies[accessTokenCookie];
+        const isAdmin = cookies[adminCookie];
+        return {token, isAdmin};
+}
+
+const initializeHeaders = () => {
+        const { token, isAdmin } = getCookies();
+        axiosConfig.url = backEndBaseUrl ? `${backEndBaseUrl}` : '';
+        axiosConfig.headers.Authorization = token ? `Bearer ${token}` : '';
+        axiosConfig.headers.role = isAdmin ? 'admin' : 'user';
+        axiosConfig.initializedHeaders = true;
+};
 
 const authGetRequest = (requestUrl: string) => {
-        const token = localStorage.getItem('access_token');
-        return getRequest(requestUrl, token);
+        if(axiosConfig.initializedHeaders === false) 
+          initializeHeaders();
+        return getRequest(requestUrl);
 }
 const authDeleteRequest = (requestUrl: string) => {
-        const token = localStorage.getItem('token');
-        return deleteRequest(requestUrl, token);
+        if(axiosConfig.initializedHeaders === false) 
+          initializeHeaders();
+        return deleteRequest(requestUrl);
 }
 
 const authPostRequest = (requestUrl: string, data: any) => {
-        const token = localStorage.getItem('token');
-        return postRequest(requestUrl, data, token)
+        if(axiosConfig.initializedHeaders === false) 
+          initializeHeaders();
+        return postRequest(requestUrl, data)
 }
 
 const authPatchRequest = (requestUrl: string, data:any) => {
-        const token = localStorage.getItem('token');
-        return patchRequest(requestUrl, data, token);
+        if(axiosConfig.initializedHeaders === false) 
+          initializeHeaders();
+        return patchRequest(requestUrl, data);
+}
+
+const authPutRequest = (requestUrl: string, data:any) => {
+        if(axiosConfig.initializedHeaders === false) 
+          initializeHeaders();
+        return putRequest(requestUrl, data);
 }
 
 
@@ -84,5 +127,6 @@ export const httpClient = {
         get: authGetRequest,
         post: authPostRequest,
         patch: authPatchRequest,
+        put: authPutRequest, 
         delete: authDeleteRequest,
 }
