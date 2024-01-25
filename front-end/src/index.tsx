@@ -5,7 +5,7 @@ import "./index.css";
 import Root from "./routes/root";
 import Home from "./pages/home/Home";
 import SignIn from "./pages/authentication/signIn";
-import SignUp from "./pages/authentication/register";
+import SignUp from "./pages/authentication/register";''
 import DepartmentForm from "./pages/department/DepartmentForm";
 import DepartmentNewForm from "./pages/department/Department.new.Form";
 import DepartmentTable from "./pages/department/DepartmentTable";

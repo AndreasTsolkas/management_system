@@ -1,10 +1,15 @@
-import { Body, Controller, Delete, Get, Param, Patch, Put, Query, Req } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Put, Query, Req, UseGuards } from '@nestjs/common';
 import { VacationRequest } from 'src/entities/vacation_request.entity';
 import { VacationRequestService } from 'src/services/vacation_request.service';
 
 import { CreateVacationRequest } from 'src/dto/createVacationRequest.dto';
 import { EvaluateVacationRequest } from 'src/dto/evaluateVacationRequest.dto';
+import { RolesGuard } from 'src/roles.guard';
+import { AuthGuard } from 'src/auth.guard';
+import { Roles } from 'src/roles.decorator';
+import { Role } from 'src/enums/role.enum';
 
+@UseGuards(RolesGuard, AuthGuard)
 @Controller('vrequest')
 export class VacationRequestController {
   
@@ -22,18 +27,21 @@ export class VacationRequestController {
     return await this.vacationRequestService.findOneWithRelationships(id);
   }
 
+  @Roles(Role.Admin)
   @Patch('/:id')
   async update(@Param('id') id: number, @Body() vacationRequestData: Partial<VacationRequest>, 
   @Req() request: Request) {
     return this.vacationRequestService.update(id, vacationRequestData);
   }
 
+  @Roles(Role.Admin)
   @Put()
   async create(@Body() vacationRequestData: Partial<VacationRequest>, 
   @Req() request: Request) {
     return this.vacationRequestService.create(vacationRequestData);
   }
 
+  @Roles(Role.Admin)
   @Delete('/:id')
   async remove(@Param('id') id: number) {
     return this.vacationRequestService.remove(id);
@@ -51,12 +59,14 @@ export class VacationRequestController {
     return this.vacationRequestService.userCreateVacationRequest(createVacationRequestData);
   }
 
+  @Roles(Role.Admin)
   @Put('/admincreate/vrequest')
   async adminCreateVacation(@Body() createVacationRequestData: CreateVacationRequest, 
   @Req() request: Request) {
     return this.vacationRequestService.adminCreateVacationRequest(createVacationRequestData);
   }
 
+  @Roles(Role.Admin)
   @Put('/evaluate/vrequest')
   async evaluateVacationRequest(@Body() evaluateVacationRequest: EvaluateVacationRequest, 
   @Req() request: Request) {

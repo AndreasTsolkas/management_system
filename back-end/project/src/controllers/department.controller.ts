@@ -4,10 +4,12 @@ import { DepartmentService } from 'src/services/department.service';
 import { EmployeeService } from 'src/services/employee.service';
 import { GetAllDepartmentsSpecial } from 'src/dto/getAllDepartmentsSpecial.dto';
 import { GetDepartmentsSpecial } from 'src/dto/getDepartmentSpecial.dto';
-import { AuthGuard } from 'src/auth.guard';
 import { RolesGuard } from 'src/roles.guard';
+import { AuthGuard } from 'src/auth.guard';
+import { Roles } from 'src/roles.decorator';
+import { Role } from 'src/enums/role.enum';
 
-/*@UseGuards(AuthGuard,RolesGuard)*/
+@UseGuards(RolesGuard, AuthGuard)
 @Controller('department')
 export class  DepartmentController {
   
@@ -15,6 +17,7 @@ export class  DepartmentController {
     private employeeService: EmployeeService) {
 
   }
+
   @Get('/all')
   async findAll() {
     return await this.departmentService.findAll();
@@ -25,16 +28,19 @@ export class  DepartmentController {
     return await this.departmentService.findOne(id);
   }
 
+  @Roles(Role.Admin)
   @Patch('/:id')
   async update(@Param('id') id: number, @Body() departmentData: Partial<Department>, @Req() request: Request) {
     return this.departmentService.update(id, departmentData);
   }
 
+  @Roles(Role.Admin)
   @Put()
   async create(@Body() departmentData: Partial<Department>, @Req() request: Request) {
     return this.departmentService.create(departmentData);
   }
 
+  @Roles(Role.Admin)
   @Delete('/:id')
   async remove(@Param('id') id: number) {
     return this.departmentService.remove(id);

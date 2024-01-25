@@ -1,7 +1,12 @@
-import { Body, Controller, Delete, Get, Param, Patch, Put, Query, Req } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Put, Query, Req, UseGuards } from '@nestjs/common';
+import { AuthGuard } from 'src/auth.guard';
 import { Employee } from 'src/entities/employee.entity';
+import { Role } from 'src/enums/role.enum';
+import { Roles } from 'src/roles.decorator';
+import { RolesGuard } from 'src/roles.guard';
 import { EmployeeService } from 'src/services/employee.service';
 
+@UseGuards(RolesGuard, AuthGuard)
 @Controller('employee')
 export class EmployeeController {
   
@@ -24,6 +29,7 @@ export class EmployeeController {
     return await this.employeeService.findOneWithRelationships(id);
   }
 
+  @Roles(Role.Admin)
   @Patch('/:id')
   async update(@Param('id') id: number, @Body() employeeData: Partial<Employee>, @Req() request: Request) {
     return this.employeeService.update(id, employeeData);
@@ -34,6 +40,7 @@ export class EmployeeController {
     return this.employeeService.create(employeeData);
   }
 
+  @Roles(Role.Admin)
   @Delete('/:id')
   async remove(@Param('id') id: number) {
     return this.employeeService.remove(id);

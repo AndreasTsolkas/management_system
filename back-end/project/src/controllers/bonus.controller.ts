@@ -4,8 +4,10 @@ import { CreateBonus } from 'src/dto/createBonus.dto';
 import { BonusService } from 'src/services/bonus.service';
 import { AuthGuard } from 'src/auth.guard';
 import { RolesGuard } from 'src/roles.guard';
+import { Roles } from 'src/roles.decorator';
+import { Role } from 'src/enums/role.enum';
 
-
+@UseGuards(RolesGuard, AuthGuard)
 @Controller('bonus')
 export class BonusController {
   
@@ -22,16 +24,19 @@ export class BonusController {
     return await this.bonusService.findOneWithRelationships(id);
   }
 
+  @Roles(Role.Admin)
   @Patch('/:id')
   async update(@Param('id') id: number, @Body() bonusData: Partial<Bonus>, @Req() request: Request) {
     return this.bonusService.update(id, bonusData);
   }
 
+  @Roles(Role.Admin)
   @Put()
   async create(@Body() bonusData: Partial<Bonus>, @Req() request: Request) {
     return this.bonusService.create(bonusData);
   }
 
+  @Roles(Role.Admin)
   @Delete('/:id')
   async remove(@Param('id') id: number) {
     return this.bonusService.remove(id);
@@ -39,11 +44,13 @@ export class BonusController {
 
   // 
 
+  @Roles(Role.Admin)
   @Put('/create/bonus')
   async createNewBonus(@Body() createBonusData: CreateBonus, @Req() request: Request) {
     return this.bonusService.createNewBonus(createBonusData);
   }
 
+  @Roles(Role.Admin)
   @Get('/calculate/:salary/:season')
   async calculateSalaryAfterBonus(@Param('salary') salary: number, @Param('season') season: string,
   @Req() request: Request) {
