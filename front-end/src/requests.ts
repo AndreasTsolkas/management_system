@@ -102,7 +102,6 @@ const initializeHeaders = () => {
 const authGetRequest = async (requestUrl: string, params?:any) => {
         if(axiosConfig.initializedHeaders === false) 
           initializeHeaders();
-        console.log(params);
         return getRequest(requestUrl, params);
 }
 const authDeleteRequest = async (requestUrl: string) => {

@@ -12,6 +12,7 @@ import { toast } from "react-toastify";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import * as Important from "src/important";
 import * as Display from "src/display";
+import * as Datetime from "src/datetime";
 import {DisplayErrorMessage} from 'src/display';
 import moment from "moment";
 import {hasAccessAuth, isAdminAuth} from "src/useAuth";
@@ -26,20 +27,34 @@ const VacationRequestView = () => {
   const [result, setResult] = useState<any>();
   const [displayData, setDisplayData] = useState<any[]>([]);
 
+  const datetimeFormat = Important.datetimeFormat;
+
   hasAccessAuth();
 
 
   function populateDisplayDataArray() {
 
     if (result) {
-      const thisEmployeeInfoUrl = Important.employeeInfoUrl+result.employee.id;
-      const thisDepartmentInfoUrl = Important.departmentInfoUrl+result.employee.department.id;
+      
+      let employeeField: any = '---';
+      let departmentField: any = '---';
+      
+      if(result.employee) {
+        const thisEmployeeInfoUrl = Important.employeeInfoUrl+result.employee.id;
+        employeeField = <a href={thisEmployeeInfoUrl}>{result.employee.name} {result.employee.surname}</a>;
+      }
+        
+      if(result.employee.department?.department) {
+        const thisDepartmentInfoUrl = Important.departmentInfoUrl+result.employee.department.id;
+        departmentField = <a href={thisDepartmentInfoUrl}>{result.employee.department.name}</a>;
+      }
+        
       setDisplayData([
       { key: 'id: ', value: result.id },
-      { key: 'Fullname: ', value: <a href={thisEmployeeInfoUrl}>{result.employee.name} {result.employee.surname}</a>},
-      { key: 'Employee`s department: ', value: <a href={thisDepartmentInfoUrl}>{result.employee.department.name}</a> },
-      { key: 'Start date: ', value: moment(result.startDate).format('DD / MM / YYYY') },
-      { key: 'End date: ', value: moment(result.endDate).format('DD / MM / YYYY') },
+      { key: 'Fullname: ', value: employeeField},
+      { key: 'Employee`s department: ', value: departmentField },
+      { key: 'Start date: ', value: Datetime.getDate(result.startDate,datetimeFormat) },
+      { key: 'End date: ', value: Datetime.getDate(result.startDate,datetimeFormat) },
       { key: 'Days: ', value: result.days },
     ]);
     }

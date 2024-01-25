@@ -6,11 +6,11 @@ import * as Important from "src/important";
 
 
 export default function Root() {
-  const isAdmin = JSON.parse(localStorage.getItem('admin') || 'false');
-  const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
   const [cookies, setCookie, removeCookie] = useCookies();
-  const accessTokenCookie = Important.accessTokenCookie;
   const adminCookie = Important.adminCookie;
+  const isAdmin = JSON.parse(cookies[adminCookie] || 'false');
+  const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
+  const accessTokenCookie = Important.accessTokenCookie;
   const settings = ['My Profile', 'Sign Out'];
   const standartIlMarginBottom = '-7px';
 

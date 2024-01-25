@@ -30,5 +30,7 @@ export const redirectWhenIsNotAdmin = -1;
 export const accessTokenCookie = 'access_token';
 export const adminCookie = 'admin';
 
+export const datetimeFormat = 'DD/ MM/ YYYY';
+
 
 
