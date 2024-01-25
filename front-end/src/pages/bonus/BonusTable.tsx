@@ -7,10 +7,9 @@ import { IPost } from "./bonus.model";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { toast } from "react-toastify";
-import axios from "axios";
-import moment from "moment";
 import * as Important from "src/important";
 import * as Display from "src/display";
+import * as Datetime from "src/datetime";
 import {hasAccessAuth, isAdminAuth} from "src/useAuth";
 import { useCookies } from "react-cookie";
 import { httpClient } from "src/requests";
@@ -27,6 +26,8 @@ const BonusTable = () => {
   const [createNewBonusButtonDisabled, setCreateNewBonusButtonDisabled] = useState<boolean>(false);
   const [deleteDepartmentButtonDisabled, setDeleteDepartmentButtonDisabled] = useState<boolean>(false);
 
+  const datetimeFormat = Important.datetimeFormat;
+
   hasAccessAuth();
 
   function setBonusRows(data: any) {
@@ -36,7 +37,7 @@ const BonusTable = () => {
           return {
             id: bonus.id,
             amount: bonus.amount,
-            date_given: moment(bonus.dateGiven).format('DD / MM / YYYY'),
+            date_given: Datetime.getDate(bonus.dateGiven, datetimeFormat),
             employee: bonus.employee.name+" "+bonus.employee.surname
           };
         }

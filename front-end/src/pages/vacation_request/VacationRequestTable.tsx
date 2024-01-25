@@ -7,11 +7,10 @@ import { IPost } from "./vacationRequest.model";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { toast } from "react-toastify";
-import axios from "axios";
 import * as Important from "src/important";
 import * as Display from "src/display";
-import moment from "moment";
-import {hasAccessAuth, isAdminAuth} from "src/useAuth";
+import * as Datetime from "src/datetime";
+import {hasAccessAuth} from "src/useAuth";
 import { useCookies } from "react-cookie";
 import { httpClient } from "src/requests";
 
@@ -27,6 +26,8 @@ const VacationRequestTable = () => {
   const [createNewVacationRequestButtonDisabled, setCreateNewVacationRequestButtonDisabled] = useState<boolean>(false);
   const [deleteDepartmentButtonDisabled, setDeleteDepartmentButtonDisabled] = useState<boolean>(false);
 
+  const datetimeFormat = Important.datetimeFormat;
+
   hasAccessAuth();
 
 
@@ -38,8 +39,8 @@ const VacationRequestTable = () => {
             id: vacationRequest.id,
 
             employee: vacationRequest.employee.name+ " "+vacationRequest.employee.surname,
-            startDate: moment(vacationRequest.startDate).format('DD / MM / YYYY'),
-            endDate: moment(vacationRequest.endDate).format('DD / MM / YYYY'),
+            startDate: Datetime.getDate(vacationRequest.startDate, datetimeFormat),
+            endDate: Datetime.getDate(vacationRequest.endDate, datetimeFormat),
             status: vacationRequest.status,
             days: vacationRequest.days,
           };

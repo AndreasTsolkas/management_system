@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import * as Important from "src/important";
 import * as Display from "src/display";
-import moment from "moment";
+import * as Datetime from "src/datetime";
 import {hasAccessAuth, isAdminAuth} from "src/useAuth";
 import { httpClient } from "src/requests";
 
@@ -25,6 +25,8 @@ const PendingVacationRequestTable = () => {
   const [currentCheckedRecordId, setcurrentCheckedRecordId] = useState<number | null>(null);
   const [isRecordReadyToEvaluate, setIsRecordReadyToEvaluate] = useState<boolean>(false);
   const [readyToGetPendingVacationRequests, setReadyToGetPendingVacationRequests] = useState<boolean>(true);
+
+  const datetimeFormat = Important.datetimeFormat;
 
   hasAccessAuth();
   isAdminAuth();
@@ -131,8 +133,8 @@ const PendingVacationRequestTable = () => {
                   id: vacationRequest.id,
 
                   employee: vacationRequest.employee.name,
-                  startDate: moment(vacationRequest.startDate).format('MM / DD / YYYY'),
-                  endDate: moment(vacationRequest.endDate).format('MM / DD / YYYY'),
+                  startDate: Datetime.getDate(vacationRequest.startDate, datetimeFormat),
+                  endDate: Datetime.getDate(vacationRequest.endDate, datetimeFormat),
                   days: vacationRequest.days,
                 };
               }

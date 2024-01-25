@@ -7,27 +7,27 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useCallback, useEffect, useState } from "react";
 import { Box, Button, Card, CardActions, CardContent, CardMedia, Typography } from "@mui/material";
 import MuiTextField from "../../components/MuiTextField";
-import axios from "axios";
 import { toast } from "react-toastify";
 import { DepartmentSchema } from "../department/DepartmentForm";
 import { IPost } from "./employee.model";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import * as Important from "src/important";
 import * as Display from "src/display";
+import * as Datetime from "src/datetime";
 import {DisplayErrorMessage} from 'src/display';
-import moment from "moment";
 import {hasAccessAuth, isAdminAuth} from "src/useAuth";
 import { httpClient } from "src/requests";
 
 
 const EmployeeView = () => {
-  const isAdmin = false;
   const params: any | never = useParams();
   const navigate = useNavigate();
   const employeeUrl = Important.employeeUrl;
   const userId = params?.id;
   const [result, setResult] = useState<any>();
   const [displayData, setDisplayData] = useState<any[]>([]);
+
+  const datetimeFormat = Important.datetimeFormat;
 
   hasAccessAuth();
 
@@ -52,7 +52,7 @@ const EmployeeView = () => {
       { key: 'Employment type: ', value: result.employmentType },
       { key: 'Department: ', value: resultDepartmentValue },
       { key: 'Salary: ', value: result.salary },
-      { key: 'Start datetime: ', value: moment(result.startDate).format('DD / MM / YYYY') },
+      { key: 'Start datetime: ', value: Datetime.getDate(result.startDate, datetimeFormat)},
       { key: 'Vacation days (limit): ', value: result.vacationDays },
       { key: 'Is admin: ', value: isAdminText }
     ]);

@@ -7,13 +7,12 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useCallback, useEffect, useState } from "react";
 import { Box, Button, Card, CardActions, CardContent, CardMedia, Typography } from "@mui/material";
 import MuiTextField from "../../components/MuiTextField";
-import axios from "axios";
 import { toast } from "react-toastify";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import * as Important from "src/important";
 import * as Display from "src/display";
+import * as Datetime from "src/datetime";
 import {DisplayErrorMessage} from 'src/display';
-import moment from "moment";
 import {hasAccessAuth, isAdminAuth} from "src/useAuth";
 import { httpClient } from 'src/requests';
 
@@ -25,6 +24,8 @@ const BonusView = () => {
   const bonusId = params?.id;
   const [result, setResult] = useState<any>();
   const [displayData, setDisplayData] = useState<any[]>([]);
+
+  const datetimeFormat = Important.datetimeFormat;
 
   hasAccessAuth();
 
@@ -43,7 +44,7 @@ const BonusView = () => {
       { key: 'id: ', value: result.id },
       { key: 'Fullname: ', value: employeeField},
       { key: 'Amount: ', value: result.amount },
-      { key: 'Datetime: ', value: moment(result.date_given).format('DD / MM / YYYY') },
+      { key: 'Datetime: ', value: Datetime.getDate(result.date_given, datetimeFormat) },
     ]);
     }
   }
