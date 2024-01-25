@@ -13,14 +13,15 @@ export const backEndDepartmentUrl = backEndBaseUrl + departmentUrl;
 export const backEndVacationRequestUrl = backEndBaseUrl + vacationRequestUrl;
 
 export const standartGetAllExtension = '/all';
-export const getAllBonus = backEndBonusUrl + standartGetAllExtension;
-export const getAllDepartment = backEndDepartmentUrl + standartGetAllExtension;
-export const getAllEmployee = backEndEmployeeUrl + standartGetAllExtension;
-export const getAllVacationRequest = backEndVacationRequestUrl + standartGetAllExtension;
+export const getAllBonus = bonusUrl + standartGetAllExtension;
+export const getAllDepartment = departmentUrl + standartGetAllExtension;
+export const getAllEmployee = employeeUrl + standartGetAllExtension;
+export const getAllVacationRequest = vacationRequestUrl + standartGetAllExtension;
+
 export const employeeInfoUrl = '/employee/view/';
 export const departmentInfoUrl = '/department/view/';
-export const getAllAndCountOnUserBaseUrl = backEndDepartmentUrl+'/all/countonuser';
-export const getAndCountOnUserBaseUrl = backEndDepartmentUrl+'/countonuser';
+export const getAllAndCountOnUserBaseUrl = departmentUrl+'/all/countonuser';
+export const getAndCountOnUserBaseUrl = departmentUrl+'/countonuser';
 export const moreInformationLinkBase = 'view/';
 export const editLinkBase = 'edit/';
 

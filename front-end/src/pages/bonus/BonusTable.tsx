@@ -13,6 +13,7 @@ import * as Important from "src/important";
 import * as Display from "src/display";
 import {hasAccessAuth, isAdminAuth} from "src/useAuth";
 import { useCookies } from "react-cookie";
+import { httpClient } from "src/requests";
 
 const BonusTable = () => {
   const navigate = useNavigate();
@@ -20,13 +21,39 @@ const BonusTable = () => {
   const adminCookie = Important.adminCookie;
   const isAdmin = JSON.parse(cookies[adminCookie] || 'false');
   const [rows, setRows] = useState<IPost[]>([]);
-  const bonusTableUrl = Important.backEndBonusUrl;
+  const bonusUrl = Important.bonusUrl;
   const bonusGetAll = Important.getAllBonus;
-  const [moreInformationLinkBase, setMoreInformationLinkBase] = useState<string>('');
+  const [moreInformationLinkBase, setMoreInformationLinkBase] = useState<string>('/bonus/view');
   const [createNewBonusButtonDisabled, setCreateNewBonusButtonDisabled] = useState<boolean>(false);
   const [deleteDepartmentButtonDisabled, setDeleteDepartmentButtonDisabled] = useState<boolean>(false);
 
   hasAccessAuth();
+
+  function setBonusRows(data: any) {
+    setRows(
+      data.map(
+        (bonus: { id: any; amount: any; dateGiven: any; employee: any }) => {
+          return {
+            id: bonus.id,
+            amount: bonus.amount,
+            date_given: moment(bonus.dateGiven).format('DD / MM / YYYY'),
+            employee: bonus.employee.name+" "+bonus.employee.surname
+          };
+        }
+      )
+    );
+  }
+
+  async function getAllBonuses() {
+    await httpClient.get(bonusGetAll)
+      .then((response) => {
+        const data = response.data;
+        setBonusRows(data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
 
   const columns: GridColDef[] = [
     { field: "id", headerName: "id", flex: 1 },
@@ -67,36 +94,13 @@ const BonusTable = () => {
             <IconButton
               disabled ={deleteIconDisabled}
               color="warning"
-              onClick={() => {
-                axios
-                  .delete(
-                    `${bonusTableUrl}/${cellValues?.row?.id}`
-                  )
-                  .then(() => {
+              onClick={async () => {
+                await httpClient.delete(
+                  `${bonusUrl}/${cellValues?.row?.id}`
+                )
+                  .then(async () => {
                     toast.info("Bonus deleted successfully.");
-                    axios
-                      .get(bonusGetAll)
-                      .then((response) => {
-                        const data = response.data;
-                        setRows(
-                          data.map(
-                            (bonus: {
-                              id: any;
-                              amount: any;
-                              employee: any;
-                            }) => {
-                              return {
-                                id: bonus.id,
-                                amount: bonus.amount,
-                                employee: bonus.employee.name
-                              };
-                            }
-                          )
-                        );
-                      })
-                      .catch((error) => {
-                        console.error(error);
-                      });
+                    await getAllBonuses();
                   });
               }}
             >
@@ -115,33 +119,17 @@ const BonusTable = () => {
     }
   }
 
+  
+
+  useEffect(() => {
+    getAllBonuses();
+  }, []);
+
   useEffect(() => {
     setCreateNewBonusButton();
   }, []);
 
-  useEffect(() => {
-    setMoreInformationLinkBase('/bonus/view');
-    axios
-      .get(bonusGetAll)
-      .then((response) => {
-        const data = response.data;
-        setRows(
-          data.map(
-            (bonus: { id: any; amount: any; dateGiven: any; employee: any }) => {
-              return {
-                id: bonus.id,
-                amount: bonus.amount,
-                date_given: moment(bonus.dateGiven).format('DD / MM / YYYY'),
-                employee: bonus.employee.name+" "+bonus.employee.surname
-              };
-            }
-          )
-        );
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }, []);
+  
 
   
 

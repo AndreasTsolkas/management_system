@@ -13,6 +13,7 @@ import * as Important from "src/important";
 import * as Display from "src/display";
 import {hasAccessAuth, isAdminAuth} from "src/useAuth";
 import { useCookies } from "react-cookie";
+import { httpClient } from "src/requests";
 
 
 const EmployeeTable = () => {
@@ -21,7 +22,7 @@ const EmployeeTable = () => {
   const adminCookie = Important.adminCookie;
   const isAdmin = JSON.parse(cookies[adminCookie] || 'false');
   const [rows, setRows] = useState<IPost[]>([]);
-  const employeeTableUrl = Important.backEndEmployeeUrl;
+  const employeeUrl = Important.employeeUrl;
   const employeeGetAll = Important.getAllEmployee;
   const [createNewEmployeeButtonDisabled, setCreateNewEmployeeButtonDisabled] = useState<boolean>(false);
   const [deleteEmployeeButtonDisabled, setDeleteEmployeeButtonDisabled] = useState<boolean>(false);
@@ -30,6 +31,34 @@ const EmployeeTable = () => {
 
   hasAccessAuth();
 
+  function setEmployeeRows(data: any) {
+    setRows(
+      data.map(
+        (employee: { id: any; employeeUid: number, name: any; surname: any; email: any; startDate: any; vacationDays: any; salary: any; employmentType: any;  department: any;     }) => {
+          let employeeDepartmentValue = setEmployeeDepartmentValue(employee);
+          return {
+            id: employee.id,
+            name: employee.name,
+            surName: employee.surname,
+            email: employee.email,
+            employmentType: employee.employmentType,
+            employeeDepartment: employeeDepartmentValue
+          };
+        }
+      )
+    );
+  }
+
+  async function getAllEmployees() {
+    await httpClient.get(employeeGetAll)
+      .then((response) => {
+        const data: any  = response.data;
+        setEmployeeRows(data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
 
   const columns: GridColDef[] = [
     { field: "id", headerName: "id", flex: 1 },
@@ -86,51 +115,13 @@ const EmployeeTable = () => {
             <IconButton
               disabled = {deleteIconDisabled}
               color="warning"
-              onClick={() => {
-                axios
-                  .delete(
-                    `${employeeTableUrl}/${cellValues?.row?.id}`
-                  )
-                  .then(() => {
+              onClick={async () => {
+                await httpClient.delete(
+                  `${employeeUrl}/${cellValues?.row?.id}`
+                )
+                  .then(async () => {
                     toast.info("The employee deleted successfully.");
-                    axios
-                      .get(employeeGetAll)
-                      .then((response) => {
-                        const data = response.data;
-                        setRows(
-                          data.map(
-                            (employee: {
-                              id: any;
-                              name: any;
-                              employeeUid: any;
-                              surname: any;
-                              email: any;
-                              startDate: any;
-                              salary: any;
-                              vacationDays: any;
-                              employmentType: any;
-                              department: any;
-                            }) => {
-                              let employeeDepartmentValue = setEmployeeDepartmentValue(employee);
-                              return {
-                                id: employee.id,
-                                name: employee.name,
-                                employeeUid: employee.employeeUid,
-                                surName: employee.surname,
-                                email: employee.email,
-                                startDate: employee.startDate,
-                                vacationDays: employee.vacationDays,
-                                salary: employee.salary,
-                                employmentType: employee.employmentType,
-                                employeeDepartment: employeeDepartmentValue
-                              };
-                            }
-                          )
-                        );
-                      })
-                      .catch((error) => {
-                        console.error(error);
-                      });
+                    await getAllEmployees();
                   });
               }}
             >
@@ -157,39 +148,18 @@ const EmployeeTable = () => {
     }
   }
 
+  
+
+
+  useEffect(() => {
+    getAllEmployees();
+  }, []);
 
   useEffect(() => {
     setCreateNewEmployeeButton();
   }, []);
 
 
-  useEffect(() => {
-    axios
-      .get(employeeGetAll)
-      .then((response) => {
-        const data: any  = response.data;
-        setRows(
-          data.map(
-            (employee: { id: any; employeeUid: number, name: any; surname: any; email: any; startDate: any; vacationDays: any; salary: any; employmentType: any;  department: any;     }) => {
-              let employeeDepartmentValue = setEmployeeDepartmentValue(employee);
-              return {
-                id: employee.id,
-                name: employee.name,
-                surName: employee.surname,
-                email: employee.email,
-                employmentType: employee.employmentType,
-                employeeDepartment: employeeDepartmentValue
-              };
-            }
-          )
-        );
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }, []);
-
-  
 
   return (
     <div>

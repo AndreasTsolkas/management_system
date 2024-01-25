@@ -13,6 +13,7 @@ import * as Display from "src/display";
 import moment from "moment";
 import {hasAccessAuth, isAdminAuth} from "src/useAuth";
 import { useCookies } from "react-cookie";
+import { httpClient } from "src/requests";
 
 const VacationRequestTable = () => {
   const navigate = useNavigate();
@@ -20,8 +21,8 @@ const VacationRequestTable = () => {
   const adminCookie = Important.adminCookie;
   const isAdmin = JSON.parse(cookies[adminCookie] || 'false');
   const [rows, setRows] = useState<IPost[]>([]);
-  const vacationRequestTable = Important.backEndVacationRequestUrl;
-  const vacationRequestUrl = Important.getAllVacationRequest;
+  const vacationRequestUrl = Important.vacationRequestUrl;
+  const vacationRequesGetAll = Important.getAllVacationRequest;
   const [moreInformationLinkBase, setMoreInformationLinkBase] = useState<string>('');
   const [createNewVacationRequestButtonDisabled, setCreateNewVacationRequestButtonDisabled] = useState<boolean>(false);
   const [deleteDepartmentButtonDisabled, setDeleteDepartmentButtonDisabled] = useState<boolean>(false);
@@ -29,6 +30,34 @@ const VacationRequestTable = () => {
   hasAccessAuth();
 
 
+  function setVacationRequestRows(data: any) {
+    setRows(
+      data.map(
+        (vacationRequest: { id: any; employee: any; startDate: any; endDate: any, status: any, days: any }) => {
+          return {
+            id: vacationRequest.id,
+
+            employee: vacationRequest.employee.name+ " "+vacationRequest.employee.surname,
+            startDate: moment(vacationRequest.startDate).format('DD / MM / YYYY'),
+            endDate: moment(vacationRequest.endDate).format('DD / MM / YYYY'),
+            status: vacationRequest.status,
+            days: vacationRequest.days,
+          };
+        }
+      )
+    );
+  }
+
+  async function getAllVacationRequests() {
+    await httpClient.get(vacationRequesGetAll)
+      .then((response) => {
+        const data = response.data;
+        setVacationRequestRows(data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
   const columns: GridColDef[] = [
     { field: "id", headerName: "id", flex: 1 },
     {
@@ -76,42 +105,14 @@ const VacationRequestTable = () => {
             <IconButton
               disabled={deleteIconDisabled}
               color="warning"
-              onClick={() => {
-                axios
+              onClick={async () => {
+                await httpClient
                   .delete(
-                    `${vacationRequestTable}/${cellValues?.row?.id}`
+                    `${vacationRequestUrl}/${cellValues?.row?.id}`
                   )
-                  .then(() => {
+                  .then(async () => {
                     toast.info("Vacation request deleted successfully.");
-                    axios
-                      .get(vacationRequestUrl)
-                      .then((response) => {
-                        const data = response.data;
-                        setRows(
-                          data.map(
-                            (vacationRequest: {
-                                id: any; 
-                                employee: any; 
-                                startDate: any; 
-                                endDate: any, 
-                                status: any, 
-                                days: any
-                            }) => {
-                              return {
-                                id: vacationRequest.id,
-                                employee: vacationRequest.employee.name,
-                                startDate: vacationRequest.startDate,
-                                endDate: vacationRequest.endDate, 
-                                status: vacationRequest.status, 
-                                days: vacationRequest.days
-                              };
-                            }
-                          )
-                        );
-                      })
-                      .catch((error) => {
-                        console.error(error);
-                      });
+                    await getAllVacationRequests();
                   });
               }}
             >
@@ -136,29 +137,7 @@ const VacationRequestTable = () => {
 
   useEffect(() => {
     setMoreInformationLinkBase('/vacation_request/view');
-    axios
-      .get(vacationRequestUrl)
-      .then((response) => {
-        const data = response.data;
-        setRows(
-          data.map(
-            (vacationRequest: { id: any; employee: any; startDate: any; endDate: any, status: any, days: any }) => {
-              return {
-                id: vacationRequest.id,
-
-                employee: vacationRequest.employee.name+ " "+vacationRequest.employee.surname,
-                startDate: moment(vacationRequest.startDate).format('DD / MM / YYYY'),
-                endDate: moment(vacationRequest.endDate).format('DD / MM / YYYY'),
-                status: vacationRequest.status,
-                days: vacationRequest.days,
-              };
-            }
-          )
-        );
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    getAllVacationRequests();
   }, []);
 
   

@@ -1,9 +1,9 @@
 import { TokenRounded } from '@mui/icons-material';
 import axios from 'axios';
-import { useCookies } from "react-cookie";
+import { Cookies } from 'react-cookie';
 import * as Important from "src/important";
 
-const [cookies] = useCookies();
+
 
 const backEndBaseUrl = Important.backEndBaseUrl;
 const accessTokenCookie = Important.accessTokenCookie;
@@ -78,9 +78,10 @@ async function putRequest(requestUrl: any, data: any){
         }
 }
 
-const getCookies = () => {
-        const token = cookies[accessTokenCookie];
-        const isAdmin = cookies[adminCookie];
+function getCookies  ()  {
+        const cookies = new Cookies();
+        const token = cookies.get(accessTokenCookie);
+        const isAdmin = cookies.get(adminCookie);
         return {token, isAdmin};
 }
 
@@ -92,30 +93,30 @@ const initializeHeaders = () => {
         axiosConfig.initializedHeaders = true;
 };
 
-const authGetRequest = (requestUrl: string) => {
+const authGetRequest = async (requestUrl: string) => {
         if(axiosConfig.initializedHeaders === false) 
           initializeHeaders();
         return getRequest(requestUrl);
 }
-const authDeleteRequest = (requestUrl: string) => {
+const authDeleteRequest = async (requestUrl: string) => {
         if(axiosConfig.initializedHeaders === false) 
           initializeHeaders();
         return deleteRequest(requestUrl);
 }
 
-const authPostRequest = (requestUrl: string, data: any) => {
+const authPostRequest = async (requestUrl: string, data: any) => {
         if(axiosConfig.initializedHeaders === false) 
           initializeHeaders();
         return postRequest(requestUrl, data)
 }
 
-const authPatchRequest = (requestUrl: string, data:any) => {
+const authPatchRequest = async (requestUrl: string, data:any) => {
         if(axiosConfig.initializedHeaders === false) 
           initializeHeaders();
         return patchRequest(requestUrl, data);
 }
 
-const authPutRequest = (requestUrl: string, data:any) => {
+const authPutRequest = async (requestUrl: string, data:any) => {
         if(axiosConfig.initializedHeaders === false) 
           initializeHeaders();
         return putRequest(requestUrl, data);
@@ -124,6 +125,7 @@ const authPutRequest = (requestUrl: string, data:any) => {
 
 
 export const httpClient = {
+        
         get: authGetRequest,
         post: authPostRequest,
         patch: authPatchRequest,

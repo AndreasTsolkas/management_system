@@ -12,8 +12,8 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import * as Important from "src/important";
 import * as Display from "src/display";
-import * as Requests from "src/requests";
-import {hasAccessAuth, isAdminAuth} from "src/useAuth";
+import {httpClient} from "src/requests";
+import {hasAccessAuth} from "src/useAuth";
 
 const DepartmentTable = () => {
   const navigate = useNavigate();
@@ -21,18 +21,45 @@ const DepartmentTable = () => {
   const adminCookie = Important.adminCookie;
   const isAdmin = JSON.parse(cookies[adminCookie] || 'false');
   const [rows, setRows] = useState<IPost[]>([]);
-  const departmentTableUrl = Important.backEndDepartmentUrl;
+  const departmentUrl = Important.departmentUrl;
   const departmentGetAll = Important.getAllDepartment;
   const employeeUrl = Important.backEndEmployeeUrl;
-  const [moreInformationLinkBase, setMoreInformationLinkBase] = useState<string>('');
   const [createNewDepartmentButtonDisabled, setCreateNewDepartmentButtonDisabled] = useState<boolean>(false);
   const [deleteDepartmentButtonDisabled, setDeleteDepartmentButtonDisabled] = useState<boolean>(false);
   const [editEmployeeButtonDisabled, setEditEmployeeButtonDisabled] = useState<boolean>(false);
 
   const getAllAndCountOnUserBaseUrl = Important.getAllAndCountOnUserBaseUrl;
 
+
   hasAccessAuth();
 
+  function setDepartmentRows(data: any) {
+    setRows(
+      data.map(
+         (item: any) => {
+          return {
+            id: item.departmentEntityData.id,
+            name: item.departmentEntityData.name,
+            employeesNum: item.employeesNum
+          };
+        }
+      )
+    );
+  }
+
+  async function getAllDepartments() {
+    await httpClient.get(getAllAndCountOnUserBaseUrl)
+      .then((response) => {
+        const data = response.data;
+        console.log(response);
+        setDepartmentRows(data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+
+  
   const columns: GridColDef[] = [
     { field: "id", headerName: "id", flex: 1 },
     {
@@ -71,34 +98,13 @@ const DepartmentTable = () => {
             <IconButton
               disabled ={deleteIconDisabled}
               color="warning"
-              onClick={() => {
-                axios
-                  .delete(
-                    `${departmentTableUrl}/${cellValues?.row?.id}`
+              onClick={async () => {
+                 await httpClient.delete(
+                    `${departmentUrl}/${cellValues?.row?.id}`
                   )
-                  .then(() => {
+                  .then(async () => {
                     toast.info("Department deleted successfully.");
-                    axios
-                      .get(departmentGetAll)
-                      .then((response) => {
-                        const data = response.data;
-                        setRows(
-                          data.map(
-                            (department: {
-                              id: any;
-                              name: any;
-                            }) => {
-                              return {
-                                id: department.id,
-                                name: department.name,
-                              };
-                            }
-                          )
-                        );
-                      })
-                      .catch((error) => {
-                        console.error(error);
-                      });
+                     await getAllDepartments();
                   });
               }}
             >
@@ -119,28 +125,7 @@ const DepartmentTable = () => {
   }
 
 
-  async function getDepartments() {
-    Requests.httpClient.get('/department/all')
-      .then((response) => {
-        const data = response.data;
-        
-        setRows(
-          data.map(
-            (item: any) => {
-              return {
-                id: item.departmentEntityData.id,
-                name: item.departmentEntityData.name,
-                employeesNum: item.employeesNum
-              };
-            }
-          )
-        );
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }
-
+  
 
 
 
@@ -149,8 +134,7 @@ const DepartmentTable = () => {
   }, []);
 
   useEffect(() => {
-    /*Requests.httpClient.get('http://localhost:3001/department/all');*/
-    getDepartments();
+    getAllDepartments();
   }, []);
 
 

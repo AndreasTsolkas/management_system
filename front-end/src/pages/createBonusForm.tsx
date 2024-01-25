@@ -41,7 +41,7 @@ const CreateBonusForm = () => {
   const [currentEmployeeNewSalary, setCurrentEmployeeNewSalary] = useState<number | null>(null);
   const [currentSeason, setCurrentSeason] = useState<string | null>(null);
 
-  const bonusUrl = Important.backEndBonusUrl;
+  const bonusUrl = Important.bonusUrl;
   const employeeGetAll = Important.getAllEmployee;
 
   hasAccessAuth();
