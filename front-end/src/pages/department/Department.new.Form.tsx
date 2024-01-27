@@ -9,7 +9,7 @@ import { toast, ToastContainer } from "react-toastify";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import * as Important from "src/important";
 import * as Display from "src/display";
-import {hasAccessAuth, isAdminAuth} from "src/useAuth";
+import {hasAccessAuth, isAccessTokenNotExpired} from "src/useAuth";
 import { httpClient } from "src/requests";
 
 
@@ -31,6 +31,7 @@ const DepartmentNewForm = () => {
   const getAndCountOnUserBaseUrl = Important.getAndCountOnUserBaseUrl;
 
   hasAccessAuth();
+  isAccessTokenNotExpired();
 
 
 

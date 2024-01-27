@@ -12,7 +12,7 @@ import { toast } from "react-toastify";
 import * as Important from "src/important";
 import * as Display from "src/display";
 import {httpClient} from "src/requests";
-import {hasAccessAuth} from "src/useAuth";
+import {hasAccessAuth, isAccessTokenNotExpired} from "src/useAuth";
 
 const DepartmentTable = () => {
   const navigate = useNavigate();
@@ -31,6 +31,7 @@ const DepartmentTable = () => {
 
 
   hasAccessAuth();
+  isAccessTokenNotExpired();
 
   function setDepartmentRows(data: any) {
     setRows(

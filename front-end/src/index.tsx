@@ -24,6 +24,7 @@ import CreateBonusForm from "./pages/createBonusForm";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { CookiesProvider } from "react-cookie";
+import ScheduledTasks from "src/scheduled-tasks";
 
 export const Router = createBrowserRouter([
   {
@@ -118,8 +119,10 @@ export const Router = createBrowserRouter([
   },
 ]);
 
+
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <CookiesProvider defaultSetOptions={{ path: '/' }}>
+    <ScheduledTasks />
     <ToastContainer />
     <RouterProvider router={Router} />
   </CookiesProvider>

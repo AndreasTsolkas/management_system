@@ -9,7 +9,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import * as Important from "src/important";
 import * as Display from "src/display";
-import {hasAccessAuth, isAdminAuth} from "src/useAuth";
+import {hasAccessAuth, isAdminAuth, isAccessTokenNotExpired} from "src/useAuth";
 import { httpClient } from "src/requests";
 
 export const NewEmployeeSchema = yup.object({
@@ -36,6 +36,7 @@ const EmployeeForm = () => {
 
   hasAccessAuth();
   isAdminAuth();
+  isAccessTokenNotExpired();
   
 
 

@@ -16,7 +16,7 @@ import * as Important from "src/important";
 import * as Display from "src/display";
 import * as Datetime from "src/datetime";
 import moment from "moment";
-import {hasAccessAuth, isAdminAuth} from "src/useAuth";
+import {hasAccessAuth, isAdminAuth, isAccessTokenNotExpired} from "src/useAuth";
 import { httpClient } from "src/requests";
 
 
@@ -45,6 +45,7 @@ const VacationRequestForm = () => {
 
   hasAccessAuth();
   isAdminAuth();
+  isAccessTokenNotExpired();
 
   const schema = yup.object({
     employeeId: yup

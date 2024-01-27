@@ -10,7 +10,7 @@ import { toast } from "react-toastify";
 import * as Important from "src/important";
 import * as Display from "src/display";
 import * as Datetime from "src/datetime";
-import {hasAccessAuth} from "src/useAuth";
+import {hasAccessAuth, isAccessTokenNotExpired} from "src/useAuth";
 import { useCookies } from "react-cookie";
 import { httpClient } from "src/requests";
 
@@ -29,6 +29,7 @@ const VacationRequestTable = () => {
   const datetimeFormat = Important.datetimeFormat;
 
   hasAccessAuth();
+  isAccessTokenNotExpired();
 
 
   function setVacationRequestRows(data: any) {

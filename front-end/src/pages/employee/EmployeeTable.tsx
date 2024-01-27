@@ -10,7 +10,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { toast } from "react-toastify";
 import * as Important from "src/important";
 import * as Display from "src/display";
-import {hasAccessAuth, isAdminAuth} from "src/useAuth";
+import {hasAccessAuth, isAdminAuth, isAccessTokenNotExpired} from "src/useAuth";
 import { useCookies } from "react-cookie";
 import { httpClient } from "src/requests";
 
@@ -29,6 +29,7 @@ const EmployeeTable = () => {
 
 
   hasAccessAuth();
+  isAccessTokenNotExpired();
 
   function setEmployeeRows(data: any) {
     setRows(

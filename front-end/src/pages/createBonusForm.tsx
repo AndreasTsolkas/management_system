@@ -15,7 +15,7 @@ import * as Display from "src/display";
 import { Season } from "src/enums/season";
 import { useState, useEffect } from 'react';
 import { useNavigate } from "react-router";
-import {hasAccessAuth, isAdminAuth} from "src/useAuth";
+import {hasAccessAuth, isAdminAuth, isAccessTokenNotExpired} from "src/useAuth";
 import {httpClient} from "src/requests";
 
 
@@ -46,6 +46,7 @@ const CreateBonusForm = () => {
 
   hasAccessAuth();
   isAdminAuth();
+  isAccessTokenNotExpired();
 
   const {
     

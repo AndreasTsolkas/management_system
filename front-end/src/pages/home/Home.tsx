@@ -1,12 +1,15 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { CookiesProvider, useCookies } from "react-cookie";
+import {isAccessTokenNotExpired} from "src/useAuth";
 import * as Important from "src/important";
 
 const Home = () => {
   const navigate = useNavigate();
   const [cookies, setCookie, removeCookie] = useCookies();
   const accessTokenCookie = Important.accessTokenCookie;
+
+  isAccessTokenNotExpired();
 
   useEffect(() => {
     const token = cookies[accessTokenCookie];

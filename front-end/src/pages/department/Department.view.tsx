@@ -13,7 +13,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import * as Important from "src/important";
 import * as Display from "src/display";
 import {DisplayErrorMessage} from 'src/display';
-import {hasAccessAuth, isAdminAuth} from "src/useAuth";
+import {hasAccessAuth, isAccessTokenNotExpired} from "src/useAuth";
 import { httpClient } from "src/requests";
 
 
@@ -27,6 +27,7 @@ const DepartmentView = () => {
   const getAndCountOnUserBaseUrl = Important.getAndCountOnUserBaseUrl;
 
   hasAccessAuth();
+  isAccessTokenNotExpired();
 
 
   function populateDisplayDataArray() {

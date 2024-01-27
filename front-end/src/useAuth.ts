@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCookies } from "react-cookie";
 import * as Important from 'src/important';
+import * as Cookies from 'src/cookies';
 
 const accessTokenCookie = Important.accessTokenCookie;
 const adminCookie = Important.adminCookie;
@@ -30,8 +31,6 @@ export const isAdminAuth = () => {
   const [cookies] = useCookies();
   const redirectTo = Important.redirectWhenHasNoAccess;
   
-  
-
   const checkAdmin = () => {
     const admin = cookies[adminCookie];
     if (admin === 'false') {
@@ -45,4 +44,21 @@ export const isAdminAuth = () => {
   }, [redirectTo]);
 
   return checkAdmin();
+};
+
+export const isAccessTokenNotExpired = () => {
+  const navigate = useNavigate();
+  const redirectTo = Important.redirectWhenHasNoAccess;
+  
+  const checkCookies = () => {
+    if(Cookies.cookiesValidation()) {
+      navigate(redirectTo);
+    }
+  };
+  
+  useEffect(() => {
+    checkCookies();
+  }, [redirectTo]);
+
+  return checkCookies();
 };

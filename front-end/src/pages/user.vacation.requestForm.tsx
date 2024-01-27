@@ -16,7 +16,7 @@ import * as Important from "src/important";
 import * as Display from "src/display";
 import * as Datetime from "src/datetime";
 import { difference } from "lodash";
-import {hasAccessAuth, isAdminAuth} from "src/useAuth";
+import {hasAccessAuth, isAccessTokenNotExpired} from "src/useAuth";
 import { httpClient } from "src/requests";
 
 
@@ -49,6 +49,7 @@ const UserVacationRequestForm = () => {
   const [dateDifference, setDateDifference] = useState<number | null>(null);
 
   hasAccessAuth();
+  isAccessTokenNotExpired();
 
   const schema = yup.object({
     startDate: yup
