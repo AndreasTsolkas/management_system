@@ -53,8 +53,8 @@ const VacationRequestView = () => {
       { key: 'Fullname: ', value: employeeField},
       { key: 'Employee`s department: ', value: departmentField },
       { key: 'Start date: ', value: Datetime.getDate(result.startDate,datetimeFormat) },
-      { key: 'End date: ', value: Datetime.getDate(result.startDate,datetimeFormat) },
-      { key: 'Days: ', value: result.days },
+      { key: 'End date: ', value: Datetime.getDate(result.endDate,datetimeFormat) },
+      { key: 'Days (working days): ', value: result.days },
     ]);
     }
   }
