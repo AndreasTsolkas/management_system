@@ -30,7 +30,6 @@ const PendingVacationRequestTable = () => {
 
   hasAccessAuth();
   isAdminAuth();
-  isAccessTokenNotExpired();
 
 
   const body = (

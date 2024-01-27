@@ -29,7 +29,6 @@ const VacationRequestView = () => {
   const datetimeFormat = Important.datetimeFormat;
 
   hasAccessAuth();
-  isAccessTokenNotExpired();
 
 
   function populateDisplayDataArray() {

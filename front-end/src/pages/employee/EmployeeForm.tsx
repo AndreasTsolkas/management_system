@@ -36,7 +36,6 @@ const EmployeeForm = () => {
 
   hasAccessAuth();
   isAdminAuth();
-  isAccessTokenNotExpired();
   
 
 

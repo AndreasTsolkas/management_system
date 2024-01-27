@@ -31,7 +31,6 @@ const DepartmentTable = () => {
 
 
   hasAccessAuth();
-  isAccessTokenNotExpired();
 
   function setDepartmentRows(data: any) {
     setRows(

@@ -50,15 +50,7 @@ export const isAccessTokenNotExpired = () => {
   const navigate = useNavigate();
   const redirectTo = Important.redirectWhenHasNoAccess;
   
-  const checkCookies = () => {
-    if(Cookies.cookiesValidation()) {
-      navigate(redirectTo);
-    }
-  };
-  
-  useEffect(() => {
-    checkCookies();
-  }, [redirectTo]);
+  if(!Cookies.cookiesValidation())
+    navigate(redirectTo);
 
-  return checkCookies();
 };

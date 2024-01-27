@@ -30,7 +30,6 @@ const EmployeeView = () => {
   const datetimeFormat = Important.datetimeFormat;
 
   hasAccessAuth();
-  isAccessTokenNotExpired();
 
 
   function populateDisplayDataArray() {

@@ -46,7 +46,6 @@ const CreateBonusForm = () => {
 
   hasAccessAuth();
   isAdminAuth();
-  isAccessTokenNotExpired();
 
   const {
     

@@ -27,9 +27,7 @@ const EmployeeTable = () => {
   const [deleteEmployeeButtonDisabled, setDeleteEmployeeButtonDisabled] = useState<boolean>(false);
   const [editEmployeeButtonDisabled, setEditEmployeeButtonDisabled] = useState<boolean>(false);
 
-
   hasAccessAuth();
-  isAccessTokenNotExpired();
 
   function setEmployeeRows(data: any) {
     setRows(

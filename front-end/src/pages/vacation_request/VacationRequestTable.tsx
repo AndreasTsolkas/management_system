@@ -29,7 +29,6 @@ const VacationRequestTable = () => {
   const datetimeFormat = Important.datetimeFormat;
 
   hasAccessAuth();
-  isAccessTokenNotExpired();
 
 
   function setVacationRequestRows(data: any) {

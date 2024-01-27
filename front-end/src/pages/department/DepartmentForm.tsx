@@ -38,7 +38,6 @@ const DepartmentForm = () => {
 
   hasAccessAuth();
   isAdminAuth();
-  isAccessTokenNotExpired();
 
 
 

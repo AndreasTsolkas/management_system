@@ -97,7 +97,6 @@ export const initializeAxiosConfig = () => {
         axiosConfig.headers.Authorization = token ? `Bearer ${token}` : '';
         axiosConfig.headers.role = isAdmin ? 'admin' : 'user';
         axiosConfig.initialized = true;
-        console.log(axiosConfig.headers.role);
 };
 
 const authGetRequest = async (requestUrl: string, params?:any) => {

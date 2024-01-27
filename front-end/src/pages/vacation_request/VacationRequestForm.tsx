@@ -45,7 +45,6 @@ const VacationRequestForm = () => {
 
   hasAccessAuth();
   isAdminAuth();
-  isAccessTokenNotExpired();
 
   const schema = yup.object({
     employeeId: yup

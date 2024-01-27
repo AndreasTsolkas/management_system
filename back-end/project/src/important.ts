@@ -1,4 +1,4 @@
 export const databaseSchemaName = 'management_system';
 
-export const jwtExpiresIn = '60000ms';
+export const jwtExpiresIn = '1d';
 export const bcryptSaltOrRounds = 10;

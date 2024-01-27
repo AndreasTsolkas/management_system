@@ -6,7 +6,7 @@ const ScheduledTasks = () => {
 
   useEffect(() => {
 
-    const intervalId = setInterval(Cookies.cookiesValidation, 300000); 
+    const intervalId = setInterval(Cookies.cookiesValidation, 5000); 
 
     return () => clearInterval(intervalId);
   }, []); 

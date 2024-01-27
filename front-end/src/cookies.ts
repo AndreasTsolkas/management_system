@@ -10,12 +10,12 @@ export const isTokenExpired = () => {
     const adminCookie = cookies.get(adminCookieName); 
   
     if (!accessToken || !adminCookie) 
-      return true;
+      return null;
   
     const tokenPayload = JSON.parse(atob(accessToken.split('.')[1]));
     const expirationDate = new Date(tokenPayload.exp * 1000);
   
-    return expirationDate < new Date();
+    return (expirationDate < new Date());
   };
   
 
@@ -26,11 +26,10 @@ export const deleteAllCookies = () => {
 };
 
 export const cookiesValidation = () => {
-    let valid = true;
+    let isNotExpired = true;
     if(isTokenExpired()) {
-        valid = false;
-        deleteAllCookies();
+      isNotExpired = false;
+      deleteAllCookies();
     }
-    console.log('Running every X time...');
-    return valid;
+    return isNotExpired;
   };
