@@ -1,6 +1,6 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, EntityManager } from 'typeorm';
 
 import { Department } from 'src/entities/department.entity';
 import { EmployeeService } from 'src/services/employee.service';
@@ -9,7 +9,9 @@ import * as Messages from 'src/messages';
 
 @Injectable()
 export class DepartmentService {
+  
   constructor(
+    private readonly entityManager: EntityManager,
     @InjectRepository(Department)
     private departmentRepository: Repository<Department>,
     private employeeService: EmployeeService,
@@ -63,10 +65,9 @@ export class DepartmentService {
   }
 
 
-  async remove(id: number): Promise<void> {
+  async remove(transactionalEntityManager: EntityManager, id: number): Promise<void> {
     try {
-      await this.employeeService.setDepartmentToNullByDepartmentId(id);
-      await this.departmentRepository.delete(id);
+      await transactionalEntityManager.delete(Department, id);
     }
     catch(error) {
       console.log(error);
@@ -78,7 +79,10 @@ export class DepartmentService {
 
   async setEmployeesOutOfThisDepartmentAndRemove(id: number): Promise<void> {
     try {
-      await this.remove(id);
+      await this.entityManager.transaction(async transactionalEntityManager => {
+        await this.employeeService.setDepartmentToNullByDepartmentId(transactionalEntityManager, id);
+        await this.remove(transactionalEntityManager,id);
+      });
     }
     catch(error) {
       console.log(error);

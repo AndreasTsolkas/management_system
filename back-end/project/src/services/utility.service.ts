@@ -1,6 +1,6 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { EntityManager, Repository } from 'typeorm';
 import { VacationRequest } from 'src/entities/vacation_request.entity';
 import { Bonus } from 'src/entities/bonus.entity';
 
@@ -10,6 +10,7 @@ import { Bonus } from 'src/entities/bonus.entity';
 export class UtilityService { 
   // I use this service to avoid circular dependencies between services (for example, employeeService uses bonusService while bonusService also uses employeeService)
   constructor(
+    private readonly entityManager: EntityManager,
     @InjectRepository(VacationRequest)
     private vacationRequestRepository: Repository<VacationRequest>,
     @InjectRepository(Bonus)
@@ -56,8 +57,8 @@ export class UtilityService {
     return !!request;
   }
   
-  async setVacationrequestToNullByDepartmentId(employeeId: number): Promise<void> {
-    await this.vacationRequestRepository
+  async setVacationrequestToNullByDepartmentId(transactionalEntityManager: EntityManager, employeeId: number): Promise<void> {
+    await transactionalEntityManager
       .createQueryBuilder()
       .update(VacationRequest)
       .set({ employee: null })
@@ -66,8 +67,8 @@ export class UtilityService {
   }
   
   // Using Bonus repository
-  async setBonusToNullByDepartmentId(employeeId: number): Promise<void> {
-    await this.bonusRepository
+  async setBonusToNullByDepartmentId(transactionalEntityManager: EntityManager, employeeId: number): Promise<void> {
+    await transactionalEntityManager
       .createQueryBuilder()
       .update(Bonus)
       .set({ employee: null })

@@ -1,15 +1,15 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { LessThan, Repository } from 'typeorm';
+import { LessThan, Repository, EntityManager, getManager } from 'typeorm';
 import { VacationRequest } from 'src/entities/vacation_request.entity';
 import { EmployeeService } from 'src/services/employee.service';
 
 import { CreateVacationRequest } from 'src/dto/createVacationRequest.dto';
 import { VacationRequestStatus} from 'src/enums/vacation.request.status';
-
 @Injectable()
 export class VacationRequestService {
   constructor(
+    private entityManager : EntityManager,
     @InjectRepository(VacationRequest)
     private vacationRequestRepository: Repository<VacationRequest>,
     private employeeService: EmployeeService
@@ -66,16 +66,28 @@ export class VacationRequestService {
     }
   }
 
-  async update(id: number, vrequestData: Partial<VacationRequest>): Promise<VacationRequest | null> {
+  async update(id: number, vacationRequestData: Partial<VacationRequest>, transactionalEntityManager?: EntityManager): Promise<VacationRequest | null> {
     try {
-      const vacationRequest = await this.vacationRequestRepository.findOne({ where: { id } });
-      if (!vacationRequest) {
-        return null; 
-      }
-      Object.assign(vacationRequest, vrequestData);
-      return this.vacationRequestRepository.save(vacationRequest);
-    }
-    catch(error) {
+        const vacationRequest = await this.vacationRequestRepository.findOne({ where: { id } });
+  
+        if (!vacationRequest) 
+          return null;
+  
+        Object.assign(vacationRequest, vacationRequestData);
+  
+        if (transactionalEntityManager) {
+          await transactionalEntityManager
+            .createQueryBuilder()
+            .update(VacationRequest)
+            .set(vacationRequestData)
+            .where('id = :id', { id })
+            .execute();
+
+        } 
+        else await this.vacationRequestRepository.save(vacationRequestData);
+        
+        return vacationRequest;
+    } catch (error) {
       console.log(error);
       throw new InternalServerErrorException();
     }
@@ -195,8 +207,11 @@ export class VacationRequestService {
         employee.vacationDays-=vacationRequest.days;
       }
       vacationRequest.status = VacationRequestStatus[vacationRequestStatus];
-      result = await this.update(id, vacationRequest);
-      await this.employeeService.update(employee.id, employee);
+      await this.entityManager.transaction(async transactionalEntityManager => {
+        result = await this.update(id, vacationRequest, transactionalEntityManager);
+        await this.employeeService.update(employee.id, employee, transactionalEntityManager);
+      })
+      
       return result;
     }
     catch(error) {

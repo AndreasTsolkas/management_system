@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { IsNull, Not, Repository, getManager } from 'typeorm';
+import { EntityManager, IsNull, Not, Repository, getManager } from 'typeorm';
 import { Employee } from 'src/entities/employee.entity';
 import { UtilityService } from './utility.service';
 
@@ -9,6 +9,7 @@ import { UtilityService } from './utility.service';
 export class EmployeeService {
 
   constructor(
+    private readonly entityManager: EntityManager,
     @InjectRepository(Employee)
     private employeesRepository: Repository<Employee>,
     private readonly utilityService: UtilityService,
@@ -82,23 +83,34 @@ export class EmployeeService {
     }
   }
 
-  async update(id: number, employeeData: Partial<Employee>): Promise<Employee | null> {
+  async update(id: number, employeeData: Partial<Employee>, transactionalEntityManager?: EntityManager): Promise<Employee | null> {
     try {
-      const employee = await this.employeesRepository.findOneBy({id});
-      if (!employee) 
-        return null; 
+        const employee = await this.employeesRepository.findOne({ where: { id } });
+  
+        if (!employee) 
+          return null;
+  
+        Object.assign(employee, employeeData);
+  
+        if (transactionalEntityManager) {
+          await transactionalEntityManager
+            .createQueryBuilder()
+            .update(Employee)
+            .set(employeeData)
+            .where('id = :id', { id })
+            .execute();
 
-      Object.assign(employee, employeeData);
-      return this.employeesRepository.save(employee);
-    }
-    catch(error) {
+        } 
+        else await this.employeesRepository.save(employee);
+        
+        return employee;
+    } catch (error) {
       console.log(error);
       throw new InternalServerErrorException();
     }
-    
   }
 
-  async create(employeeData: Partial<Employee>): Promise<Employee> {
+  async create(employeeData: Partial<Employee> ): Promise<Employee> {
     try {
       const newEmployee = await this.employeesRepository.create(employeeData);
       return this.employeesRepository.save(newEmployee);
@@ -109,9 +121,9 @@ export class EmployeeService {
     }
   }
 
-  async remove(id: number): Promise<void> {
+  async remove(id: number, transactionalEntityManager?: EntityManager): Promise<void> {
     try {
-      await this.employeesRepository.delete(id);
+      await transactionalEntityManager.delete(Employee, id);
     }
     catch(error) {
       console.log(error);
@@ -182,8 +194,8 @@ export class EmployeeService {
     }
   }
 
-  async setDepartmentToNullByDepartmentId(departmentId: number): Promise<void> {
-    await this.employeesRepository
+  async setDepartmentToNullByDepartmentId(transactionalEntityManager: EntityManager, departmentId: number): Promise<void> {
+    await transactionalEntityManager
       .createQueryBuilder()
       .update(Employee)
       .set({ department: null })
@@ -193,9 +205,11 @@ export class EmployeeService {
 
   async nulifyEmployeeBonusesAndVrequestsAndRemove(id: number): Promise<void> {
     try {
-      await this.utilityService.setVacationrequestToNullByDepartmentId(id);
-      await this.utilityService.setBonusToNullByDepartmentId(id);
-      await this.employeesRepository.delete(id);
+      await this.entityManager.transaction(async transactionalEntityManager => {
+        await this.utilityService.setVacationrequestToNullByDepartmentId(transactionalEntityManager, id);
+        await this.utilityService.setBonusToNullByDepartmentId(transactionalEntityManager, id);
+        await this.remove(id, transactionalEntityManager);
+      });
     }
     catch(error) {
       console.log(error);

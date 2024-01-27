@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, EntityManager } from 'typeorm';
 import { Bonus } from 'src/entities/bonus.entity';
 import { EmployeeService } from 'src/services/employee.service';
 import { CreateBonus } from 'src/dto/createBonus.dto';
@@ -10,6 +10,7 @@ import { SeasonBonus} from 'src/enums/season.bonus.enum';
 @Injectable()
 export class BonusService {
   constructor(
+    private entityManager: EntityManager,
     @InjectRepository(Bonus)
     private bonusRepository: Repository<Bonus>,
     private employeeService: EmployeeService
@@ -55,9 +56,13 @@ export class BonusService {
     }
   }
 
-  async create(bonusData: Partial<Bonus>): Promise<Bonus> {
+  async create(bonusData: Partial<Bonus>, transactionalEntityManager?: EntityManager): Promise<Bonus> {
     try {
       const newBonus = this.bonusRepository.create(bonusData);
+      if (transactionalEntityManager) {
+        await transactionalEntityManager.create(Bonus, newBonus);
+      } 
+      else await this.bonusRepository.save(newBonus);
       return this.bonusRepository.save(newBonus);
     }
     catch(error) {
@@ -108,8 +113,10 @@ export class BonusService {
     try {
       let {newSalary, bonusAmount} = await this.calculateSalaryAfterBonus(salary, season);
       const currentTimestamp = new Date(new Date().getTime());
-      result = await this.create({employee: employee, amount: bonusAmount, dateGiven: currentTimestamp});
-      await this.employeeService.update(createBonusData.employeeId, {salary: newSalary});
+      await this.entityManager.transaction(async transactionalEntityManager => {
+        result = await this.create({employee: employee, amount: bonusAmount, dateGiven: currentTimestamp}, transactionalEntityManager);
+        await this.employeeService.update(createBonusData.employeeId, {salary: newSalary}, transactionalEntityManager);
+      })
       return result;
     }
     catch(error) {

@@ -3,8 +3,6 @@ import { Cron } from '@nestjs/schedule';
 
 import { VacationRequestService } from './vacation_request.service';
 
-
-
 @Injectable()
 export class ScheduledTasksService {
 
