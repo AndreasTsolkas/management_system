@@ -132,7 +132,7 @@ GRANT ALL ON TABLE management_system.employee TO postgres;
 
 CREATE TABLE management_system.vacation_request (
 	id serial4 NOT NULL,
-	employee_id int4 NOT NULL,
+	employee_id int4 ,
 	start_date date NOT NULL,
 	end_date date NOT NULL,
 	status varchar(20) NOT NULL,
@@ -155,9 +155,9 @@ GRANT ALL ON TABLE management_system.vacation_request TO postgres;
 
 CREATE TABLE management_system.bonus (
 	id serial4 NOT NULL,
-	employee_id int4 NOT NULL,
+	employee_id int4 ,
 	amount numeric(10, 2) NOT NULL,
-	date_given timestamp NULL,
+	date_given timestamp NOT NULL,
 	CONSTRAINT bonus_pk PRIMARY KEY (id),
 	CONSTRAINT bonus_employee_id_fkey FOREIGN KEY (employee_id) REFERENCES management_system.employee(id)
 );
