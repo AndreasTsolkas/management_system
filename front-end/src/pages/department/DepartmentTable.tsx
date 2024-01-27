@@ -80,7 +80,7 @@ const DepartmentTable = () => {
         
         return (
           <>
-            <IconButton 
+            <IconButton
               color="primary"
               onClick={() => navigate(Important.moreInformationLinkBase+cellValues?.row?.id)}
             >
@@ -115,20 +115,18 @@ const DepartmentTable = () => {
   ];
 
 
-  function setCreateNewDepartmentButton() {
+  function setButtonsDisabled() {
     if(!isAdmin) {
       setCreateNewDepartmentButtonDisabled(true);
       setDeleteDepartmentButtonDisabled(true);
+      setEditEmployeeButtonDisabled(true);
     }
   }
 
 
-  
-
-
 
   useEffect(() => {
-    setCreateNewDepartmentButton();
+    setButtonsDisabled();
   }, []);
 
   useEffect(() => {

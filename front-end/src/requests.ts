@@ -17,7 +17,7 @@ const axiosConfig = {
             'role': '',
         },
         params: {}, 
-        initializedHeaders: false
+        initialized: false
 };
     
 async function getRequest(requestUrl: any, params?:any) {
@@ -91,40 +91,41 @@ function getCookies  ()  {
         return {token, isAdmin};
 }
 
-const initializeHeaders = () => {
+export const initializeAxiosConfig = () => {
         const { token, isAdmin } = getCookies();
         axiosConfig.url = backEndBaseUrl ? `${backEndBaseUrl}` : '';
         axiosConfig.headers.Authorization = token ? `Bearer ${token}` : '';
         axiosConfig.headers.role = isAdmin ? 'admin' : 'user';
-        axiosConfig.initializedHeaders = true;
+        axiosConfig.initialized = true;
+        console.log(axiosConfig.headers.role);
 };
 
 const authGetRequest = async (requestUrl: string, params?:any) => {
-        if(axiosConfig.initializedHeaders === false) 
-          initializeHeaders();
+        if(axiosConfig.initialized === false) {}
+          initializeAxiosConfig();
         return getRequest(requestUrl, params);
 }
 const authDeleteRequest = async (requestUrl: string) => {
-        if(axiosConfig.initializedHeaders === false) 
-          initializeHeaders();
+        if(axiosConfig.initialized === false) 
+          initializeAxiosConfig();
         return deleteRequest(requestUrl);
 }
 
 const authPostRequest = async (requestUrl: string, data: any) => {
-        if(axiosConfig.initializedHeaders === false) 
-          initializeHeaders();
+        if(axiosConfig.initialized === false) 
+          initializeAxiosConfig();
         return postRequest(requestUrl, data)
 }
 
 const authPatchRequest = async (requestUrl: string, data:any) => {
-        if(axiosConfig.initializedHeaders === false) 
-          initializeHeaders();
+        if(axiosConfig.initialized === false) 
+          initializeAxiosConfig();
         return patchRequest(requestUrl, data);
 }
 
 const authPutRequest = async (requestUrl: string, data:any) => {
-        if(axiosConfig.initializedHeaders === false) 
-          initializeHeaders();
+        if(axiosConfig.initialized === false) 
+          initializeAxiosConfig();
         return putRequest(requestUrl, data);
 }
 
@@ -137,4 +138,5 @@ export const httpClient = {
         patch: authPatchRequest,
         put: authPutRequest, 
         delete: authDeleteRequest,
+        
 }

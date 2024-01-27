@@ -16,6 +16,7 @@ import { CircularProgress } from '@mui/material';
 import { CookiesProvider, useCookies } from "react-cookie";
 import "src/index.css";
 import * as Important from "src/important";
+import * as Requests from "src/requests";
 import { httpClient } from "src/requests";
 
 
@@ -56,6 +57,7 @@ export default function SignIn() {
       setCookie(adminCookie, admin);
       
       await new Promise(resolve => setTimeout(resolve, 1000));
+      Requests.initializeAxiosConfig(); // It initialize the configuration that each request will use
     
     } catch(error: any) {
       console.log(error?.response?.status);

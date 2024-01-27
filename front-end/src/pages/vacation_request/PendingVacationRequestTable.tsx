@@ -35,7 +35,7 @@ const PendingVacationRequestTable = () => {
   const body = (
     <Box sx={{ width: 300, bgcolor: 'background.paper', p: 2 }}>
       <Typography variant="h6" component="div" gutterBottom>
-        Do you accept this vacation request;
+        Do you accept this leave request;
       </Typography>
       <div style={{marginTop:"20px"}}>
       <Button  variant="contained" color="primary" onClick={() => handleButtonClick(1)}>
@@ -50,6 +50,23 @@ const PendingVacationRequestTable = () => {
       </div>
     </Box>
   );
+
+  function setPendingVacationRequestRows(data: any) {
+    setRows(
+      data.map(
+        (vacationRequest: { id: any; employee: any; startDate: any; endDate: any, status: any, days: any }) => {
+          return {
+            id: vacationRequest.id,
+
+            employee: vacationRequest.employee.name,
+            startDate: Datetime.getDate(vacationRequest.startDate, datetimeFormat),
+            endDate: Datetime.getDate(vacationRequest.endDate, datetimeFormat),
+            days: vacationRequest.days,
+          };
+        }
+      )
+    );
+  }
 
   const columns: GridColDef[] = [
     { field: "id", headerName: "id", flex: 1 },
@@ -121,25 +138,12 @@ const PendingVacationRequestTable = () => {
   }
 
   async function getPendingVacationRequests() {
-    await axios
+    await httpClient
       .get(getVacationRequestByStatus)
       .then((response) => {
         if(response.data.areDataExist === true) {
-          const data = response.data;
-          setRows(
-            data.map(
-              (vacationRequest: { id: any; employee: any; startDate: any; endDate: any, status: any, days: any }) => {
-                return {
-                  id: vacationRequest.id,
-
-                  employee: vacationRequest.employee.name,
-                  startDate: Datetime.getDate(vacationRequest.startDate, datetimeFormat),
-                  endDate: Datetime.getDate(vacationRequest.endDate, datetimeFormat),
-                  days: vacationRequest.days,
-                };
-              }
-            )
-          );
+          const data = response.data.result;
+          setPendingVacationRequestRows(data);
           setArePendingRequestsExist(true);
         } 
         
