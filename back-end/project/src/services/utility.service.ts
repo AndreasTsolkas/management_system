@@ -2,18 +2,22 @@ import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { VacationRequest } from 'src/entities/vacation_request.entity';
+import { Bonus } from 'src/entities/bonus.entity';
 
 
 
 @Injectable()
-export class UtilityService {
+export class UtilityService { 
+  // I use this service to avoid circular dependencies between services (for example, employeeService uses bonusService while bonusService also uses employeeService)
   constructor(
     @InjectRepository(VacationRequest)
-    private vacationRequestRepository: Repository<VacationRequest>
+    private vacationRequestRepository: Repository<VacationRequest>,
+    @InjectRepository(Bonus)
+    private bonusRepository: Repository<Bonus>
   ) {}
 
   
-
+ // Using Vacation Request repository
   async hasVacationRequestWithEmployeeId(employeeId: number): Promise<boolean> {
     try {
       const count = await this.vacationRequestRepository
@@ -51,4 +55,24 @@ export class UtilityService {
 
     return !!request;
   }
+  
+  async setVacationrequestToNullByDepartmentId(employeeId: number): Promise<void> {
+    await this.vacationRequestRepository
+      .createQueryBuilder()
+      .update(VacationRequest)
+      .set({ employee: null })
+      .where('employee = :employeeId', { employeeId })
+      .execute();
+  }
+  
+  // Using Bonus repository
+  async setBonusToNullByDepartmentId(employeeId: number): Promise<void> {
+    await this.bonusRepository
+      .createQueryBuilder()
+      .update(Bonus)
+      .set({ employee: null })
+      .where('employee = :employeeId', { employeeId })
+      .execute();
+  }
+
 }

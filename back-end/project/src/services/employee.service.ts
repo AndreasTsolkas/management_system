@@ -182,6 +182,27 @@ export class EmployeeService {
     }
   }
 
+  async setDepartmentToNullByDepartmentId(departmentId: number): Promise<void> {
+    await this.employeesRepository
+      .createQueryBuilder()
+      .update(Employee)
+      .set({ department: null })
+      .where('department = :departmentId', { departmentId })
+      .execute();
+  }
+
+  async nulifyEmployeeBonusesAndVrequestsAndRemove(id: number): Promise<void> {
+    try {
+      await this.utilityService.setVacationrequestToNullByDepartmentId(id);
+      await this.utilityService.setBonusToNullByDepartmentId(id);
+      await this.employeesRepository.delete(id);
+    }
+    catch(error) {
+      console.log(error);
+      throw new InternalServerErrorException();
+    }
+  }
+
 }
 
 

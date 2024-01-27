@@ -31,14 +31,19 @@ const BonusTable = () => {
   hasAccessAuth();
 
   function setBonusRows(data: any) {
+    
+    
     setRows(
       data.map(
         (bonus: { id: any; amount: any; dateGiven: any; employee: any }) => {
+          let name = '---';
+          if(bonus.employee)
+            name = bonus.employee.name+" "+bonus.employee.surname;
           return {
             id: bonus.id,
             amount: bonus.amount,
             date_given: Datetime.getDate(bonus.dateGiven, datetimeFormat),
-            employee: bonus.employee.name+" "+bonus.employee.surname
+            employee: name
           };
         }
       )

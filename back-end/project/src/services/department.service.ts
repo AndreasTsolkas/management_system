@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import { Department } from 'src/entities/department.entity';
+import { EmployeeService } from 'src/services/employee.service';
 
 import * as Messages from 'src/messages';
 
@@ -11,6 +12,7 @@ export class DepartmentService {
   constructor(
     @InjectRepository(Department)
     private departmentRepository: Repository<Department>,
+    private employeeService: EmployeeService,
   ) {}
 
   async findAll(): Promise<Department[]> {
@@ -63,7 +65,20 @@ export class DepartmentService {
 
   async remove(id: number): Promise<void> {
     try {
+      await this.employeeService.setDepartmentToNullByDepartmentId(id);
       await this.departmentRepository.delete(id);
+    }
+    catch(error) {
+      console.log(error);
+      throw new InternalServerErrorException();
+    }
+  }
+
+  /////
+
+  async setEmployeesOutOfThisDepartmentAndRemove(id: number): Promise<void> {
+    try {
+      await this.remove(id);
     }
     catch(error) {
       console.log(error);

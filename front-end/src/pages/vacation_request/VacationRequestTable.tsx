@@ -35,10 +35,13 @@ const VacationRequestTable = () => {
     setRows(
       data.map(
         (vacationRequest: { id: any; employee: any; startDate: any; endDate: any, status: any, days: any }) => {
+          let name = '---';
+          if(vacationRequest.employee)
+            name = vacationRequest.employee.name+" "+vacationRequest.employee.surname;
           return {
             id: vacationRequest.id,
 
-            employee: vacationRequest.employee.name+ " "+vacationRequest.employee.surname,
+            employee: name,
             startDate: Datetime.getDate(vacationRequest.startDate, datetimeFormat),
             endDate: Datetime.getDate(vacationRequest.endDate, datetimeFormat),
             status: vacationRequest.status,

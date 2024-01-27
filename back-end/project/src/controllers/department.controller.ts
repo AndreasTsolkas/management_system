@@ -43,7 +43,7 @@ export class  DepartmentController {
   @Roles(Role.Admin)
   @Delete('/:id')
   async remove(@Param('id') id: number) {
-    return this.departmentService.remove(id);
+    return this.departmentService.setEmployeesOutOfThisDepartmentAndRemove(id);
   }
 
 

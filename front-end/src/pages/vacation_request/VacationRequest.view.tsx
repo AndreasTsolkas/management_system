@@ -43,7 +43,7 @@ const VacationRequestView = () => {
         employeeField = <a href={thisEmployeeInfoUrl}>{result.employee.name} {result.employee.surname}</a>;
       }
         
-      if(result.employee.department?.department) {
+      if(result?.employee?.department) {
         const thisDepartmentInfoUrl = Important.departmentInfoUrl+result.employee.department.id;
         departmentField = <a href={thisDepartmentInfoUrl}>{result.employee.department.name}</a>;
       }

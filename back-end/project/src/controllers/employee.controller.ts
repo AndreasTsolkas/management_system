@@ -43,7 +43,7 @@ export class EmployeeController {
   @Roles(Role.Admin)
   @Delete('/:id')
   async remove(@Param('id') id: number) {
-    return this.employeeService.remove(id);
+    return this.employeeService.nulifyEmployeeBonusesAndVrequestsAndRemove(id);
   }
 
   @Get('/dexist/:id')
@@ -62,4 +62,5 @@ export class EmployeeController {
   async findOneWithRelationshipsAndCheckIfIsOnVacation(@Param('id') id: number) {
     return await this.employeeService.findOneWithRelationshipsAndCheckIfIsOnVacation(id);
   }
+
 }
