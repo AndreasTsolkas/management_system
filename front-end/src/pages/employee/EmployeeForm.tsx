@@ -3,7 +3,7 @@ import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { Box, Button, FormControlLabel, Grid, InputLabel, MenuItem, Select, Switch } from "@mui/material";
+import { Box, Button, FormControlLabel, Grid, InputLabel, Link, MenuItem, Select, Switch } from "@mui/material";
 import MuiTextField from "../../components/MuiTextField";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -160,6 +160,7 @@ const EmployeeForm = () => {
       <Box
         sx={{
           width: "500px",
+          marginTop:"30px"
         }}
       >
         <form  onReset={onReset} onSubmit={handleSubmit(onSubmit)}>
@@ -301,6 +302,13 @@ const EmployeeForm = () => {
           </Button>
         </form>
       </Box>
+      <div style={{marginTop:"10px"}}>
+      {isProfile && (
+         <Link fontSize="20px" href="/createbonuses" variant="body2">
+           Do you want to change your password? Click here.
+         </Link>
+      )}
+      </div>
     </div>
   );
 };

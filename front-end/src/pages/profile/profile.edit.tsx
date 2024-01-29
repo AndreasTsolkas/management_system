@@ -29,11 +29,6 @@ const EditProfileForm = () => {
     setEmployeePageUrl(pageUrl);
   }
 
-  const location = useLocation();
-
-  // Access the location object to get information about the current location
-  console.log('Current Location:', location);
-
 
   useEffect(() => {
     catchAndSetEmployeeId();
@@ -44,15 +39,12 @@ const EditProfileForm = () => {
   }, []);
 
   useEffect(() => {
-    console.log("here" , employeePageUrl);
     if(employeePageUrl) 
       navigate(employeePageUrl);
   }, [employeePageUrl, navigate]);
 
-  console.log(params.id);
 
 
-  
   return (
     <div>
 

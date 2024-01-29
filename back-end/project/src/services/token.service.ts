@@ -9,7 +9,7 @@ import {bcryptSaltOrRounds} from "src/important";
 
 
 @Injectable()
-export class TokenDecoderService {
+export class TokenService {
   constructor(
     private employeeService: EmployeeService,
     private jwtService: JwtService

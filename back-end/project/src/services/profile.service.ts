@@ -116,6 +116,14 @@ export class ProfileService {
     return profileSpecialDetails;
   }
 
+  async checkIfPasswordIsCorrect(id: number, password: string) {
+    return await this.employeeService.checkIfPasswordIsCorrect(id, password);
+  }
+
+  async updatePassword(id: number, password: string) {
+    return await this.employeeService.updatePassword(id, password);
+  }
+
 
 
 

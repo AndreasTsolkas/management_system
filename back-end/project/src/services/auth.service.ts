@@ -51,7 +51,7 @@ export class AuthService {
 
   async register(employee: Employee): Promise<Employee> {
 
-    const hashedPassword = await bcrypt.hash(employee.password,bcryptSaltOrRounds)
+    const hashedPassword = await bcrypt.hash(employee.password,bcryptSaltOrRounds);
     employee.password = hashedPassword;
 
     try{

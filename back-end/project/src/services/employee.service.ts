@@ -1,8 +1,10 @@
 import { BadRequestException, Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { EntityManager, IsNull, Not, Repository, getManager } from 'typeorm';
+import * as bcrypt from 'bcrypt';
 import { Employee } from 'src/entities/employee.entity';
 import { UtilityService } from './utility.service';
+import {bcryptSaltOrRounds} from "src/important";
 
 
 @Injectable()
@@ -217,8 +219,31 @@ export class EmployeeService {
     }
   }
 
-  async updatePassword() {
-    
+  async checkIfPasswordIsCorrect(id: number, password: string) {
+    let result = false;
+    let employeePassword = '';
+    const employee = await this.findOneWithRelationships(id);
+    if(!employee)
+      return null;
+    employeePassword = employee.password;
+    if(await bcrypt.compare(password, employeePassword))
+      result = true;
+    return result;
+  }
+
+  async updatePassword(id: number, newPassword: string) {
+    let employee: Employee = new Employee();
+    const hashedPassword = await bcrypt.hash(newPassword,bcryptSaltOrRounds);
+    employee.password = hashedPassword;
+    try {
+      const updatedEmployee = await this.update(id, employee);
+      updatedEmployee.password = 'hidden';
+      return updatedEmployee;
+    }
+    catch(error) {
+      console.log(error);
+      throw new InternalServerErrorException();
+    }
   }
 
 }

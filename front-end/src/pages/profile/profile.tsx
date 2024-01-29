@@ -144,7 +144,7 @@ const MyProfile = () => {
       </Box>
       <Box sx={{ width: "500px" }}
       >
-        <div style={{marginLeft:"25px", marginTop:"9px"}}>
+        <div style={{marginLeft:"25px", marginTop:"5px"}}>
         {result ? (
             <div>
                   {displaySpecialData.map((item, index) => {

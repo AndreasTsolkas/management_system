@@ -21,7 +21,7 @@ import { VacationRequestService } from 'src/services/vacation_request.service';
 import { UtilityService } from 'src/services/utility.service';
 import { ScheduledTasksService } from 'src/services/scheduled.tasks.service';
 import { ProfileService } from 'src/services/profile.service';
-import { TokenDecoderService } from 'src/services/token.decoder.service';
+import { TokenService } from 'src/services/token.service';
 
 import { EmployeeModule } from 'src/modules/employee.module';
 import { DepartmentModule } from 'src/modules/department.module';
@@ -63,7 +63,7 @@ dotenv.config();
   controllers: [AppController, EmployeeController, DepartmentController, BonusController, 
     VacationRequestController, AuthController, TestController, ProfileController],
   providers: [AppService, EmployeeService, DepartmentService, BonusService, VacationRequestService, 
-     UtilityService, ScheduledTasksService, ProfileService, TokenDecoderService],
+     UtilityService, ScheduledTasksService, ProfileService, TokenService],
 })
 export class AppModule {
   constructor(private dataSource: DataSource) {}

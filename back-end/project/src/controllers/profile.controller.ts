@@ -1,16 +1,16 @@
-import { Body, Controller, Delete, Get, Param, Patch, Put, Query, Req, UseGuards, Headers, BadRequestException  } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Put, Query, Req, UseGuards, Headers, BadRequestException, Post  } from '@nestjs/common';
 import { AuthGuard } from 'src/auth.guard';
 import { Employee } from 'src/entities/employee.entity';
 import { JwtService } from '@nestjs/jwt';
 import { ProfileService } from 'src/services/profile.service';
-import { TokenDecoderService } from 'src/services/token.decoder.service';
+import { TokenService } from 'src/services/token.service';
 
 @UseGuards(AuthGuard)
 @Controller('profile')
 export class ProfileController {
   
   constructor(private profileService: ProfileService,
-    private readonly tokenDecoderService: TokenDecoderService
+    private readonly tokenService: TokenService
     ) {
 
   }
@@ -18,8 +18,8 @@ export class ProfileController {
   @Get()
   async findOneWithRelationshipsAndSpecialDetails(@Headers('Authorization') authorization: string) {
     if (!authorization) return { message: 'Unauthorized' };
-    const decodedToken = await this.tokenDecoderService.decodeToken(authorization);
-    const userId: number  = await this.tokenDecoderService.extractField(decodedToken, 'id');
+    const decodedToken = await this.tokenService.decodeToken(authorization);
+    const userId: number  = await this.tokenService.extractField(decodedToken, 'id');
     if (userId !== undefined) {
       let basicData = await this.profileService.findOneWithRelationships(userId as number);
       let specialData = await this.profileService.getProfileSpecialDetails(userId as number);
@@ -27,8 +27,6 @@ export class ProfileController {
         basicData, specialData
       }
     }
-    
-
     else throw new BadRequestException('User id is missing.');
   }
 
@@ -40,6 +38,16 @@ export class ProfileController {
   @Delete('/:id')
   async remove(@Param('id') id: number) {
     return this.profileService.remove(id);
+  }
+
+  @Post('/checkpassword/:id')
+  async checkIfPasswordIsCorrect(@Param('id') id: number, @Body('password') password: string) {
+    return await this.profileService.checkIfPasswordIsCorrect(id, password);
+  }
+
+  @Patch('/updatepassword/:id')
+  async updatePassword(@Param('id') id: number, @Body('newpassword') password: string) {
+    return await this.profileService.updatePassword(id, password);
   }
   
 }
