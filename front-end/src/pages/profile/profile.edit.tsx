@@ -1,17 +1,11 @@
 import * as yup from "yup";
-import { useForm, Controller } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useLocation   } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { Box, Button, FormControlLabel, Grid, InputLabel, MenuItem, Select, Switch } from "@mui/material";
-import MuiTextField from "../../components/MuiTextField";
-import axios from "axios";
-import { toast } from "react-toastify";
+
 import * as Important from "src/important";
 import * as Display from "src/display";
 import {hasAccessAuth, isAdminAuth, isAccessTokenNotExpired} from "src/useAuth";
 import { httpClient } from "src/requests";
-import EmployeeForm from "src/pages/employee/EmployeeForm";
 
 
 
@@ -20,12 +14,10 @@ const EditProfileForm = () => {
   const navigate = useNavigate();
   const employeeUrl = Important.employeeUrl;
   const [employeeId, setEmployeeId] = useState<any>(1);
-  const [formTitle, setFormTitle] = useState<string>('');
 
   const [employeePageUrl, setEmployeePageUrl] = useState<string>('');
 
   hasAccessAuth();
-  isAdminAuth();
   
 
   function catchAndSetEmployeeId() {
@@ -36,6 +28,11 @@ const EditProfileForm = () => {
     let pageUrl = employeeUrl+'/'+Important.editLinkBase+employeeId+'/true';
     setEmployeePageUrl(pageUrl);
   }
+
+  const location = useLocation();
+
+  // Access the location object to get information about the current location
+  console.log('Current Location:', location);
 
 
   useEffect(() => {

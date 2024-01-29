@@ -2,8 +2,8 @@ import { Body, Controller, Delete, Get, Param, Patch, Put, Req, UseGuards } from
 import { Department } from 'src/entities/department.entity';
 import { DepartmentService } from 'src/services/department.service';
 import { EmployeeService } from 'src/services/employee.service';
-import { GetAllDepartmentsSpecial } from 'src/dto/getAllDepartmentsSpecial.dto';
-import { GetDepartmentsSpecial } from 'src/dto/getDepartmentSpecial.dto';
+import { GetAllDepartmentsSpecial } from 'src/dto/get.all.departments.special.dto';
+import { GetDepartmentsSpecial } from 'src/dto/get.department.special.dto';
 import { RolesGuard } from 'src/roles.guard';
 import { AuthGuard } from 'src/auth.guard';
 import { Roles } from 'src/roles.decorator';

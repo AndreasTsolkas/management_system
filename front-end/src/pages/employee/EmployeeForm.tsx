@@ -33,6 +33,7 @@ const EmployeeForm = () => {
   const [formTitle, setFormTitle] = useState<string>('');
   const [employeeCurrentDepartmentId, setEmployeeCurrentDepartmentId] = useState<any | null >(null);
   const [employeeSelectedDepartmentId, setEmployeeSelectedDepartmentId] = useState<any>('');
+  const isProfile = params?.profile === 'true';
 
   hasAccessAuth();
   isAdminAuth();
@@ -78,7 +79,7 @@ const EmployeeForm = () => {
       data.department = departments[0].id;
     let success = false;
     let response: any = '';
-    if (!params?.id) {
+    if (isProfile) {
       try {
         response = await httpClient.put(employeeUrl, data);
         toast.success('The new employee was created successfully');
@@ -154,7 +155,7 @@ const EmployeeForm = () => {
   
   return (
     <div>
-      {Display.displayIconButton()}
+      {Display.displayIconButton(isProfile)}
       <h2>{formTitle}</h2>
       <Box
         sx={{

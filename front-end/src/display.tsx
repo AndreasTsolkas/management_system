@@ -22,15 +22,18 @@ export function displayDataGrid(rows: any, columns: any) {
     );
 }
 
-export function displayIconButton() {
+export function displayIconButton(specialCase?: any) {
   const navigate = useNavigate();
+  let redirectionPath: any = -1;
+  if(specialCase) // Its a little unorthodox what I did here , but I did it because in a specific case navigate with the standart value (-1) as argument doesnt work
+    redirectionPath = '/profile'; //
   const iconStyle = {
     cursor: 'pointer', 
   };
   return(
       <div style={{ position: 'relative', width: '100px', height: '30px' }}>
         <ArrowBackIcon
-          onClick={() => navigate(-1)}
+          onClick={() => navigate(redirectionPath)}
           color="primary"
           style={{
             ...iconStyle, 

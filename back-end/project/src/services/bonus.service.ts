@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, EntityManager } from 'typeorm';
 import { Bonus } from 'src/entities/bonus.entity';
 import { EmployeeService } from 'src/services/employee.service';
-import { CreateBonus } from 'src/dto/createBonus.dto';
+import { CreateBonus } from 'src/dto/create.bonus.dto';
 import { SeasonBonus} from 'src/enums/season.bonus.enum';
 
 

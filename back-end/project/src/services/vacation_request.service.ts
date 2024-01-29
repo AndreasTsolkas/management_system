@@ -4,7 +4,7 @@ import { LessThan, Repository, EntityManager, getManager } from 'typeorm';
 import { VacationRequest } from 'src/entities/vacation_request.entity';
 import { EmployeeService } from 'src/services/employee.service';
 
-import { CreateVacationRequest } from 'src/dto/createVacationRequest.dto';
+import { CreateVacationRequest } from 'src/dto/create.vacationRequest.dto';
 import { VacationRequestStatus} from 'src/enums/vacation.request.status';
 @Injectable()
 export class VacationRequestService {

@@ -18,7 +18,7 @@ import BonusView from "./pages/bonus/Bonus.view";
 import VacationRequestForm from "./pages/vacation_request/VacationRequestForm";
 import VacationRequestTable from "./pages/vacation_request/VacationRequestTable";
 import VacationRequestView from "./pages/vacation_request/VacationRequest.view";
-import PendingVacationRequestTable from "./pages/vacation_request/PendingVacationRequestTable";
+import PendingVacationRequestTable from "./pages/vacation_request/pending.vacationRequest.table";
 import UserVacationRequestForm from "./pages/user.vacation.requestForm";
 import CreateBonusForm from "./pages/createBonusForm";
 import MyProfile from "./pages/profile/profile";

@@ -67,11 +67,11 @@ const MyProfile = () => {
     }
   }
 
-  useEffect(() => {
+  /*useEffect(() => {
     if (userId===undefined) {
       navigate(-1);
     }
-  }, []);
+  }, []);*/
 
   useEffect(() => {
     getProfile();
@@ -86,7 +86,6 @@ const MyProfile = () => {
   return (
     <div>
       
-      {Display.displayIconButton()}
       
       <h2>My profile:</h2>
       <Box sx={{ display: 'flex', flexDirection: 'row', width: '100%' }}>

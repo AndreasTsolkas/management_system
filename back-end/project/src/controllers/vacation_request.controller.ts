@@ -2,8 +2,8 @@ import { Body, Controller, Delete, Get, Param, Patch, Put, Query, Req, UseGuards
 import { VacationRequest } from 'src/entities/vacation_request.entity';
 import { VacationRequestService } from 'src/services/vacation_request.service';
 
-import { CreateVacationRequest } from 'src/dto/createVacationRequest.dto';
-import { EvaluateVacationRequest } from 'src/dto/evaluateVacationRequest.dto';
+import { CreateVacationRequest } from 'src/dto/create.vacationRequest.dto';
+import { EvaluateVacationRequest } from 'src/dto/evaluate.vacationRequest.dto';
 import { RolesGuard } from 'src/roles.guard';
 import { AuthGuard } from 'src/auth.guard';
 import { Roles } from 'src/roles.decorator';

@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, Param, Patch, Put, Query, Req, UseGuards } from '@nestjs/common';
 import { Bonus } from 'src/entities/bonus.entity';
-import { CreateBonus } from 'src/dto/createBonus.dto';
+import { CreateBonus } from 'src/dto/create.bonus.dto';
 import { BonusService } from 'src/services/bonus.service';
 import { AuthGuard } from 'src/auth.guard';
 import { RolesGuard } from 'src/roles.guard';
