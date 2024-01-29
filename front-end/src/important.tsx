@@ -5,6 +5,7 @@ export const bonusUrl = '/bonus';
 export const employeeUrl = '/employee';
 export const departmentUrl = '/department';
 export const vacationRequestUrl = '/vrequest';
+export const profileUrl = '/profile';
 
 export const backEndAuthUrl = backEndBaseUrl + authUrl;
 export const backEndBonusUrl = backEndBaseUrl + bonusUrl;

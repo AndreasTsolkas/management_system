@@ -21,6 +21,8 @@ import VacationRequestView from "./pages/vacation_request/VacationRequest.view";
 import PendingVacationRequestTable from "./pages/vacation_request/PendingVacationRequestTable";
 import UserVacationRequestForm from "./pages/user.vacation.requestForm";
 import CreateBonusForm from "./pages/createBonusForm";
+import MyProfile from "./pages/profile/profile";
+import EditProfileForm from "./pages/profile/profile.edit";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { CookiesProvider } from "react-cookie";
@@ -60,7 +62,7 @@ export const Router = createBrowserRouter([
         element: <EmployeeTable />,
       },
       {
-        path: "/employee/edit/:id",
+        path: "/employee/edit/:id/:profile?",
         element: <EmployeeForm />,
       },
       {
@@ -102,6 +104,14 @@ export const Router = createBrowserRouter([
       {
         path: "/createbonuses",
         element: <CreateBonusForm />,
+      },
+      {
+        path: "/profile",
+        element: <MyProfile />,
+      },
+      {
+        path: "/editprofile/:id",
+        element: <EditProfileForm />,
       },
     ],
   },

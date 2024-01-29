@@ -104,6 +104,8 @@ const EmployeeForm = () => {
     let text = 'Add a new employee:';
     if (params && params?.id) {
       text = 'Employee settings:';
+      if(params?.profile)
+        text = 'My settings:';
       await httpClient
         .get(`${employeeUrl}/${params?.id}`)
         .then((response) => {

@@ -34,7 +34,7 @@ const DepartmentView = () => {
         let displayData = [
             { key: 'id: ', value: result.departmentEntityData.id },
             { key: 'Name: ', value: result.departmentEntityData.name },
-            { key: 'Employees`s number: ', value: result.employeesNum }
+            { key: 'Employees`s (number: ', value: result.employeesNum }
         ];
 
         if (result.employees.length > 0) {

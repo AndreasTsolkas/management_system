@@ -27,7 +27,7 @@ export default function Root() {
     };
 
     const handleProfileClick = () => {
-      navigate('/'); 
+      navigate('/profile'); 
       handleCloseUserMenu();
     }
 

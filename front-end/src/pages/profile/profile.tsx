@@ -3,13 +3,10 @@
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useCallback, useEffect, useState } from "react";
 import { Box, Button, Card, CardActions, CardContent, CardMedia, Typography } from "@mui/material";
-import MuiTextField from "../../components/MuiTextField";
 import { toast } from "react-toastify";
-import { DepartmentSchema } from "../department/DepartmentForm";
-import { IPost } from "./employee.model";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import * as Important from "src/important";
 import * as Display from "src/display";
@@ -19,11 +16,11 @@ import {hasAccessAuth, isAccessTokenNotExpired} from "src/useAuth";
 import { httpClient } from "src/requests";
 
 
-const EmployeeView = () => {
+const MyProfile = () => {
   const params: any | never = useParams();
   const navigate = useNavigate();
-  const employeeUrl = Important.employeeUrl;
-  const userId = params?.id;
+  const profileUrl = Important.profileUrl;
+  const userId = 2;
   const [result, setResult] = useState<any>();
   const [displayData, setDisplayData] = useState<any[]>([]);
 
@@ -59,9 +56,9 @@ const EmployeeView = () => {
     }
   }
 
-  async function getCurrentEmployee() {
+  async function getProfile() {
     try {
-        const response: any = await httpClient.get(`${employeeUrl}/${userId}`);
+        const response: any = await httpClient.get(`${profileUrl}`);
         setResult(response.data);
     }
     catch(error: any) {
@@ -74,11 +71,10 @@ const EmployeeView = () => {
     if (userId===undefined) {
       navigate(-1);
     }
-
   }, []);
 
   useEffect(() => {
-    getCurrentEmployee();
+    getProfile();
   }, [userId]);
 
   useEffect(() => {
@@ -92,11 +88,9 @@ const EmployeeView = () => {
       
       {Display.displayIconButton()}
       
-      <h2>Employee details:</h2>
-      <Box
-        sx={{
-          width: "600px",
-        }}
+      <h2>My profile:</h2>
+      <Box sx={{ display: 'flex', flexDirection: 'row', width: '100%' }}>
+      <Box sx={{ width: "50%" }}
       >
         <div style={{marginLeft:"25px"}}>
         {result ? (
@@ -106,13 +100,32 @@ const EmployeeView = () => {
                   })}
             </div>
             ) : (
-                <DisplayErrorMessage  message = "Error searching for employee details."  />
+                <DisplayErrorMessage  message = "Error searching for profile."  />
+            )}
+        </div>
+        
+        
+        
+      </Box>
+      <Box sx={{ width: "50%" }}
+      >
+        <div style={{marginLeft:"25px"}}>
+        {result ? (
+            <div>
+                  {displayData.map((item, index) => {
+                    return Display.displayFieldWithTypography(item.key, item.value, index);
+                  })}
+            </div>
+            ) : (
+                <DisplayErrorMessage  message = "Error searching for profile."  />
             )}
         </div>
         
       </Box>
+      </Box>
+      <Link style={{ marginLeft:"350px", marginTop:"55px", fontSize: '25px' }} to="/editprofile/2" >Edit profile</Link>
     </div>
   );
 };
 
-export default EmployeeView;
+export default MyProfile;
