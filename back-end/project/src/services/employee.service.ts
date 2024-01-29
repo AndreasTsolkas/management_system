@@ -217,6 +217,10 @@ export class EmployeeService {
     }
   }
 
+  async updatePassword() {
+    
+  }
+
 }
 
 

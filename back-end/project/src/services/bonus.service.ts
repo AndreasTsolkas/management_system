@@ -125,7 +125,29 @@ export class BonusService {
     }
   }
 
-  
+  async getBonusByEmployeeId(employeeId: number) {
+    const bonusByEmployeeId = await this.bonusRepository.find({
+      where: {
+        employee: {
+          id: employeeId
+        }
+      }
+    });
+    return bonusByEmployeeId;
+  }
 
+  async getLastBonusByEmployeeId(employeeId: number) {
+    const bonusByEmployeeId = await this.getBonusByEmployeeId(employeeId);
+    const sortedBonuses = bonusByEmployeeId.sort((a, b) => {
+      return new Date(b.dateGiven).getTime() - new Date(a.dateGiven).getTime();
+    });
   
+    return sortedBonuses.length > 0 ? sortedBonuses[0]  : null;
+  }
+
+  async getBonusNumByEmployeeId(employeeId: number) {
+    const bonusByEmployeeId = await this.getBonusByEmployeeId(employeeId);
+    return bonusByEmployeeId.length;
+  }
+
 }

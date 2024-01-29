@@ -20,41 +20,82 @@ const MyProfile = () => {
   const params: any | never = useParams();
   const navigate = useNavigate();
   const profileUrl = Important.profileUrl;
+  const departmentUrl = Important.departmentUrl;
+  const bonusUrl = Important.bonusUrl;
+  const vacationRequestUrl = Important.vacationRequestUrl;
+  const moreInformationLinkBase = Important.moreInformationLinkBase;
   const userId = 2;
   const [result, setResult] = useState<any>();
-  const [displayData, setDisplayData] = useState<any[]>([]);
+  const [displayBasicData, setDisplayBasicData] = useState<any[]>([]);
+  const [displaySpecialData, setDisplaySpecialData] = useState<any[]>([]);
 
+  const departmentViewBaseUrl = departmentUrl+'/'+moreInformationLinkBase;
+  const bonusViewBaseUrl = bonusUrl+'/'+moreInformationLinkBase;
+  const vacationRequestViewBaseUrl = vacationRequestUrl+'/'+moreInformationLinkBase;
   const datetimeFormat = Important.datetimeFormat;
 
   hasAccessAuth();
 
 
-  function populateDisplayDataArray() {
+  function populateDisplayBasicDataArray() {
     
     if (result) {
-      
+      let basicData = result.basicData;
       let isAdminText = 'Yes';
-      if(!result.isAdmin) isAdminText = 'No';
+      if(!basicData.isAdmin) isAdminText = 'No';
       let resultDepartmentValue: any = '-----';
-      if (result.department !== null ) {
-        const departmentInfoUrl = '/department/view/'+result.department.id;
-        resultDepartmentValue = <a href={departmentInfoUrl}>{result.department.name}</a>;
+      if (basicData.department !== null ) {
+        const departmentInfoUrl = departmentViewBaseUrl+basicData.department.id;
+        resultDepartmentValue = <a href={departmentInfoUrl}>{basicData.department.name}</a>;
       }
-      setDisplayData([
-      { key: 'id: ', value: result.id },
-      { key: 'Name: ', value: result.name },
-      { key: 'Surname: ', value: result.surname },
-      { key: 'Email: ', value: result.email },
-      { key: 'Employee UId: ', value: result.employeeUid },
-      { key: 'Employment type: ', value: result.employmentType },
+      setDisplayBasicData([
+      { key: 'id: ', value: basicData.id },
+      { key: 'Name: ', value: basicData.name },
+      { key: 'Surname: ', value: basicData.surname },
+      { key: 'Email: ', value: basicData.email },
+      { key: 'Employee UId: ', value: basicData.employeeUid },
+      { key: 'Employment type: ', value: basicData.employmentType },
       { key: 'Department: ', value: resultDepartmentValue },
-      { key: 'Salary: ', value: result.salary },
-      { key: 'Start datetime: ', value: Datetime.getDate(result.startDate, datetimeFormat)},
-      { key: 'Vacation days (limit): ', value: result.vacationDays },
-      { key: 'Is admin: ', value: isAdminText }
+      { key: 'Salary: ', value: basicData.salary },
+      { key: 'Start datetime: ', value: Datetime.getDate(basicData.startDate, datetimeFormat)},
+      { key: 'Vacation days (limit): ', value: basicData.vacationDays },
+      { key: 'I am admin: ', value: isAdminText }
     ]);
     }
   }
+
+  function populateDisplaySpecialDataArray() {
+    
+    if (result) {
+      let specialData = result.specialData;
+      let isOnLeave = 'Yes';
+      let hasPendingVacationRequests = 'Yes';
+      if(!specialData.isOnLeave) isOnLeave = 'No';
+      if(!specialData.hasPendingVacationRequests) hasPendingVacationRequests = 'No';
+      let resultLastBonusGivenValue: any = '-----';
+      let resultLastLeaveTakenValue: any = '-----';
+
+      if (specialData.lastBonusGiven !== null ) {
+        const lastBonusGivenInfoUrl = bonusViewBaseUrl+specialData.lastBonusGiven.id;
+        resultLastBonusGivenValue = <a href={lastBonusGivenInfoUrl}>view</a>;
+      }
+
+      if (specialData.lastLeaveTaken !== null ) {
+        const lastLeaveTakenInfoUrl = vacationRequestViewBaseUrl+specialData.lastLeaveTaken.id;
+        resultLastLeaveTakenValue = <a href={lastLeaveTakenInfoUrl}>view</a>;
+      }
+      setDisplaySpecialData([
+      { key: 'Total bonuses (number): ', value: specialData.bonusTotalNum },
+      { key: 'Total leaves (number): ', value: specialData.leavesTotalNum  },
+      { key: 'Last bonus: ', value: resultLastBonusGivenValue  },
+      { key: 'Last leave: ', value: resultLastLeaveTakenValue  },
+      { key: 'Am I on leave: ', value: isOnLeave  },
+      { key: 'Do I have any pending leave request: ', value: hasPendingVacationRequests  },
+
+    ]);
+    }
+  }
+
 
   async function getProfile() {
     try {
@@ -67,18 +108,14 @@ const MyProfile = () => {
     }
   }
 
-  /*useEffect(() => {
-    if (userId===undefined) {
-      navigate(-1);
-    }
-  }, []);*/
 
   useEffect(() => {
     getProfile();
   }, [userId]);
 
   useEffect(() => {
-    populateDisplayDataArray();
+    populateDisplayBasicDataArray();
+    populateDisplaySpecialDataArray();
   }, [result]);
 
 
@@ -86,15 +123,14 @@ const MyProfile = () => {
   return (
     <div>
       
-      
-      <h2>My profile:</h2>
+      <h2 style={{ marginLeft: '360px', marginBottom:"50px" }}>My profile:</h2>
       <Box sx={{ display: 'flex', flexDirection: 'row', width: '100%' }}>
-      <Box sx={{ width: "50%" }}
+      <Box sx={{ width: '550px' }}
       >
         <div style={{marginLeft:"25px"}}>
         {result ? (
             <div>
-                  {displayData.map((item, index) => {
+                  {displayBasicData.map((item, index) => {
                     return Display.displayFieldWithTypography(item.key, item.value, index);
                   })}
             </div>
@@ -106,12 +142,12 @@ const MyProfile = () => {
         
         
       </Box>
-      <Box sx={{ width: "50%" }}
+      <Box sx={{ width: "500px" }}
       >
-        <div style={{marginLeft:"25px"}}>
+        <div style={{marginLeft:"25px", marginTop:"9px"}}>
         {result ? (
             <div>
-                  {displayData.map((item, index) => {
+                  {displaySpecialData.map((item, index) => {
                     return Display.displayFieldWithTypography(item.key, item.value, index);
                   })}
             </div>
@@ -122,7 +158,9 @@ const MyProfile = () => {
         
       </Box>
       </Box>
-      <Link style={{ marginLeft:"350px", marginTop:"55px", fontSize: '25px' }} to="/editprofile/2" >Edit profile</Link>
+      <div style={{marginTop:"35px", marginLeft:"370px"}}>
+      <Link style={{ fontSize: '25px' }} to="/editprofile/2" >Edit profile</Link>
+      </div>
     </div>
   );
 };

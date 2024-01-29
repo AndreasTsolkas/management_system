@@ -1,8 +1,11 @@
+import { Bonus } from "src/entities/bonus.entity";
+import { VacationRequest } from "src/entities/vacation_request.entity";
+
 export class ProfileSpecialDetails {
     bonusTotalNum: number;
     leavesTotalNum: number; // Approved vacation requests
-    lastBonusGivenDate: Date;
-    lastLeaveTakennDate: Date;
+    lastBonusGiven: Bonus;
+    lastLeaveTaken: VacationRequest;
     isOnLeave: boolean;
-    hasAVacationRequestPending: boolean;
+    hasAnyVacationRequestPending: boolean;
 }

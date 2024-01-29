@@ -220,14 +220,38 @@ export class VacationRequestService {
     }
     
   }
+  async getVacationRequestsByEmployeeId(employeeId: number, status?: string) {
+    try {
+      const queryBuilder = this.vacationRequestRepository
+        .createQueryBuilder('vacation_request')
+        .where('vacation_request.employee_id = :employeeId', { employeeId });
+  
+      if (status) {
+        queryBuilder.andWhere('vacation_request.status = :status', { status });
+      }
+  
+      const result = await queryBuilder.getMany();
+      return result;
+    } catch (error) {
+      console.log(error);
+      throw new InternalServerErrorException();
+    }
+  }
+
+  async countVacationRequestsByEmployeeId(employeeId: number, status?: string) {
+    try {
+
+      const vacationRequestByEmployeeId = await this.getVacationRequestsByEmployeeId(employeeId);
+      return vacationRequestByEmployeeId.length;
+    } catch (error) {
+      console.log(error);
+      throw new InternalServerErrorException();
+    }
+  }
 
   async hasVacationRequestWithEmployeeId(employeeId: number): Promise<boolean> {
     try {
-      const count = await this.vacationRequestRepository
-        .createQueryBuilder('vacation_request')
-        .where('vacation_request.employee_id = :employeeId', { employeeId })
-        .getCount();
-
+      const count = await this.countVacationRequestsByEmployeeId(employeeId);
       return count > 0;
     } catch (error) {
       console.log(error);
@@ -250,6 +274,35 @@ export class VacationRequestService {
         request.status = 'rejected';
         return this.vacationRequestRepository.save(request);
       }));
+    }
+  }
+
+  async getApprovedVacationRequestsNumByEmployeeId(employeeId: number) {
+    try {
+      let status = 'approved';
+      return await this.countVacationRequestsByEmployeeId(employeeId, status);
+    } catch (error) {
+      console.log(error);
+      throw new InternalServerErrorException();
+    }
+  }
+
+  async getLastVacationRequestByEmployeeId(employeeId: number) {
+    try {
+      const vacationRequestsByEmployeeId = await this.getVacationRequestsByEmployeeId(employeeId);
+  
+      const sortedVacationRequests = vacationRequestsByEmployeeId.sort((a, b) => {
+        const startDateDiff = new Date(b.startDate).getTime() - new Date(a.startDate).getTime();
+        if (startDateDiff !== 0) {
+          return startDateDiff;
+        }
+        return new Date(b.endDate).getTime() - new Date(a.endDate).getTime();
+      });
+  
+      return sortedVacationRequests.length > 0 ? sortedVacationRequests[0] : null;
+    } catch (error) {
+      console.log(error);
+      throw new InternalServerErrorException();
     }
   }
 }

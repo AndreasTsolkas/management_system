@@ -108,7 +108,7 @@ export default function Root() {
           </ul>
           
           {isAdmin ? (
-  <ul >
+  <ul style = {{marginTop:"30px"}}>
     <li style={{marginBottom:standartIlMarginBottom}}>
       <Link to={`/pvacation_request`}>Pending Leaves</Link>
     </li>
@@ -117,7 +117,7 @@ export default function Root() {
     </li>
   </ul>
 ) : (
-  <ul >
+  <ul style = {{marginTop:"30px"}}>
   <li style={{marginBottom:standartIlMarginBottom}}>
     <Link to={`/uservacationrequest`}>New Leave</Link>
   </li>

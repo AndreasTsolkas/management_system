@@ -23,10 +23,12 @@ const EmployeeView = () => {
   const params: any | never = useParams();
   const navigate = useNavigate();
   const employeeUrl = Important.employeeUrl;
+  const moreInformationLinkBase = Important.moreInformationLinkBase;
   const userId = params?.id;
   const [result, setResult] = useState<any>();
   const [displayData, setDisplayData] = useState<any[]>([]);
 
+  const employeeViewBaseUrl = employeeUrl+'/'+moreInformationLinkBase;
   const datetimeFormat = Important.datetimeFormat;
 
   hasAccessAuth();
@@ -40,7 +42,7 @@ const EmployeeView = () => {
       if(!result.isAdmin) isAdminText = 'No';
       let resultDepartmentValue: any = '-----';
       if (result.department !== null ) {
-        const departmentInfoUrl = '/department/view/'+result.department.id;
+        const departmentInfoUrl = employeeViewBaseUrl+result.department.id;
         resultDepartmentValue = <a href={departmentInfoUrl}>{result.department.name}</a>;
       }
       setDisplayData([
