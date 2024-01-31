@@ -23,7 +23,7 @@ export class TokenService {
 
   async extractField(decodedToken: any, field: any) {
     let extractedField: any = decodedToken?.[field];
-    return extractedField=2;
+    return extractedField;
   }
 
 }

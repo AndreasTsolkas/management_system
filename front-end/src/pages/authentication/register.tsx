@@ -38,7 +38,7 @@ const registerSchema = yup.object().shape({
   email: yup.string().required("Email is required.").email("Email must be valid."),
   startDate: yup.date().required("Start date is required."),
   password: yup.string().min(4,'Password must have at least 4 characters.').max(20, 'The password must not exceed 20 characters.').required("Password is required."),
-  confirmPassword: yup.string().oneOf([yup.ref('password')], 'Οι κωδικοί πρέπει να ταιριάζουν.').required("Επιβεβαιώστε τον κωδικό."),
+  confirmPassword: yup.string().oneOf([yup.ref('password')], 'Confirmation password should be correct.').required("Confirm the password."),
   employmentType: yup.string().required("Employment type is required."),
 });
 

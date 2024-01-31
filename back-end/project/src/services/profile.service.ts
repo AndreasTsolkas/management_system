@@ -117,7 +117,8 @@ export class ProfileService {
   }
 
   async checkIfPasswordIsCorrect(id: number, password: string) {
-    return await this.employeeService.checkIfPasswordIsCorrect(id, password);
+    if(!await this.employeeService.checkIfPasswordIsCorrect(id, password))
+      throw new BadRequestException('The password you sent is not the correct.');
   }
 
   async updatePassword(id: number, password: string) {

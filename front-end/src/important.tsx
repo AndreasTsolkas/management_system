@@ -7,6 +7,9 @@ export const departmentUrl = '/department';
 export const vacationRequestUrl = '/vrequest';
 export const profileUrl = '/profile';
 
+export const passwordUrl = '/password';
+
+
 export const backEndAuthUrl = backEndBaseUrl + authUrl;
 export const backEndBonusUrl = backEndBaseUrl + bonusUrl;
 export const backEndEmployeeUrl = backEndBaseUrl + employeeUrl;

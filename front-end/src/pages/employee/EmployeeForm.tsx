@@ -29,11 +29,14 @@ const EmployeeForm = () => {
   const [departments, setDepartments] = useState<any[]>([]);
   const navigate = useNavigate();
   const employeeUrl = Important.employeeUrl;
+  const passwordUrl = Important.passwordUrl;
   const departmentGetAll = Important.getAllDepartment;
   const [formTitle, setFormTitle] = useState<string>('');
   const [employeeCurrentDepartmentId, setEmployeeCurrentDepartmentId] = useState<any | null >(null);
   const [employeeSelectedDepartmentId, setEmployeeSelectedDepartmentId] = useState<any>('');
   const isProfile = params?.profile === 'true';
+  const employeeId = params?.id;
+  const passwordRedirectUrl = passwordUrl+'/'+employeeId;
 
   hasAccessAuth();
   isAdminAuth();
@@ -89,7 +92,7 @@ const EmployeeForm = () => {
       }
     } else {
       try {
-         response = await httpClient.patch(`${employeeUrl}/${params?.id}`, data);
+         response = await httpClient.patch(`${employeeUrl}/${employeeId}`, data);
         toast.success("Employee updated successfully");
         success = true;
 
@@ -108,7 +111,7 @@ const EmployeeForm = () => {
       if(params?.profile)
         text = 'My settings:';
       await httpClient
-        .get(`${employeeUrl}/${params?.id}`)
+        .get(`${employeeUrl}/${employeeId}`)
         .then((response) => {
           reset(response.data);
           if (response.data.department.name !== null || response.data.department.name !== null)
@@ -304,7 +307,7 @@ const EmployeeForm = () => {
       </Box>
       <div style={{marginTop:"10px"}}>
       {isProfile && (
-         <Link fontSize="20px" href="/createbonuses" variant="body2">
+         <Link fontSize="20px" href={passwordRedirectUrl} variant="body2">
            Do you want to change your password? Click here.
          </Link>
       )}

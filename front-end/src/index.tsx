@@ -5,7 +5,8 @@ import "./index.css";
 import Root from "./routes/root";
 import Home from "./pages/home/Home";
 import SignIn from "./pages/authentication/signIn";
-import SignUp from "./pages/authentication/register";''
+import SignUp from "./pages/authentication/register";
+import PasswordForm from "./pages/authentication/password";
 import DepartmentForm from "./pages/department/DepartmentForm";
 import DepartmentNewForm from "./pages/department/Department.new.Form";
 import DepartmentTable from "./pages/department/DepartmentTable";
@@ -112,6 +113,10 @@ export const Router = createBrowserRouter([
       {
         path: "/editprofile/:id",
         element: <EditProfileForm />,
+      },
+      {
+        path: "/password/:id",
+        element: <PasswordForm />,
       },
     ],
   },
