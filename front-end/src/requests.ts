@@ -111,7 +111,7 @@ const authDeleteRequest = async (requestUrl: string) => {
 const authPostRequest = async (requestUrl: string, data: any) => {
         if(axiosConfig.initialized === false) 
           initializeAxiosConfig();
-        return postRequest(requestUrl, data)
+        return postRequest(requestUrl, data);
 }
 
 const authPatchRequest = async (requestUrl: string, data:any) => {
