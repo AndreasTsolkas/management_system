@@ -5,6 +5,8 @@ import * as handlebars from 'handlebars';
 import * as fs from 'fs';
 import * as dotenv from 'dotenv';
 import * as Important from 'src/important';
+import { Employee } from 'src/entities/employee.entity';
+
 
 dotenv.config();
 
@@ -12,57 +14,73 @@ dotenv.config();
 export class MailService {
   constructor(private readonly mailerService: MailerService) {}
 
-  async sendEmail(mailCase: number, adminMail?:string, project?: any): Promise<void> {
+  async sendEmail(employee: Employee, mailCase: number, departmentName?:string, bonusId?: number): Promise<void> {
 
     let mailSubject: any = '';
-    let mailToSend = "tsolkasadreas@gmail.com";
-    let template: any = fs.readFileSync('./src/templates/enabled-confirmation.hbs', 'utf8');
+    let mailToSend = employee.email;
+    let template: any;
+
     switch(mailCase) {
       case 1:
         mailSubject ="Thank you for the registration";
-        template =  fs.readFileSync('./src/templates/thank-you.hbs', 'utf8');
+        template =  fs.readFileSync('./src/templates/registration-request-confirmation.hbs', 'utf8');
         break;
       case 2:
         mailSubject ="New employee registered";
-        template =  fs.readFileSync('./src/templates/new-user-registered.hbs', 'utf8');
-        mailToSend = adminMail;
+        template =  fs.readFileSync('./src/templates/new-employee-registered.hbs', 'utf8');
         break;
       case 3:
         mailSubject ="Congratulations! Your registration request has been accepted";
-        template =  fs.readFileSync('./src/templates/enabled-confirmation.hbs', 'utf8');
+        template =  fs.readFileSync('./src/templates/enabled-reg-request.hbs', 'utf8');
         break;
       case 4:
-        mailSubject ="We have just received your vacation request";
-        template =  fs.readFileSync('./src/templates/enabled-confirmation.hbs', 'utf8');
+        mailSubject ="Your registration request has been rejected";
+        template =  fs.readFileSync('./src/templates/disabled-reg-request.hbs', 'utf8');
         break;
       case 5:
-        mailSubject ="Congratulations! Your vacation request has been accepted";
-        template =  fs.readFileSync('./src/templates/enabled-confirmation.hbs', 'utf8');
+        mailSubject ="We have just received your vacation request";
+        template =  fs.readFileSync('./src/templates/vacation-request-confirmation.hbs', 'utf8');
         break;
       case 6:
+        mailSubject ="Congratulations! Your vacation request has been accepted";
+        template =  fs.readFileSync('./src/templates/enabled-vac-request.hbs', 'utf8');
+        break;
+      case 7:
+        mailSubject ="Your vacation request has been rejected";
+        template =  fs.readFileSync('./src/templates/disabled-vac-request.hbs', 'utf8');
+        break;
+      case 8:
         mailSubject ="Congratulations! You recieved a new bonus";
-        template =  fs.readFileSync('./src/templates/enabled-confirmation.hbs', 'utf8');
+        template =  fs.readFileSync('./src/templates/bonus-recieved.hbs', 'utf8');
         break;
-      case 7:
+      case 9:
         mailSubject ="You just got out of the department you were in";
-        template =  fs.readFileSync('./src/templates/enabled-confirmation.hbs', 'utf8');
+        template =  fs.readFileSync('./src/templates/removed-from-department.hbs', 'utf8');
         break;
-      case 7:
+      case 10:
         mailSubject ="You have just been added to a new department";
-        template =  fs.readFileSync('./src/templates/enabled-confirmation.hbs', 'utf8');
+        template =  fs.readFileSync('./src/templates/added-on-department.hbs', 'utf8');
+        break;
+      case 11:
+        mailSubject ="You have been selected to be an administrator";
+        template =  fs.readFileSync('./src/templates/became-admin.hbs', 'utf8');
+        break;
+      case 12:
+        mailSubject ="You are not an administrator anymore";
+        template =  fs.readFileSync('./src/templates/is-not-admin-anymore.hbs', 'utf8');
         break;
     }
     const compiledTemplate = handlebars.compile(template);
-    const html = compiledTemplate({ Important, project });
+    const html = compiledTemplate({ employee, Important, departmentName, bonusId });
 
-    console.log("here");
-    await this.mailerService.sendMail({
+    console.log(html);
+    /*await this.mailerService.sendMail({
       to: mailToSend,
       from: process.env.MAIL_USER,
       subject: mailSubject,
       html: html,
       template: template,
-    });
+    });*/
 
   }
 }
