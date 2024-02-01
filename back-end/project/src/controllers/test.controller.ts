@@ -13,7 +13,7 @@ export class TestController {
   async sendMail() {
     let employee: Employee = new Employee();
     employee.email='thismail@gmail.com';
-    return await this.mailService.sendEmail(employee, 8,'engineering',2);
+    return await this.mailService.sendEmail(employee, 3, undefined, undefined, 3);
   }
 
 

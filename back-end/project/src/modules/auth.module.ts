@@ -8,7 +8,7 @@ import * as Important from 'src/important';
 
 @Module({
   imports: [
-    EmployeeModule, 
+    EmployeeModule,
     JwtModule.register({
       global: true,
       secret: jwtConstants.secret,

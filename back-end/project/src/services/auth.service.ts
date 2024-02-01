@@ -1,7 +1,6 @@
 import { BadRequestException, Injectable, InternalServerErrorException, UnauthorizedException } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import * as bcrypt from 'bcrypt';
-import { MailerService } from '@nestjs-modules/mailer';
 
 import { Employee } from "src/entities/employee.entity";
 import { EmployeeService } from "src/services/employee.service";
@@ -14,6 +13,7 @@ export class AuthService {
     private employeeService: EmployeeService,
     private jwtService: JwtService
   ) {}
+
   async signIn(email, pass, isEmployeeNotAccepted: boolean | null = null) { 
     try {
       const employee = await this.employeeService.findOneWithRelationshipsBySpecificFieldAndValue("email",email);

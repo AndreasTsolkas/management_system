@@ -31,7 +31,7 @@ const EmployeeForm = () => {
   const employeeUrl = Important.employeeUrl;
   const passwordUrl = Important.passwordUrl;
   const departmentGetAll = Important.getAllDepartment;
-  const [formTitle, setFormTitle] = useState<string>('');
+  const [formTitle, setFormTitle] = useState<string>('Add a new employee:');
   const [employeeCurrentDepartmentId, setEmployeeCurrentDepartmentId] = useState<any | null >(null);
   const [employeeSelectedDepartmentId, setEmployeeSelectedDepartmentId] = useState<any>('');
   const isProfile = params?.profile === 'true';
@@ -105,12 +105,8 @@ const EmployeeForm = () => {
 
 
   const getEmployee = async () => {
-    let text = 'Add a new employee:';
-    if (params && params?.id) {
-      text = 'Employee settings:';
-      if(params?.profile)
-        text = 'My settings:';
-      await httpClient
+    if(employeeId) {
+      return await httpClient
         .get(`${employeeUrl}/${employeeId}`)
         .then((response) => {
           reset(response.data);
@@ -123,10 +119,10 @@ const EmployeeForm = () => {
           toast.error(error.response.data.message);
         });
     }
-    setFormTitle(text);
   }
+  
 
-  const getAllDepartments: any = async () => {
+  async function getAllDepartments() {
     const requestUrl = departmentGetAll;
     try {
       const response: any = await httpClient.get(requestUrl);
@@ -138,13 +134,28 @@ const EmployeeForm = () => {
 
   }
 
+  const setFormTitleText = () => {
+    let text = '';
+    if (params && params?.id) {
+      text = 'Employee settings:';
+      if(params?.profile)
+        text = 'My settings:';
+    }
+    setFormTitle(text);
+  }
+
+
+  useEffect(() => {
+    getAllDepartments();
+  }, []);
+
   useEffect(() => {
     getEmployee();
   }, []);
 
   useEffect(() => {
-    getAllDepartments();
-  }, []);
+    setFormTitleText();
+  }, [employeeId]);
 
   useEffect(() => {
     if (departments.length > 0) {

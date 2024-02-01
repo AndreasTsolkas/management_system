@@ -104,7 +104,7 @@ export class BonusService {
   }
 
   async createNewBonus(createBonusData: CreateBonus) {
-    let result: any=null;
+    let result: Bonus | null = null;
     let employee = await this.employeeService.findOneWithRelationships(createBonusData.employeeId);
     let salary = employee.salary;
     let season = createBonusData.season;
@@ -117,6 +117,7 @@ export class BonusService {
         result = await this.create({employee: employee, amount: bonusAmount, dateGiven: currentTimestamp}, transactionalEntityManager);
         await this.employeeService.update(createBonusData.employeeId, {salary: newSalary}, transactionalEntityManager);
       })
+     
       return result;
     }
     catch(error) {

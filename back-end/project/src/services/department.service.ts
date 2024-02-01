@@ -83,6 +83,7 @@ export class DepartmentService {
         await this.employeeService.setDepartmentToNullByDepartmentId(transactionalEntityManager, id);
         await this.remove(transactionalEntityManager,id);
       });
+      
     }
     catch(error) {
       console.log(error);

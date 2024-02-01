@@ -201,9 +201,9 @@ export class VacationRequestService {
       let result:any = null;
       const vacationRequest: VacationRequest = await this.findOneWithRelationships(id);
       const employee = vacationRequest.employee;
-      let vacationRequestStatus = 'REJECTED';
+      let vacationRequestStatus = 'rejected';
       if(approved) {
-        vacationRequestStatus = 'APPROVED';
+        vacationRequestStatus = 'approved';
         employee.vacationDays-=vacationRequest.days;
       }
       vacationRequest.status = VacationRequestStatus[vacationRequestStatus];
@@ -211,7 +211,7 @@ export class VacationRequestService {
         result = await this.update(id, vacationRequest, transactionalEntityManager);
         await this.employeeService.update(employee.id, employee, transactionalEntityManager);
       })
-      
+
       return result;
     }
     catch(error) {
