@@ -26,6 +26,10 @@ const EmployeeTable = () => {
   const [createNewEmployeeButtonDisabled, setCreateNewEmployeeButtonDisabled] = useState<boolean>(false);
   const [deleteEmployeeButtonDisabled, setDeleteEmployeeButtonDisabled] = useState<boolean>(false);
   const [editEmployeeButtonDisabled, setEditEmployeeButtonDisabled] = useState<boolean>(false);
+  const [arePendingRequestsExist, setArePendingRequestsExist] = useState<boolean>(false);
+  
+
+  const employeesWhoAreAcceptedUrl = employeeUrl+'/only/byisaccepted';
 
   hasAccessAuth();
 
@@ -48,10 +52,16 @@ const EmployeeTable = () => {
   }
 
   async function getAllEmployees() {
-    await httpClient.get(employeeGetAll)
+    const getParams = {
+      isAccepted: true
+    }
+    await httpClient.get(employeesWhoAreAcceptedUrl, getParams)
       .then((response) => {
-        const data: any  = response.data;
-        setEmployeeRows(data);
+        if(response.data.areDataExist === true) {
+          const data = response.data.result;
+          setEmployeeRows(data);
+          setArePendingRequestsExist(true);
+        }
       })
       .catch((error) => {
         console.error(error);
@@ -161,22 +171,29 @@ const EmployeeTable = () => {
 
   return (
     <div>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "space-between",
-          width: 900,
-        }}
-      >
-        <h2>Employees</h2>
-        <IconButton disabled={createNewEmployeeButtonDisabled} color="primary" onClick={() => navigate(`/employee/new`)}>
-          <AddIcon />
-        </IconButton>
-      </div>
-      <Box sx={{ height: 500, width: 900 }}>
-        {Display.displayDataGrid(rows ?? [], columns)}
-      </Box>
+      {arePendingRequestsExist ? (
+        <>
+        
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              width: 900,
+            }}
+          >
+            <h2>Employees</h2>
+            <IconButton disabled={createNewEmployeeButtonDisabled} color="primary" onClick={() => navigate(`/employee/new`)}>
+              <AddIcon />
+            </IconButton>
+          </div>
+          <Box sx={{ height: 500, width: 900 }}>
+            {Display.displayDataGrid(rows ?? [], columns)}
+          </Box>
+        </>
+      ) : (
+        <h3>No accepted employees exist.</h3>
+      )}
     </div>
   );
 };

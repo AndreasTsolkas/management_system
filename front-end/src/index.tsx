@@ -14,6 +14,7 @@ import DepartmentView from "./pages/department/Department.view";
 import EmployeeForm from "./pages/employee/EmployeeForm";
 import EmployeeTable from "./pages/employee/EmployeeTable";
 import EmployeeView from "./pages/employee/Employee.view";
+import PendingEmployeeTable from "./pages/employee/pending.employee.table";
 import BonusTable from "./pages/bonus/BonusTable";
 import BonusView from "./pages/bonus/Bonus.view";
 import VacationRequestForm from "./pages/vacation_request/VacationRequestForm";
@@ -73,6 +74,10 @@ export const Router = createBrowserRouter([
       {
         path: "/employee/view/:id",
         element: <EmployeeView />,
+      },
+      {
+        path: "/pemployee",
+        element: <PendingEmployeeTable />,
       },
       {
         path: "/vacation_request",

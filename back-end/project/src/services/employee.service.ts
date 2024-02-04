@@ -27,6 +27,19 @@ export class EmployeeService {
     }
   }
 
+  async findManyWithRelationshipsBySpecificFieldAndValue(field: string, value: any): Promise<Employee[] | null> {
+    try {
+      return this.employeesRepository
+        .createQueryBuilder('employee')
+        .leftJoinAndSelect('employee.department', 'department')
+        .where(`employee.${field} = :value`, { value })
+        .getMany();
+    } catch (error) {
+      console.log(error);
+      throw new InternalServerErrorException();
+    }
+  }
+
 
   async findAllWithRelationshipsWithNullCondition(field: string, value: string) {
     try {
@@ -123,12 +136,14 @@ export class EmployeeService {
     }
   }
 
-  async remove(id: number, transactionalEntityManager?: EntityManager): Promise<void> {
+  async remove(id: number, transactionalEntityManager?: EntityManager) {
     try {
-      await transactionalEntityManager.delete(Employee, id);
-    }
-    catch(error) {
-      console.log(error);
+      if(transactionalEntityManager)
+        return await transactionalEntityManager.delete(Employee, id);
+      return await this.employeesRepository.delete(id);
+      
+    } catch (error) {
+      console.error(error);
       throw new InternalServerErrorException();
     }
   }
@@ -244,6 +259,37 @@ export class EmployeeService {
       console.log(error);
       throw new InternalServerErrorException();
     }
+  }
+
+  async findEmployeesWhoAreAccepted(isAccepted: boolean) {
+    let areDataExist = true;
+    let result = await this.findManyWithRelationshipsBySpecificFieldAndValue('is_accepted', isAccepted);
+    if(result === null) 
+      areDataExist = false;
+
+    return {
+      result, 
+      areDataExist
+    }
+  }
+
+  async evaluateRegistrationRequest(id: number, approved: boolean) {
+    try {
+      let result:any = null;
+      const employee: Employee = await this.findOneWithRelationships(id);
+      if(approved) {
+        employee.isAccepted = true;
+        result = await this.update(id, employee);
+        return result;
+      }
+      await this.nulifyEmployeeBonusesAndVrequestsAndRemove(id);
+      return result;
+    }
+    catch(error) {
+      console.log(error);
+      throw new InternalServerErrorException();
+    }
+    
   }
 
 }

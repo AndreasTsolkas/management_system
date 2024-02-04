@@ -110,6 +110,9 @@ export default function Root() {
           {isAdmin ? (
   <ul >
     <li style={{marginBottom:standartIlMarginBottom}}>
+      <Link to={`/pemployee`}>Pending Employees</Link>
+    </li>
+    <li style={{marginBottom:standartIlMarginBottom}}>
       <Link to={`/pvacation_request`}>Pending Leaves</Link>
     </li>
     <li style={{marginBottom:standartIlMarginBottom}}>

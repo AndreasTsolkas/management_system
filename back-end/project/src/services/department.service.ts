@@ -65,12 +65,14 @@ export class DepartmentService {
   }
 
 
-  async remove(transactionalEntityManager: EntityManager, id: number): Promise<void> {
+  async remove(id: number, transactionalEntityManager?: EntityManager) {
     try {
-      await transactionalEntityManager.delete(Department, id);
-    }
-    catch(error) {
-      console.log(error);
+      if(transactionalEntityManager)
+        return await transactionalEntityManager.delete(Department, id);
+      return await this.departmentRepository.delete(id);
+      
+    } catch (error) {
+      console.error(error);
       throw new InternalServerErrorException();
     }
   }
@@ -81,7 +83,7 @@ export class DepartmentService {
     try {
       await this.entityManager.transaction(async transactionalEntityManager => {
         await this.employeeService.setDepartmentToNullByDepartmentId(transactionalEntityManager, id);
-        await this.remove(transactionalEntityManager,id);
+        await this.remove(id, transactionalEntityManager);
       });
       
     }

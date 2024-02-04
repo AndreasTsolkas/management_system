@@ -220,6 +220,7 @@ export class VacationRequestService {
     }
     
   }
+  
   async getVacationRequestsByEmployeeId(employeeId: number, status?: string) {
     try {
       const queryBuilder = this.vacationRequestRepository

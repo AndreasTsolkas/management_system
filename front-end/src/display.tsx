@@ -1,7 +1,7 @@
 import { DataGrid } from "@mui/x-data-grid";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useNavigate, useParams } from "react-router-dom";
-import { Typography } from "@mui/material";
+import { Box, Modal, Typography } from "@mui/material";
 
 
 
@@ -80,3 +80,4 @@ export const displayFieldWithTypography = (name: any, data: any, index: number) 
 export function DisplayErrorMessage({ message }: { message: string }) {
   return <h4>{message}</h4>;
 }
+

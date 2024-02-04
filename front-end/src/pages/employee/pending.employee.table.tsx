@@ -2,29 +2,30 @@ import { GridColDef } from "@mui/x-data-grid";
 import { Box, Button, Checkbox, Modal, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { IPost } from "./vacationRequest.model";
+import { IPost } from "./employee.model";
 import { toast } from "react-toastify";
 import * as Important from "src/important";
 import * as Display from "src/display";
 import * as Datetime from "src/datetime";
-import {hasAccessAuth, isAdminAuth, isAccessTokenNotExpired} from "src/useAuth";
+import {hasAccessAuth, isAdminAuth} from "src/useAuth";
 import { httpClient } from "src/requests";
 
-const PendingVacationRequestTable = () => {
+const PendingEmployeeTable = () => {
   const [rows, setRows] = useState<IPost[]>([]);
   const navigate = useNavigate();
-  const vacationRequestUrl = Important.vacationRequestUrl;
+  const employeeUrl = Important.employeeUrl;
   const vacationRequestStatus = 'pending';
-  const getVacationRequestByStatus = vacationRequestUrl+'/by/status?status='+vacationRequestStatus;
+  const getNotAcceptedEmployees = employeeUrl+'/only/byisaccepted';
   const [arePendingRequestsExist, setArePendingRequestsExist] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isCheckBoxChecked, setIsCheckboxChecked] = useState<boolean>(false);
   const [modalSelectedValue, setModalSelectedValue] = useState<boolean>(true);
   const [currentCheckedRecordId, setcurrentCheckedRecordId] = useState<number | null>(null);
   const [isRecordReadyToEvaluate, setIsRecordReadyToEvaluate] = useState<boolean>(false);
-  const [readyToGetPendingVacationRequests, setReadyToGetPendingVacationRequests] = useState<boolean>(true);
+  const [readyToGetPendingRequests, setReadyToGetPendingRequests] = useState<boolean>(true);
 
   const datetimeFormat = Important.datetimeFormat;
+  const employeeEvaluateRegistrationRequestUrl = employeeUrl +'/evaluate/regitsrtionrequest';
 
   hasAccessAuth();
   isAdminAuth();
@@ -33,7 +34,7 @@ const PendingVacationRequestTable = () => {
   const body = (
     <Box sx={{ width: 300, bgcolor: 'background.paper', p: 2 }}>
       <Typography variant="h6" component="div" gutterBottom>
-        Do you accept this leave request?
+        Do you accept this regitsration request? If not the employee will be deleted permanently.
       </Typography>
       <div style={{marginTop:"20px"}}>
       <Button  variant="contained" color="primary" onClick={() => handleButtonClick(1)}>
@@ -52,14 +53,13 @@ const PendingVacationRequestTable = () => {
   function setPendingVacationRequestRows(data: any) {
     setRows(
       data.map(
-        (vacationRequest: { id: any; employee: any; startDate: any; endDate: any, status: any, days: any }) => {
+        (employee: { id: any; name: any; surname: any; employeeUid: any, startDate: any }) => {
           return {
-            id: vacationRequest.id,
-
-            employee: vacationRequest.employee.name,
-            startDate: Datetime.getDate(vacationRequest.startDate, datetimeFormat),
-            endDate: Datetime.getDate(vacationRequest.endDate, datetimeFormat),
-            days: vacationRequest.days,
+            id: employee.id,
+            name: employee.name,
+            surname: employee.surname,
+            employeeUId: employee.employeeUid,
+            startDate: Datetime.getDate(employee.startDate, datetimeFormat),
           };
         }
       )
@@ -69,23 +69,23 @@ const PendingVacationRequestTable = () => {
   const columns: GridColDef[] = [
     { field: "id", headerName: "id", flex: 1 },
     {
-      field: "employee",
-      headerName: "Employee",
+      field: "name",
+      headerName: "Name",
       flex: 1,
     },
     {
-      field: "startDate",
-      headerName: "Start date",
+      field: "surname",
+      headerName: "Surname",
       flex: 1,
     },
     {
-      field: "endDate",
-      headerName: "End date",
+      field: "employeeUId",
+      headerName: "Employee UId",
       flex: 1,
     },
       {
-        field: "days",
-        headerName: "Days",
+        field: "startDate",
+        headerName: "Start date",
         flex: 1,
       },
     {
@@ -120,7 +120,7 @@ const PendingVacationRequestTable = () => {
       if(value==2) selectedValue = false;
       setModalSelectedValue(selectedValue);
       setIsRecordReadyToEvaluate(true);
-      setReadyToGetPendingVacationRequests(true);
+      setReadyToGetPendingRequests(true);
     }
 
     handleClose();
@@ -136,8 +136,11 @@ const PendingVacationRequestTable = () => {
   }
 
   async function getPendingVacationRequests() {
+    const getParams = {
+      isAccepted: false
+    }
     await httpClient
-      .get(getVacationRequestByStatus)
+      .get(getNotAcceptedEmployees, getParams)
       .then((response) => {
         if(response.data.areDataExist === true) {
           const data = response.data.result;
@@ -145,23 +148,23 @@ const PendingVacationRequestTable = () => {
           setArePendingRequestsExist(true);
         } 
         
-        setReadyToGetPendingVacationRequests(false);
+        setReadyToGetPendingRequests(false);
       })
       .catch((error) => {
         console.error(error);
       });
   }
-  async function evaluatePendingVacarionRequest() {
+  async function evaluatePendingRegistrationRequest() {
     try {
-      let requestUrl = vacationRequestUrl+'/evaluate/vrequest';
+      let requestUrl = employeeEvaluateRegistrationRequestUrl;
       const putData = {
-        vacationRequestId: currentCheckedRecordId,
+        employeeId: currentCheckedRecordId,
         approved: modalSelectedValue
 
       }
       const response: any = await httpClient.put(requestUrl, putData);
-      toast.success("Vacation request evaluated successfully.");
-      navigate('/vacation_request/view/'+response.data.id);
+      toast.success("Registration request evaluated successfully.");
+      if(modalSelectedValue) navigate('/employee/view/'+response.data.id); // modalSelectedValue is 'true' for become accepted and 'false' for the opposite
     }
     catch (error: any) {
       console.error(error);
@@ -173,15 +176,15 @@ const PendingVacationRequestTable = () => {
 
   useEffect(() => {
     if (isRecordReadyToEvaluate) {
-      evaluatePendingVacarionRequest();
+      evaluatePendingRegistrationRequest();
     }
   }, [isRecordReadyToEvaluate]);
 
   useEffect(() => {
-    if (readyToGetPendingVacationRequests) {
+    if (readyToGetPendingRequests) {
       getPendingVacationRequests();
     }
-  }, [readyToGetPendingVacationRequests]);
+  }, [readyToGetPendingRequests]);
 
 
   
@@ -190,6 +193,7 @@ const PendingVacationRequestTable = () => {
     <div>
       {arePendingRequestsExist ? (
   <>
+
     <Modal
       open={isModalOpen}
       onClose={handleClose}
@@ -204,7 +208,7 @@ const PendingVacationRequestTable = () => {
               bgcolor: 'background.paper',
               boxShadow: 24,
               p: 4,
-              width: 300,
+              width: 330,
               textAlign: 'center',
             }}>
       {body}
@@ -218,7 +222,7 @@ const PendingVacationRequestTable = () => {
         width: 900,
       }}
     >
-      <h2>Pending leave requests</h2>
+      <h2>Pending registration requests</h2>
     </div>
     <Box sx={{ height: 500, width: 900 }}>
       {Display.displayDataGrid(rows ?? [], columns)} 
@@ -231,4 +235,4 @@ const PendingVacationRequestTable = () => {
   );
 };
 
-export default PendingVacationRequestTable;
+export default PendingEmployeeTable;
