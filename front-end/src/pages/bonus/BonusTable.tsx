@@ -25,6 +25,7 @@ const BonusTable = () => {
   const [moreInformationLinkBase, setMoreInformationLinkBase] = useState<string>('/bonus/view');
   const [createNewBonusButtonDisabled, setCreateNewBonusButtonDisabled] = useState<boolean>(false);
   const [deleteDepartmentButtonDisabled, setDeleteDepartmentButtonDisabled] = useState<boolean>(false);
+  const [readyToDisplayPage, setReadyToDisplayPage] = useState<boolean>(false);
 
   const datetimeFormat = Important.datetimeFormat;
 
@@ -59,6 +60,7 @@ const BonusTable = () => {
       .catch((error) => {
         console.error(error);
       });
+    setReadyToDisplayPage(true);
   }
 
   const columns: GridColDef[] = [
@@ -141,6 +143,8 @@ const BonusTable = () => {
 
   return (
     <div>
+      {readyToDisplayPage ? (
+        <>
       <div
         style={{
           display: "flex",
@@ -154,9 +158,15 @@ const BonusTable = () => {
           <AddIcon />
         </IconButton>
       </div>
-      <Box sx={{ height: 500, width: 900 }}>
+      <>
         {Display.displayDataGrid(rows ?? [], columns)}
-      </Box>
+      </>
+      </>
+      ) : (
+        <>
+        {Display.DisplayLoader()}
+        </>
+      )}
     </div>
   );
 };

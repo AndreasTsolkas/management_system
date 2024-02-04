@@ -25,6 +25,7 @@ const VacationRequestTable = () => {
   const [moreInformationLinkBase, setMoreInformationLinkBase] = useState<string>('/vacation_request/view');
   const [createNewVacationRequestButtonDisabled, setCreateNewVacationRequestButtonDisabled] = useState<boolean>(false);
   const [deleteDepartmentButtonDisabled, setDeleteDepartmentButtonDisabled] = useState<boolean>(false);
+  const [readyToDisplayPage, setReadyToDisplayPage] = useState<boolean>(false);
 
   const datetimeFormat = Important.datetimeFormat;
 
@@ -61,6 +62,7 @@ const VacationRequestTable = () => {
       .catch((error) => {
         console.error(error);
       });
+    setReadyToDisplayPage(true);
   }
   const columns: GridColDef[] = [
     { field: "id", headerName: "id", flex: 1 },
@@ -147,7 +149,8 @@ const VacationRequestTable = () => {
 
   return (
     <div>
-      
+      {readyToDisplayPage ? (
+        <>
       <div
         style={{
           display: "flex",
@@ -161,9 +164,15 @@ const VacationRequestTable = () => {
           <AddIcon />
         </IconButton>
       </div>
-      <Box sx={{ height: 500, width: 900 }}>
-        {Display.displayDataGrid(rows ?? [], columns)} 
-      </Box>
+      <>
+        {Display.displayDataGrid(rows ?? [], columns)}
+      </>
+      </>
+      ) : (
+        <>
+        {Display.DisplayLoader()}
+        </>
+      )}
     </div>
   );
 };

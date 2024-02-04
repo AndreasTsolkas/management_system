@@ -1,14 +1,14 @@
 import { DataGrid } from "@mui/x-data-grid";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useNavigate, useParams } from "react-router-dom";
-import { Box, Modal, Typography } from "@mui/material";
+import { Box, CircularProgress, Modal, Typography } from "@mui/material";
 
 
 
 export function displayDataGrid(rows: any, columns: any) {
 
     return(
-
+      <Box sx={{ height: 500, width: 900 }}>
         <DataGrid 
         rows={rows ?? []} 
         columns={columns}
@@ -18,6 +18,7 @@ export function displayDataGrid(rows: any, columns: any) {
           },
         }}
          />
+      </Box>
 
     );
 }
@@ -75,9 +76,15 @@ export const displayFieldWithTypography = (name: any, data: any, index: number) 
   
 }
 
-
-
 export function DisplayErrorMessage({ message }: { message: string }) {
   return <h4>{message}</h4>;
+}
+
+export function DisplayLoader() {
+  return (
+    <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+      <CircularProgress />
+    </Box>
+  );
 }
 

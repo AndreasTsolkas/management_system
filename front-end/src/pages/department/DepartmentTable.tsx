@@ -26,6 +26,7 @@ const DepartmentTable = () => {
   const [createNewDepartmentButtonDisabled, setCreateNewDepartmentButtonDisabled] = useState<boolean>(false);
   const [deleteDepartmentButtonDisabled, setDeleteDepartmentButtonDisabled] = useState<boolean>(false);
   const [editEmployeeButtonDisabled, setEditEmployeeButtonDisabled] = useState<boolean>(false);
+  const [readyToDisplayPage, setReadyToDisplayPage] = useState<boolean>(false);
 
   const getAllAndCountOnUserBaseUrl = Important.getAllAndCountOnUserBaseUrl;
 
@@ -55,6 +56,7 @@ const DepartmentTable = () => {
       .catch((error) => {
         console.error(error);
       });
+    setReadyToDisplayPage(true);
   }
 
   
@@ -72,7 +74,7 @@ const DepartmentTable = () => {
       renderCell: (cellValues: any) => {
         let deleteIconDisabled = false;
         let editIconDisabled = false;
-        if(cellValues?.row?.employeesNum > 0 || deleteDepartmentButtonDisabled===true) 
+        if(deleteDepartmentButtonDisabled===true) 
           deleteIconDisabled = true;
 
         if(editEmployeeButtonDisabled===true) 
@@ -141,6 +143,8 @@ const DepartmentTable = () => {
 
   return (
     <div>
+      {readyToDisplayPage ? (
+        <>
       <div
         style={{
           display: "flex",
@@ -154,9 +158,15 @@ const DepartmentTable = () => {
           <AddIcon />
         </IconButton>
       </div>
-      <Box sx={{ height: 500, width: 900 }}>
+      <>
         {Display.displayDataGrid(rows ?? [], columns)}
-      </Box>
+      </>
+      </>
+      ) : (
+        <>
+        {Display.DisplayLoader()}
+        </>
+      )}
     </div>
   );
 };

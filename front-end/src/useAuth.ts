@@ -26,24 +26,31 @@ export const hasAccessAuth = () => {
   return checkAccess;
 };
 
-export const isAdminAuth = () => {
+export const isAdminAuth = (reverse?:boolean) => {
   const navigate = useNavigate();
   const [cookies] = useCookies();
   const redirectTo = Important.redirectWhenHasNoAccess;
-  
-  const checkAdmin = () => {
-    const admin = cookies[adminCookie];
-    if (admin === 'false') {
+  const admin = cookies[adminCookie];
+
+  const isAdmin = () => {
+    if (!admin) {
+      navigate(redirectTo);
+    }
+    return admin; 
+  };
+
+  const isNotAdmin = () => {
+    if (admin) {
       navigate(redirectTo);
     }
     return admin; 
   };
 
   useEffect(() => {
-    checkAdmin();
+    if(!reverse) isAdmin()
+    else isNotAdmin();
   }, [redirectTo]);
 
-  return checkAdmin();
 };
 
 export const isAccessTokenNotExpired = () => {

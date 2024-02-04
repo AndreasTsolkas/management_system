@@ -49,5 +49,13 @@ export class ProfileController {
   async updatePassword(@Param('id') id: number, @Body('newpassword') password: string) {
     return await this.profileService.updatePassword(id, password);
   }
+
+  @Get('/amionvacation')
+  async findOneWithRelationshipsAndCheckIfIsOnVacation(@Headers('Authorization') authorization: string) {
+    if (!authorization) return { message: 'Unauthorized' };
+    const decodedToken = await this.tokenService.decodeToken(authorization);
+    const userId: number  = await this.tokenService.extractField(decodedToken, 'id');
+    return await this.profileService.checkIfIAmOnVacation(userId);
+  }
   
 }

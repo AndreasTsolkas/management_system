@@ -125,6 +125,12 @@ export class ProfileService {
     return await this.employeeService.updatePassword(id, password);
   }
 
+  async checkIfIAmOnVacation(id: number) {
+    return await this.employeeService.findOneWithRelationshipsAndCheckIfIsOnVacation(id);
+  }
+
+
+
 
 
 

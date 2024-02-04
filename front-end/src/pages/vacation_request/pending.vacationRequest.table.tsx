@@ -1,5 +1,5 @@
 import { GridColDef } from "@mui/x-data-grid";
-import { Box, Button, Checkbox, Modal, Typography } from "@mui/material";
+import { Box, Button, Checkbox, CircularProgress, Modal, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { IPost } from "./vacationRequest.model";
@@ -23,6 +23,7 @@ const PendingVacationRequestTable = () => {
   const [currentCheckedRecordId, setcurrentCheckedRecordId] = useState<number | null>(null);
   const [isRecordReadyToEvaluate, setIsRecordReadyToEvaluate] = useState<boolean>(false);
   const [readyToGetPendingVacationRequests, setReadyToGetPendingVacationRequests] = useState<boolean>(true);
+  const [readyToDisplayPage, setReadyToDisplayPage] = useState<boolean>(false);
 
   const datetimeFormat = Important.datetimeFormat;
 
@@ -150,6 +151,7 @@ const PendingVacationRequestTable = () => {
       .catch((error) => {
         console.error(error);
       });
+    setReadyToDisplayPage(true);
   }
   async function evaluatePendingVacarionRequest() {
     try {
@@ -188,7 +190,8 @@ const PendingVacationRequestTable = () => {
 
   return (
     <div>
-      {arePendingRequestsExist ? (
+      {readyToDisplayPage ? (
+        arePendingRequestsExist ? (
   <>
     <Modal
       open={isModalOpen}
@@ -220,12 +223,16 @@ const PendingVacationRequestTable = () => {
     >
       <h2>Pending leave requests</h2>
     </div>
-    <Box sx={{ height: 500, width: 900 }}>
-      {Display.displayDataGrid(rows ?? [], columns)} 
-    </Box>
+    <>
+      {Display.displayDataGrid(rows ?? [], columns)}
+    </>
   </>
 ) : (
   <h3>No avaliable pending requests.</h3>
+)) : (
+  <>
+    {Display.DisplayLoader()}
+  </>
 )}
     </div>
   );

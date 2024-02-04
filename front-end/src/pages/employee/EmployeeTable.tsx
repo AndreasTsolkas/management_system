@@ -1,5 +1,5 @@
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { Box, IconButton } from "@mui/material";
+import { Box, CircularProgress, IconButton } from "@mui/material";
 import SettingsIcon from '@mui/icons-material/Settings';
 import ReadMoreIcon from "@mui/icons-material/ReadMore";
 import { useEffect, useState } from "react";
@@ -27,6 +27,7 @@ const EmployeeTable = () => {
   const [deleteEmployeeButtonDisabled, setDeleteEmployeeButtonDisabled] = useState<boolean>(false);
   const [editEmployeeButtonDisabled, setEditEmployeeButtonDisabled] = useState<boolean>(false);
   const [arePendingRequestsExist, setArePendingRequestsExist] = useState<boolean>(false);
+  const [readyToDisplayPage, setReadyToDisplayPage] = useState<boolean>(false);
   
 
   const employeesWhoAreAcceptedUrl = employeeUrl+'/only/byisaccepted';
@@ -66,6 +67,7 @@ const EmployeeTable = () => {
       .catch((error) => {
         console.error(error);
       });
+    setReadyToDisplayPage(true);
   }
 
   const columns: GridColDef[] = [
@@ -171,7 +173,8 @@ const EmployeeTable = () => {
 
   return (
     <div>
-      {arePendingRequestsExist ? (
+      {readyToDisplayPage ? (
+        arePendingRequestsExist ? (
         <>
         
           <div
@@ -187,12 +190,17 @@ const EmployeeTable = () => {
               <AddIcon />
             </IconButton>
           </div>
-          <Box sx={{ height: 500, width: 900 }}>
+          <>
             {Display.displayDataGrid(rows ?? [], columns)}
-          </Box>
+          </>
         </>
       ) : (
         <h3>No accepted employees exist.</h3>
+      )
+      ) : (
+        <>
+        {Display.DisplayLoader()}
+        </>
       )}
     </div>
   );

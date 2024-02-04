@@ -1,5 +1,5 @@
 import { GridColDef } from "@mui/x-data-grid";
-import { Box, Button, Checkbox, Modal, Typography } from "@mui/material";
+import { Box, Button, Checkbox, Modal, Typography, CircularProgress } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { IPost } from "./employee.model";
@@ -23,6 +23,7 @@ const PendingEmployeeTable = () => {
   const [currentCheckedRecordId, setcurrentCheckedRecordId] = useState<number | null>(null);
   const [isRecordReadyToEvaluate, setIsRecordReadyToEvaluate] = useState<boolean>(false);
   const [readyToGetPendingRequests, setReadyToGetPendingRequests] = useState<boolean>(true);
+  const [readyToDisplayPage, setReadyToDisplayPage] = useState<boolean>(false);
 
   const datetimeFormat = Important.datetimeFormat;
   const employeeEvaluateRegistrationRequestUrl = employeeUrl +'/evaluate/regitsrtionrequest';
@@ -153,6 +154,7 @@ const PendingEmployeeTable = () => {
       .catch((error) => {
         console.error(error);
       });
+    setReadyToDisplayPage(true);
   }
   async function evaluatePendingRegistrationRequest() {
     try {
@@ -191,46 +193,53 @@ const PendingEmployeeTable = () => {
 
   return (
     <div>
-      {arePendingRequestsExist ? (
-  <>
-
-    <Modal
-      open={isModalOpen}
-      onClose={handleClose}
-      aria-labelledby="modal-modal-title"
-      aria-describedby="modal-modal-description"
-    >
-      <Box sx={{
-              position: 'absolute',
-              top: '50%',
-              left: '50%',
-              transform: 'translate(-50%, -50%)',
-              bgcolor: 'background.paper',
-              boxShadow: 24,
-              p: 4,
-              width: 330,
-              textAlign: 'center',
-            }}>
-      {body}
-      </Box>
-    </Modal>
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "row",
-        justifyContent: "space-between",
-        width: 900,
-      }}
-    >
-      <h2>Pending registration requests</h2>
-    </div>
-    <Box sx={{ height: 500, width: 900 }}>
-      {Display.displayDataGrid(rows ?? [], columns)} 
-    </Box>
-  </>
-) : (
-  <h3>No avaliable pending requests.</h3>
-)}
+      {readyToDisplayPage ? (
+        arePendingRequestsExist ? (
+          <>
+            <Modal
+              open={isModalOpen}
+              onClose={handleClose}
+              aria-labelledby="modal-modal-title"
+              aria-describedby="modal-modal-description"
+            >
+              <Box
+                sx={{
+                  position: 'absolute',
+                  top: '50%',
+                  left: '50%',
+                  transform: 'translate(-50%, -50%)',
+                  bgcolor: 'background.paper',
+                  boxShadow: 24,
+                  p: 4,
+                  width: 330,
+                  textAlign: 'center',
+                }}
+              >
+                {body}
+              </Box>
+            </Modal>
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                width: 900,
+              }}
+            >
+            <h2>Pending registration requests</h2>
+            </div>
+            <>
+              {Display.displayDataGrid(rows ?? [], columns)}
+            </>
+          </>
+        ) : (
+          <h3>No available pending requests.</h3>
+        )
+      ) : (
+        <>
+          {Display.DisplayLoader()}
+        </>
+      )}
     </div>
   );
 };

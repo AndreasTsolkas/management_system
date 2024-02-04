@@ -16,7 +16,7 @@ import * as Important from "src/important";
 import * as Display from "src/display";
 import * as Datetime from "src/datetime";
 import { difference } from "lodash";
-import {hasAccessAuth, isAccessTokenNotExpired} from "src/useAuth";
+import {hasAccessAuth, isAdminAuth} from "src/useAuth";
 import { httpClient } from "src/requests";
 
 
@@ -30,6 +30,7 @@ const UserVacationRequestForm = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const vacationRequestUrl = Important.vacationRequestUrl;
   const employeeUrl = Important.employeeUrl;
+  const profileUrl = Important.profileUrl;
   const [result, setResult] = useState<any | null>(null);
   const [isEmployeeOnVacation, setIsEmployeeOnVacation] = useState<boolean>(false);
   const [hasMadeRequestRecently, setHasMadeRequestRecently] = useState<boolean>(false);
@@ -39,16 +40,18 @@ const UserVacationRequestForm = () => {
   const [isNewDateSelected, setIsNewDateSelected] = useState<boolean>(false);
   const [isDifferenceOutOfRage, setIsDifferenceOutOfRage] = useState<boolean>(false);
   const [differenceOutOfRageMessage, setDifferenceOutOfRageMessage] = useState<string | null>(null);
+  const [readyToDisplayPage, setReadyToDisplayPage] = useState<boolean>(false);
+  const [userId, setUserId] = useState<number | null>(null);
 
   const datetimeFormat = Important.datetimeFormat2;
 
-  const userId = 1;
 
   const defaultStartDate = Datetime.getCurrentDate(datetimeFormat);
   const defaultEndDate = Datetime.getDateFromCurrentDate(1, datetimeFormat);
   const [dateDifference, setDateDifference] = useState<number | null>(null);
 
   hasAccessAuth();
+  isAdminAuth(true); // I pass 'true' as argument on the 'reverse' parameter. Cause, in this case, I want to redirect the user if is admin
 
   const schema = yup.object({
     startDate: yup
@@ -153,12 +156,16 @@ const UserVacationRequestForm = () => {
 
   const getUserData = async () => {
     try {
-      const response: any = await httpClient.get(`${employeeUrl}/isonvacation/${userId}`);
+      const response: any = await httpClient.get(`${profileUrl}/amionvacation`);
       setResult(response.data);
+      setUserId(response.data.id);
     }
     catch(error: any) {
       console.error(error);
       toast.error(error.response.data.message);
+    }
+    finally {
+      setReadyToDisplayPage(true);
     }
   }
 
@@ -254,107 +261,93 @@ useEffect(() => {
   checkIfDifferenceIsOutOfRage();
 }, [dateDifference]);
 
-useEffect(() => {
-  if(dateDifference!==null) 
-    setIsLoading(false);
-}, [dateDifference]);
 
 
 
 
 
 
-  return (
-    <div>
-      {Display.displayIconButton()}
-      { isLoading ? (
-          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', p: 2 }}>
-            <CircularProgress size={30} />
-          </Box>
-        ) : 
-    ( avaliableDays !==null && avaliableDays >= 1 ) ? (
+
+return (
+  <div>
+    {readyToDisplayPage ? (
+        <>
+    {avaliableDays !== null && avaliableDays >= 1 ? (
       <>
-      {
-        !isEmployeeOnVacation ? (
+        {!isEmployeeOnVacation ? (
           <>
-  {
-    !hasMadeRequestRecently ? (
-      <>
-        <h2>Request a new leave:</h2>
-        <div >
-          <Box sx={{ display: 'flex', flexDirection: 'row', width: '100%' }}>
-          <Box
-            sx={{ width: "200px" }}
-          >
-            <form noValidate onChange={onChange} onReset={onReset} onSubmit={handleSubmit(onSubmit)}>
-              <MuiTextField
-                errors={errors}
-                control={control}
-                name="startDate"
-                label="Start date"
-              />
-              <MuiTextField
-                errors={errors}
-                control={control}
-                name="endDate"
-                label="End date"
-              />
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                sx={{ mt: 3, mb: 2 }}
-              >
-                Submit
-              </Button>
-              <Button
-                type="reset"
-                fullWidth
-                variant="outlined"
-              >
-                Reset
-              </Button>
-            </form>
-          </Box>
-          <Box sx={{ marginLeft:"250px", width: "50%" }}>
-            {
-              result != null && (
-                <div style={{ marginTop: "70px" }}>
-                  {Display.displayFieldWithTypography('Days limit: ', result.employee.vacationDays, 1)}
-                  {
-                    dateDifference !== null && (
-                      isDifferenceOutOfRage ? (
-                        Display.displayFieldWithTypography(differenceOutOfRageMessage, '', 3)
-                      ) : (
-                        Display.displayFieldWithTypography('Vacation days: ', dateDifference, 2)
-                      )
-                    )
-                  }
+            {!hasMadeRequestRecently ? (
+              <>
+                <h2>Request a new leave:</h2>
+                <div>
+                  <Box sx={{ display: 'flex', flexDirection: 'row', width: '100%' }}>
+                    <Box sx={{ width: "200px" }}>
+                      <form noValidate onChange={onChange} onReset={onReset} onSubmit={handleSubmit(onSubmit)}>
+                        <MuiTextField
+                          errors={errors}
+                          control={control}
+                          name="startDate"
+                          label="Start date"
+                        />
+                        <MuiTextField
+                          errors={errors}
+                          control={control}
+                          name="endDate"
+                          label="End date"
+                        />
+                        <Button
+                          type="submit"
+                          fullWidth
+                          variant="contained"
+                          sx={{ mt: 3, mb: 2 }}
+                        >
+                          Submit
+                        </Button>
+                        <Button
+                          type="reset"
+                          fullWidth
+                          variant="outlined"
+                        >
+                          Reset
+                        </Button>
+                      </form>
+                    </Box>
+                    <Box sx={{ marginLeft: "250px", width: "50%" }}>
+                      {result != null && (
+                        <div style={{ marginTop: "70px" }}>
+                          {Display.displayFieldWithTypography('Days limit: ', result.employee.vacationDays, 1)}
+                          {dateDifference !== null && (
+                            isDifferenceOutOfRage ? (
+                              Display.displayFieldWithTypography(differenceOutOfRageMessage, '', 3)
+                            ) : (
+                              Display.displayFieldWithTypography('Vacation days: ', dateDifference, 2)
+                            )
+                          )}
+                        </div>
+                      )}
+                    </Box>
+                  </Box>
                 </div>
-              )
-            }
-          </Box>
-          </Box>
-        </div>
-      </>
-    ) : (
-      <h3>
-      You recently applied for a leave. You are not eligible to resubmit.</h3>
-    )
-  }
-</>
+              </>
+            ) : (
+              <h3>You recently applied for a leave. You are not eligible to resubmit.</h3>
+            )}
+          </>
         ) : (
           <h3>You were already on leave. You do not have the right to submit a new application.</h3>
-        )
-      }
+        )}
+      </>
+    ) : (
+      <h3>You have used up all your vacation days. You are not eligible to submit a new leave application.</h3>
+    )}
     </>
-  ) : (
-    <h3>
-      You have used up all your vacation days. You are not eligible to submit a new leave application.</h3>
-  )
-}
-    </div>
-  );
+      ) : (
+        <>
+        {Display.DisplayLoader()}
+        </>
+      )}
+  </div>
+);
 };
 
 export default UserVacationRequestForm;

@@ -40,6 +40,7 @@ const CreateBonusForm = () => {
   const [currentEmployeeBonusRate, setCurrentEmployeeBonusRate] = useState<number | null>(null);
   const [currentEmployeeNewSalary, setCurrentEmployeeNewSalary] = useState<number | null>(null);
   const [currentSeason, setCurrentSeason] = useState<string | null>(null);
+  const [readyToDisplayPage, setReadyToDisplayPage] = useState<boolean>(false);
 
   const bonusUrl = Important.bonusUrl;
   const employeeGetAll = Important.getAllEmployee;
@@ -72,6 +73,7 @@ const CreateBonusForm = () => {
     setCurrentEmployeeBonusRate(null);
     setCurrentEmployeeNewSalary(null);
     setCurrentSeason(null);
+    setReadyToDisplayPage(false);
   }
 
   const onSubmit = async (data: any) => {
@@ -115,6 +117,9 @@ const CreateBonusForm = () => {
       console.error(error);
       toast.error(error?.response.data.message);
     }
+    finally {
+      setReadyToDisplayPage(true);
+    }
   }
 
   const setBonusCalculationInformation = async () => {
@@ -147,6 +152,8 @@ const CreateBonusForm = () => {
 
   return (
     <div>
+      {readyToDisplayPage ? (
+        <>
       <h2 >Create new bonus: </h2>
       <div >
       <Box sx={{ display: 'flex', flexDirection: 'row', width: '100%' }}>
@@ -243,6 +250,12 @@ const CreateBonusForm = () => {
       </Box>
       </div>
       <div id="result"></div>
+      </>
+      ) : (
+        <>
+        {Display.DisplayLoader()}
+        </>
+      )}
     </div>
   );
 };
