@@ -7,20 +7,24 @@ import { Box, CircularProgress, Modal, Typography } from "@mui/material";
 
 export function displayDataGrid(rows: any, columns: any) {
 
-    return(
-      <Box sx={{ height: 500, width: 900 }}>
-        <DataGrid 
-        rows={rows ?? []} 
+
+
+  return (
+    <Box sx={{ height: 500, width: 900 }}>
+      <DataGrid
+        rows={rows ?? []}
         columns={columns}
         initialState={{
           sorting: {
             sortModel: [{ field: 'id', sort: 'asc' }],
           },
         }}
-         />
-      </Box>
-
-    );
+        columnVisibilityModel={{
+          id: false,
+        }}
+      />
+    </Box>
+  );
 }
 
 export function displayIconButton(specialCase?: any) {

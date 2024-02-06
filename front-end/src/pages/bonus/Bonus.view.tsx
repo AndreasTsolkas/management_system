@@ -41,7 +41,6 @@ const BonusView = () => {
       }
 
       setDisplayData([
-      { key: 'id: ', value: result.id },
       { key: 'Fullname: ', value: employeeField},
       { key: 'Amount: ', value: result.amount },
       { key: 'Datetime: ', value: Datetime.getDate(result.date_given, datetimeFormat) },

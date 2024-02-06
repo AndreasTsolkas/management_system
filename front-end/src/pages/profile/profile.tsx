@@ -49,7 +49,6 @@ const MyProfile = () => {
         resultDepartmentValue = <a href={departmentInfoUrl}>{basicData.department.name}</a>;
       }
       setDisplayBasicData([
-      { key: 'id: ', value: basicData.id },
       { key: 'Name: ', value: basicData.name },
       { key: 'Surname: ', value: basicData.surname },
       { key: 'Email: ', value: basicData.email },

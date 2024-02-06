@@ -46,7 +46,6 @@ const EmployeeView = () => {
         resultDepartmentValue = <a href={departmentInfoUrl}>{result.department.name}</a>;
       }
       setDisplayData([
-      { key: 'id: ', value: result.id },
       { key: 'Name: ', value: result.name },
       { key: 'Surname: ', value: result.surname },
       { key: 'Email: ', value: result.email },

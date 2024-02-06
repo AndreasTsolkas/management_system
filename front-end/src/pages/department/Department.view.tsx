@@ -32,7 +32,6 @@ const DepartmentView = () => {
   function populateDisplayDataArray() {
     if (result) {
         let displayData = [
-            { key: 'id: ', value: result.departmentEntityData.id },
             { key: 'Name: ', value: result.departmentEntityData.name },
             { key: 'Employees`s (number): ', value: result.employeesNum }
         ];

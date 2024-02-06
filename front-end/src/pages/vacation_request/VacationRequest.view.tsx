@@ -49,7 +49,6 @@ const VacationRequestView = () => {
       }
         
       setDisplayData([
-      { key: 'id: ', value: result.id },
       { key: 'Fullname: ', value: employeeField},
       { key: 'Employee`s department: ', value: departmentField },
       { key: 'Start date: ', value: Datetime.getDate(result.startDate,datetimeFormat) },
