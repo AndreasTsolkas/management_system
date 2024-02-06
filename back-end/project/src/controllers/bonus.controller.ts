@@ -26,13 +26,13 @@ export class BonusController {
 
   @Roles(Role.Admin)
   @Patch('/:id')
-  async update(@Param('id') id: number, @Body() bonusData: Partial<Bonus>, @Req() request: Request) {
+  async update(@Param('id') id: number, @Body() bonusData: Partial<Bonus>) {
     return this.bonusService.update(id, bonusData);
   }
 
   @Roles(Role.Admin)
   @Put()
-  async create(@Body() bonusData: Partial<Bonus>, @Req() request: Request) {
+  async create(@Body() bonusData: Partial<Bonus>) {
     return this.bonusService.create(bonusData);
   }
 
@@ -46,14 +46,13 @@ export class BonusController {
 
   @Roles(Role.Admin)
   @Put('/create/bonus')
-  async createNewBonus(@Body() createBonusData: CreateBonus, @Req() request: Request) {
+  async createNewBonus(@Body() createBonusData: CreateBonus) {
     return this.bonusService.createNewBonus(createBonusData);
   }
 
   @Roles(Role.Admin)
   @Get('/calculate/:salary/:season')
-  async calculateSalaryAfterBonus(@Param('salary') salary: number, @Param('season') season: string,
-  @Req() request: Request) {
+  async calculateSalaryAfterBonus(@Param('salary') salary: number, @Param('season') season: string) {
     const {newSalary, bonusRate} = await this.bonusService.calculateSalaryAfterBonus(salary,season);
     return {
       newSalary, bonusRate

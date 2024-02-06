@@ -31,7 +31,7 @@ export class ProfileController {
   }
 
   @Patch('/:id')
-  async update(@Param('id') id: number, @Body() employeeData: Partial<Employee>, @Req() request: Request) {
+  async update(@Param('id') id: number, @Body() employeeData: Partial<Employee>) {
     return this.profileService.update(id, employeeData);
   }
 

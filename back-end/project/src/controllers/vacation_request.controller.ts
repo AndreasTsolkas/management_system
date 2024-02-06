@@ -29,15 +29,13 @@ export class VacationRequestController {
 
   @Roles(Role.Admin)
   @Patch('/:id')
-  async update(@Param('id') id: number, @Body() vacationRequestData: Partial<VacationRequest>, 
-  @Req() request: Request) {
+  async update(@Param('id') id: number, @Body() vacationRequestData: Partial<VacationRequest>) {
     return this.vacationRequestService.update(id, vacationRequestData);
   }
 
   @Roles(Role.Admin)
   @Put()
-  async create(@Body() vacationRequestData: Partial<VacationRequest>, 
-  @Req() request: Request) {
+  async create(@Body() vacationRequestData: Partial<VacationRequest>) {
     return this.vacationRequestService.create(vacationRequestData);
   }
 
@@ -54,22 +52,19 @@ export class VacationRequestController {
   }
 
   @Put('/usercreate/vrequest')
-  async userCreateVacation(@Body() createVacationRequestData: CreateVacationRequest, 
-  @Req() request: Request) {
+  async userCreateVacation(@Body() createVacationRequestData: CreateVacationRequest) {
     return this.vacationRequestService.userCreateVacationRequest(createVacationRequestData);
   }
 
   @Roles(Role.Admin)
   @Put('/admincreate/vrequest')
-  async adminCreateVacation(@Body() createVacationRequestData: CreateVacationRequest, 
-  @Req() request: Request) {
+  async adminCreateVacation(@Body() createVacationRequestData: CreateVacationRequest) {
     return this.vacationRequestService.adminCreateVacationRequest(createVacationRequestData);
   }
 
   @Roles(Role.Admin)
   @Put('/evaluate/vrequest')
-  async evaluateVacationRequest(@Body() evaluateVacationRequest: EvaluateVacationRequest, 
-  @Req() request: Request) {
+  async evaluateVacationRequest(@Body() evaluateVacationRequest: EvaluateVacationRequest) {
     return this.vacationRequestService.evaluateVacationRequest
     (evaluateVacationRequest.vacationRequestId, evaluateVacationRequest.approved);
   }

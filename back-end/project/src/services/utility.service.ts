@@ -19,7 +19,7 @@ export class UtilityService {
 
   
  // Using Vacation Request repository
-  async hasVacationRequestWithEmployeeId(employeeId: number): Promise<boolean> {
+  async hasVacationRequestWithEmployeeId(employeeId: number) {
     try {
       const count = await this.vacationRequestRepository
         .createQueryBuilder('vacation_request')
@@ -33,7 +33,7 @@ export class UtilityService {
     }
   }
 
-  async isEmployeeOnVacation(employeeId: number): Promise<boolean> {
+  async isEmployeeOnVacation(employeeId: number) {
     try {
       const count = await this.vacationRequestRepository
         .createQueryBuilder('vr') 
@@ -49,7 +49,7 @@ export class UtilityService {
     }
   }
 
-  async hasPendingRequest(employeeId: number): Promise<boolean> {
+  async hasPendingRequest(employeeId: number) {
     const request = await this.vacationRequestRepository.findOne({
       where: { employee: { id: employeeId }, status: 'pending' },
     });
@@ -57,7 +57,7 @@ export class UtilityService {
     return !!request;
   }
   
-  async setVacationrequestToNullByDepartmentId(transactionalEntityManager: EntityManager, employeeId: number): Promise<void> {
+  async setVacationrequestToNullByDepartmentId(transactionalEntityManager: EntityManager, employeeId: number) {
     await transactionalEntityManager
       .createQueryBuilder()
       .update(VacationRequest)
@@ -67,7 +67,7 @@ export class UtilityService {
   }
   
   // Using Bonus repository
-  async setBonusToNullByDepartmentId(transactionalEntityManager: EntityManager, employeeId: number): Promise<void> {
+  async setBonusToNullByDepartmentId(transactionalEntityManager: EntityManager, employeeId: number) {
     await transactionalEntityManager
       .createQueryBuilder()
       .update(Bonus)

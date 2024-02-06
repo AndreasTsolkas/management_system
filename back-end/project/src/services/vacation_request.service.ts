@@ -250,7 +250,7 @@ export class VacationRequestService {
     }
   }
 
-  async hasVacationRequestWithEmployeeId(employeeId: number): Promise<boolean> {
+  async hasVacationRequestWithEmployeeId(employeeId: number) {
     try {
       const count = await this.countVacationRequestsByEmployeeId(employeeId);
       return count > 0;
@@ -260,7 +260,7 @@ export class VacationRequestService {
     }
   }
 
-  async handleOutdatedPendingRequests(): Promise<void> {
+  async handleOutdatedPendingRequests() {
     const currentDate = new Date();
     
     const pendingRequests = await this.vacationRequestRepository.find({

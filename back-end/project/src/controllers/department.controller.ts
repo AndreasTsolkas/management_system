@@ -30,13 +30,13 @@ export class  DepartmentController {
 
   @Roles(Role.Admin)
   @Patch('/:id')
-  async update(@Param('id') id: number, @Body() departmentData: Partial<Department>, @Req() request: Request) {
+  async update(@Param('id') id: number, @Body() departmentData: Partial<Department>) {
     return this.departmentService.update(id, departmentData);
   }
 
   @Roles(Role.Admin)
   @Put()
-  async create(@Body() departmentData: Partial<Department>, @Req() request: Request) {
+  async create(@Body() departmentData: Partial<Department>) {
     return this.departmentService.create(departmentData);
   }
 

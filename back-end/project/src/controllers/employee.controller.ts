@@ -32,12 +32,12 @@ export class EmployeeController {
 
   @Roles(Role.Admin)
   @Patch('/:id')
-  async update(@Param('id') id: number, @Body() employeeData: Partial<Employee>, @Req() request: Request) {
+  async update(@Param('id') id: number, @Body() employeeData: Partial<Employee>) {
     return this.employeeService.update(id, employeeData);
   }
 
   @Put()
-  async create(@Body() employeeData: Partial<Employee>, @Req() request: Request) {
+  async create(@Body() employeeData: Partial<Employee>) {
     return this.employeeService.create(employeeData);
   }
 
@@ -71,8 +71,7 @@ export class EmployeeController {
 
   @Roles(Role.Admin)
   @Put('/evaluate/regitsrtionrequest')
-  async evaluateVacationRequest(@Body() evaluateRegistrationRequest: EvaluateRegistrationRequest, 
-  @Req() request: Request) {
+  async evaluateVacationRequest(@Body() evaluateRegistrationRequest: EvaluateRegistrationRequest) {
     return await this.employeeService.evaluateRegistrationRequest
     (evaluateRegistrationRequest.employeeId, evaluateRegistrationRequest.approved);
   }

@@ -79,7 +79,7 @@ export class DepartmentService {
 
   /////
 
-  async setEmployeesOutOfThisDepartmentAndRemove(id: number): Promise<void> {
+  async setEmployeesOutOfThisDepartmentAndRemove(id: number) {
     try {
       await this.entityManager.transaction(async transactionalEntityManager => {
         await this.employeeService.setDepartmentToNullByDepartmentId(transactionalEntityManager, id);
