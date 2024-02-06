@@ -21,7 +21,8 @@ const EditProfileForm = () => {
   
 
   function catchAndSetEmployeeId() {
-    if (params?.id) setEmployeeId(params?.id);
+    if (params?.id) setEmployeeId(params?.id)
+    else navigate('/');
   }
 
   function setEmployeePage() {
@@ -36,7 +37,7 @@ const EditProfileForm = () => {
 
   useEffect(() => {
     setEmployeePage();
-  }, []);
+  }, [employeeId]);
 
   useEffect(() => {
     if(employeePageUrl) 
@@ -46,10 +47,8 @@ const EditProfileForm = () => {
 
 
   return (
-    <div>
-
-    </div>
-  );
+    <h2></h2>
+  )
 };
 
 export default EditProfileForm;

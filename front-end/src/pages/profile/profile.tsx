@@ -24,15 +24,19 @@ const MyProfile = () => {
   const bonusUrl = Important.bonusUrl;
   const vacationRequestUrl = Important.vacationRequestUrl;
   const moreInformationLinkBase = Important.moreInformationLinkBase;
-  const userId = 2;
+  const [userId, setUserId] = useState<number | null>(null);
   const [result, setResult] = useState<any>();
   const [displayBasicData, setDisplayBasicData] = useState<any[]>([]);
   const [displaySpecialData, setDisplaySpecialData] = useState<any[]>([]);
+  const [editprofileRedirectUrl, setEditProfileRedirectUrl] = useState<string | null>(null);
+  const [readyToDisplayPage, setReadyToDisplayPage] = useState<boolean>(false);
 
   const departmentViewBaseUrl = departmentUrl+'/'+moreInformationLinkBase;
   const bonusViewBaseUrl = bonusUrl+'/'+moreInformationLinkBase;
   const vacationRequestViewBaseUrl = vacationRequestUrl+'/'+moreInformationLinkBase;
   const datetimeFormat = Important.datetimeFormat;
+  const editProfileBaseUrl = '/editprofile';
+
 
   hasAccessAuth();
 
@@ -100,66 +104,79 @@ const MyProfile = () => {
     try {
         const response: any = await httpClient.get(`${profileUrl}`);
         setResult(response.data);
+        setUserId(response.data.id)
     }
     catch(error: any) {
         console.error(error);
         toast.error(error.response.data.message);
     }
+    finally {
+      setReadyToDisplayPage(true);
+    }
+  }
+
+  function setRedirectUrl() {
+    setEditProfileRedirectUrl(editProfileBaseUrl+'/'+userId);
   }
 
 
   useEffect(() => {
     getProfile();
-  }, [userId]);
+  }, []);
 
   useEffect(() => {
     populateDisplayBasicDataArray();
     populateDisplaySpecialDataArray();
   }, [result]);
 
+  useEffect(() => {
+    setRedirectUrl();
+  }, [userId]);
+
 
 
   return (
     <div>
-      
-      <h2 style={{ marginLeft: '360px', marginBottom:"50px" }}>My profile:</h2>
-      <Box sx={{ display: 'flex', flexDirection: 'row', width: '100%' }}>
-      <Box sx={{ width: '550px' }}
-      >
-        <div style={{marginLeft:"25px"}}>
-        {result ? (
-            <div>
-                  {displayBasicData.map((item, index) => {
-                    return Display.displayFieldWithTypography(item.key, item.value, index);
-                  })}
-            </div>
-            ) : (
-                <DisplayErrorMessage  message = "Error searching for profile."  />
-            )}
-        </div>
-        
-        
-        
-      </Box>
-      <Box sx={{ width: "500px" }}
-      >
-        <div style={{marginLeft:"25px", marginTop:"5px"}}>
-        {result ? (
-            <div>
-                  {displaySpecialData.map((item, index) => {
-                    return Display.displayFieldWithTypography(item.key, item.value, index);
-                  })}
-            </div>
-            ) : (
-                <DisplayErrorMessage  message = "Error searching for profile."  />
-            )}
-        </div>
-        
-      </Box>
-      </Box>
-      <div style={{marginTop:"35px", marginLeft:"370px"}}>
-      <Link style={{ fontSize: '25px' }} to="/editprofile/2" >Edit profile</Link>
-      </div>
+      {readyToDisplayPage ? (
+        <>
+          <h2 style={{ marginLeft: '340px', marginBottom: "50px" }}>My profile:</h2>
+          <Box sx={{ display: 'flex', flexDirection: 'row', width: '100%' }}>
+            <Box sx={{ width: '500px' }}>
+              <div style={{ marginLeft: "25px" }}>
+                {result ? (
+                  <div>
+                    {displayBasicData.map((item, index) => (
+                      Display.displayFieldWithTypography(item.key, item.value, index)
+                    ))}
+                  </div>
+                ) : (
+                  <DisplayErrorMessage message="Error searching for profile." />
+                )}
+              </div>
+            </Box>
+            <Box sx={{ width: "500px" }}>
+              <div style={{ marginLeft: "25px", marginTop: "5px" }}>
+                {result ? (
+                  <div>
+                    {displaySpecialData.map((item, index) => (
+                      Display.displayFieldWithTypography(item.key, item.value, index)
+                    ))}
+                  </div>
+                ) : (
+                  <DisplayErrorMessage message="Error searching for profile." />
+                )}
+              </div>
+            </Box>
+          </Box>
+          <div style={{ marginTop: "35px", marginLeft: "350px" }}>
+            <Link style={{ fontSize: '25px' }} to={editprofileRedirectUrl !== null ? editprofileRedirectUrl : ''}>Edit profile</Link>
+          </div>
+        </>
+      ) : (
+        <>
+          {Display.DisplayLoader()}
+        </>
+      )}
     </div>
   );
 };

@@ -39,7 +39,8 @@ const EmployeeForm = () => {
   const passwordRedirectUrl = passwordUrl+'/'+employeeId;
 
   hasAccessAuth();
-  isAdminAuth();
+  if(!isProfile) // If a user call this page to modify its data he/she can access it even if is not admin, else the 'isAdminAuth' will be executed to filter admins
+    isAdminAuth();
   
 
 

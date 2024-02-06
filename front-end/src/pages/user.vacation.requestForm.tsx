@@ -32,8 +32,8 @@ const UserVacationRequestForm = () => {
   const employeeUrl = Important.employeeUrl;
   const profileUrl = Important.profileUrl;
   const [result, setResult] = useState<any | null>(null);
-  const [isEmployeeOnVacation, setIsEmployeeOnVacation] = useState<boolean>(false);
-  const [hasMadeRequestRecently, setHasMadeRequestRecently] = useState<boolean>(false);
+  const [isEmployeeOnVacation, setIsEmployeeOnVacation] = useState<boolean | null>(null);
+  const [hasMadeRequestRecently, setHasMadeRequestRecently] = useState<boolean | null>(null);
   const [avaliableDays, setAvaliableDays] = useState<number | null>(null);
   const [validatedStartDate, setValidatedStartDate] = useState<any | null>(null);
   const [validatedEndDate, setValidatedEndDate] = useState<any | null>(null);
@@ -164,9 +164,7 @@ const UserVacationRequestForm = () => {
       console.error(error);
       toast.error(error.response.data.message);
     }
-    finally {
-      setReadyToDisplayPage(true);
-    }
+
   }
 
   const setIsEmployeeOnVacationState = () => {
@@ -261,9 +259,10 @@ useEffect(() => {
   checkIfDifferenceIsOutOfRage();
 }, [dateDifference]);
 
-
-
-
+useEffect(() => {
+  if(avaliableDays!=null && isEmployeeOnVacation !=null && hasMadeRequestRecently!=null)
+    setReadyToDisplayPage(true);
+}, [avaliableDays, isEmployeeOnVacation, hasMadeRequestRecently]);
 
 
 
@@ -330,22 +329,25 @@ return (
                 </div>
               </>
             ) : (
+      
               <h3>You recently applied for a leave. You are not eligible to resubmit.</h3>
             )}
           </>
         ) : (
+ 
           <h3>You were already on leave. You do not have the right to submit a new application.</h3>
         )}
       </>
     ) : (
+
       <h3>You have used up all your vacation days. You are not eligible to submit a new leave application.</h3>
     )}
     </>
-      ) : (
-        <>
-        {Display.DisplayLoader()}
-        </>
-      )}
+  ) : (
+    <>
+    {Display.DisplayLoader()}
+    </>
+  )}
   </div>
 );
 };
