@@ -42,7 +42,7 @@ export class ProfileService {
 
   async findOneWithRelationships(id: number): Promise<Employee | null> {
     try {
-      return this.employeeService.findOneWithRelationships(id);
+      return await this.employeeService.findOneWithRelationships(id, false);
     }
     catch(error) {
       console.log(error);
@@ -53,7 +53,7 @@ export class ProfileService {
 
   async findOneWithRelationshipsBySpecificFieldAndValue(field: string, value: any): Promise<Employee | null> {
     try {
-      return this.employeeService.findOneWithRelationshipsBySpecificFieldAndValue(field, value);
+      return await this.employeeService.findOneWithRelationshipsBySpecificFieldAndValue(field, value, true);
     } catch (error) {
       console.log(error);
       throw new InternalServerErrorException();
@@ -62,7 +62,7 @@ export class ProfileService {
 
   async update(id: number, employeeData: Partial<Employee>): Promise<Employee | null> {
     try {
-        return this.employeeService.update(id, employeeData);
+        return await this.employeeService.update(id, employeeData);
     } catch (error) {
       console.log(error);
       throw new InternalServerErrorException();
@@ -71,7 +71,7 @@ export class ProfileService {
 
   async remove(id: number): Promise<void> {
     try {
-      await this.employeeService.nulifyEmployeeBonusesAndVrequestsAndRemove(id);
+      await await this.employeeService.nulifyEmployeeBonusesAndVrequestsAndRemove(id);
     }
     catch(error) {
       console.log(error);
@@ -82,27 +82,27 @@ export class ProfileService {
   //
 
   async getBonusTotalNum(id: number) {
-    return this.bonusService.getBonusNumByEmployeeId(id);
+    return await this.bonusService.getBonusNumByEmployeeId(id);
   }
 
   async getLeavesTotalNum(id: number) {
-    return this.vacationRequestService.getApprovedVacationRequestsNumByEmployeeId(id);
+    return await this.vacationRequestService.getApprovedVacationRequestsNumByEmployeeId(id);
   }
 
   async getLastBonusGiven(id: number) {
-    return this.bonusService.getLastBonusByEmployeeId(id);
+    return await this.bonusService.getLastBonusByEmployeeId(id);
   }
 
   async getLastLeaveTaken(id: number) {
-    return this.vacationRequestService.getLastVacationRequestByEmployeeId(id);
+    return await this.vacationRequestService.getLastVacationRequestByEmployeeId(id);
   }
 
   async checkIfIsOnLeave(id: number) {
-    return this.utilityService.isEmployeeOnVacation(id);
+    return await this.utilityService.isEmployeeOnVacation(id);
   }
 
   async checkIfHasAnyVacationRequestPending(id: number) {
-    return this.utilityService.hasPendingRequest(id);
+    return await this.utilityService.hasPendingRequest(id);
   }
 
   async getProfileSpecialDetails(id: number) {

@@ -28,7 +28,7 @@ export class VacationRequestService {
 
   async findOneWithRelationships(id: number): Promise<VacationRequest | null> {
     try {
-      return this.vacationRequestRepository
+      return await this.vacationRequestRepository
       .createQueryBuilder('vacation_request')
       .leftJoinAndSelect('vacation_request.employee', 'employee') 
       .leftJoinAndSelect('employee.department', 'department')
@@ -42,7 +42,7 @@ export class VacationRequestService {
   }
 
   async findByFieldWithRelationships(fieldName: string, fieldValue: string): Promise<VacationRequest[] | null> {
-    const queryBuilder = this.vacationRequestRepository
+    const queryBuilder = await this.vacationRequestRepository
       .createQueryBuilder('vacation_request')
       .leftJoinAndSelect('vacation_request.employee', 'employee')
       .where(`vacation_request.${fieldName} = :fieldValue`, { fieldValue });
@@ -58,7 +58,7 @@ export class VacationRequestService {
   async create(vacationRequestData: Partial<VacationRequest>): Promise<VacationRequest> {
     try {
       const newVacationRequest = await this.vacationRequestRepository.create(vacationRequestData);
-      return this.vacationRequestRepository.save(newVacationRequest);
+      return await this.vacationRequestRepository.save(newVacationRequest);
     }
     catch(error) {
       console.log(error);
@@ -84,7 +84,7 @@ export class VacationRequestService {
             .execute();
 
         } 
-        else await this.vacationRequestRepository.save(vacationRequestData);
+        else await await this.vacationRequestRepository.save(vacationRequestData);
         
         return vacationRequest;
     } catch (error) {
@@ -95,7 +95,7 @@ export class VacationRequestService {
 
   async remove(id: number): Promise<void> {
     try {
-      await this.vacationRequestRepository.delete(id);
+      await await this.vacationRequestRepository.delete(id);
     }
     catch(error) {
       console.log(error);
@@ -154,7 +154,7 @@ export class VacationRequestService {
       const vacationDays = this.calculateVacationDays(startDate, 
         endDate, nonWorkingDays);
       const employee = await this.employeeService.findOneWithRelationships
-      (createVacationRequest.employeeId);
+      (createVacationRequest.employeeId, false);
       if(userCreated) 
         statusValue = 'PENDING';
       newVacationRequest = await this.create({employee: employee, startDate: createVacationRequest.startDate, 
@@ -185,7 +185,7 @@ export class VacationRequestService {
     try {
       let {vacationDays, newVacationRequest} = await this.createVacationRequest(createVacationRequest, false);
       const employee = await this.employeeService.findOneWithRelationships
-      (createVacationRequest.employeeId);
+      (createVacationRequest.employeeId, false);
       employee.vacationDays-=vacationDays;
       await this.employeeService.update(createVacationRequest.employeeId, employee);
       return newVacationRequest;

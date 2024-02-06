@@ -1,10 +1,10 @@
 import { BadRequestException, Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { EntityManager, IsNull, Not, Repository, getManager } from 'typeorm';
+import { EntityManager, FindOptionsSelect, IsNull, Not, Repository, getManager } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { Employee } from 'src/entities/employee.entity';
 import { UtilityService } from './utility.service';
-import {bcryptSaltOrRounds} from "src/important";
+import {bcryptSaltOrRounds, selectColumns} from "src/important";
 
 
 @Injectable()
@@ -15,13 +15,27 @@ export class EmployeeService {
     @InjectRepository(Employee)
     private employeesRepository: Repository<Employee>,
     private readonly utilityService: UtilityService,
+    
   ) {}
+
+  deletePasswordsFromResultSet(result: any) {
+    result.map((item: any) => {
+      delete item.password;
+    });
+    return result;
+  }
+
+  deletePasswordFromRecord(record: any) {
+    delete record.password;
+    return record;
+  }
 
   async findAllWithRelationships() {
     try {
-      return await this.employeesRepository.find({ relations: ['department'] });
-    }
-    catch(error) {
+
+      return await this.employeesRepository.find({
+        relations: ['department']});
+    } catch (error) {
       console.log(error);
       throw new InternalServerErrorException();
     }
@@ -29,11 +43,13 @@ export class EmployeeService {
 
   async findManyWithRelationshipsBySpecificFieldAndValue(field: string, value: any): Promise<Employee[] | null> {
     try {
-      return this.employeesRepository
+      let result: any = await this.employeesRepository
         .createQueryBuilder('employee')
         .leftJoinAndSelect('employee.department', 'department')
         .where(`employee.${field} = :value`, { value })
         .getMany();
+      result = this.deletePasswordsFromResultSet(result);
+      return result;
     } catch (error) {
       console.log(error);
       throw new InternalServerErrorException();
@@ -57,50 +73,65 @@ export class EmployeeService {
   
       const queryOptions: any = {
         where: whereCondition,
+        select: selectColumns,
       };
   
       if (relationshipArray) {
         queryOptions.relations = relationshipArray;
       }
   
-      return await this.employeesRepository.find(queryOptions);
+      const result = await this.employeesRepository.find(queryOptions);
+  
+      this.deletePasswordsFromResultSet(result);
+  
+      return result;
     } catch (error) {
       console.log(error);
       throw new InternalServerErrorException();
     }
   }
 
-  async findOneWithRelationships(id: number): Promise<Employee | null> {
+  async findOneWithRelationships(id: number, findPassword: boolean) {
     try {
-      return this.employeesRepository
-      .createQueryBuilder('employee')
-      .leftJoinAndSelect('employee.department', 'department')
-      .where('employee.id = :id', { id })
-      .getOne();
-    }
-    catch(error) {
+      if (findPassword) {
+        selectColumns.push('password');
+      }
+      return await this.employeesRepository.findOne({
+        relations: ['department'],
+        select: selectColumns as FindOptionsSelect<Employee>,
+        where: { id } 
+      });
+    } catch (error) {
       console.log(error);
       throw new InternalServerErrorException();
     }
-    
   }
 
-  async findOneWithRelationshipsBySpecificFieldAndValue(field: string, value: any): Promise<Employee | null> {
+  async findOneWithRelationshipsBySpecificFieldAndValue(field: string, value: any, findPassword: boolean): Promise<Employee | null> {
     try {
-      return this.employeesRepository
-        .createQueryBuilder('employee')
-        .leftJoinAndSelect('employee.department', 'department')
-        .where(`employee.${field} = :value`, { value })
-        .getOne();
+
+      if (findPassword) {
+        selectColumns.push('password');
+      }
+
+      const where: Record<string, any> = {};
+      where[field] = value;
+
+      return await this.employeesRepository.findOne({
+        relations: ['department'],
+        select: selectColumns as FindOptionsSelect<Employee>,
+        where,
+      });
     } catch (error) {
-      console.log(error);
+      console.error(error);
       throw new InternalServerErrorException();
     }
   }
 
   async update(id: number, employeeData: Partial<Employee>, transactionalEntityManager?: EntityManager): Promise<Employee | null> {
-    try {
-        const employee = await this.employeesRepository.findOne({ where: { id } });
+    try { 
+
+        const employee = await this.findOneWithRelationships(id, false);
   
         if (!employee) 
           return null;
@@ -127,8 +158,10 @@ export class EmployeeService {
 
   async create(employeeData: Partial<Employee> ): Promise<Employee> {
     try {
-      const newEmployee = await this.employeesRepository.create(employeeData);
-      return this.employeesRepository.save(newEmployee);
+      let newEmployee: any = await this.employeesRepository.create(employeeData);
+      await this.employeesRepository.save(newEmployee);
+      newEmployee = this.deletePasswordFromRecord(newEmployee);
+      return newEmployee;
     }
     catch(error) {
       console.log(error);
@@ -154,7 +187,8 @@ export class EmployeeService {
         department: {
           id: departmentId
         }
-      }
+      },
+      select: selectColumns as FindOptionsSelect<Employee>,
     });
     return {
       count: employeesWithDepartment.length,
@@ -181,7 +215,8 @@ export class EmployeeService {
         
         .groupBy('e.id, department.id'); 
 
-      const result = await query.getMany(); 
+      let result: any = await query.getMany(); 
+      result = this.deletePasswordsFromResultSet(result);
       return result;
     } catch (error) {
       console.log(error);
@@ -192,7 +227,7 @@ export class EmployeeService {
 
   async findOneWithRelationshipsAndCheckIfIsOnVacation(id: number) {
     try {
-      let employee = await this.findOneWithRelationships(id);
+      let employee = await this.findOneWithRelationships(id, false);
       let isOnVacation = false;
       let hasMadeRequestRecently = false;
       if(await this.utilityService.hasVacationRequestWithEmployeeId(employee.id)) {
@@ -237,7 +272,7 @@ export class EmployeeService {
   async checkIfPasswordIsCorrect(id: number, password: string) {
     let result = false;
     let employeePassword = '';
-    const employee = await this.findOneWithRelationships(id);
+    const employee = await this.findOneWithRelationships(id, true);
     if(!employee)
       return null;
     employeePassword = employee.password;
@@ -251,8 +286,8 @@ export class EmployeeService {
     const hashedPassword = await bcrypt.hash(newPassword,bcryptSaltOrRounds);
     employee.password = hashedPassword;
     try {
-      const updatedEmployee = await this.update(id, employee);
-      updatedEmployee.password = 'hidden';
+      let updatedEmployee: any = await this.update(id, employee);
+      updatedEmployee = this.deletePasswordFromRecord(updatedEmployee);
       return updatedEmployee;
     }
     catch(error) {
@@ -276,7 +311,7 @@ export class EmployeeService {
   async evaluateRegistrationRequest(id: number, approved: boolean) {
     try {
       let result:any = null;
-      const employee: Employee = await this.findOneWithRelationships(id);
+      const employee: Employee = await this.findOneWithRelationships(id, false);
       if(approved) {
         employee.isAccepted = true;
         result = await this.update(id, employee);
@@ -293,5 +328,7 @@ export class EmployeeService {
   }
 
 }
+
+
 
 

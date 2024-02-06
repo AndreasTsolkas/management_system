@@ -16,7 +16,7 @@ export class AuthService {
 
   async signIn(email, pass, isEmployeeNotAccepted: boolean | null = null) { 
     try {
-      const employee = await this.employeeService.findOneWithRelationshipsBySpecificFieldAndValue("email",email);
+      const employee = await this.employeeService.findOneWithRelationshipsBySpecificFieldAndValue("email",email, true);
 
       if (!employee) 
         throw new BadRequestException;
@@ -55,8 +55,8 @@ export class AuthService {
     employee.password = hashedPassword;
 
     try{
-      const newEmployee = await this.employeeService.create(employee);
-      newEmployee.password = 'hidden';
+      let newEmployee: any = await this.employeeService.create(employee);
+      newEmployee = this.employeeService.deletePasswordFromRecord(newEmployee);
       return newEmployee;
     } 
     catch(error) {

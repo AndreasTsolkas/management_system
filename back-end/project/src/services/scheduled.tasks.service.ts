@@ -11,7 +11,7 @@ export class ScheduledTasksService {
   ) {}
   
   @Cron('0 0 * * *') 
-  executeEveryMidnight() {
-    return this.vacationRequestService.handleOutdatedPendingRequests();
+  async executeEveryMidnight() {
+    return await this.vacationRequestService.handleOutdatedPendingRequests();
   }
 }

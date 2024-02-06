@@ -18,8 +18,8 @@ export class ProfileController {
   @Get()
   async findOneWithRelationshipsAndSpecialDetails(@Headers('Authorization') authorization: string) {
     if (!authorization) return { message: 'Unauthorized' };
-    const decodedToken = await this.tokenService.decodeToken(authorization);
-    const userId: number  = await this.tokenService.extractField(decodedToken, 'id');
+    const decodedToken =  this.tokenService.decodeToken(authorization);
+    const userId: number  =  this.tokenService.extractField(decodedToken, 'id');
     if (userId !== undefined) {
       let basicData = await this.profileService.findOneWithRelationships(userId as number);
       let specialData = await this.profileService.getProfileSpecialDetails(userId as number);
@@ -53,8 +53,8 @@ export class ProfileController {
   @Get('/amionvacation')
   async findOneWithRelationshipsAndCheckIfIsOnVacation(@Headers('Authorization') authorization: string) {
     if (!authorization) return { message: 'Unauthorized' };
-    const decodedToken = await this.tokenService.decodeToken(authorization);
-    const userId: number  = await this.tokenService.extractField(decodedToken, 'id');
+    const decodedToken =  this.tokenService.decodeToken(authorization);
+    const userId: number  =  this.tokenService.extractField(decodedToken, 'id');
     return await this.profileService.checkIfIAmOnVacation(userId);
   }
   

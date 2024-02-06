@@ -28,7 +28,7 @@ export class BonusService {
 
   async findOneWithRelationships(id: number): Promise<Bonus | null> {
     try {
-      return this.bonusRepository
+      return await this.bonusRepository
       .createQueryBuilder('bonus')
       .leftJoinAndSelect('bonus.employee', 'employee') 
       .leftJoinAndSelect('employee.department', 'department')
@@ -48,7 +48,7 @@ export class BonusService {
         return null; 
       }
       Object.assign(bonus, bonusData);
-      return this.bonusRepository.save(bonus);
+      return await this.bonusRepository.save(bonus);
     }
     catch(error) {
       console.log(error);
@@ -58,12 +58,12 @@ export class BonusService {
 
   async create(bonusData: Partial<Bonus>, transactionalEntityManager?: EntityManager): Promise<Bonus> {
     try {
-      const newBonus = this.bonusRepository.create(bonusData);
+      const newBonus = await this.bonusRepository.create(bonusData);
       if (transactionalEntityManager) {
         await transactionalEntityManager.create(Bonus, newBonus);
       } 
       else await this.bonusRepository.save(newBonus);
-      return this.bonusRepository.save(newBonus);
+      return await this.bonusRepository.save(newBonus);
     }
     catch(error) {
       console.log(error);
@@ -86,7 +86,7 @@ export class BonusService {
 
   // 
 
-  async calculateSalaryAfterBonus(salary: number, season: string) {
+  calculateSalaryAfterBonus(salary: number, season: string) {
     try {
       let enumValue = SeasonBonus[season.toUpperCase()];
       let bonusAmount = salary * enumValue;
@@ -105,13 +105,13 @@ export class BonusService {
 
   async createNewBonus(createBonusData: CreateBonus) {
     let result: Bonus | null = null;
-    let employee = await this.employeeService.findOneWithRelationships(createBonusData.employeeId);
+    let employee = await this.employeeService.findOneWithRelationships(createBonusData.employeeId, false);
     let salary = employee.salary;
     let season = createBonusData.season;
     if(salary === undefined || season === undefined || !((season.toUpperCase()) in SeasonBonus))
       throw new BadRequestException();
     try {
-      let {newSalary, bonusAmount} = await this.calculateSalaryAfterBonus(salary, season);
+      let {newSalary, bonusAmount} = this.calculateSalaryAfterBonus(salary, season);
       const currentTimestamp = new Date(new Date().getTime());
       await this.entityManager.transaction(async transactionalEntityManager => {
         result = await this.create({employee: employee, amount: bonusAmount, dateGiven: currentTimestamp}, transactionalEntityManager);

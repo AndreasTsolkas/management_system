@@ -15,13 +15,13 @@ export class TokenService {
     private jwtService: JwtService
   ) {}
 
-  async decodeToken(authorization: string) {
+  decodeToken(authorization: string) {
     const token = authorization.replace('Bearer ', '');
     const decodedToken = this.jwtService.decode(token);
     return decodedToken;
   }
 
-  async extractField(decodedToken: any, field: any) {
+  extractField(decodedToken: any, field: any) {
     let extractedField: any = decodedToken?.[field];
     return extractedField;
   }

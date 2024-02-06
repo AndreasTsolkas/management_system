@@ -45,7 +45,7 @@ export class DepartmentService {
         return null; 
       }
       Object.assign(department, departmentData);
-      return this.departmentRepository.save(department);
+      return await this.departmentRepository.save(department);
     }
     catch(error) {
       console.log(error);
@@ -55,8 +55,8 @@ export class DepartmentService {
 
   async create(departmentData: Partial<Department>): Promise<Department> {
     try {
-      const newDepartment = this.departmentRepository.create(departmentData);
-      return this.departmentRepository.save(newDepartment);
+      const newDepartment = await this.departmentRepository.create(departmentData);
+      return await this.departmentRepository.save(newDepartment);
     }
     catch(error) {
       console.log(error);
