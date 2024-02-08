@@ -13,6 +13,7 @@ import * as Important from "src/important";
 import * as Display from "src/display";
 import {httpClient} from "src/requests";
 import {hasAccessAuth, isAccessTokenNotExpired} from "src/useAuth";
+import { DisplayDataGrid, DisplayTableTitle } from "src/display";
 
 const DepartmentTable = () => {
   const navigate = useNavigate();
@@ -153,13 +154,13 @@ const DepartmentTable = () => {
           width: 900,
         }}
       >
-        <h2>Departments</h2>
+        <DisplayTableTitle text= {'Departments'} />
         <IconButton disabled={createNewDepartmentButtonDisabled} color="primary" onClick={() => navigate(`/department/new`)}>
           <AddIcon />
         </IconButton>
       </div>
       <>
-        {Display.displayDataGrid(rows ?? [], columns)}
+        <DisplayDataGrid rows = {rows ?? []} columns = {columns} />
       </>
       </>
       ) : (

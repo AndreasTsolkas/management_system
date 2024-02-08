@@ -9,6 +9,7 @@ import * as Display from "src/display";
 import * as Datetime from "src/datetime";
 import {hasAccessAuth, isAdminAuth} from "src/useAuth";
 import { httpClient } from "src/requests";
+import { DisplayDataGrid, DisplayLoader, DisplayTableTitle } from "src/display";
 
 const PendingEmployeeTable = () => {
   const [rows, setRows] = useState<IPost[]>([]);
@@ -226,10 +227,10 @@ const PendingEmployeeTable = () => {
                 width: 900,
               }}
             >
-            <h2>Pending registration requests</h2>
+            <DisplayTableTitle text= {'Pending employees'} />
             </div>
             <>
-              {Display.displayDataGrid(rows ?? [], columns)}
+              <DisplayDataGrid rows = {rows ?? []} columns = {columns} />
             </>
           </>
         ) : (
@@ -237,7 +238,7 @@ const PendingEmployeeTable = () => {
         )
       ) : (
         <>
-          {Display.DisplayLoader()}
+          <DisplayLoader />
         </>
       )}
     </div>

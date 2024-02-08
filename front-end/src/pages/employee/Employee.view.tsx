@@ -14,7 +14,11 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import * as Important from "src/important";
 import * as Display from "src/display";
 import * as Datetime from "src/datetime";
-import {DisplayErrorMessage} from 'src/display';
+import {DisplayErrorMessage, 
+  DisplayViewTitle, 
+  DisplayFieldWithTypography, 
+  DisplayLoader,
+  DisplayIconButton} from 'src/display';
 import {hasAccessAuth} from "src/useAuth";
 import { httpClient } from "src/requests";
 
@@ -96,19 +100,18 @@ const EmployeeView = () => {
     <div>
       {readyToDisplayPage ? (
         <>
-          {Display.displayIconButton(undefined,navigate) /* Here I pass 'navigate' as an argument to the optional parameter of 'displayIconButton' to avoid conflicts between the 'useNavigate' I use on this file and this that I use into the function I call*/} 
-  
-          <h2>Employee details:</h2>
+          {Display.DisplayIconButton(undefined,navigate)}  {/* Here I pass 'navigate' as an argument to the optional parameter of 'displayIconButton' to avoid conflicts between the 'useNavigate' I use on this file and this that I use into the function I call*/} 
+          <DisplayViewTitle text='Employee details: ' />
           <Box
             sx={{
-              width: "600px",
+              width: "600px"
             }}
           >
-            <div style={{ marginLeft: "25px" }}>
+            <div style={{ marginLeft: Important.viewDataMarginLeft }}>
               {result ? (
                 <div>
                   {displayData.map((item, index) => (
-                    Display.displayFieldWithTypography(item.key, item.value, index)
+                    <DisplayFieldWithTypography key={index} name = {item.key} data = {item.value} index = {index} />
                   ))}
                 </div>
               ) : (
@@ -119,7 +122,7 @@ const EmployeeView = () => {
         </>
       ) : (
         <>
-          {Display.DisplayLoader()}
+          <DisplayLoader />
         </>
       )}
     </div>

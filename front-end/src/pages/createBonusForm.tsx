@@ -17,6 +17,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from "react-router";
 import {hasAccessAuth, isAdminAuth, isAccessTokenNotExpired} from "src/useAuth";
 import {httpClient} from "src/requests";
+import { DisplayFieldWithTypography, DisplayViewTitle } from "src/display";
 
 
 
@@ -154,7 +155,7 @@ const CreateBonusForm = () => {
     <div>
       {readyToDisplayPage ? (
         <>
-      <h2 >Create new bonus: </h2>
+      <DisplayViewTitle text='Create new bonus: ' />
       <div >
       <Box sx={{ display: 'flex', flexDirection: 'row', width: '100%' }}>
         <Box sx={{ width: "200px" }}>
@@ -240,9 +241,9 @@ const CreateBonusForm = () => {
       <Box sx={{ marginLeft:"200px", width: "50%" }}>
       {(employeeSelected && seasonSelected) && (
           <div style={{ marginTop: "70px" }}>
-            {Display.displayFieldWithTypography('Current salary: ', currentEmployeeCurrentSalary, 1)}
-            {Display.displayFieldWithTypography('Increase factor: ', currentEmployeeBonusRate, 2)}
-            {Display.displayFieldWithTypography('Salary after increase: ', currentEmployeeNewSalary, 3)}
+            <DisplayFieldWithTypography name={'Current salary: '} data = {currentEmployeeCurrentSalary} index={1} />
+            <DisplayFieldWithTypography name={'Increase factor: '} data = {currentEmployeeBonusRate} index={2} />
+            <DisplayFieldWithTypography name={'Salary after increase: '} data = {currentEmployeeNewSalary} index={3} />
           </div>
       )}
        

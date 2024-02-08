@@ -15,6 +15,7 @@ import * as Important from "src/important";
 import * as Display from "src/display";
 import {hasAccessAuth, isAdminAuth, isAccessTokenNotExpired} from "src/useAuth";
 import { httpClient } from "src/requests";
+import { DisplayGenericTitle, DisplayIconButton, DisplaySmallGenericTitle, DisplayTableTitle } from "src/display";
 
 
 export const DepartmentSchema = yup.object({
@@ -149,9 +150,11 @@ const DepartmentForm = () => {
   return (
     <div>
       
-      {Display.displayIconButton()}
+      {Display.DisplayIconButton()}
 
-      <h2 style={{ marginLeft: '200px' }}>{formTitle}</h2>
+      <div style={{ marginLeft: '220px', marginBottom:'30px' }}>
+        <DisplayGenericTitle text= {'Department settings: '} />
+      </div>
       
       <div style={{  marginTop:"20px", display: 'flex' }}>
       <Box
@@ -159,7 +162,7 @@ const DepartmentForm = () => {
           width: "200px",
         }}
       >
-        <h3>Name: </h3>
+        <DisplaySmallGenericTitle text= {'Name: '} />
         <form noValidate onSubmit={handleSubmit(submitNameChange)}>
           
           <MuiTextField
@@ -183,7 +186,8 @@ const DepartmentForm = () => {
         <div style={{marginTop:"60px"}}>
         {unregistredEmployees.length > 0 ? (
         <>
-          <h3>Add an employee: </h3>
+
+          <DisplaySmallGenericTitle text= {'Add an employee:'} />
           <form noValidate onSubmit={handleSubmit(submitAddNewEmployee)}>
             <Controller
               name="employeeId"
@@ -215,19 +219,19 @@ const DepartmentForm = () => {
           </form>
         </>
       ) : (
-        <h3>No avaliable employee to add.</h3>
+        <DisplaySmallGenericTitle text= {'No avaliable employee to add.'} />
       )}
       </div>
       </Box>
       <Box
         sx={{
-          marginLeft:"250px",
+          marginLeft:"300px",
           width: "300px",
         }}
       >
         {employeesNum > 0 && (
         <>
-          <h3>Employees: {employeesNum}</h3>
+          <DisplaySmallGenericTitle text= {'Employees: '+employeesNum} />
           <ul>
             {registredEmployees.map((item: any) => (
               <li key={item.id} style={{ fontSize: '20px' }}>

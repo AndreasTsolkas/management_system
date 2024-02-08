@@ -11,7 +11,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import * as Important from "src/important";
 import * as Display from "src/display";
 import * as Datetime from "src/datetime";
-import {DisplayErrorMessage} from 'src/display';
+import {DisplayErrorMessage, DisplayFieldWithTypography, DisplayLoader, DisplayTableTitle} from 'src/display';
 import {hasAccessAuth, isAccessTokenNotExpired} from "src/useAuth";
 import { httpClient } from "src/requests";
 
@@ -139,14 +139,14 @@ const MyProfile = () => {
     <div>
       {readyToDisplayPage ? (
         <>
-          <h2 style={{ marginLeft: '340px', marginBottom: "50px" }}>My profile:</h2>
-          <Box sx={{ display: 'flex', flexDirection: 'row', width: '100%' }}>
+          <DisplayTableTitle text= {'My Profile'} />
+          <Box sx={{ display: 'flex', flexDirection: 'row', width: '100%', marginTop:'50px' }}>
             <Box sx={{ width: '500px' }}>
-              <div style={{ marginLeft: "25px" }}>
+              <div style={{ marginLeft: Important.viewDataMarginLeft }}>
                 {result ? (
                   <div>
                     {displayBasicData.map((item, index) => (
-                      Display.displayFieldWithTypography(item.key, item.value, index)
+                    <DisplayFieldWithTypography key={`basic-${index}`} name = {item.key} data = {item.value} index = {index} />
                     ))}
                   </div>
                 ) : (
@@ -155,11 +155,11 @@ const MyProfile = () => {
               </div>
             </Box>
             <Box sx={{ width: "500px" }}>
-              <div style={{ marginLeft: "25px", marginTop: "5px" }}>
+              <div style={{ marginTop: "5px", marginLeft:'70px' }}>
                 {result ? (
                   <div>
                     {displaySpecialData.map((item, index) => (
-                      Display.displayFieldWithTypography(item.key, item.value, index)
+                      <DisplayFieldWithTypography key={`special-${index}`} name = {item.key} data = {item.value} index = {index}  />
                     ))}
                   </div>
                 ) : (
@@ -168,13 +168,13 @@ const MyProfile = () => {
               </div>
             </Box>
           </Box>
-          <div style={{ marginTop: "35px", marginLeft: "350px" }}>
+          <div style={{ marginTop: "35px", marginLeft: "360px" }}>
             <Link style={{ fontSize: '25px' }} to={editprofileRedirectUrl !== null ? editprofileRedirectUrl : ''}>Edit profile</Link>
           </div>
         </>
       ) : (
         <>
-          {Display.DisplayLoader()}
+          <DisplayLoader />
         </>
       )}
     </div>

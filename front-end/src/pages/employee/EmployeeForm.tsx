@@ -9,8 +9,10 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import * as Important from "src/important";
 import * as Display from "src/display";
+import { DisplayIconButton, DisplayViewTitle } from "src/display";
 import {hasAccessAuth, isAdminAuth, isAccessTokenNotExpired} from "src/useAuth";
 import { httpClient } from "src/requests";
+
 
 export const NewEmployeeSchema = yup.object({
   name: yup.string().required("Name is required.").min(2).max(20),
@@ -170,8 +172,8 @@ const EmployeeForm = () => {
   
   return (
     <div>
-      {Display.displayIconButton(isProfile)}
-      <h2>{formTitle}</h2>
+      {Display.DisplayIconButton(isProfile)}
+      <DisplayViewTitle text={formTitle} />
       <Box
         sx={{
           width: "500px",

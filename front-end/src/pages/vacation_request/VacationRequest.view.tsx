@@ -13,7 +13,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import * as Important from "src/important";
 import * as Display from "src/display";
 import * as Datetime from "src/datetime";
-import {DisplayErrorMessage} from 'src/display';
+import {DisplayErrorMessage, DisplayFieldWithTypography, DisplayIconButton, DisplayViewTitle} from 'src/display';
 import {hasAccessAuth, isAccessTokenNotExpired} from "src/useAuth";
 import { httpClient } from "src/requests";
 
@@ -89,9 +89,8 @@ const VacationRequestView = () => {
   return (
     <div>
       
-      {Display.displayIconButton()}
-      
-      <h2>Leave details:</h2>
+      {Display.DisplayIconButton()}
+      <DisplayViewTitle text='Leave details: ' />
       <Box
         sx={{
           width: "600px",
@@ -100,9 +99,9 @@ const VacationRequestView = () => {
         <div style={{marginLeft:"25px"}}>
         {result ? (
             <div>
-                  {displayData.map((item, index) => {
-                    return Display.displayFieldWithTypography(item.key, item.value, index);
-                  })}
+              {displayData.map((item, index) => (
+                <DisplayFieldWithTypography name = {item.key} data = {item.value} index = {index} />
+              ))}
             </div>
             ) : (
                 <DisplayErrorMessage  message = "Error searching for vacation request details."  />

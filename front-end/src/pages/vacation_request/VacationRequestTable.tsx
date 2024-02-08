@@ -13,6 +13,7 @@ import * as Datetime from "src/datetime";
 import {hasAccessAuth, isAccessTokenNotExpired} from "src/useAuth";
 import { useCookies } from "react-cookie";
 import { httpClient } from "src/requests";
+import { DisplayDataGrid, DisplayLoader, DisplayTableTitle } from "src/display";
 
 const VacationRequestTable = () => {
   const navigate = useNavigate();
@@ -159,18 +160,18 @@ const VacationRequestTable = () => {
           width: 900,
         }}
       >
-        <h2>Leaves </h2>
+        <DisplayTableTitle text= {'Leaves'} />
         <IconButton disabled={createNewVacationRequestButtonDisabled} color="primary" onClick={() => navigate(`/vacation_request/new`)}>
           <AddIcon />
         </IconButton>
       </div>
       <>
-        {Display.displayDataGrid(rows ?? [], columns)}
+        <DisplayDataGrid rows = {rows ?? []} columns = {columns} />
       </>
       </>
       ) : (
         <>
-        {Display.DisplayLoader()}
+        <DisplayLoader />
         </>
       )}
     </div>

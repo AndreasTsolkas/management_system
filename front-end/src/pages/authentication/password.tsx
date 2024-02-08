@@ -19,6 +19,7 @@ import {httpClient} from "src/requests";
 import MuiTextField from "src/components/MuiTextField";
 import { useParams } from "react-router-dom";
 import { AnyMessageParams } from "yup/lib/types";
+import { DisplayGenericTitle, DisplayIconButton, DisplaySmallGenericTitle } from "src/display";
 
 
 
@@ -128,7 +129,7 @@ const PasswordForm = () => {
 
   return (
     <div>
-      {Display.displayIconButton()}
+      {Display.DisplayIconButton()}
       <div >
       <Box sx={{ display: 'flex', flexDirection: 'row', width: '100%' }}>
         <Box sx={{ width: "300px" }}>
@@ -136,7 +137,9 @@ const PasswordForm = () => {
         {!passwordChangedSuccessfully ? (
             
   <form  onReset={onReset} onSubmit={handleSubmit(onSubmit)}>
-    <h3 >{formTitle} </h3>
+    <div style={{marginBottom: '15px', marginTop:'15px'}}>
+    <DisplaySmallGenericTitle text= {formTitle} />
+    </div>
     {!isCurrentPasswordValidated ? (
   <>
     <MuiTextField

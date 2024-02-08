@@ -9,6 +9,7 @@ import * as Display from "src/display";
 import * as Datetime from "src/datetime";
 import {hasAccessAuth, isAdminAuth, isAccessTokenNotExpired} from "src/useAuth";
 import { httpClient } from "src/requests";
+import { DisplayDataGrid, DisplayLoader, DisplayTableTitle } from "src/display";
 
 const PendingVacationRequestTable = () => {
   const [rows, setRows] = useState<IPost[]>([]);
@@ -221,17 +222,17 @@ const PendingVacationRequestTable = () => {
         width: 900,
       }}
     >
-      <h2>Pending leave requests</h2>
+      <DisplayTableTitle text= {'Pending leaves'} />
     </div>
     <>
-      {Display.displayDataGrid(rows ?? [], columns)}
+      <DisplayDataGrid rows = {rows ?? []} columns = {columns} />
     </>
   </>
 ) : (
   <h3>No avaliable pending requests.</h3>
 )) : (
   <>
-    {Display.DisplayLoader()}
+    <DisplayLoader />
   </>
 )}
     </div>

@@ -1,11 +1,11 @@
 import { DataGrid } from "@mui/x-data-grid";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { useNavigate, useParams } from "react-router-dom";
+import { Navigation, useNavigate, useParams } from "react-router-dom";
 import { Box, CircularProgress, Modal, Typography } from "@mui/material";
 
 
 
-export function displayDataGrid(rows: any, columns: any) {
+export function DisplayDataGrid({rows, columns}:{rows: any, columns: any}) {
 
 
 
@@ -27,7 +27,7 @@ export function displayDataGrid(rows: any, columns: any) {
   );
 }
 
-export function displayIconButton(specialCase?: any, navigate?: any) {
+export function DisplayIconButton(specialCase?: any, navigate?: any) {
   if(!navigate)  navigate = useNavigate();
   let redirectionPath: any = -1;
   if(specialCase) // Its a little unorthodox what I did here , but I did it because in a specific case navigate with the standart value (-1) as argument doesnt work
@@ -51,34 +51,61 @@ export function displayIconButton(specialCase?: any, navigate?: any) {
   );
 }
 
-export const displayTitleWithTypography = (name: any) => {
+export const displayTitleWithTypography = (name:string) => {
   return (
-    <Typography  variant="h2" gutterBottom>
+    <Typography  variant="h5" gutterBottom>
         {name}
     </Typography>
   );
   
 }
 
-export const displayPrettyTitleWithTypography = (name: any) => {
+export const displaySmallTitleWithTypography = (name:string) => {
   return (
-
-    <Typography  variant="h5" gutterBottom>
+    <Typography  variant="h6" gutterBottom>
         {name}
     </Typography>
+  );
+  
+}
+
+export const DisplayTableTitle = ({ text }: { text: string }) => {
+  return (
+    <div style={{ marginLeft: '350px', marginTop: '20px', marginBottom: '20px' }}>
+      {displayTitleWithTypography(text)}
+    </div>
+  );
+};
+
+export const DisplayGenericTitle = ({text}:{text:any}) => {
+  return displayTitleWithTypography(text);
+}
+
+export const DisplaySmallGenericTitle = ({text}:{text:any}) => {
+  return displaySmallTitleWithTypography(text);
+}
+
+export const DisplayViewTitle = ({text}:{text:any}) => {
+  return (
+
+    <div style={{marginTop:'15px', marginBottom:'25px'}}>
+      {displayTitleWithTypography(text)}
+    </div>
  
   );
   
 }
 
-export const displayFieldWithTypography = (name: any, data: any, index: number) => {
+
+export const DisplayFieldWithTypography = ({name, data, index}:{name: any, data: any, index: number}) => {
   return (
     <Typography  variant="h6" key={index} >
-       <strong>{name}</strong>    {data}
+       <strong>{name}</strong> {data}
     </Typography>
   );
   
 }
+
 
 export function DisplayErrorMessage({ message }: { message: string }) {
   return <h4>{message}</h4>;

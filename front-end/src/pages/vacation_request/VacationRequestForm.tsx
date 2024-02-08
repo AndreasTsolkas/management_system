@@ -18,6 +18,7 @@ import * as Datetime from "src/datetime";
 import moment from "moment";
 import {hasAccessAuth, isAdminAuth, isAccessTokenNotExpired} from "src/useAuth";
 import { httpClient } from "src/requests";
+import { DisplayFieldWithTypography, DisplayIconButton, DisplayViewTitle } from "src/display";
 
 
 const VacationRequestForm = () => {
@@ -253,7 +254,7 @@ useEffect(() => {
 
   return (
     <div>
-      {Display.displayIconButton()}
+      {Display.DisplayIconButton()}
       { isLoading ? (
           <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', p: 2 }}>
             <CircularProgress size={30} />
@@ -261,7 +262,7 @@ useEffect(() => {
         ) : 
     ( employees !==null) ? (
     <>
-      <h2>Add a new leave:</h2>
+      <DisplayViewTitle text='Add a new leave: ' />
       <div >
         <Box sx={{ display: 'flex', flexDirection: 'row', width: '100%' }}>
         <Box
@@ -335,13 +336,13 @@ useEffect(() => {
           {
             (avaliableDays !==null && avaliableDays >= 1)  && (
               <div style={{ marginTop: "70px" }}>
-                {Display.displayFieldWithTypography('Days (limit): ', avaliableDays, 1)}
+                <DisplayFieldWithTypography name={'Days (limit): '}  data={avaliableDays} index={1} />
                 {
                   dateDifference !== null  && (
                     isDifferenceOutOfRage ? (
-                      Display.displayFieldWithTypography(differenceOutOfRageMessage, '', 3)
+                      <DisplayFieldWithTypography name={differenceOutOfRageMessage}  data={''} index={3} />
                     ) : (
-                      Display.displayFieldWithTypography('Vacation days: ', dateDifference, 2)
+                      <DisplayFieldWithTypography name={'Vacation days: '}  data={dateDifference} index={2} />
                     )
                   )
                 }

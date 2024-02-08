@@ -10,6 +10,13 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { toast } from "react-toastify";
 import * as Important from "src/important";
 import * as Display from "src/display";
+import {DisplayErrorMessage, 
+  DisplayViewTitle, 
+  DisplayFieldWithTypography, 
+  DisplayLoader,
+  DisplayIconButton,
+  DisplayTableTitle,
+  DisplayDataGrid} from 'src/display';
 import {hasAccessAuth, isAdminAuth, isAccessTokenNotExpired} from "src/useAuth";
 import { useCookies } from "react-cookie";
 import { httpClient } from "src/requests";
@@ -176,7 +183,7 @@ const EmployeeTable = () => {
       {readyToDisplayPage ? (
         arePendingRequestsExist ? (
         <>
-        
+         
           <div
             style={{
               display: 'flex',
@@ -185,13 +192,13 @@ const EmployeeTable = () => {
               width: 900,
             }}
           >
-            <h2>Employees</h2>
+            <DisplayTableTitle text= {'Employees'} />
             <IconButton disabled={createNewEmployeeButtonDisabled} color="primary" onClick={() => navigate(`/employee/new`)}>
               <AddIcon />
             </IconButton>
           </div>
           <>
-            {Display.displayDataGrid(rows ?? [], columns)}
+            <DisplayDataGrid rows = {rows ?? []}  columns ={columns} />
           </>
         </>
       ) : (
@@ -199,7 +206,7 @@ const EmployeeTable = () => {
       )
       ) : (
         <>
-        {Display.DisplayLoader()}
+        <DisplayLoader />
         </>
       )}
     </div>

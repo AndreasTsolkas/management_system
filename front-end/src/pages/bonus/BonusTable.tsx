@@ -13,6 +13,7 @@ import * as Datetime from "src/datetime";
 import {hasAccessAuth, isAdminAuth} from "src/useAuth";
 import { useCookies } from "react-cookie";
 import { httpClient } from "src/requests";
+import { DisplayDataGrid, DisplayLoader, DisplayTableTitle } from "src/display";
 
 const BonusTable = () => {
   const navigate = useNavigate();
@@ -153,18 +154,18 @@ const BonusTable = () => {
           width: 900,
         }}
       >
-        <h2>Bonuses</h2>
+        <DisplayTableTitle text= {'Bonuses'} />
         <IconButton disabled={createNewBonusButtonDisabled} color="primary" onClick={() => navigate(`/createbonuses`)}>
           <AddIcon />
         </IconButton>
       </div>
       <>
-        {Display.displayDataGrid(rows ?? [], columns)}
+        <DisplayDataGrid rows = {rows ?? []} columns = {columns} />
       </>
       </>
       ) : (
         <>
-        {Display.DisplayLoader()}
+        <DisplayLoader />
         </>
       )}
     </div>

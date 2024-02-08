@@ -12,7 +12,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import * as Important from "src/important";
 import * as Display from "src/display";
 import * as Datetime from "src/datetime";
-import {DisplayErrorMessage} from 'src/display';
+import {DisplayErrorMessage, DisplayFieldWithTypography, DisplayIconButton, DisplayViewTitle} from 'src/display';
 import {hasAccessAuth, isAdminAuth} from "src/useAuth";
 import { httpClient } from 'src/requests';
 
@@ -79,20 +79,20 @@ const BonusView = () => {
   return (
     <div>
       
-      {Display.displayIconButton()}
+      {Display.DisplayIconButton()}
+      <DisplayViewTitle text='Bonus details: ' />
       
-      <h2>Bonus details:</h2>
       <Box
         sx={{
           width: "600px",
         }}
       >
-        <div style={{marginLeft:"25px"}}>
+        <div style={{marginLeft:Important.viewDataMarginLeft}}>
         {result ? (
             <div>
-                  {displayData.map((item, index) => {
-                    return Display.displayFieldWithTypography(item.key, item.value, index);
-                  })}
+             {displayData.map((item, index) => (
+                <DisplayFieldWithTypography name = {item.key} data = {item.value} index = {index} />
+              ))}
             </div>
             ) : (
                 <DisplayErrorMessage  message = "Error searching for bonus details."  />

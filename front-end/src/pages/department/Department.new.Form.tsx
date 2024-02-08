@@ -11,6 +11,7 @@ import * as Important from "src/important";
 import * as Display from "src/display";
 import {hasAccessAuth, isAccessTokenNotExpired} from "src/useAuth";
 import { httpClient } from "src/requests";
+import { DisplayGenericTitle, DisplayIconButton } from "src/display";
 
 
 export const DepartmentSchema = yup.object({
@@ -72,28 +73,27 @@ const DepartmentNewForm = () => {
   return (
     <div>
       
-      {Display.displayIconButton()}
+      {Display.DisplayIconButton()}
       
       <div style={{  marginTop:"20px", display: 'flex' }}>
       <Box
     
       >
-        <div style={{marginLeft: '350px'}}>
-        <h3>Name of the new department: </h3>
+        <div style={{marginLeft: '350px', marginTop:'30px'}}>
         <form  style={{width:"200px"}} noValidate onSubmit={handleSubmit(onSubmit)}>
           
           <MuiTextField
             errors={errors}
             control={control}
             name="name"
-            label= ''
+            label="Name of the new department"
           />
 
           <div style={{ marginTop: "10px" }}>
           <Button
             type="submit"
             variant="contained"
-            sx={{ marginLeft:"40px", marginRight: '10px' }}
+            sx={{ marginLeft:"55px", marginRight: '10px' }}
           >
             Create
           </Button>

@@ -12,7 +12,7 @@ import { toast } from "react-toastify";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import * as Important from "src/important";
 import * as Display from "src/display";
-import {DisplayErrorMessage} from 'src/display';
+import {DisplayErrorMessage, DisplayFieldWithTypography, DisplayIconButton, DisplayViewTitle} from 'src/display';
 import {hasAccessAuth, isAccessTokenNotExpired} from "src/useAuth";
 import { httpClient } from "src/requests";
 
@@ -82,20 +82,19 @@ const DepartmentView = () => {
   return (
     <div>
       
-      {Display.displayIconButton()}
-      
-      <h2>Department details:</h2>
+      {Display.DisplayIconButton()}
+      <DisplayViewTitle text='Department details: ' />
       <Box
         sx={{
           width: "600px",
         }}
       >
-        <div style={{marginLeft:"25px"}}>
+        <div style={{marginLeft:Important.viewDataMarginLeft}}>
         {result ? (
             <div >
-                  {displayData.map((item, index: any) => {
-                    return Display.displayFieldWithTypography(item.key, item.value, index);
-                  })}
+              {displayData.map((item, index) => (
+                <DisplayFieldWithTypography name = {item.key} data = {item.value} index = {index} />
+              ))}
             </div>
             ) : (
                 <DisplayErrorMessage  message = "Error searching for department details."  />

@@ -18,6 +18,7 @@ import * as Datetime from "src/datetime";
 import { difference } from "lodash";
 import {hasAccessAuth, isAdminAuth} from "src/useAuth";
 import { httpClient } from "src/requests";
+import { DisplayFieldWithTypography, DisplayViewTitle } from "src/display";
 
 
 
@@ -277,7 +278,7 @@ return (
           <>
             {!hasMadeRequestRecently ? (
               <>
-                <h2>Request a new leave:</h2>
+                <DisplayViewTitle text='Request a new leave: ' />
                 <div>
                   <Box sx={{ display: 'flex', flexDirection: 'row', width: '100%' }}>
                     <Box sx={{ width: "200px" }}>
@@ -314,12 +315,12 @@ return (
                     <Box sx={{ marginLeft: "250px", width: "50%" }}>
                       {result != null && (
                         <div style={{ marginTop: "70px" }}>
-                          {Display.displayFieldWithTypography('Days limit: ', result.employee.vacationDays, 1)}
+                          <DisplayFieldWithTypography name={'Days limit: '} data = {result.employee.vacationDays} index={1} />
                           {dateDifference !== null && (
                             isDifferenceOutOfRage ? (
-                              Display.displayFieldWithTypography(differenceOutOfRageMessage, '', 3)
+                              <DisplayFieldWithTypography name={differenceOutOfRageMessage} data = {''} index={3} />
                             ) : (
-                              Display.displayFieldWithTypography('Vacation days: ', dateDifference, 2)
+                              <DisplayFieldWithTypography name={'Vacation days: '} data = {dateDifference} index={2} />
                             )
                           )}
                         </div>
