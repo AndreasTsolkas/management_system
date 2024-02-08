@@ -7,6 +7,8 @@ import { EmployeeService } from './employee.service';
 import { BonusService } from './bonus.service';
 import { VacationRequestService } from './vacation_request.service';
 import { UtilityService } from './utility.service';
+import { Bonus } from 'src/entities/bonus.entity';
+import { VacationRequest } from 'src/entities/vacation_request.entity';
 
 
 @Injectable()
@@ -89,12 +91,14 @@ export class ProfileService {
     return await this.vacationRequestService.getApprovedVacationRequestsNumByEmployeeId(id);
   }
 
-  async getLastBonusGiven(id: number) {
-    return await this.bonusService.getLastBonusByEmployeeId(id);
+  async getLastBonusGivenId(id: number) {
+    let lastBonusGiven: Bonus = await this.bonusService.getLastBonusByEmployeeId(id);
+    return lastBonusGiven.id;
   }
 
-  async getLastLeaveTaken(id: number) {
-    return await this.vacationRequestService.getLastVacationRequestByEmployeeId(id);
+  async getLastLeaveTakenId(id: number) {
+    let lastLeaveTaken: VacationRequest = await this.vacationRequestService.getLastVacationRequestByEmployeeId(id);
+    return lastLeaveTaken.id;
   }
 
   async checkIfIsOnLeave(id: number) {
@@ -109,8 +113,8 @@ export class ProfileService {
     let profileSpecialDetails: ProfileSpecialDetails = new ProfileSpecialDetails();
     profileSpecialDetails.bonusTotalNum = await this.getBonusTotalNum(id);
     profileSpecialDetails.leavesTotalNum = await this.getLeavesTotalNum(id);
-    profileSpecialDetails.lastBonusGiven = await this.getLastBonusGiven(id);
-    profileSpecialDetails.lastLeaveTaken = await this.getLastLeaveTaken(id);
+    profileSpecialDetails.lastBonusGivenId = await this.getLastBonusGivenId(id);
+    profileSpecialDetails.lastLeaveTakenId = await this.getLastLeaveTakenId(id);
     profileSpecialDetails.isOnLeave = await this.checkIfIsOnLeave(id);
     profileSpecialDetails.hasAnyVacationRequestPending = await this.checkIfHasAnyVacationRequestPending(id);
     return profileSpecialDetails;

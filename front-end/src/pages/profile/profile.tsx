@@ -22,7 +22,7 @@ const MyProfile = () => {
   const profileUrl = Important.profileUrl;
   const departmentUrl = Important.departmentUrl;
   const bonusUrl = Important.bonusUrl;
-  const vacationRequestUrl = Important.vacationRequestUrl;
+  const vacationRequestUrl = Important.vacationRequestFrontEndUrl;
   const moreInformationLinkBase = Important.moreInformationLinkBase;
   const [userId, setUserId] = useState<number | null>(null);
   const [result, setResult] = useState<any>();
@@ -78,13 +78,15 @@ const MyProfile = () => {
       let resultLastBonusGivenValue: any = '-----';
       let resultLastLeaveTakenValue: any = '-----';
 
-      if (specialData.lastBonusGiven !== null ) {
-        const lastBonusGivenInfoUrl = bonusViewBaseUrl+specialData.lastBonusGiven.id;
+      if (specialData.lastBonusGivenId !== null ) {
+        const lastBonusGivenInfoUrl = bonusViewBaseUrl+specialData.lastBonusGivenId;
         resultLastBonusGivenValue = <a href={lastBonusGivenInfoUrl}>view</a>;
       }
 
-      if (specialData.lastLeaveTaken !== null ) {
-        const lastLeaveTakenInfoUrl = vacationRequestViewBaseUrl+specialData.lastLeaveTaken.id;
+      if (specialData.lastLeaveTakenId !== null ) {
+        const lastLeaveTakenInfoUrl = vacationRequestViewBaseUrl+specialData.lastLeaveTakenId;
+        console.log(vacationRequestViewBaseUrl);
+        console.log(lastLeaveTakenInfoUrl);
         resultLastLeaveTakenValue = <a href={lastLeaveTakenInfoUrl}>view</a>;
       }
       setDisplaySpecialData([

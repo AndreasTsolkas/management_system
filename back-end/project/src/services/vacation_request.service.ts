@@ -290,7 +290,7 @@ export class VacationRequestService {
 
   async getLastVacationRequestByEmployeeId(employeeId: number) {
     try {
-      const vacationRequestsByEmployeeId = await this.getVacationRequestsByEmployeeId(employeeId);
+      const vacationRequestsByEmployeeId = await this.getVacationRequestsByEmployeeId(employeeId, 'approved');
   
       const sortedVacationRequests = vacationRequestsByEmployeeId.sort((a, b) => {
         const startDateDiff = new Date(b.startDate).getTime() - new Date(a.startDate).getTime();

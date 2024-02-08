@@ -91,7 +91,7 @@ const BonusView = () => {
         {result ? (
             <div>
              {displayData.map((item, index) => (
-                <DisplayFieldWithTypography name = {item.key} data = {item.value} index = {index} />
+                <DisplayFieldWithTypography key ={index} name = {item.key} data = {item.value} index = {index} />
               ))}
             </div>
             ) : (

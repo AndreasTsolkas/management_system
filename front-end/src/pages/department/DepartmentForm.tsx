@@ -152,7 +152,7 @@ const DepartmentForm = () => {
       
       {Display.DisplayIconButton()}
 
-      <div style={{ marginLeft: '220px', marginBottom:'30px' }}>
+      <div style={{ marginLeft: '220px', marginBottom:'40px' }}>
         <DisplayGenericTitle text= {'Department settings: '} />
       </div>
       
@@ -225,7 +225,7 @@ const DepartmentForm = () => {
       </Box>
       <Box
         sx={{
-          marginLeft:"300px",
+          marginLeft:"275px",
           width: "300px",
         }}
       >

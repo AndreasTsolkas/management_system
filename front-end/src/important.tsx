@@ -5,6 +5,7 @@ export const bonusUrl = '/bonus';
 export const employeeUrl = '/employee';
 export const departmentUrl = '/department';
 export const vacationRequestUrl = '/vrequest';
+export const vacationRequestFrontEndUrl = '/vacation_request';
 export const profileUrl = '/profile';
 
 export const passwordUrl = '/password';
