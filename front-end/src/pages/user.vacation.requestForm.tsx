@@ -5,17 +5,12 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Box, Button, CircularProgress } from "@mui/material";
 import MuiTextField from "../components/MuiTextField";
-import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
-import moment from 'moment';
-import { DayPicker } from "react-day-picker";
-import { format } from 'date-fns';
 
 
 import * as Important from "src/important";
 import * as Display from "src/display";
 import * as Datetime from "src/datetime";
-import { difference } from "lodash";
 import {hasAccessAuth, isAdminAuth} from "src/useAuth";
 import { httpClient } from "src/requests";
 import { DisplayFieldWithTypography, DisplayViewTitle } from "src/display";
@@ -314,7 +309,7 @@ return (
                     </Box>
                     <Box sx={{ marginLeft: "250px", width: "50%" }}>
                       {result != null && (
-                        <div style={{ marginTop: "70px" }}>
+                        <div style={{ marginTop: "37px" }}>
                           <DisplayFieldWithTypography name={'Days limit: '} data = {result.employee.vacationDays} index={1} />
                           {dateDifference !== null && (
                             isDifferenceOutOfRage ? (

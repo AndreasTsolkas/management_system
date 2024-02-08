@@ -4,9 +4,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import {
   Box,
   Button,
-  InputLabel,
   MenuItem,
-  Select
+  Select,
 } from "@mui/material";
 import * as yup from "yup";
 import { toast } from "react-toastify";
@@ -140,7 +139,7 @@ const CreateBonusForm = () => {
 
   useEffect(() => {
     getAllEmployees();
-  }, []);
+  }, [employees]);
 
   useEffect(() => {
     if(readyToGetBonusCalculation && employeeSelected===true && seasonSelected===true) {
@@ -155,7 +154,9 @@ const CreateBonusForm = () => {
     <div>
       {readyToDisplayPage ? (
         <>
+      <div style={{marginTop:'15px'}}>
       <DisplayViewTitle text='Create new bonus: ' />
+      </div>
       <div >
       <Box sx={{ display: 'flex', flexDirection: 'row', width: '100%' }}>
         <Box sx={{ width: "200px" }}>
@@ -165,11 +166,10 @@ const CreateBonusForm = () => {
             control={control}
             render={({ field }) => (
               <div>
-                <InputLabel htmlFor="employee-label">Employee</InputLabel>
+   
                 <Select
                   {...field}
-                  labelId="employee-label"
-                  id="employee-label"
+
                   fullWidth
                   variant="outlined"
                   onChange={(e) => {
@@ -191,17 +191,15 @@ const CreateBonusForm = () => {
               </div>
             )}
           />
-
           <Controller
             name="season"
             control={control}
             render={({ field }) => (
               <div style={{marginTop:"10px"}}>
-                <InputLabel htmlFor="season-label">Season</InputLabel>
+  
                 <Select
                   {...field}
-                  labelId="season-label"
-                  id="season-label"
+
                   fullWidth
                   variant="outlined"
                   onChange={(e) => {
@@ -240,7 +238,7 @@ const CreateBonusForm = () => {
       </Box>
       <Box sx={{ marginLeft:"200px", width: "50%" }}>
       {(employeeSelected && seasonSelected) && (
-          <div style={{ marginTop: "70px" }}>
+          <div style={{ marginTop: "25px" }}>
             <DisplayFieldWithTypography name={'Current salary: '} data = {currentEmployeeCurrentSalary} index={1} />
             <DisplayFieldWithTypography name={'Increase factor: '} data = {currentEmployeeBonusRate} index={2} />
             <DisplayFieldWithTypography name={'Salary after increase: '} data = {currentEmployeeNewSalary} index={3} />

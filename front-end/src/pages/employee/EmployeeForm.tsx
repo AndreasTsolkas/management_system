@@ -143,8 +143,8 @@ const EmployeeForm = () => {
       text = 'Employee settings:';
       if(params?.profile)
         text = 'My settings:';
+      setFormTitle(text);
     }
-    setFormTitle(text);
   }
 
 
@@ -169,6 +169,8 @@ const EmployeeForm = () => {
       setEmployeeSelectedDepartmentId(defaultDepartmentId);
     }
   }, [departments]);
+
+  console.log(formTitle)
   
   return (
     <div>

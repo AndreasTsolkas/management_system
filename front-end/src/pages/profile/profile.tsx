@@ -85,8 +85,6 @@ const MyProfile = () => {
 
       if (specialData.lastLeaveTakenId !== null ) {
         const lastLeaveTakenInfoUrl = vacationRequestViewBaseUrl+specialData.lastLeaveTakenId;
-        console.log(vacationRequestViewBaseUrl);
-        console.log(lastLeaveTakenInfoUrl);
         resultLastLeaveTakenValue = <a href={lastLeaveTakenInfoUrl}>view</a>;
       }
       setDisplaySpecialData([

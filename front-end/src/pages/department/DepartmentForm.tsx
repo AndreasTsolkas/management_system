@@ -5,17 +5,15 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Box, Button, IconButton, InputLabel, MenuItem, Select } from "@mui/material";
 import MuiTextField from "../../components/MuiTextField";
-import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import CheckIcon from '@mui/icons-material/Check';
 
 import DeleteIcon from "@mui/icons-material/Delete";
 import * as Important from "src/important";
 import * as Display from "src/display";
-import {hasAccessAuth, isAdminAuth, isAccessTokenNotExpired} from "src/useAuth";
+import {hasAccessAuth, isAdminAuth} from "src/useAuth";
 import { httpClient } from "src/requests";
-import { DisplayGenericTitle, DisplayIconButton, DisplaySmallGenericTitle, DisplayTableTitle } from "src/display";
+import { DisplayGenericTitle, DisplaySmallGenericTitle } from "src/display";
 
 
 export const DepartmentSchema = yup.object({
@@ -153,7 +151,7 @@ const DepartmentForm = () => {
       {Display.DisplayIconButton()}
 
       <div style={{ marginLeft: '220px', marginBottom:'40px' }}>
-        <DisplayGenericTitle text= {'Department settings: '} />
+        <DisplayGenericTitle text= {formTitle} />
       </div>
       
       <div style={{  marginTop:"20px", display: 'flex' }}>
