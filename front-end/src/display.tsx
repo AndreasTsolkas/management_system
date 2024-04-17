@@ -14,6 +14,7 @@ export function DisplayDataGrid({rows, columns}:{rows: any, columns: any}) {
       <DataGrid
         rows={rows ?? []}
         columns={columns}
+        autoHeight
         initialState={{
           sorting: {
             sortModel: [{ field: 'id', sort: 'asc' }],
