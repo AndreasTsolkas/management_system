@@ -96,8 +96,11 @@ export class ProfileService {
     return lastBonusGiven.id;
   }
 
-  async getLastLeaveTakenId(id: number) {
+  async getLastLeaveTakenId(id: number): Promise<any | null> {
+    console.log("id2: "+id);
     let lastLeaveTaken: VacationRequest = await this.vacationRequestService.getLastVacationRequestByEmployeeId(id);
+    console.log(lastLeaveTaken);
+    if(!lastLeaveTaken) return null;
     return lastLeaveTaken.id;
   }
 
@@ -110,6 +113,7 @@ export class ProfileService {
   }
 
   async getProfileSpecialDetails(id: number) {
+    console.log("id1: "+id);
     let profileSpecialDetails: ProfileSpecialDetails = new ProfileSpecialDetails();
     profileSpecialDetails.bonusTotalNum = await this.getBonusTotalNum(id);
     profileSpecialDetails.leavesTotalNum = await this.getLeavesTotalNum(id);
