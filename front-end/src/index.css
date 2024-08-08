@@ -12,14 +12,16 @@ code {
 }
 
 html,
+
 body {
     height: 100%;
     margin: 0;
     line-height: 1.5;
     background-color: #ffffff;
-    background-position: center; 
     background-repeat: no-repeat;
     background-image: url('https://clipart-library.com/images/yikrkByMT.jpg');
+    background-position: center;
+    background-size: cover;
     color: #121212;
 }
 
