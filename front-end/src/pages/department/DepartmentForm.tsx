@@ -146,7 +146,7 @@ const DepartmentForm = () => {
 
 
   return (
-    <div>
+    <div className="standart-page">
       
       {Display.DisplayIconButton()}
 

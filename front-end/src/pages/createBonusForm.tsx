@@ -154,9 +154,9 @@ const CreateBonusForm = () => {
     <div>
       {readyToDisplayPage ? (
         <>
-      <div style={{marginTop:'15px'}}>
+      <div style={{marginTop:'100px', marginLeft:'50px'}}>
       <DisplayViewTitle text='Create new bonus: ' />
-      </div>
+      
       <div >
       <Box sx={{ display: 'flex', flexDirection: 'row', width: '100%' }}>
         <Box sx={{ width: "200px" }}>
@@ -247,6 +247,7 @@ const CreateBonusForm = () => {
        
       </Box>
       </Box>
+      </div>
       </div>
       <div id="result"></div>
       </>

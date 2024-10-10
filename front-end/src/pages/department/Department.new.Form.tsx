@@ -69,7 +69,7 @@ const DepartmentNewForm = () => {
 
 
   return (
-    <div>
+    <div className="standart-page">
       
       {Display.DisplayIconButton()}
       
