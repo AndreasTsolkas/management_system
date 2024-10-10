@@ -1,14 +1,9 @@
-import * as React from "react";
-import { useForm, Controller } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
+
+import { useForm } from "react-hook-form";
 import {
   Box,
-  Button,
-  InputLabel,
-  MenuItem,
-  Select
+  Button
 } from "@mui/material";
-import * as yup from "yup";
 import { toast } from "react-toastify";
 import * as Important from "src/important";
 import * as Display from "src/display";
@@ -18,8 +13,7 @@ import {hasAccessAuth} from "src/useAuth";
 import {httpClient} from "src/requests";
 import MuiTextField from "src/components/MuiTextField";
 import { useParams } from "react-router-dom";
-import { AnyMessageParams } from "yup/lib/types";
-import { DisplayGenericTitle, DisplayIconButton, DisplaySmallGenericTitle } from "src/display";
+import { DisplaySmallGenericTitle } from "src/display";
 
 
 

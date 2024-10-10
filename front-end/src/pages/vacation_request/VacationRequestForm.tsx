@@ -4,30 +4,26 @@ import * as yup from "yup";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useNavigate, useParams } from "react-router-dom";
-import { useCallback, useEffect, useState } from "react";
-import { Box, Button, CircularProgress, InputLabel, MenuItem, Select } from "@mui/material";
+import { useEffect, useState } from "react";
+import { Box, Button, CircularProgress, MenuItem, Select } from "@mui/material";
 import MuiTextField from "../../components/MuiTextField";
-import axios from "axios";
 import { toast } from "react-toastify";
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 import { IPost } from "./vacationRequest.model";
 import * as Important from "src/important";
 import * as Display from "src/display";
 import * as Datetime from "src/datetime";
 import moment from "moment";
-import {hasAccessAuth, isAdminAuth, isAccessTokenNotExpired} from "src/useAuth";
+import {hasAccessAuth, isAdminAuth} from "src/useAuth";
 import { httpClient } from "src/requests";
-import { DisplayFieldWithTypography, DisplayIconButton, DisplayViewTitle } from "src/display";
+import { DisplayFieldWithTypography, DisplayViewTitle } from "src/display";
 
 
 const VacationRequestForm = () => {
 
-  const params = useParams();
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const vacationRequestUrl = Important.vacationRequestUrl;
-  const employeeUrl = Important.employeeUrl;
   const [avaliableDays, setAvaliableDays] = useState<number | null>(null);
   const [validatedStartDate, setValidatedStartDate] = useState<any | null>(null);
   const [validatedEndDate, setValidatedEndDate] = useState<any | null>(null);

@@ -1,5 +1,5 @@
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { Box, CircularProgress, IconButton } from "@mui/material";
+import { GridColDef } from "@mui/x-data-grid";
+import { IconButton } from "@mui/material";
 import SettingsIcon from '@mui/icons-material/Settings';
 import ReadMoreIcon from "@mui/icons-material/ReadMore";
 import { useEffect, useState } from "react";
@@ -9,15 +9,10 @@ import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { toast } from "react-toastify";
 import * as Important from "src/important";
-import * as Display from "src/display";
-import {DisplayErrorMessage, 
-  DisplayViewTitle, 
-  DisplayFieldWithTypography, 
-  DisplayLoader,
-  DisplayIconButton,
+import {DisplayLoader,
   DisplayTableTitle,
   DisplayDataGrid} from 'src/display';
-import {hasAccessAuth, isAdminAuth, isAccessTokenNotExpired} from "src/useAuth";
+import {hasAccessAuth} from "src/useAuth";
 import { useCookies } from "react-cookie";
 import { httpClient } from "src/requests";
 
@@ -29,7 +24,6 @@ const EmployeeTable = () => {
   const isAdmin = JSON.parse(cookies[adminCookie] || 'false');
   const [rows, setRows] = useState<IPost[]>([]);
   const employeeUrl = Important.employeeUrl;
-  const employeeGetAll = Important.getAllEmployee;
   const [createNewEmployeeButtonDisabled, setCreateNewEmployeeButtonDisabled] = useState<boolean>(false);
   const [deleteEmployeeButtonDisabled, setDeleteEmployeeButtonDisabled] = useState<boolean>(false);
   const [editEmployeeButtonDisabled, setEditEmployeeButtonDisabled] = useState<boolean>(false);

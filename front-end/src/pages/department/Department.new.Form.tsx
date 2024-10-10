@@ -1,17 +1,15 @@
 import * as yup from "yup";
-import { Controller, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { Box, Button, InputLabel, MenuItem, Select } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import MuiTextField from "../../components/MuiTextField";
-import { toast, ToastContainer } from "react-toastify";
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { toast } from "react-toastify";
 import * as Important from "src/important";
 import * as Display from "src/display";
-import {hasAccessAuth, isAccessTokenNotExpired} from "src/useAuth";
+import {hasAccessAuth} from "src/useAuth";
 import { httpClient } from "src/requests";
-import { DisplayGenericTitle, DisplayIconButton } from "src/display";
 
 
 export const DepartmentSchema = yup.object({

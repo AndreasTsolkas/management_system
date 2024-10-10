@@ -5,7 +5,6 @@ import { useNavigate } from "react-router-dom";
 import { IPost } from "./employee.model";
 import { toast } from "react-toastify";
 import * as Important from "src/important";
-import * as Display from "src/display";
 import * as Datetime from "src/datetime";
 import {hasAccessAuth, isAdminAuth} from "src/useAuth";
 import { httpClient } from "src/requests";
@@ -15,7 +14,6 @@ const PendingEmployeeTable = () => {
   const [rows, setRows] = useState<IPost[]>([]);
   const navigate = useNavigate();
   const employeeUrl = Important.employeeUrl;
-  const vacationRequestStatus = 'pending';
   const getNotAcceptedEmployees = employeeUrl+'/only/byisaccepted';
   const [arePendingRequestsExist, setArePendingRequestsExist] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);

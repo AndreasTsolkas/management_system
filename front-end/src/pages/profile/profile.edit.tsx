@@ -1,11 +1,9 @@
-import * as yup from "yup";
-import { useNavigate, useParams, useLocation   } from "react-router-dom";
+
+import { useNavigate, useParams} from "react-router-dom";
 import { useEffect, useState } from "react";
 
 import * as Important from "src/important";
-import * as Display from "src/display";
-import {hasAccessAuth, isAdminAuth, isAccessTokenNotExpired} from "src/useAuth";
-import { httpClient } from "src/requests";
+import {hasAccessAuth} from "src/useAuth";
 
 
 

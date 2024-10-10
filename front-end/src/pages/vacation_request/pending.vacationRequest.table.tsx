@@ -1,13 +1,12 @@
 import { GridColDef } from "@mui/x-data-grid";
-import { Box, Button, Checkbox, CircularProgress, Modal, Typography } from "@mui/material";
+import { Box, Button, Checkbox, Modal, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { IPost } from "./vacationRequest.model";
 import { toast } from "react-toastify";
 import * as Important from "src/important";
-import * as Display from "src/display";
 import * as Datetime from "src/datetime";
-import {hasAccessAuth, isAdminAuth, isAccessTokenNotExpired} from "src/useAuth";
+import {hasAccessAuth, isAdminAuth} from "src/useAuth";
 import { httpClient } from "src/requests";
 import { DisplayDataGrid, DisplayLoader, DisplayTableTitle } from "src/display";
 

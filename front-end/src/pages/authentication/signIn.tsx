@@ -10,10 +10,9 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import { toast } from 'react-toastify';
 import { CircularProgress } from '@mui/material';
-import { CookiesProvider, useCookies } from "react-cookie";
+import { useCookies } from "react-cookie";
 import "src/index.css";
 import * as Important from "src/important";
 import * as Requests from "src/requests";
@@ -29,7 +28,7 @@ export default function SignIn() {
   const navigate = useNavigate();
   const authUrl = Important.authUrl;
   const[isLoading, setIsLoading] = React.useState<boolean>(false);
-  const [cookies, setCookie, removeCookie] = useCookies();
+  const [cookies, setCookie] = useCookies();
 
   const accessTokenCookie = Important.accessTokenCookie;
   const adminCookie = Important.adminCookie;

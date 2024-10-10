@@ -1,10 +1,10 @@
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { Box, IconButton } from "@mui/material";
+import { GridColDef } from "@mui/x-data-grid";
+import { IconButton } from "@mui/material";
 import SettingsIcon from '@mui/icons-material/Settings';
 import ReadMoreIcon from "@mui/icons-material/ReadMore";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { CookiesProvider, useCookies } from "react-cookie";
+import { useCookies } from "react-cookie";
 import { IPost } from "./department.model";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -12,7 +12,7 @@ import { toast } from "react-toastify";
 import * as Important from "src/important";
 import * as Display from "src/display";
 import {httpClient} from "src/requests";
-import {hasAccessAuth, isAccessTokenNotExpired} from "src/useAuth";
+import {hasAccessAuth} from "src/useAuth";
 import { DisplayDataGrid, DisplayTableTitle } from "src/display";
 
 const DepartmentTable = () => {
@@ -22,8 +22,6 @@ const DepartmentTable = () => {
   const isAdmin = JSON.parse(cookies[adminCookie] || 'false');
   const [rows, setRows] = useState<IPost[]>([]);
   const departmentUrl = Important.departmentUrl;
-  const departmentGetAll = Important.getAllDepartment;
-  const employeeUrl = Important.backEndEmployeeUrl;
   const [createNewDepartmentButtonDisabled, setCreateNewDepartmentButtonDisabled] = useState<boolean>(false);
   const [deleteDepartmentButtonDisabled, setDeleteDepartmentButtonDisabled] = useState<boolean>(false);
   const [editEmployeeButtonDisabled, setEditEmployeeButtonDisabled] = useState<boolean>(false);

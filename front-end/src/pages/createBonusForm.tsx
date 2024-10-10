@@ -1,4 +1,4 @@
-import * as React from "react";
+
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import {
@@ -14,7 +14,7 @@ import * as Display from "src/display";
 import { Season } from "src/enums/season";
 import { useState, useEffect } from 'react';
 import { useNavigate } from "react-router";
-import {hasAccessAuth, isAdminAuth, isAccessTokenNotExpired} from "src/useAuth";
+import {hasAccessAuth, isAdminAuth} from "src/useAuth";
 import {httpClient} from "src/requests";
 import { DisplayFieldWithTypography, DisplayViewTitle } from "src/display";
 

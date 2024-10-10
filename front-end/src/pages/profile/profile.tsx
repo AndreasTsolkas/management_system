@@ -1,24 +1,17 @@
 	
-
-import * as yup from "yup";
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { useCallback, useEffect, useState } from "react";
-import { Box, Button, Card, CardActions, CardContent, CardMedia, Typography } from "@mui/material";
+import { useEffect, useState } from "react";
+import { Box } from "@mui/material";
 import { toast } from "react-toastify";
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import * as Important from "src/important";
-import * as Display from "src/display";
 import * as Datetime from "src/datetime";
 import {DisplayErrorMessage, DisplayFieldWithTypography, DisplayLoader, DisplayTableTitle} from 'src/display';
-import {hasAccessAuth, isAccessTokenNotExpired} from "src/useAuth";
+import {hasAccessAuth} from "src/useAuth";
 import { httpClient } from "src/requests";
 
 
 const MyProfile = () => {
   const params: any | never = useParams();
-  const navigate = useNavigate();
   const profileUrl = Important.profileUrl;
   const departmentUrl = Important.departmentUrl;
   const bonusUrl = Important.bonusUrl;

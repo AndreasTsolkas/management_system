@@ -3,14 +3,13 @@ import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { Box, Button, FormControlLabel, Grid, InputLabel, Link, MenuItem, Select, Switch } from "@mui/material";
+import { Box, Button, FormControlLabel, Grid, Link, MenuItem, Select, Switch } from "@mui/material";
 import MuiTextField from "../../components/MuiTextField";
-import axios from "axios";
 import { toast } from "react-toastify";
 import * as Important from "src/important";
 import * as Display from "src/display";
-import { DisplayIconButton, DisplayViewTitle } from "src/display";
-import {hasAccessAuth, isAdminAuth, isAccessTokenNotExpired} from "src/useAuth";
+import { DisplayViewTitle } from "src/display";
+import {hasAccessAuth, isAdminAuth} from "src/useAuth";
 import { httpClient } from "src/requests";
 
 

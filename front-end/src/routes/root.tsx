@@ -1,7 +1,7 @@
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import { Avatar, IconButton, Menu, MenuItem, Tooltip, Typography } from "@mui/material";
 import { useState } from "react";
-import { CookiesProvider, useCookies } from "react-cookie";
+import { useCookies } from "react-cookie";
 import * as Important from "src/important";
 
 

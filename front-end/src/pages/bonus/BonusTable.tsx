@@ -1,5 +1,5 @@
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { Box, IconButton } from "@mui/material";
+import { GridColDef } from "@mui/x-data-grid";
+import { IconButton } from "@mui/material";
 import ReadMoreIcon from "@mui/icons-material/ReadMore";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -8,9 +8,8 @@ import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { toast } from "react-toastify";
 import * as Important from "src/important";
-import * as Display from "src/display";
 import * as Datetime from "src/datetime";
-import {hasAccessAuth, isAdminAuth} from "src/useAuth";
+import {hasAccessAuth} from "src/useAuth";
 import { useCookies } from "react-cookie";
 import { httpClient } from "src/requests";
 import { DisplayDataGrid, DisplayLoader, DisplayTableTitle } from "src/display";

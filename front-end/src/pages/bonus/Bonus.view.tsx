@@ -1,19 +1,13 @@
 	
-
-import * as yup from "yup";
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
 import { useNavigate, useParams } from "react-router-dom";
-import { useCallback, useEffect, useState } from "react";
-import { Box, Button, Card, CardActions, CardContent, CardMedia, Typography } from "@mui/material";
-import MuiTextField from "../../components/MuiTextField";
+import {useEffect, useState } from "react";
+import { Box} from "@mui/material";
 import { toast } from "react-toastify";
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import * as Important from "src/important";
 import * as Display from "src/display";
 import * as Datetime from "src/datetime";
 import {DisplayErrorMessage, DisplayFieldWithTypography, DisplayIconButton, DisplayViewTitle} from 'src/display';
-import {hasAccessAuth, isAdminAuth} from "src/useAuth";
+import {hasAccessAuth} from "src/useAuth";
 import { httpClient } from 'src/requests';
 
 
