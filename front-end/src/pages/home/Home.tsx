@@ -16,7 +16,7 @@ const Home = () => {
   }, [cookies, navigate, accessTokenCookie]);
 
   return (
-    <div style={{marginTop:'50px'}}>
+    <div className="standart-page">
       <DisplayGenericTitle text={'Home'}/>
     </div>
   );

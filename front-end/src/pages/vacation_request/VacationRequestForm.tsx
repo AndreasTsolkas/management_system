@@ -249,7 +249,7 @@ useEffect(() => {
 
 
   return (
-    <div>
+    <div className="standart-page">
       {Display.DisplayIconButton()}
       { isLoading ? (
           <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', p: 2 }}>

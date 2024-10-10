@@ -172,7 +172,7 @@ const EmployeeForm = () => {
   console.log(formTitle)
   
   return (
-    <div style={{marginTop:'50px'}}>
+    <div className="standart-page">
       {Display.DisplayIconButton(isProfile)}
       <DisplayViewTitle text={formTitle} />
       <Box

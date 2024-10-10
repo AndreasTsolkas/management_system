@@ -68,7 +68,7 @@ export const displayTitleWithTypography = (name:string) => {
 
 export const displaySmallTitleWithTypography = (name:string) => {
   return (
-    <Typography variant="h6" gutterBottom>
+    <Typography style={{fontSize:'1.3rem',}} gutterBottom>
         {name}
     </Typography>
   );

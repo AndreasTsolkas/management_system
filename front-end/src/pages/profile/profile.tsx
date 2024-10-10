@@ -129,7 +129,7 @@ const MyProfile = () => {
 
 
   return (
-    <div style={{marginTop:'50px'}}>
+    <div className="standart-page">
       {readyToDisplayPage ? (
         <>
           <DisplayTableTitle text= {'My Profile'} />

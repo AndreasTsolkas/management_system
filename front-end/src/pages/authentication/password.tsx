@@ -122,7 +122,7 @@ const PasswordForm = () => {
 
 
   return (
-    <div>
+    <div className="standart-page">
       {Display.DisplayIconButton()}
       <div >
       <Box sx={{ display: 'flex', flexDirection: 'row', width: '100%' }}>

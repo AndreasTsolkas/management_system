@@ -80,7 +80,7 @@ const VacationRequestView = () => {
 
 
   return (
-    <div style={{marginTop:'50px'}}>
+    <div className="standart-page">
       
       {Display.DisplayIconButton()}
       <DisplayViewTitle text='Leave details: ' />

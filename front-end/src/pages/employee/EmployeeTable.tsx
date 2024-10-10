@@ -173,7 +173,7 @@ const EmployeeTable = () => {
 
 
   return (
-    <div style={{marginTop:'50px'}}>
+    <div className="standart-page">
       {readyToDisplayPage ? (
         arePendingRequestsExist ? (
         <>

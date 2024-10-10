@@ -141,7 +141,7 @@ const DepartmentTable = () => {
   
 
   return (
-    <div style={{marginTop:'50px'}}>
+    <div className="standart-page">
       {readyToDisplayPage ? (
         <>
       <div

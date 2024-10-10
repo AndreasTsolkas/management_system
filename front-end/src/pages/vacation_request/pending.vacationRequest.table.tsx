@@ -189,7 +189,7 @@ const PendingVacationRequestTable = () => {
   
 
   return (
-    <div>
+    <div className="standart-page">
       {readyToDisplayPage ? (
         arePendingRequestsExist ? (
   <>
