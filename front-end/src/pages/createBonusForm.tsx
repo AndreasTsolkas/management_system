@@ -154,7 +154,7 @@ const CreateBonusForm = () => {
     <div>
       {readyToDisplayPage ? (
         <>
-      <div style={{marginTop:'100px', marginLeft:'50px'}}>
+      <div className="exceptional-page">
       <DisplayViewTitle text='Create new bonus: ' />
       
       <div >
@@ -178,7 +178,7 @@ const CreateBonusForm = () => {
                   }}
                 >
                   {employees.map((item: any) => {
-                    let departmentNameValue: any = '-----';
+                    let departmentNameValue: string = '-----';
                     if(item.department !==null) departmentNameValue = item.department.name;
                     return (
                     <MenuItem key={item.id} value={item.id}>

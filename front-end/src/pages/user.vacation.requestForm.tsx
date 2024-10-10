@@ -272,7 +272,7 @@ return (
         {!isEmployeeOnVacation ? (
           <>
             {!hasMadeRequestRecently ? (
-              <div style={{marginTop:'100px', marginLeft:'50px'}}>
+              <div className="exceptional-page">
                 <DisplayViewTitle text='Request a new leave: ' />
                 <div>
                   <Box sx={{ display: 'flex', flexDirection: 'row', width: '100%' }}>

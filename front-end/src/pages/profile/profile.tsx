@@ -8,6 +8,7 @@ import * as Datetime from "src/datetime";
 import {DisplayErrorMessage, DisplayFieldWithTypography, DisplayLoader, DisplayTableTitle} from 'src/display';
 import {hasAccessAuth} from "src/useAuth";
 import { httpClient } from "src/requests";
+import { standartTitleSize} from "src/important";
 
 
 const MyProfile = () => {
@@ -162,7 +163,7 @@ const MyProfile = () => {
             </Box>
           </Box>
           <div style={{ marginTop: "35px", marginLeft: "360px" }}>
-            <Link style={{ fontSize: '1.3rem' }} to={editprofileRedirectUrl !== null ? editprofileRedirectUrl : ''}>Edit profile</Link>
+            <Link style={{ fontSize: standartTitleSize }} to={editprofileRedirectUrl !== null ? editprofileRedirectUrl : ''}>Edit profile</Link>
           </div>
         </>
       ) : (

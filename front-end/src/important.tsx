@@ -40,5 +40,8 @@ export const datetimeFormat2 = 'YYYY-MM-DD';
 
 export const viewDataMarginLeft = '15px';
 
+export const standartLetterSize = '1rem' ;
+export const standartTitleSize = '1.3rem' ;
+
 
 

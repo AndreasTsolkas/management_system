@@ -2,6 +2,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useNavigate } from "react-router-dom";
 import { Box, CircularProgress, Typography } from "@mui/material";
+import { standartTitleSize, standartLetterSize } from "./important";
 
 
 
@@ -59,7 +60,7 @@ export function DisplayIconButton(specialCase?: boolean, navigate?: any) {
 
 export const displayTitleWithTypography = (name:string) => {
   return (
-    <Typography style={{fontSize:'1.3rem',}} gutterBottom>
+    <Typography style={{fontSize: standartTitleSize}} gutterBottom>
         {name}
     </Typography>
   );
@@ -68,7 +69,7 @@ export const displayTitleWithTypography = (name:string) => {
 
 export const displaySmallTitleWithTypography = (name:string) => {
   return (
-    <Typography style={{fontSize:'1.3rem',}} gutterBottom>
+    <Typography style={{fontSize: standartTitleSize}} gutterBottom>
         {name}
     </Typography>
   );
@@ -102,7 +103,7 @@ export const DisplayViewTitle = ({text}:{text:string}) => {
 
 export const DisplayFieldWithTypography = ({name, data, index}:{name: string | null, data: any, index: number}) => {
   return (
-    <Typography  style={{fontSize: '1rem'}} key={index} >
+    <Typography  style={{fontSize: standartLetterSize}} key={index} >
        <strong>{name}</strong> {data}
     </Typography>
   );
