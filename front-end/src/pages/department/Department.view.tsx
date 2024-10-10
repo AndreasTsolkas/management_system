@@ -80,7 +80,7 @@ const DepartmentView = () => {
 
 
   return (
-    <div>
+    <div style={{marginTop:'50px'}}>
       
       {Display.DisplayIconButton()}
       <DisplayViewTitle text='Department details: ' />

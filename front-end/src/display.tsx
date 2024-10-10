@@ -59,7 +59,7 @@ export function DisplayIconButton(specialCase?: boolean, navigate?: any) {
 
 export const displayTitleWithTypography = (name:string) => {
   return (
-    <Typography  variant="h5" gutterBottom>
+    <Typography style={{fontSize:'1.3rem',}} gutterBottom>
         {name}
     </Typography>
   );
@@ -68,7 +68,7 @@ export const displayTitleWithTypography = (name:string) => {
 
 export const displaySmallTitleWithTypography = (name:string) => {
   return (
-    <Typography  variant="h6" gutterBottom>
+    <Typography variant="h6" gutterBottom>
         {name}
     </Typography>
   );
@@ -93,19 +93,16 @@ export const DisplaySmallGenericTitle = ({text}:{text:string}) => {
 
 export const DisplayViewTitle = ({text}:{text:string}) => {
   return (
-
-    <div style={{marginTop:'15px', marginBottom:'25px'}}>
+    <div style={{ marginTop:'15px', marginBottom:'25px'}}>
       {displayTitleWithTypography(text)}
     </div>
- 
-  );
-  
-}
 
+  );
+}
 
 export const DisplayFieldWithTypography = ({name, data, index}:{name: string | null, data: any, index: number}) => {
   return (
-    <Typography  variant="h6" key={index} >
+    <Typography  style={{fontSize: '1rem'}} key={index} >
        <strong>{name}</strong> {data}
     </Typography>
   );

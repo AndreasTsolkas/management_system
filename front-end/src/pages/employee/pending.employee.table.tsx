@@ -193,7 +193,7 @@ const PendingEmployeeTable = () => {
   
 
   return (
-    <div>
+    <div style={{marginTop:'50px'}}>
       {readyToDisplayPage ? (
         arePendingRequestsExist ? (
           <>

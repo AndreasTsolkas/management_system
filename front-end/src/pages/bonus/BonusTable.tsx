@@ -143,7 +143,7 @@ const BonusTable = () => {
   
 
   return (
-    <div>
+    <div style={{marginTop:'50px'}}>
       {readyToDisplayPage ? (
         <>
       <div

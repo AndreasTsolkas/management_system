@@ -136,7 +136,7 @@ const MyProfile = () => {
 
 
   return (
-    <div>
+    <div style={{marginTop:'50px'}}>
       {readyToDisplayPage ? (
         <>
           <DisplayTableTitle text= {'My Profile'} />
@@ -169,7 +169,7 @@ const MyProfile = () => {
             </Box>
           </Box>
           <div style={{ marginTop: "35px", marginLeft: "360px" }}>
-            <Link style={{ fontSize: '25px' }} to={editprofileRedirectUrl !== null ? editprofileRedirectUrl : ''}>Edit profile</Link>
+            <Link style={{ fontSize: '1.3rem' }} to={editprofileRedirectUrl !== null ? editprofileRedirectUrl : ''}>Edit profile</Link>
           </div>
         </>
       ) : (

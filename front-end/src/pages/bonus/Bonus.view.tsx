@@ -77,7 +77,7 @@ const BonusView = () => {
 
 
   return (
-    <div>
+    <div style={{marginTop:'50px'}}>
       
       {Display.DisplayIconButton()}
       <DisplayViewTitle text='Bonus details: ' />

@@ -264,7 +264,7 @@ useEffect(() => {
 
 
 return (
-  <div>
+  <>
     {readyToDisplayPage ? (
         <>
     {avaliableDays !== null && avaliableDays >= 1 ? (
@@ -272,7 +272,7 @@ return (
         {!isEmployeeOnVacation ? (
           <>
             {!hasMadeRequestRecently ? (
-              <>
+              <div style={{marginTop:'100px', marginLeft:'50px'}}>
                 <DisplayViewTitle text='Request a new leave: ' />
                 <div>
                   <Box sx={{ display: 'flex', flexDirection: 'row', width: '100%' }}>
@@ -290,7 +290,7 @@ return (
                           name="endDate"
                           label="End date"
                         />
-                        <Button
+                       <Button
                           type="submit"
                           fullWidth
                           variant="contained"
@@ -323,7 +323,7 @@ return (
                     </Box>
                   </Box>
                 </div>
-              </>
+              </div>
             ) : (
       
               <h3>You recently applied for a leave. You are not eligible to resubmit.</h3>
@@ -344,7 +344,7 @@ return (
     {Display.DisplayLoader()}
     </>
   )}
-  </div>
+  </>
 );
 };
 

@@ -97,7 +97,7 @@ const EmployeeView = () => {
 
 
   return (
-    <div>
+    <div style={{marginTop:'50px'}}>
       {readyToDisplayPage ? (
         <>
           {Display.DisplayIconButton(undefined,navigate)}  {/* Here I pass 'navigate' as an argument to the optional parameter of 'displayIconButton' to avoid conflicts between the 'useNavigate' I use on this file and this that I use into the function I call*/} 
