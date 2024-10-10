@@ -108,24 +108,24 @@ export default function Root() {
           </ul>
           
           {isAdmin ? (
-  <ul >
-    <li style={{marginBottom:standartIlMarginBottom}}>
-      <Link to={`/pemployee`}>Pending Employees</Link>
-    </li>
-    <li style={{marginBottom:standartIlMarginBottom}}>
-      <Link to={`/pvacation_request`}>Pending Leaves</Link>
-    </li>
-    <li style={{marginBottom:standartIlMarginBottom}}>
-      <Link to={`/createbonuses`}>Bonus creation</Link>
-    </li>
-  </ul>
-) : (
-  <ul >
-  <li style={{marginBottom:standartIlMarginBottom}}>
-    <Link to={`/uservacationrequest`}>New Leave</Link>
-  </li>
-  </ul>
-)}
+              <ul >
+                <li style={{marginBottom:standartIlMarginBottom}}>
+                  <Link to={`/pemployee`}>Pending Employees</Link>
+                </li>
+                <li style={{marginBottom:standartIlMarginBottom}}>
+                  <Link to={`/pvacation_request`}>Pending Leaves</Link>
+                </li>
+                <li style={{marginBottom:standartIlMarginBottom}}>
+                  <Link to={`/createbonuses`}>Bonus creation</Link>
+                </li>
+              </ul>
+            ) : (
+              <ul >
+              <li style={{marginBottom:standartIlMarginBottom}}>
+                <Link to={`/uservacationrequest`}>New Leave</Link>
+              </li>
+              </ul>
+            )}
 
         </nav>
       </div>

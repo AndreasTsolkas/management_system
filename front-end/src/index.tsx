@@ -29,6 +29,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { CookiesProvider } from "react-cookie";
 import ScheduledTasks from "src/scheduled-tasks";
+import Layout from "src/layout";
 
 export const Router = createBrowserRouter([
   {
@@ -41,87 +42,171 @@ export const Router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <Home />,
+        element: (
+          <Layout>
+            <Home />
+          </Layout>
+        ),
       },
       {
         path: "/department",
-        element: <DepartmentTable />,
+        element: (
+          <Layout>
+            <DepartmentTable />
+          </Layout>
+        ),
       },
       {
         path: "/department/edit/:id",
-        element: <DepartmentForm />,
+        element: (
+          <Layout>
+            <DepartmentForm />
+          </Layout>
+        ),
       },
       {
         path: "/department/new",
-        element: <DepartmentNewForm />,
+        element: (
+          <Layout>
+            <DepartmentNewForm />
+          </Layout>
+        ),
       },
       {
         path: "/department/view/:id",
-        element: <DepartmentView />,
+        element: (
+          <Layout>
+            <DepartmentView />
+          </Layout>
+        ),
       },
       {
         path: "/employee",
-        element: <EmployeeTable />,
+        element: (
+          <Layout>
+            <EmployeeTable />
+          </Layout>
+        ),
       },
       {
         path: "/employee/edit/:id/:profile?",
-        element: <EmployeeForm />,
+        element: (
+          <Layout>
+            <EmployeeForm />
+          </Layout>
+        ),
       },
       {
         path: "/employee/new",
-        element: <EmployeeForm />,
+        element: (
+          <Layout>
+            <EmployeeForm />
+          </Layout>
+        ),
       },
       {
         path: "/employee/view/:id",
-        element: <EmployeeView />,
+        element: (
+          <Layout>
+            <EmployeeView />
+          </Layout>
+        ),
       },
       {
         path: "/pemployee",
-        element: <PendingEmployeeTable />,
+        element: (
+          <Layout>
+            <PendingEmployeeTable />
+          </Layout>
+        ),
       },
       {
         path: "/vacation_request",
-        element: <VacationRequestTable />,
+        element: (
+          <Layout>
+            <VacationRequestTable />
+          </Layout>
+        ),
       },
       {
         path: "/pvacation_request",
-        element: <PendingVacationRequestTable />,
+        element: (
+          <Layout>
+            <PendingVacationRequestTable />
+          </Layout>
+        ),
       },
       {
         path: "/vacation_request/new",
-        element: <VacationRequestForm />,
+        element: (
+          <Layout>
+            <VacationRequestForm />
+          </Layout>
+        ),
       },
       {
         path: "/vacation_request/view/:id",
-        element: <VacationRequestView />,
+        element: (
+          <Layout>
+            <VacationRequestView />
+          </Layout>
+        ),
       },
       {
         path: "/bonus",
-        element: <BonusTable />,
+        element: (
+          <Layout>
+            <BonusTable />
+          </Layout>
+        ),
       },
       {
         path: "/bonus/view/:id",
-        element: <BonusView />,
+        element: (
+          <Layout>
+            <BonusView />
+          </Layout>
+        ),
       },
       {
         path: "/uservacationrequest",
-        element: <UserVacationRequestForm />,
+        element: (
+          <Layout>
+            <UserVacationRequestForm />
+          </Layout>
+        ),
       },
       {
         path: "/createbonuses",
-        element: <CreateBonusForm />,
+        element: (
+          <Layout>
+            <CreateBonusForm />
+          </Layout>
+        ),
       },
       {
         path: "/profile",
-        element: <MyProfile />,
+        element: (
+          <Layout>
+            <MyProfile />
+          </Layout>
+        ),
       },
       {
         path: "/editprofile/:id",
-        element: <EditProfileForm />,
+        element: (
+          <Layout>
+            <EditProfileForm />
+          </Layout>
+        ),
       },
       {
         path: "/password/:id",
-        element: <PasswordForm />,
+        element: (
+          <Layout>
+            <PasswordForm />
+          </Layout>
+        ),
       },
     ],
   },
