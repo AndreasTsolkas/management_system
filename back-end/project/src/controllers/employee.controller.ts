@@ -26,7 +26,7 @@ export class EmployeeController {
   }
 
   @Get('/:id')
-  async findOneWithRelationships(@Param('id') id: any) {
+  async findOneWithRelationships(@Param('id') id: number) {
     return await this.employeeService.findOneWithRelationships(id, false);
   }
 

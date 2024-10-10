@@ -44,7 +44,7 @@ const EmployeeTable = () => {
   function setEmployeeRows(data: any) {
     setRows(
       data.map(
-        (employee: { id: any; employeeUid: number, name: any; surname: any; email: any; startDate: any; vacationDays: any; salary: any; employmentType: any;  department: any;     }) => {
+        (employee: { id: string; employeeUid: number, name: string; surname: string; email: string; startDate: Date; vacationDays: number; salary: number; employmentType: string;  department: any;     }) => {
           let employeeDepartmentValue = setEmployeeDepartmentValue(employee);
           return {
             id: employee.id,

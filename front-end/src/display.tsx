@@ -14,7 +14,12 @@ export function DisplayDataGrid({rows, columns}:{rows: any, columns: any}) {
       <DataGrid
         rows={rows ?? []}
         columns={columns}
-        autoHeight
+        autoHeight={rows.length <= 8} 
+        style={{
+          overflowX: 'hidden',
+          overflowY: rows.length > 8 ? 'scroll' : 'hidden',  
+          maxHeight: rows.length > 8 ? 416 : 'auto', 
+        }}
         initialState={{
           sorting: {
             sortModel: [{ field: 'id', sort: 'asc' }],
@@ -28,7 +33,7 @@ export function DisplayDataGrid({rows, columns}:{rows: any, columns: any}) {
   );
 }
 
-export function DisplayIconButton(specialCase?: any, navigate?: any) {
+export function DisplayIconButton(specialCase?: boolean, navigate?: any) {
   if(!navigate)  navigate = useNavigate();
   let redirectionPath: any = -1;
   if(specialCase) // Its a little unorthodox what I did here , but I did it because in a specific case navigate with the standart value (-1) as argument doesnt work
@@ -78,15 +83,15 @@ export const DisplayTableTitle = ({ text }: { text: string }) => {
   );
 };
 
-export const DisplayGenericTitle = ({text}:{text:any}) => {
+export const DisplayGenericTitle = ({text}:{text:string}) => {
   return displayTitleWithTypography(text);
 }
 
-export const DisplaySmallGenericTitle = ({text}:{text:any}) => {
+export const DisplaySmallGenericTitle = ({text}:{text:string}) => {
   return displaySmallTitleWithTypography(text);
 }
 
-export const DisplayViewTitle = ({text}:{text:any}) => {
+export const DisplayViewTitle = ({text}:{text:string}) => {
   return (
 
     <div style={{marginTop:'15px', marginBottom:'25px'}}>
@@ -98,7 +103,7 @@ export const DisplayViewTitle = ({text}:{text:any}) => {
 }
 
 
-export const DisplayFieldWithTypography = ({name, data, index}:{name: any, data: any, index: number}) => {
+export const DisplayFieldWithTypography = ({name, data, index}:{name: string | null, data: any, index: number}) => {
   return (
     <Typography  variant="h6" key={index} >
        <strong>{name}</strong> {data}

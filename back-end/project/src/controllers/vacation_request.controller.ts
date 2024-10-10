@@ -23,7 +23,7 @@ export class VacationRequestController {
   }
 
   @Get('/:id')
-  async findOneWithRelationships(@Param('id') id: any) {
+  async findOneWithRelationships(@Param('id') id: number) {
     return await this.vacationRequestService.findOneWithRelationships(id);
   }
 

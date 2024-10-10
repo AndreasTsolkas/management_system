@@ -24,6 +24,6 @@ export function calculateDateDifference(startDate:any, endDate:any) {
     return endDate.diff(startDate, "days");
 }
 
-export function getUTCdate(date:any, format:any) {
+export function getUTCdate(date:string | undefined, format:any) {
     return moment.utc(date, format, true);
 }

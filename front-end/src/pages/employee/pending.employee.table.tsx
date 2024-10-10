@@ -55,7 +55,7 @@ const PendingEmployeeTable = () => {
   function setPendingVacationRequestRows(data: any) {
     setRows(
       data.map(
-        (employee: { id: any; name: any; surname: any; employeeUid: any, startDate: any }) => {
+        (employee: { id: string; name: string; surname: string; employeeUid: number, startDate: Date }) => {
           return {
             id: employee.id,
             name: employee.name,

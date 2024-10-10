@@ -37,7 +37,7 @@ const BonusTable = () => {
     
     setRows(
       data.map(
-        (bonus: { id: any; amount: any; dateGiven: any; employee: any }) => {
+        (bonus: { id: string; amount: number; dateGiven: Date; employee: any }) => {
           let name = '---';
           if(bonus.employee)
             name = bonus.employee.name+" "+bonus.employee.surname;

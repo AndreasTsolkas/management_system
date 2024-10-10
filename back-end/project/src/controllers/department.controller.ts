@@ -64,7 +64,7 @@ export class  DepartmentController {
   } 
 
   @Get('/countonuser/:id')
-  async findOneAndCountDepartmentIdToEmployee(@Param('id') id: any) {
+  async findOneAndCountDepartmentIdToEmployee(@Param('id') id: number) {
     let result = new GetDepartmentsSpecial();
     result.departmentEntityData = await this.departmentService.findOne(id);
     const {count, employees} = await this.employeeService.countDepartmentExistenceInEmployee(id)

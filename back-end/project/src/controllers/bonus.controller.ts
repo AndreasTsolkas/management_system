@@ -20,7 +20,7 @@ export class BonusController {
   }
 
   @Get('/:id')
-  async findOneWithRelationships(@Param('id') id: any) {
+  async findOneWithRelationships(@Param('id') id: number) {
     return await this.bonusService.findOneWithRelationships(id);
   }
 
